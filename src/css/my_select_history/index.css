@@ -1,0 +1,119 @@
+.MySelectControls {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #d1d5d9;
+
+  @media (--pc-screen) {
+    margin-top: 20px;
+    border-top: 2px solid #d1d5d9;
+  }
+}
+
+.MySelectControls_CheckBoxWrapper {
+  display: flex;
+  flex: 1;
+  align-items: center;
+
+  & .RUICheckBox_Label {
+    font-size: 14px;
+    &::before {
+      top: 0;
+    }
+  }
+}
+
+.MySelectControls_Button {
+  padding: 0 16px;
+  box-shadow: none;
+
+  & + .MySelectControls_Button {
+    margin-left: 6px;
+  }
+}
+
+
+.MySelectHistoryBookList {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #e6e8eb;
+
+  @media (--pc-screen) {
+    margin-bottom: 10px;
+  }
+}
+
+.MySelectHistoryBookList_Meta {
+  flex-direction: column;
+  margin-left: 20px;
+}
+.MySelectHistoryBookList_Item {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  transition: background .2s;
+
+  @media (hover: hover) {
+    &:hover {
+      background: var(--slategray_5);
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      background: var(--slategray_5);
+    }
+  }
+
+  & + .MySelectHistoryBookList_Item {
+    border-top: 1px solid #e6e8eb;
+  }
+  & .RSGBookThumbnail {
+    align-items: center;
+  }
+}
+
+
+.MySelectHistoryBookList_CheckBox {
+  align-self: center;
+}
+
+.MySelectHistoryBookList_Book {
+  display: flex;
+  flex: 1;
+}
+
+.MySelectHistoryBookList_Link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.MySelectHistoryBookList_Thumbnail {
+  width: 50px;
+
+  @media (--pc-screen) {
+    width: 80px;
+  }
+}
+
+.MySelectHistoryBookList_RegisteredDate {
+  display: block;
+  color: #636c73;
+  font-size: 13px;
+}
+
+.MySelectHistoryBookList_Title {
+  display: block;
+  margin: 6px 0;
+  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
+  word-wrap: break-word;
+
+  @media (--pc-screen) {
+    margin: 8px 0;
+  }
+}
+

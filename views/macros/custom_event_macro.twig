@@ -1,0 +1,37 @@
+{% macro ridi_select_load(
+  isPc,
+  isTablet,
+  isMobile,
+  isPaper,
+  paperDeviceModel,
+  isRidiApp,
+  freePromotionMonths
+) %}
+<script>
+  window.dispatchEvent(new CustomEvent('ridiSelectLoad', {
+    detail: {
+      targetElementId: 'app',
+      dto: {
+        environment: {
+          platform: {
+            type: '{{ isMobile ? 'mobile' : isPc ? 'pc' : isTablet ? 'tablet' : isPaper ? 'paper' : isRidiApp ? 'ridi_app' : 'unknown' }}',
+            isPc: {{ isPc ? 'true' : 'false' }},
+            isTablet: {{ isTablet ? 'true' : 'false' }},
+            isMobile: {{ isMobile ? 'true' : 'false' }},
+            isPaper: {{ isPaper ? 'true' : 'false' }},
+            isPaperPro: {{ paperDeviceModel == 'paper_pro' ? 'true' : 'false' }},
+            isRidiApp: {{ isRidiApp ? 'true' : 'false' }},
+          },
+          constants: {
+            STORE_URL: '{{ STORE_URL}}',
+            RIDISELECT_URL: '{{ RIDISELECT_URL }}',
+            STATIC_URL: '{{ STATIC_URL }}',
+            RIDI_PAY_URL: '{{ RIDI_PAY_URL }}',
+            FREE_PROMOTION_MONTHS: {{ freePromotionMonths }},
+          }
+        },
+      },
+    }
+  }));
+</script>
+{% endmacro %}

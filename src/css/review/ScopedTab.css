@@ -1,0 +1,47 @@
+.ScopedTab_List {
+  @apply --reset-layout;
+
+  display: table;
+  width: 100%;
+  border-top: 1px solid #d1d5d9;
+}
+
+.ScopedTab_Item {
+  display: table-cell;
+  width: 50%;
+  vertical-align: top;
+}
+
+.ScopedTab_Item_Button {
+  @apply --reset-button;
+
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #e6e8eb;
+  border-left: 1px solid #e6e8eb;
+  background: #f7fafc;
+  color: #303538;
+  font-size: 15px;
+  line-height: 40px;
+  text-align: center;
+
+  &.active {
+    border-bottom: none;
+    background: 0 0;
+    font-weight: 700;
+  }
+
+  @nest .ScopedTab_Item:first-child & {
+    border-left: none;
+  }
+}
+
+.ScopedTab_Item_Count {
+  padding-left: 6px;
+  color: #808991;
+  font-size: 13px;
+  font-weight: 400;
+}

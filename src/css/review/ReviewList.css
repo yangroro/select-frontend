@@ -1,0 +1,33 @@
+.ReviewsList_Wrapper {
+  padding: 0 15px;
+  @media (--pc-screen) {
+    padding: 0;
+  }
+}
+
+.ReviewList {
+  @apply --reset-list;
+
+
+  &.last-page {
+    border-bottom: 1px solid #e6e8eb;
+  }
+}
+
+.ReviewList_ShowMoreButton {
+  display: inline-block;
+  width: 100%;
+  margin: 10px 0;
+  box-shadow: none;
+}
+
+.ReviewList_ShowMoreButton_Count {
+  padding-right: 1px;
+}
+
+.ReviewList_ShowMoreButton_Icon {
+  width: 9px;
+  height: 9px;
+  margin-left: 3px;
+  fill: #808991;
+}

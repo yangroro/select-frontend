@@ -1,0 +1,45 @@
+.StarRatingInput {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.StarRatingInput_Label {
+  display: inline-block;
+  position: relative;
+  width: 45px;
+  height: 48px;
+  background: url(icon_star@2x.png) 50% top no-repeat;
+  background-size: 45px 90px;
+  text-align: center;
+  transition: transform .2s;
+  z-index: 20;
+}
+
+.StarRatingInput_Label-filled {
+  background-position: 50% -45px;
+}
+
+.StarRatingInput_Separator {
+  display: none;
+}
+
+@media (--pc-screen) {
+  .StarRatingInput_Label {
+    width: 64px;
+    margin-right: -1px;
+    margin-left: -1px;
+  }
+
+  .StarRatingInput_Separator {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 2px;
+    height: 48px;
+    margin-top: -24px;
+    background: url(icon_star_separate.png) left top no-repeat;
+    background-size: 2px 45px;
+    z-index: 19;
+  }
+}

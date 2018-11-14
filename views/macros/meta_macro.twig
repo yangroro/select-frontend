@@ -1,0 +1,27 @@
+{% macro common(open_graph_tags, page_type) %}
+{% if page_type == 'intro' %}
+<title>리디셀렉트 - 베스트셀러를 무제한으로 읽어보세요, 첫 1개월 무료</title>
+{% elseif page_type == 'books' %}
+<title>서비스 도서 목록 - 리디셀렉트</title>
+{% elseif page_type == 'book' %}
+<title>{{ open_graph_tags.title }} - 리디셀렉트</title>
+{% elseif page_type == 'guide' %}
+<title>이용 방법 - 리디셀렉트</title>
+{% endif %}
+<meta name="keywords" content="리디셀렉트, 리디북스 셀렉트, 셀렉트, 월정액 전자책, 무제한 전자책, 전자책, e-book, e북, 이북, 전자도서, 전자책어플, 인터넷책, 도서어플, 전자서점, 인터넷서점, 온라인서점" />
+<meta name="description" content="{{ open_graph_tags.description }}" />
+{% for tag, value in open_graph_tags %}
+  <meta property="og:{{ tag }}" content="{{ value }}" />
+{% endfor %}
+<meta name="twitter:site" content="@ridibooks" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="msapplication-TileImage" content="{{ cacheBuster('unlimited/public/select-mstile-144x144.png') }}">
+<meta name="msapplication-TileColor" content="#17202e">
+<meta name="theme-color" content="#17202e">
+<meta name="apple-mobile-web-app-title" content="리디셀렉트">
+<link rel="search" title="리디셀렉트 검색" type="application/opensearchdescription+xml" href="{{ cacheBuster('unlimited/public/select-open-search-description.xml') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ cacheBuster('unlimited/public/select-apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ cacheBuster('unlimited/public/select-favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ cacheBuster('unlimited/public/select-favicon-16x16.png') }}">
+<link rel="mask-icon" href="{{ cacheBuster('unlimited/public/select-safari-pinned-tab.svg') }}" color="#5bbad5">
+{% endmacro %}

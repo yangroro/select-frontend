@@ -1,0 +1,142 @@
+.SubscriptionInfo_List {
+  box-sizing: border-box;
+  min-width: var(--min-content-width);
+  max-width: var(--max-pc-content-width);
+  margin: 0;
+  padding: 6px 20px 0;
+  list-style: none;
+}
+.SubscriptionInfo {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--slategray_10);
+}
+.SubscriptionInfo_Title {
+  margin: 0;
+
+  /* TODO: slategray_60 색상인데 변수로 지정하면 646c73 으로 나오는 버그가 있어서 일단 강제로 지정 */
+  color: #636c73;
+  font-size: 14px;
+}
+.SubscriptionInfo_Data {
+  margin: 0;
+  padding-top: 6px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.SubscriptionInfo_Link {
+  display: block;
+  padding-top: 10px;
+  color: var(--dodgerblue_50);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.SubscriptionInfo_Link_Icon {
+  width: 5px;
+  height: 8px;
+  margin-left: 4px;
+  fill: var(--dodgerblue_50);
+}
+
+.ToggleSubscriptionButton_Wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 30px;
+  padding: 0 20px;
+  text-align: center;
+  @media (--pc-screen) {
+    width: auto;
+    margin-top: 40px;
+    padding: 0;
+  }
+}
+.ToggleSubscriptionButton {
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  @media (--pc-screen) {
+    width: 300px;
+    height: 50px;
+    font-size: 15px;
+  }
+}
+
+@media (--pc-screen) {
+  .PageManageSubscription .WebActionBar {
+    @nest .androidApp & {
+      margin-bottom: 17px;
+    }
+  }
+  .SubscriptionInfo_List {
+    width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    border-top: 2px solid var(--slategray_20);
+  }
+  .SubscriptionInfo {
+    display: table;
+    width: 100%;
+    height: 60px;
+    padding: 0;
+  }
+  .SubscriptionInfo_Title,
+  .SubscriptionInfo_Data {
+    display: table-cell;
+    height: 60px;
+    padding: 0;
+    vertical-align: middle;
+  }
+  .SubscriptionInfo_Title {
+    width: 138px;
+    padding-left: 20px;
+  }
+  .SubscriptionInfo_Data {
+    display: table-cell;
+  }
+  .SubscriptionInfo_Link {
+    height: 60px;
+    padding: 0 20px 0 0;
+    line-height: 60px;
+    text-align: right;
+  }
+}
+
+.UnsubscriptionInfoText {
+  margin-top: 20px;
+  color: #636c73;
+  font-size: 13px;
+  letter-spacing: -.5px;
+  text-align: center;
+}
+
+.ReasonForNonCancellable {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  margin: 20px auto 0;
+  padding: 0 20px 0 36px;
+  color: #b0874a;
+  font-size: 13px;
+  letter-spacing: -.5px;
+  line-height: 20px;
+  @media (--pc-screen) {
+    width: 300px;
+    padding: 0 0 0 16px;
+  }
+}
+
+.ReasonForNonCancellable_Icon {
+  position: absolute;
+  top: 4px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  fill: #b0874a;
+  @media (--pc-screen) {
+    left: 0;
+  }
+}

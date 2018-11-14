@@ -1,0 +1,317 @@
+body {
+  @apply --default-font-style;
+
+  &.focus-free * {
+    @apply --reset-input-focus;
+  }
+
+  &.hasWebActionBar {
+    margin-top: 56px;
+  }
+
+  &.App-disableScroll {
+    @media (--mobile-screen) {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    &.androidApp {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+
+      & #app {
+        width: 100%;
+        height: 100%;
+        height: 100vh;
+        overflow: hidden!important;
+      }
+    }
+  }
+
+  & *,
+  & .RUIButton,
+  & .THRButton,
+  & [class^="rui_"],
+  & [class*=" rui_"] {
+    @apply --reset-font-unlimited;
+  }
+
+  & .RUIButton-color-gray:not(.RUIButton_Spinner),
+  & [class^="rui_button_white_"]:not(.spinner, .disabled),
+  & [class*=" rui_button_white_"]:not(.spinner, .disabled) {
+    transition: background .2s;
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background: var(--slategray_60);
+        &.RUIButton-outline {
+          background: var(--slategray_5);
+        }
+      }
+    }
+    @media (hover: none) {
+      &:active:not(:disabled) {
+        background: var(--slategray_60);
+        &.RUIButton-outline {
+          background: var(--slategray_5);
+        }
+      }
+    }
+  }
+
+  & .RUIButton-color-blue:not(.RUIButton_Spinner),
+  & [class^="rui_button_blue_"]:not(.spinner, .disabled),
+  & [class*=" rui_button_blue_"]:not(.spinner, .disabled) {
+    transition: background .2s;
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background: var(--dodgerblue_60);
+      }
+    }
+    @media (hover: none) {
+      &:active:not(:disabled) {
+        background: var(--dodgerblue_60);
+      }
+    }
+  }
+
+  & .rui_checkbox_input {
+    @media (hover: hover) {
+      &:hover:not(:disabled) + label::before {
+        border-color: var(--slategray_50);
+      }
+    }
+    @media (hover: none) {
+      &:active(:disabled) + label::before {
+        border-color: var(--slategray_50);
+      }
+    }
+  }
+
+  & .rui_radio_label {
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        color: var(--slategray_80);
+        &::before { border-color: var(--slategray_50); }
+      }
+    }
+    @media (hover: none) {
+      &:active:not(:disabled) {
+        color: var(--slategray_80);
+        &::before { border-color: var(--slategray_50); }
+      }
+    }
+  }
+
+  @media (--mobile-screen) {
+    /* TODO: RIDI UI에서 업데이트 되고 이 곳에서는 제거 되어야 함. */
+    & .RUISelectBox_Select {
+      line-height: 17px;
+    }
+  }
+}
+
+.a11y,
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+#bookDownloadIframe {
+  position: absolute;
+  bottom: 0;
+  left: -9999px;
+}
+
+section.SceneWrapper,
+main.SceneWrapper {
+  min-height: 450px;
+  @media (--pc-screen) {
+    min-height: 900px;
+  }
+}
+
+.PageHeader {
+  @apply --reset-layout;
+
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  align-items: center;
+  min-height: 40px;
+  margin: 0 auto;
+  padding: 6px 15px;
+  background-color: var(--bluegray_90);
+
+  @media (--pc-screen) {
+    width: 800px;
+    min-height: 24px;
+    margin: 50px auto 17px;
+    padding: 0;
+    background: none;
+  }
+
+  @nest .androidApp & {
+    @media (--pc-screen) {
+      background-color: white;
+    }
+  }
+
+  @nest .androidApp .Skeleton_Wrapper & {
+    display: none;
+  }
+}
+
+.PageTitle {
+  display: inline-block;
+  color: white;
+  font-size: 14px;
+  line-height: 1.4em;
+
+  @media (--pc-screen) {
+    @apply --reset-layout;
+
+    display: block;
+    position: relative;
+    color: black;
+    font-size: 20px;
+
+    &.underline::after {
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--dodgerblue_50);
+      content: '';
+    }
+  }
+}
+
+.WebActionBar {
+  @apply --reset-layout;
+
+  box-sizing: border-box;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  border-bottom: solid 1px rgba(0, 0, 0, .1);
+  background-color: var(--bluegray_90);
+  z-index: 900;
+
+  @nest .Skeleton_Wrapper & {
+    display: none;
+  }
+
+  @nest .LnbMenu_Wrapper + & {
+    display: none;
+  }
+}
+
+.WebActionBar_Text {
+  overflow: hidden;
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (--pc-screen) {
+    display: inline-block;
+  }
+}
+
+.UpButton {
+  @apply --reset-button;
+
+  padding: 18px 20px;
+}
+
+.UpButton_Icon {
+  width: 16px;
+  height: 16px;
+  fill: white;
+}
+
+.RSGBookThumbnail_LazyloadPlaceholder {
+  width: 100px;
+  height: 150px;
+  background: linear-gradient(146deg, #f8f9fb, #f1f1f3 55%, #f8f9fb);
+}
+
+.RSGBookThumbnail_Wrapper-lazyloaded {
+  display: inline-block;
+  animation: fade-in .3s;
+  opacity: 1;
+}
+
+.RSGBookThumbnail_Link,
+.RSGBookThumbnail_Wrapper-lazyloaded {
+  max-height: inherit;
+}
+
+.RSGBookThumbnail {
+  align-items: flex-end;
+}
+
+.CommonLoader {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--bluegray_90);
+  animation: @keyframes fade-in .5s;
+  z-index: 100000;
+}
+
+.CommonLoader_Logo {
+  width: 128px;
+  height: 20px;
+  fill: #475161;
+}
+
+.ListWithPaginationPage {
+  padding-bottom: 40px;
+
+  @media (--pc-screen) {
+    padding-bottom: 60px;
+  }
+}
+
+.reset-heading {
+  @apply --reset-heading;
+}
+
+#app {
+  position: relative;
+  height: 100%;
+}
+
+.pass-through {
+  @apply --reset-layout;
+
+  display: inherit;
+}
+
+/* Controll body scroll in android app and allow only scrollable elements for pointer events */
+.popup_body,
+.popup_close_button,
+.GNBSearchWrapper {
+  pointer-events: all;
+}

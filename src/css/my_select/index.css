@@ -1,0 +1,158 @@
+.PageMySelect {
+  max-width: 800px;
+  margin: 0 auto;
+
+  & .rui_empty_1 {
+    margin: 200px 0;
+  }
+}
+
+.MySelectControls {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #d1d5d9;
+  @media (--pc-screen) {
+    margin-top: 20px;
+    border-top: 2px solid #d1d5d9;
+  }
+}
+
+.MySelectControls_CheckBoxWrapper {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  font-size: 14px;
+  & .RSGIcon {
+    top: 10px;
+  }
+  &::before {
+    top: 0;
+  }
+}
+
+.MySelectBookList_IndividualDownload {
+  align-self: flex-end;
+  margin-top: 15px;
+  padding: 0 16px;
+  box-shadow: none;
+}
+
+.MySelectControls_Button {
+  padding: 0 16px;
+  box-shadow: none;
+
+  & + .MySelectControls_Button {
+    margin-left: 6px;
+  }
+}
+
+
+.MySelectBookList {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #e6e8eb;
+  @media (--pc-screen) {
+    margin-bottom: 225px;
+  }
+}
+
+.MySelectBookList_Right {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: start;
+  justify-content: flex-start;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.MySelectBookList_Meta {
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.MySelectBookList_Item {
+  display: flex;
+  flex-direction: row;
+  padding: 13px 10px;
+
+  /* width: var(--book-width-mobile); */
+  list-style: none;
+
+  /* & > .MySelectBookList_Link {
+    flex-direction: row;
+  } */
+
+  transition: background .2s;
+  @media (hover: hover) {
+    &:hover {
+      background: var(--slategray_5);
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      background: var(--slategray_5);
+    }
+  }
+
+  & + .MySelectBookList_Item {
+    border-top: 1px solid #e6e8eb;
+  }
+}
+
+.MySelectBookList_CheckBox {
+  align-self: center;
+}
+
+.MySelectBookList_Book {
+  display: flex;
+  flex: 1;
+  & .RSGBookThumbnail {
+    align-items: center !important;
+    height: auto !important;
+    min-height: 130px;
+  }
+}
+
+.MySelectBookList_Link {
+  display: flex;
+  align-items: start;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.MySelectBookList_Thumbnail {
+  width: 100px;
+}
+
+.MySelectBookList_Title {
+  @apply --reset-layout;
+
+  display: block;
+  margin-top: 20px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.MySelectBookList_Authors {
+  display: block;
+  margin-top: 8px;
+  color: #636c73;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4em;
+  word-wrap: break-word;
+}
+
+.MySelectBookList_Publisher {
+  display: block;
+  margin-top: 6px;
+  color: #636c73;
+  font-size: 13px;
+  font-weight: 400;
+  word-wrap: break-word;
+
+}

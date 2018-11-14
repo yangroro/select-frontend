@@ -1,0 +1,58 @@
+{% extends "mail_base.twig" %}
+{% block contents %}
+  <h1 style="margin: 0; padding: 40px 0 0; font-size: 28px; font-weight: 600; color: #2b2f33; text-align: center; line-height: 1.4em;">
+    무료 이용 기간이 곧 종료됩니다.
+  </h1>
+  <div style="padding: 20px 0 40px 0; text-align: center;">
+    <p
+      style="
+        font-size: 16px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.88;
+        letter-spacing: -0.5px;
+        text-align: center;
+        color: #333333;
+        margin: 20px 0 30px 0;
+      "
+    >
+      {{ user_name }}님, 안녕하세요.<br />
+      리디셀렉트 무료 이용 기간이 3일 후 종료됩니다.<br />
+      {{ ticket_end_date }}에 자동 결제될 예정입니다.<br />
+      자동 결제를 원하지 않을 경우 <a
+        href="{{ HOST_LINK }}/manage-subscription"
+        style="
+          color: #1f8ce6;
+          display: inline-block;
+          text-decoration: none;
+          margin: 0;
+          padding: 0;
+          font-size: 16px;
+          line-height: 1.88;
+          font-weight: normal;
+        "
+      >구독 관리</a>를 이용해주세요.
+    </p>
+    <a
+      href="{{ HOST_LINK }}"
+      style="
+        display: inline-block;
+        text-decoration: none;
+        margin: 0;
+        padding: 12px 50px;
+        border: 1px solid #1f8ce6;
+        background-color: #1f8ce6;
+        font-size: 13px;
+        line-height: 1em;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: none;
+        border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px;
+      "
+    >
+      책 보러 가기
+    </a>
+  </div>
+{% endblock %}

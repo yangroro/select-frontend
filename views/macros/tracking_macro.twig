@@ -1,0 +1,34 @@
+{% macro track_current_page() %}
+<script src="https://unpkg.com/@ridi/event-tracker@0.5.3/dist/umd/bundle.min.js"></script>
+<script>
+  window.addEventListener('ridiSelectLoad', function(event) {
+    var dto = event.detail.dto;
+    var deviceType;
+    if (dto.environment.platform.isMobile) {
+      deviceType = DeviceType.Mobile;
+    } else if (dto.environment.platform.isPaper) {
+      deviceType = DeviceType.Paper;
+    } else {
+      deviceType = DeviceType.PC;
+    }
+    var PIXEL_ID = '417351945420295';
+    var tracker = new Tracker({
+      deviceType: deviceType,
+      userId: dto.user.uId,
+      tagManagerOptions: {
+        trackingId: 'GTM-WLRHQ86',
+      },
+    });
+    tracker.initialize();
+
+    var referrer = document.referrer;
+    var href = location.href
+
+    if (referrer) {
+      tracker.sendPageView(href, referrer);
+    } else {
+      tracker.sendPageView(href);
+    }
+  });
+</script>
+{% endmacro %}

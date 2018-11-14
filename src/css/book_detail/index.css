@@ -1,0 +1,733 @@
+.PageBookDetail {
+  background-color: #e6e8eb;
+  @media (--pc-screen) {
+    background-color: initial;
+  }
+}
+
+.PageBookDetail_Header {
+  position: relative;
+  text-align: center;
+
+  @media (--pc-screen) {
+    text-align: left;
+    @nest :not(.PageBookDetail_Header-bright) & {
+      color: #fff;
+      fill: #fff;
+    }
+  }
+}
+
+.PageBookDetail_HeaderBackground {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 5;
+  @media (min-width: 900px) {
+    background-size: 900px auto;
+    & .Left_GradientOverlay,
+    & .Right_GradientOverlay {
+      position: absolute;
+      left: 50%;
+      width: 80px;
+      height: 100%;
+    }
+    & .Left_GradientOverlay {
+      margin-left: -450px;
+    }
+    & .Right_GradientOverlay {
+      margin-left: 370px;
+    }
+  }
+  @media (max-width: 899px) {
+    & .Left_GradientOverlay,
+    & .Right_GradientOverlay {
+      display: none;
+    }
+  }
+}
+
+.PageBookDetail_HeaderMask {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: background .3s;
+  z-index: 10;
+
+  @media (--mobile-screen) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    min-height: 200px;
+  }
+}
+
+.PageBookDetail_HeaderContent {
+  flex: 1;
+  padding: 20px 0;
+  @media (--pc-screen) {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 800px;
+    margin: 0 auto;
+    padding: 50px 0;
+  }
+}
+
+.PageBookDetail_Meta {
+  @media (--pc-screen) {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 60px;
+  }
+}
+
+.PageBookDetail_ThumbnailWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.PageBookDetail_ThumbnailButton {
+  position: relative;
+  height: auto;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 0;
+  cursor: zoom-in;
+  @media (--pc-screen) {
+    margin: 0;
+  }
+}
+
+.PageBookDetail_Thumbnail {
+  width: 150px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+  @media (--pc-screen) {
+    width: 200px;
+  }
+}
+.PageBookDetail_ThumbnailButton::after {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+  content: '';
+}
+
+.PageBookDetail_Panel {
+  padding: 20px;
+  background-color: #fff;
+  color: #000;
+
+  & + .PageBookDetail_Panel {
+    margin-top: 6px;
+  }
+
+  &:not(.Reviews_Wrapper) .ReviewPlaceholder_List {
+    margin: 0;
+  }
+
+  @media (--pc-screen) {
+    position: relative;
+    width: 800px;
+    margin: 0 auto;
+    padding: 30px 0;
+
+    & + .PageBookDetail_Panel {
+      margin-top: 0;
+
+      &::before {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #e6e8eb;
+        content: '';
+        opacity: .9;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 100px;
+    }
+  }
+}
+
+.PageBookDetail_Panel-notice {
+  padding-bottom: 0;
+
+  @media (--pc-screen) {
+    & + .PageBookDetail_Panel {
+      &::before {
+        content: none;
+      }
+    }
+  }
+}
+
+.PageBookDetail_Panel-inMeta {
+  padding: 0;
+
+  @media (--pc-screen) {
+    & + .PageBookDetail_Panel {
+      &::before {
+        content: none;
+      }
+    }
+  }
+}
+
+.PageBookDetail_PanelTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+
+  @media (--pc-screen) {
+    font-size: 17px;
+  }
+}
+
+.PageBookDetail_PanelContent {
+  margin: 20px 0 0;
+  color: #303538;
+  font-size: 16px;
+  line-height: 26px;
+  & > p {
+    margin: 0;
+  }
+  & img:not(.RSGBookThumbnail_CoverImage) {
+    width: auto;
+    max-width: 100%;
+  }
+  @media (--pc-screen) {
+    font-size: 15px;
+    line-height: 25px;
+  }
+}
+
+.PageBookDetail_PanelContent-trailer {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  & iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%!important;
+    height: 100%!important;
+  }
+}
+
+.PageBookDetail_Categories {
+  min-height: 16px;
+  margin: 0;
+  padding: 0;
+  color: #636c73;
+  font-size: 12px;
+  list-style: none;
+  @media (--pc-screen) {
+    color: inherit;
+    font-size: 13px;
+  }
+}
+
+.PageBookDetail_FileType {
+  margin: 0;
+
+  &::before {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    margin: 0 6px;
+    background-color: #b8bfc4;
+    content: '';
+    opacity: .3;
+    @media (--pc-screen) {
+      @nest :not(.PageBookDetail_Header-bright) & {
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+.PageBookDetail_FileSize-noFileType {
+  margin: 0;
+
+  &::before {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    margin: 0 6px;
+    background-color: #b8bfc4;
+    content: '';
+    opacity: .3;
+    @media (--pc-screen) {
+      @nest :not(.PageBookDetail_Header-bright) & {
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+.PageBookDetail_BookTitle {
+  margin: 12px 0 0;
+  color: #000;
+  font-size: 22px;
+  line-height: 28px;
+
+  @media (--pc-screen) {
+    margin: 18px 0 0;
+    color: inherit;
+    font-size: 30px;
+    line-height: 40px;
+  }
+}
+
+.PageBookDetail_CategoryItem {
+  display: inline-block;
+
+  & + .PageBookDetail_CategoryItem {
+    &::before {
+      display: inline;
+      content: ', ';
+    }
+  }
+}
+
+.PageBookDetail_CategoryArrow {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0;
+  margin: 0 2px;
+  opacity: .8;
+  fill: #000;
+  @media (--pc-screen) {
+    @nest :not(.PageBookDetail_Header-bright) & {
+      fill: #fff;
+    }
+  }
+}
+
+.PageBookDetail_BookElements {
+  margin: 14px 0 0;
+  color: var(--slategray_90);
+  font-size: 13px;
+  line-height: 18px;
+  @media (--pc-screen) {
+    min-height: 18px;
+    margin-top: 20px;
+    color: inherit;
+  }
+}
+
+.PageBookDetail_ExpandAuthors_Button {
+  padding-left: 0;
+  border: none;
+  background: none;
+  color: var(--slategray_90);
+  transition: opacity .2s;
+
+  @media (--pc-screen) {
+    color: inherit;
+  }
+  @media (hover: hover) {
+    cursor: pointer;
+    &:hover {
+      opacity: .8;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      opacity: .8;
+    }
+  }
+}
+.PageBookDetail_ExpandAuthors_Button_Icon {
+  width: 6px;
+  height: 3px;
+  margin: 6px 0 0 1px;
+  vertical-align: top;
+  fill: var(--slategray_90);
+
+  @media (--pc-screen) {
+    fill: #fff;
+  }
+}
+
+.PageBookDetail_RatingSummary {
+  display: flex;
+  align-items: center;
+  min-height: 16px;
+  margin: 6px 0 0;
+  line-height: 16px;
+  & > span {
+    vertical-align: middle;
+  }
+  @media (--pc-screen) {
+    margin: 8px 0 0;
+  }
+}
+
+.PageBookDetail_RatingSummaryAverage {
+  height: 15px;
+  margin-left: 3px;
+  color: #fa722e;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 15px;
+}
+
+.PageBookDetail_RatingSummaryCount {
+  height: 14px;
+  margin-left: 2px;
+  color: #636c73;
+  font-size: 12px;
+  line-height: 14px;
+
+  @media (--pc-screen) {
+    color: inherit;
+  }
+}
+
+.PageBookDetail_PreviewButton {
+  flex-direction: column;
+  width: 46px;
+  height: 46px;
+  color: #1f8ce6;
+  font-size: 9px;
+  transition: background .2s;
+  & > .RSGIcon {
+    width: 17.5px;
+    height: 14px;
+    margin-top: -3px;
+    fill: #1f8ce6;
+  }
+
+  @media (--pc-screen) {
+    flex-direction: row;
+    width: 110px;
+    border-color: rgba(255, 255, 255, .5) !important;
+    background-color: transparent !important;
+    color: #fff !important;
+    font-size: 15px;
+    & > .RSGIcon {
+      width: 15.3px;
+      height: 11.67px;
+      margin-top: 0;
+      fill: #fff;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(255, 255, 255, .1) !important;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      background-color: rgba(255, 255, 255, .1) !important;
+    }
+  }
+}
+
+.PageBookDetail_DownloadWrapper {
+  display: flex;
+  margin-top: 20px;
+  @media (--pc-screen) {
+    margin-top: 40px;
+  }
+
+  & > .RUIButton {
+    box-shadow: none;
+  }
+}
+
+.PageBookDetail_PreviewButtonLabel {
+  margin-top: 10px;
+  line-height: 0;
+
+  @media (--pc-screen) {
+    margin-top: 0;
+    margin-left: 7px;
+  }
+}
+
+.PageBookDetail_DownloadButton {
+  display: inline-block;
+  flex: 1;
+  height: 46px;
+  margin-left: 6px;
+  font-size: 16px;
+  line-height: 42px;
+  & > .RSGIcon {
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+    fill: #fff;
+  }
+  &.RUIButton_Spinner {
+    & > .RSGIcon {
+      fill: transparent;
+    }
+  }
+  &:first-child {
+    margin-left: 0;
+  }
+
+  @media (--pc-screen) {
+    flex: none;
+    width: 170px;
+    font-size: 15px;
+    &.PageBookDetail_DownloadButton-large {
+      width: 220px;
+    }
+  }
+}
+
+
+.PageBookDetail_ThumbnailPopup {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(33, 37, 41, .8);
+  z-index: 1000;
+}
+
+.PageBookDetail_ThumbnailPopupContent {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  margin: 0 auto;
+  @media (min-width: 414px) and (max-width: 840px) {
+    width: 70%;
+    max-width: 400px;
+  }
+  @media (--pc-screen) {
+    width: 400px;
+  }
+}
+
+.PageBookDetail_ThumbnailPopupImg {
+  width: 100%;
+}
+
+.PageBookDetail_ThumbnailPopupCloseBtn {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  @media (--pc-screen) {
+    margin-bottom: 10px;
+  }
+
+  & > .RSGIcon {
+    width: 12px;
+    height: 12px;
+    fill: rgb(179, 179, 179);
+  }
+}
+
+.PageBookDetail_NoticeList {
+  @apply --reset-list;
+
+  margin-top: 20px;
+
+  @media (--pc-screen) {
+    margin-top: 0;
+  }
+}
+
+.PageBookDetail_NoticeItem {
+  & + .PageBookDetail_NoticeItem {
+    margin-top: 10px;
+    @media (--pc-screen) {
+      margin-top: 12px;
+    }
+  }
+}
+
+.PageBookDetail_NoticeParagraph {
+  @apply --reset-layout;
+
+  padding: 10px;
+  border: solid 1px #f5e8d4;
+  border-radius: 4px;
+  background-color: #fff9f0;
+  color: #b0874a;
+  font-size: 15px;
+  line-height: 1.6;
+
+  @media (--pc-screen) {
+    font-size: 14px;
+    line-height: 1.57;
+  }
+
+  & a {
+    @apply --reset-layout;
+    @apply --reset-appearance;
+
+    padding-left: 2px;
+    color: inherit;
+  }
+}
+
+.BookDetail_ContentTruncWrapper {
+  margin-top: 3px;
+  font-size: 14px;
+  text-align: right;
+}
+
+.BookDetail_ContentTruncButton {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: #fff;
+  color: var(--slategray_60);
+  cursor: pointer;
+  transition: color .2s;
+  fill: var(--slategray_30);
+  & > .RSGIcon {
+    display: inline-block;
+    width: 10.3px;
+    height: 6px;
+    margin-left: 4px;
+    transition: fill .2s;
+  }
+  @media (hover: hover) {
+    &:hover {
+      color: var(--slategray_70);
+      & > .RSGIcon {
+        fill: var(--slategray_50);
+      }
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      color: var(--slategray_70);
+      & > .RSGIcon {
+        fill: var(--slategray_50);
+      }
+    }
+  }
+}
+
+.PageBookDetail_BookReplacingList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.PageBookDetail_BookReplacingItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+
+  & + .PageBookDetail_BookReplacingItem {
+    border-top: 1px solid #e6e8eb;
+  }
+  & .RSGBookThumbnail {
+    align-items: center;
+  }
+}
+
+.PageBookDetail_BookReplacingMeta {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0 10px 0 12px;
+}
+.PageBookDetail_BookReplacingTitle {
+  display: -webkit-box;
+  max-height: 38px;
+  overflow: hidden;
+  color: #000;
+  font-weight: 700;
+  line-height: 19px;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.PageBookDetail_BookReplacingAddedDate {
+  margin: 6px 0;
+  color: #636c73;
+  font-size: 12px;
+}
+
+.PageBookDetail_BookReplacingButton {
+  display: inline-block;
+  width: 67px;
+  font-size: 11px;
+}
+
+
+.BookDetailSectionPlaceholder_List {
+  @apply --reset-list;
+
+  margin: 6px 0;
+  padding: 15px;
+  background: white;
+  @media (--pc-screen) {
+    width: 800px;
+    margin: 0 auto;
+    padding: 30px 0;
+  }
+}
+
+.BookDetailSectionPlaceholder_Item {
+  display: block;
+  margin-bottom: 40px;
+}
+
+.BookDetailSectionPlaceholder_Title {
+  width: 49px;
+  height: 18px;
+  margin-bottom: 12px;
+}
+
+.BookDetailSectionPlaceholder_FullText {
+  width: 100%;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.BookDetailSectionPlaceholder_Text {
+  width: 330px;
+  height: 24px;
+  @media (--pc-screen) {
+    width: 500px;
+  }
+}

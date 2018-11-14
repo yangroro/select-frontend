@@ -1,0 +1,276 @@
+@charset "utf-8";
+
+
+@import '@ridi/rsg/colors/colors.css';
+@import '@ridi/rsg/stylesheets/dist/rui-no-reset.css';
+@import "normalize.css";
+@import '@ridi/rsg/stylesheets/dist/rui-no-reset.css';
+@import "normalize.css";
+@import 'base/customProperties.css';
+@import 'base/globals.css';
+@import 'base/GNB.css';
+@import 'base/Footer.css';
+
+@import 'test_badge.css';
+
+@custom-media --pc-screen (min-width: 841px);
+@custom-media --mobile-screen (max-width: 840px);
+
+* { font-family: 'Noto Sans KR', 'NotoSansKR', 'Sans-serif'; }
+h1, h2, h3, h4, h5, h6, p, th, td, div, label, textarea, a, li, input, button, textarea, select, address {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.PagePayments {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: var(--bluegray_90);
+}
+
+.PaymentsContent_Wrapper {
+  padding: 66px 30px 154px;
+  @media (--pc-screen) {
+    width: 800px;
+    margin: 0 auto;
+  }
+}
+
+.RSGIcon-payment3 {
+  width: 40px;
+  height: 30px;
+  fill: var(--dodgerblue_50);
+}
+
+.RSGIcon-exclamation3 {
+  width: 30px;
+  height: 30px;
+  fill: var(--dodgerblue_50);
+}
+
+.Section_MainCopy {
+  margin: 0;
+  padding: 30px 0 0;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 38px;
+  text-shadow: rgba(0, 0, 0, .5);
+  @media (--pc-screen) {
+    font-size: 42px;
+    line-height: 59px;
+  }
+}
+
+.Section_Description_List {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 0;
+  list-style: none;
+  @media (--pc-screen) {
+    padding: 16px 0 10px;
+  }
+}
+
+.Section_Description {
+  position: relative;
+  margin: 0;
+  padding: 4px 0 0 10px;
+  color: #fff;
+  font-size: 15px;
+  line-height: 25px;
+  text-shadow: rgba(0, 0, 0, .5);
+  &::before {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    background-color: var(--bluegray_40);
+    content: '';
+  }
+
+  @media (--pc-screen) {
+    font-size: 18px;
+    line-height: 32px;
+    &::before {
+      top: 18px;
+    }
+  }
+}
+
+
+.Section_Description_Paragraph {
+  margin-top: 14px;
+  color: var(--slategray_20);
+  font-size: 15px;
+  line-height: 25px;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, .5);
+
+  @media (--pc-screen) {
+    color: var(--slategray_30);
+    font-size: 16px;
+    line-height: 28px;
+  }
+}
+
+
+.Section_Button_Wrapper {
+  padding-top: 30px;
+
+  @media (--pc-screen) {
+    padding-top: 40px;
+  }
+}
+
+.Section_Button {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  text-align: center;
+
+  @media (--pc-screen) {
+    width: 250px;
+  }
+}
+
+.ConfirmUsedCard_Wrapper {
+  box-sizing: border-box;
+  min-height: 450px;
+  padding: 45px 30px 0;
+  text-align: center;
+
+  @media (--pc-screen) {
+    min-height: 900px;
+    padding: 219px 30px 0;
+  }
+}
+
+.ConfirmUsedCard_MainCopy {
+  padding-top: 20px;
+  font-size: 22px;
+  line-height: 34px;
+
+  @media (--pc-screen) {
+    font-size: 30px;
+  }
+}
+
+.ConfirmUsedCard_Button_Wrapper {
+  padding-top: 16px;
+
+  @media (--pc-screen) {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  & .Section_Button {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+
+.ConfirmUsedCard_Submit_Button {
+  border-color: var(--bluegray_60);
+  background: var(--bluegray_60);
+  transition: background .2s;
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      border-color: var(--bluegray_70);
+      background: var(--bluegray_70);
+    }
+  }
+
+  @media (hover: none) {
+    &:active:not(:disabled) {
+      border-color: var(--bluegray_70);
+      background: var(--bluegray_70);
+    }
+  }
+}
+
+.CardPlate {
+  box-sizing: border-box;
+  position: relative;
+  width: 240px;
+  height: 140px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.CardPlate_IIN {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+}
+
+.CardPlate_LogoImage {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 220px;
+}
+
+.PagePayments_Wrapper {
+  display: block;
+  flex-direction: column;
+  justify-content: stretch;
+  padding: 70px 0;
+  text-align: center;
+  vertical-align: middle;
+
+  @media (--mobile-screen) {
+    padding: 0;
+  }
+}
+
+.PagePayments_Title {
+  margin: 0;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: -.4px;
+  line-height: 34px;
+  text-align: center;
+  @media (--mobile-screen) {
+    margin-top: 60px;
+    font-size: 20px;
+  }
+}
+
+.PagePayments_RidiPaySettings {
+  display: block;
+  margin: 16px auto 0;
+  color: #9ea7ad;
+  font-size: 13px;
+  letter-spacing: -.5px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.PagePayments_RidiPaySettings_Icon {
+  width: 5px;
+  height: 8px;
+  fill: #9ea7ad;
+}
+
+.Payments_SubscribeButton {
+  width: 300px;
+  height: 50px;
+  margin: 30px auto 0;
+  font-size: 14px;
+  @media (--mobile-screen) {
+    margin-bottom: 100px;
+  }
+}

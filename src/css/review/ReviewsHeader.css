@@ -1,0 +1,22 @@
+.ReviewsHeader {
+  display: flex;
+  flex-basis: 120px;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 14px;
+  @media (--pc-screen) {
+    margin-top: 30px;
+    margin-bottom: 25px;
+  }
+}
+
+.ReviewsHeader_Right {
+  width: 100%;
+}
+
+.ReviewsHeader_Dark {
+  box-sizing: border-box;
+  border-top: 1px solid #d1d5d9;
+  background: #f3f4f5;
+  text-align: center;
+}

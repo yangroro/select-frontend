@@ -1,0 +1,156 @@
+.OrderHistoryList {
+  max-width: 800px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.OrderHistoryItem {
+  display: table;
+  width: 100%;
+  border-bottom: 1px solid var(--slategray_10);
+  @nest .OrderHistoryItem-canceled & {
+    color: var(--slategray_50);
+  }
+}
+
+.OrderHistoryItem_Info {
+  display: table-cell;
+  height: 93px;
+  padding-left: 15px;
+  vertical-align: middle;
+}
+.Ordered_Date {
+  margin: 0;
+  color: var(--slategray_50);
+  font-size: 12px;
+  @nest .OrderHistoryItem-canceled & {
+    color: var(--slategray_50);
+  }
+}
+.Ordered_Name {
+  margin: 0;
+  padding-top: 5px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+  @nest .OrderHistoryItem-canceled & {
+    color: var(--slategray_50);
+  }
+}
+.Ordered_Type {
+  margin: 0;
+  padding-top: 5px;
+  color: var(--slategray_50);
+  font-size: 13px;
+  @nest .OrderHistoryItem-canceled & {
+    color: var(--slategray_50);
+  }
+}
+
+.OrderHistoryItem_AmountInfo {
+  display: table-cell;
+  height: 93px;
+  padding-right: 12px;
+  text-align: right;
+  vertical-align: middle;
+}
+.Ordered_Amount {
+  display: inline-block;
+  margin: 0;
+  padding-right: 8px;
+  color: var(--dodgerblue_50);
+  font-size: 16px;
+  font-weight: 700;
+  @nest .OrderHistoryItem-canceled & {
+    color: var(--slategray_50);
+    text-decoration: line-through;
+  }
+}
+.CancelOrderButton_Wrapper {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+.CancelOrderButton {
+  width: 66px;
+  padding: 1px 0;
+  font-size: 11px;
+}
+.NoticeList {
+  @apply --reset-list;
+
+  max-width: 800px;
+  margin: -20px auto 0;
+  padding: 0 15px 18px;
+}
+.NoticeItem {
+  position: relative;
+  margin-bottom: 12px;
+  padding-left: 7px;
+  color: #636c73;
+  font-size: 13px;
+  line-height: 18px;
+  &::before {
+    display: inline-block;
+    display: block;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    width: 3px;
+    height: 3px;
+    overflow: hidden;
+    background: #d1d5d9;
+    background-size: 100% 100%;
+    font-size: 0;
+    text-indent: -444px;
+    content: '';
+  }
+}
+
+@media (--pc-screen) {
+  .OrderHistoryList {
+    margin: 0 auto;
+    border-top: 2px solid var(--slategray_20);
+  }
+  .OrderHistoryItem {
+    box-sizing: border-box;
+    padding: 0 12px 0 15px;
+    table-layout: fixed;
+  }
+  .Ordered_Date,
+  .Ordered_Name,
+  .Ordered_Type,
+  .Ordered_Amount,
+  .CancelOrderButton_Wrapper {
+    display: table-cell;
+    height: 60px;
+    vertical-align: middle;
+  }
+
+  .Ordered_Date {
+    width: 150px;
+    font-size: 14px;
+  }
+  .Ordered_Name {
+    padding: 0;
+  }
+  .Ordered_Type {
+    width: 109px;
+    padding: 0;
+    font-size: 14px;
+    text-align: right;
+  }
+  .Ordered_Amount {
+    width: 84px;
+    padding: 0;
+    font-size: 16px;
+    text-align: right;
+  }
+  .CancelOrderButton_Wrapper {
+    width: 84px;
+    text-align: right;
+  }
+  .CancelOrderButton {
+    width: 64px;
+  }
+}

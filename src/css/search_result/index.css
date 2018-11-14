@@ -1,0 +1,79 @@
+@import 'SearchResultBookList.css';
+
+.PageSearchResult {
+  max-width: 800px;
+  margin: 0 auto;
+  @media (--pc-screen) {
+    @nest :not(.androidApp) {
+      padding-top: 0;
+    }
+  }
+  @media (--mobile-screen) {
+    padding-top: var(--mobile-blocked-search-padding);
+  }
+  @nest .androidApp & {
+    padding-top: 40px;
+  }
+}
+
+.SearchResultBookList_Thumbnail {
+  height: auto !important;
+  min-height: 130px !important;
+}
+
+.PageSearchResult_Title {
+  display: none;
+  color: #000;
+  font-weight: 400;
+  @media (--pc-screen) {
+    @nest :not(.androidApp) & {
+      display: block;
+      max-width: 800px;
+      margin: 50px auto 20px;
+      font-size: 20px;
+      line-height: 20px;
+    }
+  }
+}
+
+.PageSearchResult_RidibooksResult {
+  display: block;
+  width: 170px;
+  height: 42px;
+  margin: 30px auto 60px;
+  line-height: 40px;
+  box-shadow: none;
+  @media (--pc-screen) {
+    @nest :not(.androidApp) & {
+      width: 180px;
+      height: 40px;
+      line-height: 38px;
+    }
+  }
+}
+
+.PageSearchResult_RidibooksResultIcon {
+  width: 4.7px;
+  height: 8px;
+  margin-left: 6px;
+  fill: #1f8ce6;
+}
+
+.SearchResult_EmptyWrapper {
+  padding: 120px 0 30px;
+  text-align: center;
+}
+.SearchResult_EmptyIcon {
+  width: 60px;
+  height: 60px;
+  fill: var(--slategray_10);
+}
+.SearchResult_EmptyTitle {
+  margin: 0;
+  padding: 20px 30px 0;
+  color: var(--slategray_60);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3em;
+  word-break: break-word;
+}

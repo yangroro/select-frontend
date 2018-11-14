@@ -1,0 +1,69 @@
+:root {
+  --PipeDelimitedList-height: 36px;
+}
+
+.PipeDelimitedList {
+  @apply --reset-layout;
+
+  display: flex;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  height: var(--PipeDelimitedList-height);
+  margin-bottom: 2px;
+  list-style: none;
+}
+
+.PipeDelimitedList_Item {
+  position: relative;
+  height: 13px;
+  padding: 0 9px;
+  color: #808991;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color .2s;
+
+  & * {
+    transition: color .2s;
+  }
+
+  & button {
+    @apply --reset-button;
+
+    color: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    vertical-align: top;
+  }
+
+  & a {
+    text-decoration: none;
+    vertical-align: top;
+  }
+
+  & a,
+  & a:active,
+  & a:link,
+  & a:visited {
+    color: inherit;
+  }
+
+  &.active a,
+  &.active button,
+  &.active * {
+    color: #303538;
+    font-weight: 700;
+  }
+
+  @media (hover: hover) {
+    & button:hover,
+    & a:hover {
+      color: #636c73;
+    }
+  }
+
+  &:not(:last-child) {
+    border-right: 1px solid #ccc;
+  }
+}

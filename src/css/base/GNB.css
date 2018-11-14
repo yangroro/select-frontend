@@ -1,0 +1,272 @@
+@import 'Search.css';
+
+:root {
+  --gnb_mobile_height: 44px;
+  --gnb_pc_height: 60px;
+  --gnb_android_app_height: 48px;
+}
+
+.GNBWrapper {
+  position: relative;
+  border-bottom: 1px solid var(--bluegray_100);
+  background: var(--bluegray_90);
+  z-index: 900;
+}
+.GNBWrapper-transparent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  background: transparent;
+  &.GNBWrapper-transparent-relative {
+    position: relative;
+    top: auto;
+    left: auto;
+  }
+}
+.GNBWrapper-dark {
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.GNBContentWrapper {
+  display: table;
+  width: 100%;
+  min-width: var(--min-content-width);
+  height: var(--gnb_mobile_height);
+  @nest .androidApp & {
+    height: var(--gnb_android_app_height);
+  }
+}
+
+.GNBLeft { /* GNB 왼쪽 영역 */
+  display: table-cell;
+  padding-left: 5px;
+}
+
+@media (max-width: 340px) {
+  .GNBLeft {
+    padding-left: 0;
+  }
+}
+
+
+/* GNB Logo Section */
+.GNBLogoWrapper {
+  box-sizing: border-box;
+  display: inline-block;
+  height: var(--gnb_mobile_height);
+  padding: 15px 8px 0 10px;
+  transition: opacity .2s;
+  vertical-align: top;
+  & .GNBLogo {
+    width: 81px;
+    height: 13px;
+    vertical-align: top;
+    fill: #fff;
+  }
+  @media (hover: hover) {
+    &:hover {
+      opacity: .8;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      opacity: .8;
+    }
+  }
+  @nest .androidApp & {
+    height: var(--gnb_android_app_height);
+    padding-top: 17px;
+  }
+}
+
+/* GNB Service Link List */
+.GNBServiceList {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  vertical-align: middle;
+}
+
+.GNBService {
+  display: inline-block;
+  position: relative;
+  &::before {
+    position: absolute;
+    top: calc((var(--gnb_mobile_height) - 10px) / 2);
+    left: 0;
+    width: 1px;
+    height: 10px;
+    background: var(--bluegray_60);
+    content: '';
+    @nest .GNBWrapper-dark & {
+      background: #fff;
+      opacity: .3;
+    }
+    @nest .androidApp & {
+      top: calc((var(--gnb_android_app_height) - 10px) / 2);
+    }
+  }
+}
+
+.GNBServiceLink {
+  box-sizing: border-box;
+  display: inline-block;
+  height: var(--gnb_mobile_height);
+  padding-left: 9px;
+  transition: opacity .2s;
+  &.Ridibooks_Link {
+    padding-top: 17px;
+  }
+  @media (hover: hover) {
+    &:hover {
+      opacity: .8;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      opacity: .8;
+    }
+  }
+  @nest .androidApp & {
+    height: var(--gnb_android_app_height);
+  }
+}
+
+.GNBServiceLogo {
+  &.RidibooksLogo {
+    width: 65px;
+    height: 10px;
+    vertical-align: top;
+    fill: var(--bluegray_30);
+    @nest .GNBWrapper-dark & {
+      opacity: .5;
+      fill: #fff;
+    }
+  }
+}
+
+.GNBRight { /* GNB 오른쪽 영역 */
+  display: table-cell;
+  padding-right: 5px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.GNBRightButtonWrapper {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.GNBSettingButton {
+  box-sizing: border-box;
+  display: block;
+  height: var(--gnb_mobile_height);
+  padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 10px 0;
+  transition: opacity .2s;
+  & .SettingIcon {
+    width: 17.5px;
+    height: 18px;
+    fill: #fff;
+  }
+  @media (hover: hover) {
+    &:hover {
+      opacity: .8;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      opacity: .8;
+    }
+  }
+  @nest .androidApp & {
+    height: var(--gnb_android_app_height);
+    padding-top: 13.5px;
+  }
+}
+
+@media (--pc-screen) {
+  .GNBWrapper {
+    & .GNBContentWrapper {
+      position: relative;
+      max-width: var(--max-pc-content-width);
+      height: var(--gnb_pc_height);
+      margin: 0 auto;
+      & .GNBLeft {
+        & .GNBLogoWrapper {
+          height: var(--gnb_pc_height);
+          padding: 22px 10px 0;
+          line-height: var(--gnb_pc_height);
+          & .GNBLogo {
+            width: 100px;
+            height: 16px;
+          }
+        }
+        & .GNBServiceList {
+          & .GNBService {
+            height: var(--gnb_pc_height);
+            line-height: calc(var(--gnb_pc_height) - 2px);
+            &::before {
+              top: calc(((var(--gnb_pc_height) - 10px) / 2) + 1px);
+            }
+            & .GNBServiceLink {
+              padding: 26px 0 0 10px;
+            }
+            & .RidibooksLogo {
+              width: 64.1px;
+              height: 9.8px;
+            }
+          }
+        }
+      }
+      & .GNBRight {
+        & .GNBRightButtonWrapper {
+          position: relative;
+          z-index: 901;
+          & .GNBSettingButton {
+            height: var(--gnb_pc_height);
+            padding: calc((var(--gnb_pc_height) - 17.5px) / 2) 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.GNB_LinkButton {
+  display: inline-block;
+  height: 28px;
+  padding: 0 11px;
+  border: solid 1px rgb(89, 102, 122);
+  border-radius: 3px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.5px;
+  line-height: 28px;
+  text-decoration: none;
+
+  & + .GNB_LinkButton {
+    margin-left: 4px;
+  }
+
+  @nest .GNBWrapper-dark & {
+    border: solid 1px #fff5;
+  }
+
+  @media (--pc-screen) {
+    border: 0!important;
+    font-size: 18px;
+  }
+}
+
+.GNB_LinkButton-fill {
+  @media (--mobile-screen) {
+    border-color: white;
+    background-color: white;
+    color: #17202e;
+  }
+}

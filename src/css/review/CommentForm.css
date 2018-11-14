@@ -1,0 +1,56 @@
+.CommentForm_Wrapper {
+  @media (--pc-screen) {
+    padding: 0 7px;
+  }
+}
+
+.CommentForm {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 8px 7px 8px 10px;
+
+  @media (--pc-screen) {
+    border: 1px solid #dee4ea;
+    border-radius: 4px;
+    background: #fff;
+  }
+}
+
+.CommentForm_Textarea {
+  box-sizing: border-box;
+  flex-grow: 1;
+  min-height: 30px;
+  padding: 3px 8px;
+  overflow: hidden;
+  border: 1px solid #dee4ea;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.5em;
+  resize: none;
+  appearance: none;
+
+  @media (--pc-screen) {
+    min-height: 20px;
+    padding: 5px 0;
+    border: none;
+    background: #fff;
+    font-size: 13px;
+    line-height: 20px;
+    box-shadow: none;
+  }
+}
+
+.CommentForm_SubmitButton {
+  box-sizing: border-box;
+  width: 66px;
+  height: 30px;
+  margin-left: 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  @media (--pc-screen) {
+    flex-basis: auto;
+  }
+}

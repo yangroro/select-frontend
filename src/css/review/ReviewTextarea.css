@@ -1,0 +1,42 @@
+.ReviewTextarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 7em;
+  padding: 7px;
+  overflow: hidden;
+  border: 2px solid #d1d5d9;
+  border-radius: 5px;
+  outline: 0;
+  background: #fff;
+  color: #a7b1bb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5em;
+  box-shadow: none;
+  resize: none;
+  vertical-align: middle;
+  appearance: none;
+  word-wrap: break-word;
+
+  &:focus {
+    border-color: #7d8e9e;
+    color: #212529;
+    font-size: 14px;
+    &::placeholder {
+      color: #d6dade;
+    }
+  }
+}
+
+@media (--pc-screen) {
+  .ReviewTextarea {
+    min-height: 112px;
+    padding: 12px 15px;
+    font-size: 13px;
+    font-weight: 700;
+    &:focus {
+      font-size: 13px;
+    }
+  }
+}
+

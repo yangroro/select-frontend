@@ -1,0 +1,42 @@
+.ErrorPage {
+  @apply --reset-layout;
+
+  padding: 82px 0;
+  text-align: center;
+}
+
+.ErrorPage_Title {
+  @apply --reset-layout;
+
+  color: black;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ErrorPage_Description {
+  @apply --reset-layout;
+
+  margin-top: 16px;
+  padding: 0 22px;
+  color: #000;
+  font-size: 15px;
+  line-height: 1.8em;
+}
+
+.ErrorPage_ButtonList {
+  @apply --reset-list;
+
+  margin-top: 30px;
+}
+
+.ErrorPage_ButtonList_Item {
+  display: inline-block;
+  margin: 12px 3px 0;
+}
+
+.ErrorPage_Button {
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+}

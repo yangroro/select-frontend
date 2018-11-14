@@ -1,0 +1,42 @@
+.SubscriptionList_Skeleton {
+  padding: 0;
+  list-style: none;
+}
+
+.SubscriptionItem_Skeleton {
+  padding: 20px;
+}
+
+.SubscriptionTitle_Skeleton {
+  display: block;
+  width: 60px;
+  height: 18px;
+}
+
+.SubscriptionDescription_Skeleton {
+  display: block;
+  width: 100%;
+  height: 24px;
+  margin-top: 9px;
+}
+
+@media (--pc-screen) {
+  .SubscriptionList_Skeleton {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .SubscriptionItem_Skeleton {
+    padding: 20px 0;
+  }
+  .SubscriptionTitle_Skeleton {
+    display: inline-block;
+    width: 13%;
+    height: 24px;
+  }
+
+  .SubscriptionDescription_Skeleton {
+    display: inline-block;
+    width: 84%;
+    margin-left: 3%;
+  }
+}

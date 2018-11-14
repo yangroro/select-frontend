@@ -1,0 +1,19 @@
+.ReviewListEmpty {
+  @media (--pc-screen) {
+    padding-top: 13px;
+  }
+}
+
+.ReviewListEmpty_Paragraph {
+  margin: 0;
+  padding: 75px 0;
+  border-bottom: 1px solid #ced2d6;
+  color: #808991;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.8em;
+  text-align: center;
+  @media (--pc-screen) {
+    padding: 40px 0;
+  }
+}

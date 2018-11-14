@@ -1,0 +1,11 @@
+{% macro android_app_helpers(BASE_URL) %}
+<script>
+  var isLoginRequired = function(url) {
+    return false;
+  };
+  var isExternalLink = function(url) {
+    var innerLinkRegex = /^{{ RIDISELECT_URL|slice(2) }}|^\/\/{{ RIDISELECT_URL|slice(2) }}|^https:\/\/{{ RIDISELECT_URL|slice(2) }}|^\/(?=\w)/g;
+    return !innerLinkRegex.test(url);
+  };
+</script>
+{% endmacro %}

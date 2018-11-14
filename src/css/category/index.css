@@ -1,0 +1,17 @@
+.Category_Header {
+  padding-top: 10px;
+  padding-bottom: 0;
+}
+
+.Category_SelectBox {
+  display: block;
+  width: 140px;
+  height: 34px;
+
+  @media (--pc-screen) {
+    position: absolute;
+    top: 50%;
+    left: 91px;
+    margin-top: -17px;
+  }
+}

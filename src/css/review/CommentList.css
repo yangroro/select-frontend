@@ -1,0 +1,50 @@
+.Comments {
+  margin-top: 16px;
+  margin-bottom: -16px;
+  border-top: 1px solid #c4d1de;
+  background: #f8fbfe;
+
+  @nest .MyReview & {
+    margin: 0 -10px;
+  }
+
+  @media (--pc-screen) {
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    border-top: 1px solid #c4d1de;
+    background: #f8fbfe;
+  }
+}
+
+.CommentList_ShowMoreButton {
+  @apply --reset-button;
+
+  display: block;
+  width: 100%;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e8edf3;
+  color: #9eafbf;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+
+  @media (--pc-screen) {
+    padding: 4px 20px 11px;
+    font-size: 13px;
+  }
+}
+
+.CommentList_ShowMoreButton_Icon {
+  width: 7px;
+  height: 12px;
+  margin-top: -1px;
+  margin-left: 4px;
+  vertical-align: middle;
+  fill: #9eafbf;
+}
+
+.CommentList {
+  @apply --reset-layout;
+}

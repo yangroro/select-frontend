@@ -1,0 +1,27 @@
+* {
+  outline: none;
+}
+
+#root {
+  padding: 20px;
+}
+
+.Story_P,
+.Story_Span {
+  font-family: Helvetica Neue, 'Apple SD Gothic Neo', arial, '나눔고딕', 'Nanum Gothic', '돋움', Dotum, Tahoma, Geneva, sans-serif;
+  line-height: 1;
+}
+
+.Story_P {
+  font-size: 16px;
+}
+
+.Story_Span {
+  font-size: 12px;
+}
+
+.Story_Description {
+  font-size: 13px;
+  font-style: italic;
+  color: #999;
+}

@@ -1,0 +1,15 @@
+.Review_Alert {
+  width: 100%;
+  margin: 7px 0;
+  @media (--pc-screen) {
+    margin: 0;
+  }
+}
+
+.Review_Alert_Icon {
+  margin-right: 6px !important;
+}
+
+.Review_Alert_Button {
+  @apply --reset-button;
+}

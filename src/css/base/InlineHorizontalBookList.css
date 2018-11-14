@@ -1,0 +1,112 @@
+:root {
+  --horizontal-padding: 20px;
+  --book-width-mobile: 110px;
+  --book-width-pc: 120px;
+}
+
+.InlineHorizontalBookList {
+  padding: 0;
+  @media (--mobile-screen) {
+    margin: 21px calc(-1 * var(--horizontal-padding)) 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+
+    & > .InlineHorizontalBookList_Item:first-child {
+      padding-left: var(--horizontal-padding);
+    }
+
+    & > .InlineHorizontalBookList_Item:last-child {
+      padding-right: var(--horizontal-padding);
+    }
+  }
+
+  @media (--pc-screen) {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    &.InlineHorizontalBookList-disableInlineOnPC {
+      flex-wrap: wrap;
+    }
+    &:not(.InlineHorizontalBookList-disableInlineOnPC) {
+      & > .InlineHorizontalBookList_Item:nth-child(n+7) {
+        display: none;
+      }
+    }
+  }
+}
+
+.InlineHorizontalBookList_Item {
+  width: var(--book-width-mobile);
+  list-style: none;
+
+  & > .InlineHorizontalBookList_Link {
+    flex-direction: column;
+  }
+  @media (--mobile-screen) {
+    display: inline-block;
+  }
+
+  @media (--pc-screen) {
+    width: var(--book-width-pc);
+  }
+
+  & + .InlineHorizontalBookList_Item {
+    margin-left: 10px;
+    @media (--pc-screen) {
+      margin-left: 16px;
+
+      @nest .InlineHorizontalBookList-disableInlineOnPC & {
+        &:nth-child(6n + 1) {
+          margin-left: 0;
+        }
+        &:nth-child(n+7) {
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+  @media (hover: hover) {
+    &:hover {
+      & .InlineHorizontalBookList_Title {
+        color: #000;
+      }
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      & .InlineHorizontalBookList_Title {
+        color: #000;
+      }
+    }
+  }
+}
+
+.InlineHorizontalBookList_Link {
+  display: flex;
+  align-items: start;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.InlineHorizontalBookList_Title {
+  display: block;
+  display: -webkit-box;
+  width: 100%;
+  max-height: 34px;
+  margin-top: 10px;
+  overflow: hidden;
+  color: #40474d;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-all;
+  transition: color .2s;
+  word-wrap: break-word;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+

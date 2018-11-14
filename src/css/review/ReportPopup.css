@@ -1,0 +1,31 @@
+.ReportPopup {
+  & .rui_button_white_40,
+  & .rui_button_blue_40 {
+    width: 100px;
+    padding-right: 0;
+    padding-left: 0;
+  }
+  & .rui_popup .button_list {
+    padding: 0 3px !important;
+  }
+}
+
+.ReportPopup_Header {
+  @apply --reset-layout;
+
+  display: block;
+  padding: 26px 0 24px;
+  color: #40474d;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.ReportPopup_RadioInputList {
+  padding: 0 20px;
+  list-style: none;
+}
+
+.ReportPopup_RadioInputItem {
+  padding-bottom: 1.2em;
+}

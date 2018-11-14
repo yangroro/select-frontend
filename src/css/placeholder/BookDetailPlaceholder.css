@@ -1,0 +1,82 @@
+.PageBookDetail.Skeleton_Wrapper {
+  padding: 0 20px;
+  background: #fff;
+  & .Thumbnail_Skeleton {
+    display: block;
+    width: 150px;
+    height: 232px;
+    margin: 20px auto;
+  }
+  & .Title_Skeleton {
+    display: block;
+    width: 100%;
+    height: 24px;
+    margin-top: 20px;
+  }
+  & .Description_Skeleton {
+    display: block;
+    width: 60%;
+    height: 16px;
+    margin-top: 12px;
+  }
+  & .Category_Skeleton,
+  & .Button_Skeleton_Wrapper {
+    display: none;
+  }
+  & .Button_Skeleton {
+    display: inline-block;
+    height: 46px;
+    margin: 0 0 0 8px;
+    &:first-child {
+      margin: 0;
+    }
+  }
+  & .Small_Button_Skeleton {
+    width: 112px;
+  }
+  & .Big_Button_Skeleton {
+    width: 170px;
+  }
+}
+
+@media (--pc-screen) {
+  .PageBookDetail.Skeleton_Wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    & .DetailHeader_Skeleton_Wrapper {
+      display: table;
+      width: 100%;
+      height: 290px;
+      padding: 24px 0;
+      table-layout: fixed;
+    }
+    & .Thumbnail_Skeleton {
+      display: table-cell;
+      width: 200px;
+      height: 290px;
+      margin: 20px auto;
+    }
+    & .Metadata_Skeleton_Wrapper {
+      display: table-cell;
+      padding: 41px 0 0 60px;
+    }
+    & .Category_Skeleton {
+      display: inline-block;
+      width: 100px;
+      height: 20px;
+    }
+    & .Title_Skeleton {
+      width: 360px;
+      height: 30px;
+      margin-top: 20px;
+    }
+    & .Description_Skeleton {
+      display: none;
+    }
+    & .Button_Skeleton_Wrapper {
+      display: block;
+      padding-top: 106px;
+    }
+  }
+}

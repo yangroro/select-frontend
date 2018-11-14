@@ -1,0 +1,23 @@
+@import '@ridi/rsg/colors/colors.css';
+
+.DEV_environment_ribbon,
+.STAGING_environment_ribbon {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 23px;
+  text-align: center;
+}
+.DEV_environment_ribbon {
+  background: var(--green_40);
+}
+.STAGING_environment_ribbon {
+  background: var(--red_50);
+  font-size: 11px;
+}

@@ -1,0 +1,87 @@
+.ReviewForm {
+  padding: 0 15px 30px;
+  @media (--pc-screen) {
+    padding: 0;
+  }
+}
+
+.ReviewForm_SubInputs,
+.ReviewForm_ButtonsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 12px;
+}
+
+.ReviewForm_ButtonsWrapper {
+  &.flex-end {
+    justify-content: flex-end;
+  }
+}
+
+
+.ReviewForm_MainButtonList {
+  @apply --reset-list;
+
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.ReviewForm_CancelButtonItem {
+  display: table-cell;
+  width: 110px;
+  padding-right: 7px;
+}
+
+.ReviewForm_SubmitButtonItem {
+  display: table-cell;
+}
+
+.ReviewForm_SpoilerCheckbox {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.ReviewForm_CancelReviewButton,
+.ReviewForm_SubmitReviewButton {
+  padding: 0 18px;
+  font-size: 12px;
+  &.full {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+.ReviewForm_CancelReviewButton {
+  @media (--pc-screen) {
+    margin-right: 3px;
+  }
+}
+
+.ReviewForm_ToggleNoticeButton {
+  display: inline-block;
+  align-items: initial;
+  justify-content: initial;
+  margin: 0;
+  padding: 0 15px;
+  font-size: 12px;
+  line-height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  &.pressed {
+    color: #40474d;
+  }
+}
+
+.ReviewForm_ToggleNoticeButton_Icon {
+  width: 12px;
+  height: 10px;
+  margin-right: 4px;
+  fill: #808991;
+  @nest .pressed & {
+    fill: #40474d;
+  }
+}
+

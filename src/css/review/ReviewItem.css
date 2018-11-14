@@ -1,0 +1,264 @@
+.ReviewItem {
+  padding: 17px 0 16px;
+  border-top: 1px solid #e6e8eb;
+  list-style-type: none;
+  &:first-child {
+    border-top: none;
+  }
+
+  @media (--pc-screen) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 14px 0 0;
+    border-top: 1px solid #d1d5d9;
+  }
+}
+
+.ReviewItem_Left {
+  width: 115px;
+}
+
+.ReviewItem_Right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  width: 517px;
+  @media (--pc-screen) {
+    flex: 1;
+  }
+}
+
+.ReviewItem_Right_Top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.Review_ReadMoreButton {
+  @apply --reset-button;
+
+  padding-left: 6px;
+  color: #738096;
+  font-size: 13px;
+  line-height: initial;
+  transition: color .2s;
+
+  &:not(:active):hover {
+    color: var(--dodgerblue_50);
+  }
+}
+
+.ReviewItem_MetadataGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.ReviewContent {
+  width: 100%;
+  padding: 5px 0;
+  color: #303538;
+  font-size: 14px;
+  letter-spacing: -.03em;
+  line-height: 1.5em;
+  text-align: left;
+  word-break: break-all;
+
+  & * {
+    @apply --reset-layout;
+  }
+
+  @media (--pc-screen) {
+    padding: 0 0 10px;
+    color: #212529;
+    font-size: 13px;
+    line-height: 1.7em;
+  }
+}
+
+.ReviewerMetadata_List,
+.ReviewMetadata_List,
+.ReviewButtons_List {
+  @apply --reset-layout;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 4px;
+  list-style: none;
+
+  @media (--pc-screen) {
+    margin: 10px 0;
+  }
+}
+
+.ReviewButtons_List {
+  @media (--pc-screen) {
+    align-self: flex-end;
+  }
+
+  @nest .MyReview & {
+    justify-content: flex-end;
+    padding-bottom: 10px;
+  }
+}
+
+.ReviewerMetadata_UserId {
+  padding-right: 3px;
+  color: #212529;
+  font-size: 11px;
+  font-weight: 700;
+
+  @media (--pc-screen) {
+    font-size: 12px;
+  }
+}
+
+.ReviewerMetadata_IsBuyerBadge {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 18px;
+  margin-left: 3px;
+  border-radius: 3px;
+  background: #7d8e9e;
+  vertical-align: top;
+
+  & .ReviewerMetadata_IsBuyer_Icon {
+    width: 28px;
+    height: 10px;
+    fill: white;
+  }
+}
+
+.ReviewMetadata_Date {
+  color: #808991;
+  font-size: 11px;
+  line-height: 12px;
+
+  @media (--pc-screen) {
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
+
+.ReviewMetadata_Report {
+  display: flex;
+  position: relative;
+  margin-left: 6px;
+  padding-left: 5px;
+
+  &::before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: -2px;
+    width: 3px;
+    height: 3px;
+    margin-top: -2px;
+    background: #d1d5d9;
+    content: '';
+
+    @media (--pc-screen) {
+      margin-top: -1px;
+    }
+  }
+
+  & .ReviewMetadata_ReportButton {
+    @apply --reset-button;
+
+    color: #808991;
+    font-size: 11px;
+    font-weight: 700;
+
+    @media (--pc-screen) {
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+}
+
+.ReviewButtons_OpenCommentsButtonItem {
+  margin-right: 6px;
+}
+
+.ReviewButtons_OpenCommentsButton,
+.ReviewButtons_LikeButton {
+  display: inline-block;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  min-width: 51px;
+  height: 25px;
+  padding: 0 10px;
+}
+
+.ReviewButtons_CommentIcon {
+  width: 13px;
+  height: 14px;
+  fill: #9ea7ad !important;
+
+  @nest .pressed & {
+    fill: #525a61 !important;
+  }
+}
+
+.ReviewButtons_LikeIcon {
+  width: 13px;
+  height: 15px;
+  margin-top: -2px;
+  fill: #9ea7ad !important;
+
+  @nest .pressed & {
+    fill: #1f8ce6 !important;
+  }
+}
+
+.ReviewButtons_CommentIcon,
+.ReviewButtons_LikeIcon {
+  vertical-align: middle;
+  @nest .RUIButton_Spinner & {
+    fill: white !important;
+  }
+}
+
+.ReviewButtons_CommentLabel,
+.ReviewButtons_CommentCount,
+.ReviewButtons_LikeCount {
+  padding-left: 3px;
+  color: #808991;
+  font-size: 11px;
+}
+
+.ReviewButtons_CommentLabel,
+.ReviewButtons_CommentCount {
+  @nest .pressed & {
+    color: #40474d;
+  }
+}
+
+.ReviewButtons_LikeCount {
+  @nest .pressed & {
+    color: #1f8ce6;
+  }
+}
+
+
+.ReviewButtons_CommentLabel,
+.ReviewButtons_CommentCount,
+.ReviewButtons_LikeCount {
+  @nest .RUIButton_Spinner & {
+    color: white !important;
+  }
+}

@@ -1,0 +1,240 @@
+.PageManageSubscription {
+  display: block;
+}
+
+.SubscriptionInfoWrapper {
+  padding: 14px 20px 30px;
+  background: var(--slategray_5);
+}
+.SubscriptionInfoList {
+  max-width: var(--max-pc-content-width);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.AccountInfo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 9px;
+}
+.AccountInfo_Id {
+  display: inline-flex;
+  align-items: bottom;
+  max-width: 100%;
+  margin: 0;
+  padding: 4px 10px 4px 0;
+  color: var(--bluegray_90);
+  font-size: 18px;
+  & .Id_Text {
+    display: inline-block;
+    max-width: 100%;
+    padding-right: 1px;
+    overflow: hidden;
+    font-size: 26px;
+    line-height: 38px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  & .Id_Postfix {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: inherit;
+    line-height: 38px;
+  }
+}
+.CurrentSubscriptionInfo {
+  padding-top: 20px;
+}
+.CurrentSubscriptionInfo_Title,
+.LatestBillDateInfo_Title {
+  margin-right: 6px;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+}
+.CurrentSubscriptionInfo_Term,
+.LatestBillDateInfo_Term {
+  display: inline-block;
+  padding-top: 6px;
+  color: var(--slategray_100);
+  font-size: 14px;
+}
+.LatestBillDateInfo {
+  padding-top: 11px;
+}
+.CancelSubscriptionButton_Wrapper {
+  position: relative;
+}
+.CancelSubscriptionButton {
+  display: inline-block;
+  position: absolute;
+  top: -2px;
+  left: 8px;
+  width: 60px;
+  height: 25px;
+  border: solid 1px #525a61;
+  border-radius: 4px;
+  background-color: #636c73;
+  font-size: 11px;
+}
+.NextSubscriptionInfo {
+  position: relative;
+  margin-top: 12px;
+  padding-left: 24px;
+  color: var(--slategray_50);
+  font-size: 13px;
+  line-height: 18px;
+  fill: var(--slategray_40);
+}
+.NextSubscriptionInfo-canceled {
+  padding-left: 18px;
+  color: var(--brown_50);
+  fill: var(--brown_50);
+}
+.NextSubscriptionInfo_Icon {
+  display: inline-block;
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 16px;
+  height: 12px;
+  vertical-align: top;
+}
+
+.ManageSubscriptionButton {
+  display: block;
+  width: 100%;
+  max-width: var(--max-pc-content-width);
+  height: 40px;
+  margin-top: 20px;
+  line-height: 2.8em;
+}
+
+.SubscriptionInfoWrapper.Skeleton_Wrapper {
+  box-sizing: border-box;
+  height: 231px;
+  min-height: 0;
+  padding: 0;
+  &::before,
+  &::after {
+    height: 120%;
+  }
+  & .Skeleton {
+    width: 100%;
+    height: 231px;
+  }
+}
+
+/* TODO: rsg 업데이트 된 요소로 수정하게 되면 처리 필요. */
+.rui_popup .popup_contents {
+  top: 150px;
+}
+
+.UnsubscribeWarningPopup_Title {
+  margin: 40px 0 0;
+  color: #000;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1em;
+  text-align: center;
+  & .Warning_Icon {
+    width: 17px;
+    height: 17px;
+    margin-right: 6px;
+    vertical-align: top;
+    fill: var(--slategray_60);
+  }
+}
+
+.UnsubscribeWarningPopup_Text {
+  margin: 0;
+  padding-top: 14px;
+  color: var(--slategray_60);
+  font-size: 15px;
+  line-height: 23px;
+  text-align: center;
+}
+.UnsubscribeWarningPopup_ButtonGroup {
+  width: 200px;
+  margin: 20px auto 0;
+}
+.MoveToNewRelease_Button,
+.Unsubscribe_Button {
+  width: 100%;
+}
+
+.Unsubscribe_Button {
+  margin-top: 6px;
+}
+
+@media (--pc-screen) {
+  .PageSetting {
+    & .PageHeader {
+      display: none;
+    }
+  }
+  .SubscriptionInfoWrapper {
+    padding: 0 20px 30px;
+  }
+  .SubscriptionInfoList {
+    width: var(--min-content-width);
+    margin: 0 auto;
+  }
+  .AccountInfo {
+    padding-top: 32px;
+    vertical-align: middle;
+  }
+  .AccountInfo_Id {
+    font-size: 24px;
+    & .Id_Text {
+      padding-right: 3px;
+      font-size: 32px;
+      line-height: 40px;
+    }
+    & .Id_Postfix {
+      display: inline-block;
+      font-size: inherit;
+      line-height: 40px;
+    }
+  }
+
+  .CurrentSubscriptionInfo {
+    padding-top: 31px;
+    white-space: nowrap;
+  }
+  .CurrentSubscriptionInfo_Title,
+  .LatestBillDateInfo_Title {
+    margin-right: 8px;
+    font-size: 15px;
+  }
+  .CurrentSubscriptionInfo_Term,
+  .LatestBillDateInfo_Term {
+    font-size: 15px;
+  }
+  .NextSubscriptionInfo {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+  .NextSubscriptionInfo_Icon {
+    top: 4px;
+  }
+
+  .ManageSubscriptionButton {
+    width: var(--min-content-width);
+    margin: 18px auto 0;
+    border-width: 2px;
+    &.expired {
+      color: var(--brown_50);
+    }
+  }
+
+  .SubscriptionInfoWrapper.Skeleton_Wrapper {
+    height: 252px;
+    & .Skeleton {
+      width: 100%;
+      height: 252px;
+    }
+  }
+}

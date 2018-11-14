@@ -1,0 +1,129 @@
+:root {
+  --history_item_height: 44px;
+}
+
+.InstantSearchWrapper {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  z-index: 998;
+  @nest .androidApp & {
+    top: var(--gnb_android_app_height);
+  }
+}
+.InstantSearch-loading {
+  padding: 20px 0 30px;
+  background: #fff;
+  text-align: center;
+}
+.InstantSearchList {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  list-style: none;
+}
+.InstantSearchItem {
+  box-sizing: border-box;
+  display: block;
+  min-height: var(--history_item_height);
+  padding: 14px 13px 12px;
+  border-top: 1px solid var(--slategray_5);
+  line-height: var(--history_item_height);
+  cursor: pointer;
+  transition: background .2s;
+  &:first-child {
+    border-top: 0;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+  &:last-child {
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+  &.focused {
+    background: var(--lightsteelblue_5);
+  }
+  @media (hover: hover) {
+    &:hover {
+      background: var(--lightsteelblue_5);
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      background: var(--lightsteelblue_5);
+    }
+  }
+}
+.InstantSearchedName {
+  display: block;
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #000;
+  line-height: 17px;
+  text-align: left;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  & .point_text,
+  & .InstantSearchTitle,
+  & .InstantSearchAuthor,
+  & .InstantSearchPublisher {
+    display: inline;
+    letter-spacing: -.3px;
+    line-height: inherit;
+    vertical-align: top;
+  }
+  & .point_text,
+  & .title_point {
+    color: inherit;
+    font-size: inherit;
+    vertical-align: top;
+  }
+  & .InstantSearchTitle {
+    padding-right: 6px;
+    color: inherit;
+    font-size: 14px;
+  }
+  & .InstantSearchAuthor,
+  & .InstantSearchPublisher {
+    color: var(--slategray_50);
+    font-size: 13px;
+  }
+  & .InstantSearchAuthor {
+    padding-right: 4px;
+  }
+  & .InstantSearchPublisher {
+    position: relative;
+    padding-left: 5px;
+    &::before {
+      display: block;
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 1px;
+      height: 10px;
+      background: #e5e5e5;
+      content: '';
+    }
+  }
+}
+
+@media (--pc-screen) {
+  .InstantSearchWrapper {
+    top: 49px;
+    right: 52px;
+    left: auto;
+    width: 300px;
+    border-radius: 3px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, .3);
+  }
+  .InstantSearch-loading,
+  .InstantSearchList {
+    border-radius: 3px;
+  }
+}

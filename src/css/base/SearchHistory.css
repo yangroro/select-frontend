@@ -1,0 +1,122 @@
+
+:root {
+  --history_item_height: 44px;
+}
+
+.SearchHistoryWrapper {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  z-index: 998;
+  @nest .androidApp & {
+    top: var(--gnb_android_app_height);
+  }
+}
+.SearchHistoryList {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  list-style: none;
+}
+.SearchHistoryItem {
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  height: var(--history_item_height);
+  padding: 0 36px 0 13px;
+  border-top: 1px solid var(--slategray_5);
+  line-height: var(--history_item_height);
+  cursor: pointer;
+  transition: background .2s;
+  &:first-child {
+    border-top: 0;
+  }
+  &.focused {
+    background: var(--lightsteelblue_5);
+  }
+  @media (hover: hover) {
+    &:hover {
+      background: var(--lightsteelblue_5);
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      background: var(--lightsteelblue_5);
+    }
+  }
+}
+.SearchHistoryKeyword {
+  display: block;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  color: #000;
+  font-size: 14px;
+  line-height: var(--history_item_height);
+  text-align: left;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.RemoveSearchHistoryButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: var(--history_item_height);
+  padding: 0 13px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.RemoveSearchHistoryIcon {
+  width: 10px;
+  height: 10px;
+  fill: var(--lightsteelblue_40);
+}
+.SearchHistoryFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  background: var(--slategray_5);
+  & .ClearHistoryButton,
+  & .ToggleStoreHistoryButton {
+    height: 100%;
+    padding: 0 13px;
+    border: none;
+    background: transparent;
+    color: var(--lightsteelblue_90);
+    font-size: 13px;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+}
+
+@media (--pc-screen) {
+  .SearchHistoryWrapper {
+    top: 49px;
+    right: 52px;
+    left: auto;
+    width: 300px;
+    border-radius: 3px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, .3);
+  }
+  .SearchHistoryList {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+  .SearchHistoryItem:first-child {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+  .SearchHistoryFooter {
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    &:first-child {
+      border-top-right-radius: 3px;
+      border-top-left-radius: 3px;
+    }
+  }
+}

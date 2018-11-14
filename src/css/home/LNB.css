@@ -1,0 +1,118 @@
+:root {
+  --lnb_mobile_height: 39px;
+  --lnb_pc_height: 42px;
+}
+
+.LnbMenu_Wrapper {
+  position: relative;
+  border-bottom: 1px solid var(--bluegray_100);
+  background: var(--bluegray_90);
+  z-index: 100;
+}
+.LnbMenu_List {
+  display: table;
+  width: 100%;
+  min-width: var(--min-content-width);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  table-layout: fixed;
+}
+.LnbMenu {
+  display: table-cell;
+  &.LnbMenu_Home { width: 15%; }
+  &.LnbMenu_RecentUpdates { width: 32%; }
+  &.LnbMenu_Charts { width: 25%; }
+  &.LnbMenu_MySelect { width: 28%; }
+}
+
+.LnbMenu_Link {
+  display: block;
+  position: relative;
+  height: var(--lnb_mobile_height);
+  text-align: center;
+  text-decoration: none;
+  & .reset-heading {
+    color: var(--bluegray_10);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: var(--lnb_mobile_height);
+  }
+  &::after {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 0;
+    content: '';
+    transition: height .2s;
+  }
+  &:focus .reset-heading,
+  &:active .reset-heading,
+  &:visited .reset-heading {
+    color: var(--bluegray_10);
+  }
+  @media (hover: hover) {
+    &:hover::after {
+      height: 3px;
+      background: var(--bluegray_60);
+    }
+  }
+  @media (hover: none) {
+    &:active::after {
+      height: 3px;
+      background: var(--bluegray_60);
+    }
+  }
+  &.LnbMenu_Link-active {
+    & .reset-heading {
+      color: #fff;
+      font-weight: 700;
+    }
+    &::after {
+      height: 3px;
+      background: var(--dodgerblue_40);
+    }
+    @media (hover: hover) {
+      &:hover::after {
+        height: 3px;
+        background: var(--dodgerblue_40);
+      }
+    }
+    @media (hover: none) {
+      &:active::after {
+        height: 3px;
+        background: var(--dodgerblue_40);
+      }
+    }
+  }
+}
+
+@media (--pc-screen) {
+  .LnbMenu_List {
+    box-sizing: border-box;
+    display: block;
+    max-width: var(--max-pc-content-width);
+    margin: 0 auto;
+    padding: 0 8px;
+  }
+  .LnbMenu {
+    display: inline-block;
+    padding: 0 7px;
+    &.LnbMenu_Home,
+    &.LnbMenu_RecentUpdates,
+    &.LnbMenu_Charts,
+    &.LnbMenu_MySelect {
+      width: auto;
+    }
+  }
+
+  .LnbMenu_Link {
+    height: var(--lnb_pc_height);
+    padding: 0 5px;
+    & .reset-heading {
+      font-size: 15px;
+      line-height: var(--lnb_pc_height);
+    }
+  }
+}

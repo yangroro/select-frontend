@@ -1,0 +1,36 @@
+@import 'StarRating.css';
+@import 'StarRatingInput.css';
+@import 'StarRatingForm.css';
+@import 'ReviewTextarea.css';
+@import 'ReviewNotice.css';
+@import 'ReviewForm.css';
+@import 'BuyerRatingSummary.css';
+@import 'ScopedTab.css';
+@import 'ReviewItem.css';
+@import 'ReportPopup.css';
+@import 'CommentForm.css';
+@import 'CommentItem.css';
+@import 'AboutIndicatingBuyer.css';
+@import 'MyReview.css';
+@import 'CommentList.css';
+@import 'ReviewList.css';
+@import 'ReviewSpoilerAlert.css';
+@import 'ReviewsHeader.css';
+@import 'ReviewListHeader.css';
+@import 'ReviewListEmpty.css';
+@import 'ReviewPlaceholder.css';
+
+.Reviews {
+  @media (--pc-screen) {
+    width: 100%;
+  }
+}
+
+.Reviews_Wrapper.PageBookDetail_Panel {
+  padding: 0 0 80px;
+  @media (--pc-screen) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}

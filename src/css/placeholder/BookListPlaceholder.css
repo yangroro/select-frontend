@@ -1,0 +1,310 @@
+@custom-media --bp-1st (width <= 359px);
+@custom-media --bp-2nd (width >= 360px) and (width <= 413px);
+@custom-media --bp-3rd (width >= 414px) and (width <= 599px);
+@custom-media --bp-4th (width >= 600px) and (width <= 767px);
+@custom-media --bp-5th (width >= 768px) and (width <= 839px);
+@custom-media --bp-6th (width >= 840px) and (width <= 1023px);
+@custom-media --bp-7th (width >= 1024px);
+
+:root {
+  --horizontal-padding: 20px;
+  --book-width-mobile: 110px;
+  --book-width-pc: 120px;
+}
+
+/* 북 스켈레톤 스타일 */
+.Book_Skeleton {
+  & .Thumbnail_Skeleton {
+    display: block;
+    width: 100%;
+    height: 160px;
+  }
+  & .BookMetadata_Wrapper {
+    & .Title_Skeleton,
+    & .Author_Skeleton {
+      display: block;
+      height: 15px;
+    }
+    & .Title_Skeleton {
+      width: 100%;
+      margin-top: 11.5px;
+    }
+    & .Author_Skeleton {
+      width: 70%;
+      margin-top: 5px;
+    }
+  }
+}
+
+/* 홈화면 가로 스크롤 북 리스트 스켈레톤 스타일. */
+.InlineHorizontalBookList_Skeleton {
+  display: -webkit-box;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding: 0;
+  list-style: none;
+
+  @media (--mobile-screen) {
+    margin: 21px 0 0;
+    overflow: hidden;
+
+    & > .InlineHorizontalBookList_Item:first-child {
+      padding-left: var(--horizontal-padding);
+    }
+
+    & > .InlineHorizontalBookList_Item:last-child {
+      padding-right: var(--horizontal-padding);
+    }
+  }
+}
+
+.InlineHorizontalBookList_Item_Skeleton {
+  width: var(--book-width-mobile);
+
+  @media (--pc-screen) {
+    width: var(--book-width-pc);
+    &:nth-child(n+7) {
+      display: none;
+    }
+  }
+
+  & + .InlineHorizontalBookList_Item_Skeleton {
+    margin-left: 10px;
+    @media (--pc-screen) {
+      margin-left: 16px;
+    }
+  }
+}
+
+.GridBookList_Skeleton {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  min-width: 320px;
+  max-width: 800px;
+  margin: 0 auto;
+  & .Ranking_Placeholder {
+    width: 20px;
+    height: 15px;
+    margin: 0 auto 15px;
+  }
+}
+
+
+@media (--bp-1st) {
+  .GridBookList_Skeleton {
+    width: 320px;
+    padding: 12px;
+  }
+  .GridBookList_Item_Skeleton {
+    width: 90px;
+    & .Thumbnail_Skeleton {
+      height: 134px;
+    }
+  }
+}
+@media (--bp-2nd) {
+  .GridBookList_Skeleton {
+    width: 360px;
+    padding: 14px;
+  }
+  .GridBookList_Item_Skeleton {
+    width: 100px;
+    & .Thumbnail_Skeleton {
+      height: 150px;
+    }
+  }
+}
+@media (--bp-3rd) {
+  .GridBookList_Skeleton {
+    width: 414px;
+    padding: 16px;
+  }
+  .GridBookList_Item_Skeleton {
+    width: 116px;
+    & .Thumbnail_Skeleton {
+      height: 174px;
+    }
+  }
+}
+@media (--bp-4th) {
+  .GridBookList_Skeleton {
+    width: 512px;
+    padding: 16px 0;
+  }
+  .GridBookList_Item_Skeleton {
+    width: 120px;
+    & .Thumbnail_Skeleton {
+      height: 180px;
+    }
+  }
+}
+@media (--bp-5th) {
+  .GridBookList_Skeleton {
+    width: 528px;
+    padding: 16px 0;
+  }
+  .GridBookList_Item_Skeleton {
+    width: 120px;
+    & .Thumbnail_Skeleton {
+      height: 180px;
+    }
+  }
+}
+@media (--bp-6th) {
+  .GridBookList_Skeleton {
+    width: 800px;
+    padding: 16px 0;
+  }
+  .GridBookList_Item_Skeleton {
+    width: 120px;
+    & .Thumbnail_Skeleton {
+      height: 180px;
+    }
+  }
+}
+@media (--bp-7th) {
+  .GridBookList_Skeleton {
+    width: 800px;
+    padding: 16px 0;
+  }
+  .GridBookList_Item_Skeleton {
+    width: 120px;
+    & .Thumbnail_Skeleton {
+      height: 180px;
+    }
+  }
+}
+
+.GridBookList_Item_Skeleton {
+  list-style: none;
+  & + .GridBookList_Item_Skeleton {
+    @media (--bp-1st) {
+      margin-left: 12px;
+      &:nth-child(3n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+4) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-2nd) {
+      margin-left: 14.4px;
+      &:nth-child(3n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+4) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-3rd) {
+      margin-left: 16px;
+      &:nth-child(3n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+4) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-4th) {
+      margin-left: 10px;
+      &:nth-child(4n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+5) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-5th) {
+      margin-left: 16px;
+      &:nth-child(4n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+5) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-6th) {
+      margin-left: 16px;
+      &:nth-child(6n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+7) {
+        margin-top: 60px;
+      }
+    }
+
+    @media (--bp-7th) {
+      margin-left: 16px;
+      &:nth-child(6n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+7) {
+        margin-top: 60px;
+      }
+    }
+  }
+}
+
+.LandscapeBookList_Skeleton {
+  margin: 0;
+  padding: 0 15px;
+  list-style: none;
+
+  @media (--pc-screen) {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+  }
+}
+
+.LandscapeBookList_Item_Skeleton {
+  margin-top: 15px;
+  & .Book_Skeleton {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    & .Checkbox_Skeleton_Wrapper {
+      display: table-cell;
+      width: 25px;
+      vertical-align: middle;
+      & .Checkbox_Skeleton {
+        display: block;
+        width: 18px;
+        height: 18px;
+        margin-top: -12px;
+      }
+    }
+    & .Thumbnail_Skeleton {
+      display: table-cell;
+      width: 100px;
+      height: 150px;
+    }
+    & .BookMetadata_Wrapper {
+      display: table-cell;
+      padding: 19px 0 0 20px;
+      & .Title_Skeleton,
+      & .Author_Skeleton {
+        display: block;
+        height: 19px;
+      }
+      & .Title_Skeleton {
+        width: 100%;
+        margin-top: 0;
+      }
+      & .Author_Skeleton {
+        width: 30%;
+        margin-top: 5px;
+      }
+    }
+  }
+}
+
+

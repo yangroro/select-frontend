@@ -1,0 +1,125 @@
+@import 'slick.1.6.0.min.css';
+
+@custom-media --big-banner-breakpoint (min-width: 432px);
+
+.BigBanner {
+  position: relative;
+}
+
+.BigBanner_Dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+
+  & > li {
+    display: inline-block;
+
+    & > button {
+      width: 4px;
+      height: 4px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 0;
+      opacity: .3;
+    }
+
+    &.slick-active {
+      & > button {
+        opacity: 1;
+      }
+    }
+
+    & + li {
+      margin-left: 10px;
+    }
+  }
+}
+
+.BigBanner_Item {
+  display: block;
+  position: relative;
+  & > img {
+    pointer-events: none;
+  }
+  @media (--big-banner-breakpoint) {
+    @nest .slick-slide & {
+      &::before {
+        position: absolute;
+        top: 0;
+        right: 1px;
+        left: 1px;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        content: '';
+        transition: background-color 200ms linear;
+      }
+    }
+    @nest .slick-slide.slick-active & {
+      &::before {
+        background-color: rgba(0, 0, 0, 0);
+      }
+    }
+  }
+}
+
+.BigBanner_Controls {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: 544px;
+  transform: translate3d(-50%, -50%, 0);
+  white-space: nowrap;
+  pointer-events: none;
+
+  @nest .BigBanner-isMobile & {
+    display: none;
+  }
+}
+
+.BigBanner_ControlButton {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  width: 27px;
+  height: 36px;
+  padding: 1px 7px 2px;
+  transform: translate3d(0, -50%, 0);
+  border: 0;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .2);
+  text-align: center;
+  cursor: pointer;
+  pointer-events: all;
+  transition: background-color .2s;
+
+  &:first-child {
+    left: 16px;
+  }
+  &:last-child {
+    right: 16px;
+  }
+  @media (hover: hover) {
+    &:hover {
+      background-color: #000;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      background-color: #000;
+    }
+  }
+}
+
+.BigBanner_ControlIcon {
+  width: 12px;
+  height: 20.17px;
+  vertical-align: middle;
+  fill: #fff;
+}

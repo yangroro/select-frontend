@@ -1,0 +1,25 @@
+{
+  "short_name": "리디셀렉트",
+  "name": "리디셀렉트",
+  "start_url": "/home",
+  "background_color": "#17202e",
+  "theme_color": "#17202e",
+  "display": "browser",
+  "icons": [
+    {
+      "src": "select-android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "select-android-chrome-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "select-android-chrome-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    }
+  ]
+}

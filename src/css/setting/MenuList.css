@@ -1,0 +1,115 @@
+.SettingMenu {
+  box-sizing: border-box;
+  position: relative;
+  min-width: var(--min-content-width);
+  max-width: var(--max-pc-content-width);
+  margin: 0;
+  padding: 10px 21px;
+  list-style: none;
+  & + .SettingMenu {
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 21px;
+      left: 21px;
+      height: 1px;
+      background: #f2f2f2;
+      content: '';
+    }
+  }
+}
+.SettingMenu_Link {
+  display: block;
+  position: relative;
+  padding: 15px 0 15px 39px;
+  transition: color .2s;
+  &,
+  &:visited,
+  &:active,
+  &:focus {
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  @media (hover: hover) {
+    &:hover {
+      color: var(--slategray_80);
+      & .SettingMenu_Icon {
+        fill: var(--slategray_50);
+      }
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      color: var(--slategray_80);
+      & .SettingMenu_Icon {
+        fill: var(--slategray_50);
+      }
+    }
+  }
+}
+.SettingMenu_Invoice_Icon {
+  width: 20px;
+  height: 22px;
+  margin-top: -10px;
+  margin-left: 1px;
+}
+.SettingMenu_Icon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transition: fill .2s;
+  vertical-align: top;
+  fill: var(--slategray_60);
+}
+.SettingMenu_Payment_Icon {
+  width: 26px;
+  height: 18px;
+  margin-top: -9px;
+}
+.SettingMenu_History_Icon {
+  width: 21px;
+  height: 18px;
+  margin-top: -9px;
+}
+.SettingMenu_Review_Icon {
+  width: 20.9px;
+  height: 20px;
+  margin-top: -10px;
+}
+.SettingMenu_FAQ_Icon {
+  width: 17px;
+  height: 17px;
+  margin-top: -8.5px;
+}
+.SettingMenu_ModifyInfo_Icon {
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+}
+.SettingMenu_Invoice_Icon {
+  width: 20px;
+  height: 22px;
+  margin-top: -10px;
+  margin-left: 1px;
+}
+.SettingMenu_Logout_Icon {
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+}
+
+@media (--pc-screen) {
+  .SettingMenu {
+    width: var(--min-content-width);
+    margin: 0 auto;
+    padding: 10px 0;
+    & + .SettingMenu {
+      &::before {
+        right: 0;
+        left: 0;
+      }
+    }
+  }
+}

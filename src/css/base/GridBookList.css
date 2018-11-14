@@ -1,0 +1,185 @@
+@custom-media --bp-1st (width <= 359px);
+@custom-media --bp-2nd (width >= 360px) and (width <= 413px);
+@custom-media --bp-3rd (width >= 414px) and (width <= 599px);
+@custom-media --bp-4th (width >= 600px) and (width <= 767px);
+@custom-media --bp-5th (width >= 768px) and (width <= 839px);
+@custom-media --bp-6th (width >= 840px) and (width <= 1023px);
+@custom-media --bp-7th (width >= 1024px);
+
+
+.GridBookList {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  min-width: 320px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  @media (--bp-1st) {
+    width: 320px;
+    padding: 12px;
+  }
+  @media (--bp-2nd) {
+    width: 360px;
+    padding: 14px;
+  }
+  @media (--bp-3rd) {
+    width: 414px;
+    padding: 16px;
+  }
+  @media (--bp-4th) {
+    width: 512px;
+    padding: 16px 0;
+  }
+  @media (--bp-5th) {
+    width: 528px;
+    padding: 16px 0;
+  }
+  @media (--bp-6th) {
+    width: 800px;
+    padding: 16px 0;
+  }
+  @media (--bp-7th) {
+    width: 800px;
+    padding: 16px 0;
+  }
+}
+
+.GridBookList-isChart {
+  align-items: flex-start;
+}
+
+.GridBookList_Item {
+  list-style: none;
+
+  @media (hover: hover) {
+    &:hover {
+      & .GridBookList_ItemTitle {
+        color: #000;
+      }
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      & .GridBookList_ItemTitle {
+        color: #000;
+      }
+    }
+  }
+  & > .GridBookList_ItemLink {
+    flex-direction: column;
+  }
+
+  & + .GridBookList_Item {
+    @media (--bp-1st) {
+      margin-left: 12px;
+      &:nth-child(3n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+4) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-2nd) {
+      margin-left: 14.4px;
+      &:nth-child(3n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+4) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-3rd) {
+      margin-left: 16px;
+      &:nth-child(3n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+4) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-4th) {
+      margin-left: 16px;
+      &:nth-child(4n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+5) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-5th) {
+      margin-left: 16px;
+      &:nth-child(4n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+5) {
+        margin-top: 30px;
+      }
+    }
+
+    @media (--bp-6th) {
+      margin-left: 16px;
+      &:nth-child(6n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+7) {
+        margin-top: 60px;
+      }
+    }
+
+    @media (--bp-7th) {
+      margin-left: 16px;
+      &:nth-child(6n + 1) {
+        margin-left: 0;
+      }
+      &:nth-child(n+7) {
+        margin-top: 60px;
+      }
+    }
+  }
+}
+
+.GridBookList_ItemLink {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.GridBookList_ItemTitle {
+  @apply --reset-layout;
+
+  display: block;
+  display: -webkit-box;
+  width: 100%;
+  max-height: 34px;
+  margin-top: 10px;
+  overflow: hidden;
+  color: #40474d;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  text-overflow: ellipsis;
+  transition: color .2s;
+  word-wrap: break-word;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.GridBookList_ItemRanking {
+  display: block;
+  margin-bottom: 10px;
+  color: #303538;
+  font-family: Minion Pro;
+  font-size: 19px;
+  text-align: center;
+  @media (--pc-screen) {
+    margin-bottom: 15px;
+  }
+}

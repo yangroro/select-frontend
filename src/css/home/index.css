@@ -1,0 +1,39 @@
+@import 'LNB.css';
+@import 'BigBanner.css';
+@import 'HomeSection.css';
+
+:root {
+  --panel-margin: 6px;
+}
+
+.PageHome {
+  padding-bottom: var(--panel-margin);
+  background-color: #e6e8eb;
+  @media (--pc-screen) {
+    padding-bottom: 0;
+    background-color: initial;
+  }
+  @nest .androidApp & {
+    padding-bottom: 0;
+  }
+}
+
+.PageHome_Content {
+  @media (--pc-screen) {
+    width: 800px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+  }
+}
+
+.PageHome_Panel {
+  & + .PageHome_Panel {
+    margin-top: var(--panel-margin);
+  }
+  @media (--pc-screen) {
+    padding-bottom: 21px;
+    & + .PageHome_Panel {
+      margin-top: 0;
+    }
+  }
+}
