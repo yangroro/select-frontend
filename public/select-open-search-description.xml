@@ -2,7 +2,7 @@
   <ShortName>리디셀렉트</ShortName>
   <Description>리디셀렉트 검색 서비스</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="32" height="32" type="image/x-icon">https://static.ridibooks.com/unlimited/public/select-favicon.ico</Image>
+  <Image width="32" height="32" type="image/x-icon">https://static.ridibooks.com/public/select-favicon.ico</Image>
   <Url type="text/html" method="get" template="https://select.ridibooks.com/search?q={searchTerms}"/>
   <Url type="application/json" rel="suggestions" template="https://select.ridibooks.com/search?q={searchTerms}"/>
   <moz:SearchForm>https://select.ridibooks.com/search</moz:SearchForm>

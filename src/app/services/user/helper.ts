@@ -24,7 +24,7 @@ const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
 
 const fetchSubscriptionInfo = async (): Promise<RidiSelectSubscriptionDTO> => {
   return request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/subscription`,
+    url: `${env.API_BASE_URL_STORE}/api/select/users/me/subscription`,
     withCredentials: true
   }).then(response => ({
     isSubscribing: true,

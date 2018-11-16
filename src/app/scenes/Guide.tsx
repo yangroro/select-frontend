@@ -34,7 +34,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               <span className="Guide_Item_Content_Right">
                 <img
                   className="Guide_Image"
-                  src={`${STATIC_URL}/unlimited/dist/images/guide/guide_ridibooks.jpg`}
+                  src={`${STATIC_URL}/dist/images/guide/guide_ridibooks.jpg`}
                   alt=""
                 />
                 <Button
@@ -58,7 +58,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               <MediaQuery minWidth={841}><br/><br/><br/></MediaQuery>
               <img
                 className="Guide_Image"
-                src={`${STATIC_URL}/unlimited/dist/images/guide/guide_home_${FREE_PROMOTION_MONTHS}.jpg`}
+                src={`${STATIC_URL}/dist/images/guide/guide_home_${FREE_PROMOTION_MONTHS}.jpg`}
                 alt=""
               />
             </p>
@@ -70,7 +70,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               10권을 초과하는 경우, 도서를 교체해주시면 새롭게 추가한 도서를 바로 이용할 수 있습니다.
               <img
                 className="Guide_Image"
-                src={`${STATIC_URL}/unlimited/dist/images/guide/guide_detail.jpg`}
+                src={`${STATIC_URL}/dist/images/guide/guide_detail.jpg`}
                 alt=""
               />
             </p>
@@ -109,7 +109,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               뷰어/앱 실행 후 구매목록 탭에서 책을 다운로드해주세요.
               <img
                 className="Guide_Image"
-                src={`${STATIC_URL}/unlimited/dist/images/guide/guide_download.jpg`}
+                src={`${STATIC_URL}/dist/images/guide/guide_download.jpg`}
                 alt=""
               />
             </p>

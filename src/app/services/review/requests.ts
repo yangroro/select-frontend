@@ -69,7 +69,7 @@ export const requestGetReviews = (
   bookId: number,
   params: RequestReviewsParameters,
 ): Promise<AxiosResponse<ResponseReviews>> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews`,
     method: 'GET',
     params: decamelize({
       page: params.page,
@@ -84,7 +84,7 @@ export const requestPostReview = (
   content: TextWithLF,
   hasSpoiler: boolean,
 ): Promise<AxiosResponse<ResponseDataReview>> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/my/content`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/my/content`,
     method: 'POST',
     data: decamelize({ content, hasSpoiler }),
   }).then((response: AxiosResponse<object>) =>
@@ -93,7 +93,7 @@ export const requestPostReview = (
 export const requestDeleteReview = (
   bookId: number,
 ): Promise<AxiosResponse<ResponseDataReview>> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/my/content`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/my/content`,
     method: 'DELETE',
   }).then((response: AxiosResponse<object>) =>
   camelize<AxiosResponse<ResponseDataReview>>(response, camelizeOptions));
@@ -102,7 +102,7 @@ export const requestPostRating = (
   bookId: number,
   rating: number,
 ): Promise<AxiosResponse<ResponseDataReview>> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/my/rating`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/my/rating`,
     method: 'POST',
     data: decamelize({ rating }),
   }).then((response: AxiosResponse<object>) =>
@@ -111,7 +111,7 @@ export const requestPostRating = (
 export const requestDeleteRating = (
   bookId: number,
 ): Promise<AxiosResponse<DeleteRatingResponseDataReview>> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/my/rating`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/my/rating`,
     method: 'DELETE',
   }).then((response: AxiosResponse<object>) =>
   camelize<AxiosResponse<DeleteRatingResponseDataReview>>(response, camelizeOptions));
@@ -121,7 +121,7 @@ export const requestReportReview = (
   reviewId: number,
   reason: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/${reviewId}/report`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/${reviewId}/report`,
     method: 'POST',
     data: decamelize({ reason }),
   });
@@ -130,7 +130,7 @@ export const requestLikeReview = (
   bookId: number,
   reviewId: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/${reviewId}/like`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/${reviewId}/like`,
     method: 'POST',
   });
 
@@ -138,7 +138,7 @@ export const requestCancelReviewLike = (
   bookId: number,
   reviewId: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/${reviewId}/like`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/${reviewId}/like`,
     method: 'DELETE',
   });
 
@@ -147,7 +147,7 @@ export const requestPostComment = (
   reviewId: number,
   content: TextWithLF,
 ): Promise<AxiosResponse<ResponseComment>> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/${reviewId}/comments`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/${reviewId}/comments`,
     method: 'POST',
     data: decamelize({ content }),
   }).then((response: AxiosResponse<object>) =>
@@ -158,6 +158,6 @@ export const requestDeleteComment = (
   reviewId: number,
   commentId: number,
 ): Promise<AxiosResponse> => request({
-    url: `${env.STORE_BASE_URL}/api/select/books/${bookId}/reviews/${reviewId}/comments/${commentId}`,
+    url: `${env.API_BASE_URL_STORE}/api/select/books/${bookId}/reviews/${reviewId}/comments/${commentId}`,
     method: 'DELETE',
   });

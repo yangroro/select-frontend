@@ -43,7 +43,7 @@ module.exports = {
   },
   output: {
     path: outputDir,
-    publicPath: `//static.${VHOST}/unlimited/dist/`,
+    publicPath: `//static.${VHOST}/dist/`,
     filename: '[name].min.js',
     chunkFilename: '[name].[chunkhash].min.js',
     hashDigestLength: 8,
@@ -84,9 +84,6 @@ module.exports = {
   },
   plugins: [
     new ProgressPlugin(),
-    new DefinePlugin({
-      'process.env.STORE_BASE_URL': `'${VHOST}'`,
-    }),
     new DotenvPlugin({
       path: '../../.env',
       systemvars: true,
