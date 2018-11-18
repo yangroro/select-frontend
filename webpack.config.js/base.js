@@ -7,7 +7,6 @@ const webpack = require('webpack');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
-const { DefinePlugin } = webpack;
 
 const PATHS = require('./paths');
 const { NameEveryModulePlugin } = require('./helpers');
@@ -26,11 +25,11 @@ const {
   outputDir,
 } = PATHS;
 
-const { VHOST = 'ridibooks.com' } = (() => {
+const { BASE_URL_STATIC = 'static.select.ridibooks.com' } = (() => {
   try {
     return dotenv.parse(fs.readFileSync('../../.env'));
   } catch (err) {
-    return process.env.VHOST ? { VHOST: process.env.VHOST } : {};
+    return process.env.BASE_URL_STATIC ? { BASE_URL_STATIC: process.env.BASE_URL_STATIC } : {};
   }
 })();
 
@@ -43,7 +42,7 @@ module.exports = {
   },
   output: {
     path: outputDir,
-    publicPath: `//static.${VHOST}/dist/`,
+    publicPath: `${BASE_URL_STATIC}/dist/`,
     filename: '[name].min.js',
     chunkFilename: '[name].[chunkhash].min.js',
     hashDigestLength: 8,

@@ -6,7 +6,7 @@ import history from 'app/config/history';
 
 const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
 
-const API_BASE_URL_ACCOUNT = process.env.API_BASE_URL_ACCOUNT || 'https://account.ridibooks.com';
+const BASE_URL_ACCOUNT_API = process.env.BASE_URL_ACCOUNT_API || 'https://account.ridibooks.com';
 
 function fixWrongPaginationScope(response: AxiosResponse) {
   if (!response.config || !response.config.params) {
@@ -50,7 +50,7 @@ function requestWithDefaultHandling(config: RequestConfig): AxiosPromise {
       fixWrongPaginationScope(error.response)
     } else if (error && error.response && error.response.status === 401) {
       return axios
-        .post(`${API_BASE_URL_ACCOUNT}/ridi/token/`, null, { withCredentials: true })
+        .post(`${BASE_URL_ACCOUNT_API}/ridi/token/`, null, { withCredentials: true })
         .then(() => axios(error.config)) // 원래 요청 재시도
         .catch(e => Promise.reject(e));
     }

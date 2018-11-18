@@ -264,14 +264,14 @@ export class BookDetail extends React.Component<Props, State> {
       return true;
     }
     if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-      window.location.replace(`${ this.props.env.constants.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ window.location.href }`);
+      window.location.replace(`${ this.props.env.constants.BASE_URL_STORE }/account/oauth-authorize?fallback=login&return_url=${ window.location.href }`);
     }
     return false;
   }
 
   private renderDownloadButton = () => {
     const { isLoggedIn, isSubscribing, hasSubscribedBefore } = this.props;
-    const { STORE_URL } = this.props.env.constants;
+    const { BASE_URL_STORE } = this.props.env.constants;
     const shouldDisplaySpinnerOnDownload = this.shouldDisplaySpinnerOnDownload();
     if (this.canDownload()) {
       return (
@@ -306,7 +306,7 @@ export class BookDetail extends React.Component<Props, State> {
           spinner={shouldDisplaySpinnerOnDownload}
           className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
           component="a"
-          href={isLoggedIn ? `${STORE_URL}/select/payments` : `${STORE_URL}/account/oauth-authorize?fallback=signup&return_url=${STORE_URL}/select/payments`}
+          href={isLoggedIn ? `${BASE_URL_STORE}/select/payments` : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`}
           onMouseDown={() => subscriptionEntryPointHelper.setPathname(window.location.pathname)}
         >
           {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}

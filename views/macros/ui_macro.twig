@@ -1,16 +1,16 @@
-{% macro render_gnb(STORE_URL, RIDISELECT_URL, USER_ID, additional_class) %} {% import "@unlimited/macros/svg_macro.twig" as svg_macro %}
+{% macro render_gnb(BASE_URL_STORE, BASE_URL, USER_ID, additional_class) %} {% import "@unlimited/macros/svg_macro.twig" as svg_macro %}
 <header class="GNBWrapper GNBWrapper-transparent {{ additional_class}}">
   {% spaceless %}
   <div class="GNBContentWrapper">
     <div class="GNBLeft">
-      <a class="GNBLogoWrapper" href="{{ RIDISELECT_URL }}">
+      <a class="GNBLogoWrapper" href="{{ BASE_URL }}">
         {{ svg_macro.ridi_select_logo() }}
         <h1 class="a11y">리디셀렉트</h1>
       </a>
       {% if not isRidiApp %}
         <ul class="GNBServiceList">
           <li class="GNBService">
-            <a class="GNBServiceLink Ridibooks_Link" href="{{ STORE_URL }}">
+            <a class="GNBServiceLink Ridibooks_Link" href="{{ BASE_URL_STORE }}">
               {{ svg_macro.ridi_books_logo('GNBServiceLogo') }}
               <h2 class="a11y">리디북스</h2>
             </a>
@@ -21,10 +21,10 @@
     <div class="GNBRight">
       <div class="GNBRightButtonWrapper">
         {% if USER_ID %}
-          <a href="{{ STORE_URL }}/account/logout?return_url={{ RIDISELECT_URL }}" class="GNB_LinkButton"><h2 class="reset-heading">로그아웃</h2></a>
+          <a href="{{ BASE_URL_STORE }}/account/logout?return_url={{ BASE_URL }}" class="GNB_LinkButton"><h2 class="reset-heading">로그아웃</h2></a>
         {% else %}
-          <a href="{{ STORE_URL }}/account/oauth-authorize?fallback=signup&return_url={{ RIDISELECT_URL }}" class="GNB_LinkButton"><h2 class="reset-heading">회원가입</h2></a>
-          <a href="{{ STORE_URL }}/account/oauth-authorize?fallback=login&return_url={{ RIDISELECT_URL }}" class="GNB_LinkButton GNB_LinkButton-fill"><h2 class="reset-heading">로그인</h2></a>
+          <a href="{{ BASE_URL_STORE }}/account/oauth-authorize?fallback=signup&return_url={{ BASE_URL }}" class="GNB_LinkButton"><h2 class="reset-heading">회원가입</h2></a>
+          <a href="{{ BASE_URL_STORE }}/account/oauth-authorize?fallback=login&return_url={{ BASE_URL }}" class="GNB_LinkButton GNB_LinkButton-fill"><h2 class="reset-heading">로그인</h2></a>
         {% endif %}
       </div>
     </div>
@@ -33,11 +33,11 @@
 </header>
 {% endmacro %}
 
-{% macro render_footer(STORE_URL) %}
+{% macro render_footer(BASE_URL_STORE) %}
 <footer class="Footer Footer-dark">
   <ul class="Footer_Headline_List">
     <li class="Footer_Headline_Item">
-      <a class="Footer_Headline_Link" href="{{ STORE_URL }}/support/app/download" target="_blank">
+      <a class="Footer_Headline_Link" href="{{ BASE_URL_STORE }}/support/app/download" target="_blank">
         <svg class="RSGIcon RSGIcon-appRidi RSGIcon-appRidi1 Ridibooks_Logo_Icon" viewBox="0 0 48 48">
           <g>
             <path d="M12.6 20.5c.6 0 1-.1 1.3-.4.2-.3.4-.7.4-1.3 0-.7-.1-1.1-.4-1.4-.3-.3-.7-.4-1.3-.4h-1.2V20.4h.1c.1.1 1.1.1 1.1.1zM29 24.1c.8 0 1.4-.3 1.7-.8.3-.5.5-1.4.5-2.8s-.2-2.3-.5-2.8-.9-.8-1.7-.8h-.6V24.1h.6z"></path>
@@ -46,7 +46,7 @@
         </svg>뷰어 다운로드</a>
     </li>
     <li class="Footer_Headline_Item">
-      <a class="Footer_Headline_Link" href="{{ RIDISELECT_URL }}/guide">이용 방법</a>
+      <a class="Footer_Headline_Link" href="{{ BASE_URL }}/guide">이용 방법</a>
     </li>
     <li class="Footer_Headline_Item">
       <a class="Footer_Headline_Link" href="https://help.ridibooks.com/hc/ko/categories/360000139267" target="_blank">리디셀렉트 FAQ</a>
@@ -65,16 +65,16 @@
   </ul>
   <ul class="Footer_Terms_List">
     <li class="Footer_Terms_Item">
-      <a class="Footer_Term_Link" href="{{ RIDISELECT_URL }}/books">서비스 도서 목록</a>
+      <a class="Footer_Term_Link" href="{{ BASE_URL }}/books">서비스 도서 목록</a>
     </li>
     <li class="Footer_Terms_Item">
-      <a class="Footer_Term_Link" href="{{ STORE_URL }}/legal/terms" target="_blank">이용약관</a>
+      <a class="Footer_Term_Link" href="{{ BASE_URL_STORE }}/legal/terms" target="_blank">이용약관</a>
     </li>
     <li class="Footer_Terms_Item">
-      <a class="Footer_Term_Link Personal_Info_Term_Link" href="{{ STORE_URL }}/legal/privacy" target="_blank">개인 정보 처리 방침</a>
+      <a class="Footer_Term_Link Personal_Info_Term_Link" href="{{ BASE_URL_STORE }}/legal/privacy" target="_blank">개인 정보 처리 방침</a>
     </li>
     <li class="Footer_Terms_Item">
-      <a class="Footer_Term_Link" href="{{ STORE_URL }}/legal/youth" target="_blank">청소년 보호 정책</a>
+      <a class="Footer_Term_Link" href="{{ BASE_URL_STORE }}/legal/youth" target="_blank">청소년 보호 정책</a>
     </li>
   </ul>
   <p class="Footer_Copyright">© RIDI Corp.</p>

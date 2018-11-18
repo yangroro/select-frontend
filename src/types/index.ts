@@ -19,10 +19,10 @@ export interface PlatformDTO {
 }
 
 export interface ConstantsDTO {
-  STORE_URL: string;
-  RIDISELECT_URL: string;
-  RIDI_PAY_URL: string;
-  STATIC_URL: string;
+  BASE_URL_STORE: string;
+  BASE_URL: string;
+  BASE_URL_RIDI_PAY_API: string;
+  BASE_URL_STATIC: string;
   FREE_PROMOTION_MONTHS: number;
 };
 

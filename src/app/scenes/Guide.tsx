@@ -11,12 +11,12 @@ import { ConnectedPageHeader } from 'app/components';
 import { RidiSelectState } from 'app/store';
 
 interface GuideProps {
-  STATIC_URL: string;
-  STORE_URL: string;
+  BASE_URL_STATIC: string;
+  BASE_URL_STORE: string;
   FREE_PROMOTION_MONTHS: number;
 }
 
-export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMOTION_MONTHS }) => {
+export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, FREE_PROMOTION_MONTHS }) => {
   return (
     <main className="SceneWrapper Guide">
       <Helmet>
@@ -34,12 +34,12 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               <span className="Guide_Item_Content_Right">
                 <img
                   className="Guide_Image"
-                  src={`${STATIC_URL}/dist/images/guide/guide_ridibooks.jpg`}
+                  src={`${BASE_URL_STATIC}/dist/images/guide/guide_ridibooks.jpg`}
                   alt=""
                 />
                 <Button
                   component="a"
-                  href={`${STORE_URL}/account/oauth-authorize?fallback=signup&return_url=${location.href}`}
+                  href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${location.href}`}
                   size="large"
                   thickBorderWidth={true}
                   outline={true}
@@ -58,7 +58,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               <MediaQuery minWidth={841}><br/><br/><br/></MediaQuery>
               <img
                 className="Guide_Image"
-                src={`${STATIC_URL}/dist/images/guide/guide_home_${FREE_PROMOTION_MONTHS}.jpg`}
+                src={`${BASE_URL_STATIC}/dist/images/guide/guide_home_${FREE_PROMOTION_MONTHS}.jpg`}
                 alt=""
               />
             </p>
@@ -70,7 +70,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               10권을 초과하는 경우, 도서를 교체해주시면 새롭게 추가한 도서를 바로 이용할 수 있습니다.
               <img
                 className="Guide_Image"
-                src={`${STATIC_URL}/dist/images/guide/guide_detail.jpg`}
+                src={`${BASE_URL_STATIC}/dist/images/guide/guide_detail.jpg`}
                 alt=""
               />
             </p>
@@ -109,7 +109,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
               뷰어/앱 실행 후 구매목록 탭에서 책을 다운로드해주세요.
               <img
                 className="Guide_Image"
-                src={`${STATIC_URL}/dist/images/guide/guide_download.jpg`}
+                src={`${BASE_URL_STATIC}/dist/images/guide/guide_download.jpg`}
                 alt=""
               />
             </p>
@@ -141,8 +141,8 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  STATIC_URL: rootState.environment.constants.STATIC_URL,
-  STORE_URL: rootState.environment.constants.STORE_URL,
+  BASE_URL_STATIC: rootState.environment.constants.BASE_URL_STATIC,
+  BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
   FREE_PROMOTION_MONTHS: rootState.environment.constants.FREE_PROMOTION_MONTHS,
 });
 

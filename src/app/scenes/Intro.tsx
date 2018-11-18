@@ -18,9 +18,9 @@ interface IntroStateProps {
   hasSubscribedBefore: boolean;
   isLoggedIn: boolean;
   uId: string;
-  STORE_URL: string;
-  STATIC_URL: string;
-  RIDISELECT_URL: string;
+  BASE_URL_STORE: string;
+  BASE_URL_STATIC: string;
+  BASE_URL: string;
   FREE_PROMOTION_MONTHS: number;
 }
 
@@ -139,9 +139,9 @@ export class Intro extends React.Component<Props, IntroPageState> {
   }
 
   public render() {
-    const { STATIC_URL, STORE_URL, FREE_PROMOTION_MONTHS, isLoggedIn, hasSubscribedBefore } = this.props;
+    const { BASE_URL_STATIC, BASE_URL_STORE, FREE_PROMOTION_MONTHS, isLoggedIn, hasSubscribedBefore } = this.props;
     const { isLoaded, currentSection, buttonFixed } = this.state;
-    const INTRO_IMAGE_DIR = `${STATIC_URL}/dist/images/intro`;
+    const INTRO_IMAGE_DIR = `${BASE_URL_STATIC}/dist/images/intro`;
     return (
       <main className="SceneWrapper">
         <Helmet>
@@ -173,7 +173,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
             <a
               id="SectionMain_Button"
               className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-              href={isLoggedIn ? (`${STORE_URL}/select/payments`) : (`${STORE_URL}/account/oauth-authorize?fallback=signup&return_url=${STORE_URL}/select/payments`)}
+              href={isLoggedIn ? (`${BASE_URL_STORE}/select/payments`) : (`${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`)}
               ref={(button: HTMLElement | null) => (this.sectionMainButton.push(button))}
             >
               {!hasSubscribedBefore ?
@@ -265,7 +265,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
               <p className="Section_Description SectionPromotion_Description">부담없이 이용해보고,<br />언제든 원클릭으로 해지 가능!</p>
               <a
                 className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-                href={isLoggedIn ? (`${STORE_URL}/select/payments`) : (`${STORE_URL}/account/oauth-authorize?fallback=signup&return_url=${STORE_URL}/select/payments`)}
+                href={isLoggedIn ? (`${BASE_URL_STORE}/select/payments`) : (`${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`)}
                 ref={(button: HTMLElement | null) => (this.sectionMainButton.push(button))}
               >
                 {FREE_PROMOTION_MONTHS}개월 무료로 읽어보기
@@ -292,9 +292,9 @@ const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
     isLoggedIn: rootState.user.isLoggedIn,
     isSubscribing: rootState.user.isSubscribing,
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
-    STORE_URL: rootState.environment.constants.STORE_URL,
-    STATIC_URL: rootState.environment.constants.STATIC_URL,
-    RIDISELECT_URL: rootState.environment.constants.RIDISELECT_URL,
+    BASE_URL_STATIC: rootState.environment.constants.BASE_URL_STATIC,
+    BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
+    BASE_URL: rootState.environment.constants.BASE_URL,
     FREE_PROMOTION_MONTHS: rootState.environment.constants.FREE_PROMOTION_MONTHS,
   };
 };

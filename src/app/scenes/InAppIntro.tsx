@@ -7,7 +7,7 @@ import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 
 interface StateProps {
-  RIDISELECT_URL: string;
+  BASE_URL: string;
 }
 
 export class InAppIntro extends React.Component<StateProps> {
@@ -39,7 +39,7 @@ export class InAppIntro extends React.Component<StateProps> {
               className="InAppIntro_Overlay_Button"
               color="blue"
               size="large"
-              onClick={() => window.android && window.android.openBrowser && window.android.openBrowser(this.props.RIDISELECT_URL)}
+              onClick={() => window.android && window.android.openBrowser && window.android.openBrowser(this.props.BASE_URL)}
             >
               리디셀렉트 구독하러 가기
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="InAppIntro_Overlay_Button_Icon">
@@ -55,7 +55,7 @@ export class InAppIntro extends React.Component<StateProps> {
 }
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  RIDISELECT_URL: rootState.environment.constants.RIDISELECT_URL,
+  BASE_URL: rootState.environment.constants.BASE_URL,
 });
 
 export const ConnectedInAppIntro = connect(mapStateToProps)(InAppIntro);

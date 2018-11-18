@@ -4,7 +4,7 @@
     return false;
   };
   var isExternalLink = function(url) {
-    var innerLinkRegex = /^{{ RIDISELECT_URL|slice(2) }}|^\/\/{{ RIDISELECT_URL|slice(2) }}|^https:\/\/{{ RIDISELECT_URL|slice(2) }}|^\/(?=\w)/g;
+    var innerLinkRegex = /^{{ BASE_URL|slice(2) }}|^\/\/{{ BASE_URL|slice(2) }}|^https:\/\/{{ BASE_URL|slice(2) }}|^\/(?=\w)/g;
     return !innerLinkRegex.test(url);
   };
 </script>

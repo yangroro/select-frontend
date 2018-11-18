@@ -10,7 +10,7 @@
 <head>
   {% if isWindows %}
   <!--[if lte IE 9]>
-      <script>location.replace('{{ STATIC_URL }}/pages/end_support_ie.html');</script>
+      <script>location.replace('{{ BASE_URL_STATIC }}/pages/end_support_ie.html');</script>
     <![endif]-->
   {% endif %}
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
@@ -28,7 +28,7 @@
 <body>
   {% include "gnb/alert.twig" %}
   <div class="PagePayments">
-    {{ ui_macro.render_gnb(STORE_URL, RIDISELECT_URL, login_user_id, 'GNBWrapper-transparent-relative') }}
+    {{ ui_macro.render_gnb(BASE_URL_STORE, BASE_URL, login_user_id, 'GNBWrapper-transparent-relative') }}
     <div class="PaymentsContent_Wrapper">
       {{ svg_macro.payment_3() }}
       {% if is_free_promotion_available %}
@@ -53,7 +53,7 @@
         </button>
       </div>
     </div>
-    {{ ui_macro.render_footer(STORE_URL) }}
+    {{ ui_macro.render_footer(BASE_URL_STORE) }}
   </div>
 
   <script src="{{ cacheBuster('dist/payments.min.js') }}"></script>

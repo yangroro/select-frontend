@@ -10,7 +10,7 @@
 <head>
   {% if isWindows %}
   <!--[if lte IE 9]>
-      <script>location.replace('{{ STATIC_URL }}/pages/end_support_ie.html');</script>
+      <script>location.replace('{{ BASE_URL_STATIC }}/pages/end_support_ie.html');</script>
     <![endif]-->
   {% endif %}
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
@@ -29,7 +29,7 @@
 <body>
   {% include "gnb/alert.twig" %}
   <div class="PageConfirmUsedCard">
-    {{ ui_macro.render_gnb(STORE_URL, RIDISELECT_URL, login_user_id, 'GNBWrapper-transparent-relative') }}
+    {{ ui_macro.render_gnb(BASE_URL_STORE, BASE_URL, login_user_id, 'GNBWrapper-transparent-relative') }}
     <form class="ConfirmUsedCard_Wrapper" action="confirm-duplicate-card-register" method="post">
       <input type="hidden" name="bill_key" value="{{ bill_key }}"/>
       {{ svg_macro.exclamation_3() }}
@@ -39,7 +39,7 @@
         카드 등록 시 무료 혜택을 받을 수 없습니다.
       </p>
       <div class="Section_Button_Wrapper ConfirmUsedCard_Button_Wrapper">
-        <a class="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button" href="{{ STORE_URL }}/select/payments/request">
+        <a class="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button" href="{{ BASE_URL_STORE }}/select/payments/request">
           다른 카드 등록하기
         </a>
         <button
@@ -50,7 +50,7 @@
         </button>
       </div>
     </form>
-    {{ ui_macro.render_footer(STORE_URL) }}
+    {{ ui_macro.render_footer(BASE_URL_STORE) }}
   </div>
 
   {{ tracking_macro.track_current_page() }}
