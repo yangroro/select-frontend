@@ -27,7 +27,7 @@ const {
 
 const { BASE_URL_STATIC = 'static.select.ridibooks.com' } = (() => {
   try {
-    return dotenv.parse(fs.readFileSync('../.env'));
+    return dotenv.parse(fs.readFileSync(path.resolve(__dirname, '../../.env')));
   } catch (err) {
     return process.env.BASE_URL_STATIC ? { BASE_URL_STATIC: process.env.BASE_URL_STATIC } : {};
   }
@@ -84,7 +84,7 @@ module.exports = {
   plugins: [
     new ProgressPlugin(),
     new DotenvPlugin({
-      path: '../.env',
+      path: path.resolve(__dirname, '../../.env'),
       systemvars: true,
     }),
     new NoEmitOnErrorsPlugin(),
