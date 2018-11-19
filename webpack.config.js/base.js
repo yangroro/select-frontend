@@ -25,11 +25,11 @@ const {
   outputDir,
 } = PATHS;
 
-const { BASE_URL_STATIC = 'static.select.ridibooks.com' } = (() => {
+const { VHOST = 'select.ridibooks.com' } = (() => {
   try {
     return dotenv.parse(fs.readFileSync(path.resolve(__dirname, '../../.env')));
   } catch (err) {
-    return process.env.BASE_URL_STATIC ? { BASE_URL_STATIC: process.env.BASE_URL_STATIC } : {};
+    return process.env.VHOST ? { VHOST: process.env.VHOST } : {};
   }
 })();
 
@@ -42,7 +42,7 @@ module.exports = {
   },
   output: {
     path: outputDir,
-    publicPath: `${BASE_URL_STATIC}/dist/`,
+    publicPath: `https://static.${VHOST}/dist/`,
     filename: '[name].min.js',
     chunkFilename: '[name].[chunkhash].min.js',
     hashDigestLength: 8,
