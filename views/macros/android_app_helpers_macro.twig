@@ -1,10 +1,10 @@
-{% macro android_app_helpers(BASE_URL) %}
+{% macro android_app_helpers(BASE_HOST) %}
 <script>
   var isLoginRequired = function(url) {
     return false;
   };
   var isExternalLink = function(url) {
-    var innerLinkRegex = /^{{ BASE_URL|slice(2) }}|^\/\/{{ BASE_URL|slice(2) }}|^https:\/\/{{ BASE_URL|slice(2) }}|^\/(?=\w)/g;
+    var innerLinkRegex = /^{{ BASE_HOST }}|^\/\/{{ BASE_HOST }}|^https:\/\/{{ BASE_HOST }}|^\/(?=\w)/g;
     return !innerLinkRegex.test(url);
   };
 </script>
