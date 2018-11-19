@@ -25,11 +25,11 @@ const {
   outputDir,
 } = PATHS;
 
-const { VHOST = 'select.ridibooks.com' } = (() => {
+const { HOST_STATIC = 'static.select.ridibooks.com' } = (() => {
   try {
     return dotenv.parse(fs.readFileSync(path.resolve(__dirname, '../../.env')));
   } catch (err) {
-    return process.env.VHOST ? { VHOST: process.env.VHOST } : {};
+    return process.env.HOST_STATIC ? { HOST_STATIC: process.env.HOST_STATIC } : {};
   }
 })();
 
@@ -42,7 +42,7 @@ module.exports = {
   },
   output: {
     path: outputDir,
-    publicPath: `https://static.${VHOST}/dist/`,
+    publicPath: `https://${HOST_STATIC}/dist/`,
     filename: '[name].min.js',
     chunkFilename: '[name].[chunkhash].min.js',
     hashDigestLength: 8,
