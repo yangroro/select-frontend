@@ -129,7 +129,7 @@ export class SearchResult extends React.Component<Props, State> {
               color="blue"
               outline={true}
               component="a"
-              href={`${environment.constants.STORE_URL}/search?q=${encodeURIComponent(query)}`}
+              href={`${environment.constants.BASE_URL_STORE}/search?q=${encodeURIComponent(query)}`}
               className="PageSearchResult_RidibooksResult"
               size="large"
             >

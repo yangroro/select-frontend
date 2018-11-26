@@ -85,6 +85,6 @@ export const requestBookDetail = (bookId: number): Promise<BookDetailResponse> =
 
 export const requestBookOwnership = (bookId: number): Promise<BookOwnershipStatus> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/books/${bookId}`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books/${bookId}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<BookOwnershipStatus>>(response, { recursive: true }).data);

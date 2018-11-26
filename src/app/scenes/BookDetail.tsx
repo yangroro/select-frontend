@@ -243,14 +243,14 @@ export class BookDetail extends React.Component<Props, State> {
       return true;
     }
     if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-      window.location.replace(`${ this.props.env.constants.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ window.location.href }`);
+      window.location.replace(`${ this.props.env.constants.BASE_URL_STORE }/account/oauth-authorize?fallback=login&return_url=${ window.location.href }`);
     }
     return false;
   }
 
   private renderDownloadButton = () => {
     const { isLoggedIn, isSubscribing, hasSubscribedBefore, env } = this.props;
-    const { STORE_URL } = this.props.env.constants;
+    const { BASE_URL_STORE } = this.props.env.constants;
     const shouldDisplaySpinnerOnDownload = this.shouldDisplaySpinnerOnDownload();
     if (this.canDownload()) {
       return (

@@ -85,7 +85,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   public render() {
     const { subscriptionState, environment } = this.props;
     const { isUnsubscribeWarningPopupActive } = this.state;
-    const { RIDI_PAY_URL } = environment.constants;
+    const { BASE_URL_RIDI_PAY_API } = environment.constants;
     return (
       <main className="SceneWrapper PageManageSubscription">
         <Helmet>
@@ -127,7 +127,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                       <div className="SubscriptionInfo_Data">
                         {subscriptionState.paymentMethod}
                         {subscriptionState.isUsingRidipay ? (
-                          <a className="SubscriptionInfo_Link" href={`${RIDI_PAY_URL}/settings`}>
+                          <a className="SubscriptionInfo_Link" href={`${BASE_URL_RIDI_PAY_API}/settings`}>
                             카드 관리
                             <Icon
                               name="arrow_5_right"

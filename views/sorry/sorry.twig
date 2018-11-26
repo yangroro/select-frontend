@@ -8,14 +8,13 @@
   <title>{{ title ? title ~ ' - ' }}리디</title>
 
   {# =========================== XML for open search #}
-  <link title="리디북스 검색" rel="search" type="application/opensearchdescription+xml" href="{{ cacheBuster('books/dist/xml/open_search_description.xml') }}">
+  <link rel="search" title="리디셀렉트 검색" type="application/opensearchdescription+xml" href="{{ cacheBuster('public/select-open-search-description.xml') }}">
 
   {# =========================== CSS #}
-  <link rel="stylesheet" href="{{ cacheBuster('books/dist/css/page_base.c.css') }}"/>
-  <link rel="stylesheet" href="{{ cacheBuster('store/dist/base.css') }}"/>
-  {% set DEVICE_TYPE = isPaper ? '.e' : '' %}
-  <link rel="stylesheet" href="{{ cacheBuster('books/dist/css/rui' ~ DEVICE_TYPE  ~ '.css') }}"/>
-  <link rel="stylesheet" href="{{ cacheBuster('books/dist/css/page_error.css') }}"/>
+  {# TODO: 리디셀렉트 독립적으로 사용할 수 있는 스타일 구성해 사용 #}
+  <link rel="stylesheet" href="https://static.ridibooks.com/books/dist/css/page_base.c.css"/>
+  <link rel="stylesheet" href="https://static.ridibooks.com/books/dist/css/rui.css"/>
+  <link rel="stylesheet" href="https://static.ridibooks.com/books/dist/css/page_error.css"/>
   {% if isRidiApp %}
     <style>
       #header_wrapper { display: none; }

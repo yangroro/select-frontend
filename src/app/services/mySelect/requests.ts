@@ -32,7 +32,7 @@ export interface MySelectDeleteResponse {
 
 export const requestMySelectList = (page: number): Promise<MySelectListResponse> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/books`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books`,
     method: 'GET',
     params: {
       newest_first: true,
@@ -42,7 +42,7 @@ export const requestMySelectList = (page: number): Promise<MySelectListResponse>
 
 export const requestDeleteMySelect = (mySelectBookIds: number[]): Promise<AxiosResponse<MySelectDeleteResponse>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/books`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books`,
     method: 'DELETE',
     data: {
       user_select_book_ids: mySelectBookIds,
@@ -51,7 +51,7 @@ export const requestDeleteMySelect = (mySelectBookIds: number[]): Promise<AxiosR
 
 export const requestAddMySelect = (bookId: BookId): Promise<UserRidiSelectBookResponse> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/books`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books`,
     method: 'POST',
     data: {
       b_id: String(bookId),

@@ -14,8 +14,8 @@ interface Props {
   gnbType: GNBColorLevel;
   solidBackgroundColorRGBString: string;
   backgroundColorRGBString: string;
-  STORE_URL: string;
-  RIDISELECT_URL: string;
+  BASE_URL_STORE: string;
+  BASE_URL: string;
   isLoggedIn: boolean;
   isSubscribing: boolean;
   showRidibooksLogo: boolean;
@@ -30,8 +30,8 @@ export const GNB: React.SFC<Props> = (props) => {
     backgroundColorRGBString,
     isLoggedIn,
     isSubscribing,
-    STORE_URL,
-    RIDISELECT_URL,
+    BASE_URL_STORE,
+    BASE_URL,
     showRidibooksLogo,
     showGnbRightSection,
     logoType,
@@ -67,7 +67,7 @@ export const GNB: React.SFC<Props> = (props) => {
               <li className="GNBService">
                 <a
                   className="GNBServiceLink Ridibooks_Link"
-                  href={`${ window.location.protocol }${ STORE_URL }`}
+                  href={`${ window.location.protocol }${ BASE_URL_STORE }`}
                 >
                   <Icon
                     name="logo_ridibooks_1"
@@ -98,7 +98,7 @@ export const GNB: React.SFC<Props> = (props) => {
           {isLoggedIn && !isSubscribing && (
             <div className="GNBRightButtonWrapper">
               <a
-                href={`${ STORE_URL }/account/logout?return_url=${ RIDISELECT_URL }`}
+                href={`${ BASE_URL_STORE }/account/logout?return_url=${ BASE_URL }`}
                 className="GNB_LinkButton"
               >
                 <h2 className="reset-heading">로그아웃</h2>
@@ -108,7 +108,7 @@ export const GNB: React.SFC<Props> = (props) => {
           {!isLoggedIn && (
             <div className="GNBRightButtonWrapper">
               <a
-                href={`${ STORE_URL }/account/oauth-authorize?fallback=signup&return_url=${ window.location.href }`}
+                href={`${ BASE_URL_STORE }/account/oauth-authorize?fallback=signup&return_url=${ window.location.href }`}
                 className="GNB_LinkButton"
               >
                 <h2 className="reset-heading">회원가입</h2>
@@ -116,7 +116,7 @@ export const GNB: React.SFC<Props> = (props) => {
               <MediaQuery maxWidth={840}>
                 {(matches) => (
                   <a
-                    href={`${ STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ window.location.href }`}
+                    href={`${ BASE_URL_STORE }/account/oauth-authorize?fallback=login&return_url=${ window.location.href }`}
                     className="GNB_LinkButton GNB_LinkButton-fill"
                     style={matches ? { color: solidBackgroundColorRGBString } : {}}
                   >
@@ -136,8 +136,8 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   gnbType: rootState.commonUI.gnbTransparentType === GNBTransparentType.transparent ? 'transparent' : rootState.commonUI.gnbColorLevel,
   solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(rootState),
   backgroundColorRGBString: rootState.commonUI.gnbTransparentType === GNBTransparentType.transparent ? 'rgba(0,0,0,0)' : getSolidBackgroundColorRGBString(rootState),
-  STORE_URL: rootState.environment.constants.STORE_URL,
-  RIDISELECT_URL: rootState.environment.constants.RIDISELECT_URL,
+  BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
+  BASE_URL: rootState.environment.constants.BASE_URL,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
   showRidibooksLogo: !rootState.environment.platform.isRidiApp,

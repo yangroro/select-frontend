@@ -8,7 +8,7 @@ export default function showMessageForRequestError(e: any) {
   if (e.response && e.response.status === 401) {
     toast.fail('재로그인이 필요합니다.', {
       link: {
-        url: `${env.STORE_BASE_URL}/account/oauth-authorize`,
+        url: `${env.BASE_URL_STORE_API}/account/oauth-authorize`,
         label: '로그인',
         showArrowIcon: true,
       },

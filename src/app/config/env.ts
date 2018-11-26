@@ -6,5 +6,6 @@ export const env = {
   development: process.env.NODE_ENV !== 'production',
   useMockResponses: typeof USE_MOCK_RESPONSES !== 'undefined' ? USE_MOCK_RESPONSES : false,
   delayResponse: typeof DELAY_RESPONSE !== 'undefined' ? DELAY_RESPONSE : false,
-  STORE_BASE_URL: `${window.location.protocol}//${process.env.STORE_BASE_URL}`,
+  BASE_URL_STORE_API: `${process.env.BASE_URL_STORE_API}`,
+  SENTRY_DSN_FRONTEND: `${process.env.SENTRY_DSN_FRONTEND}`,
 };

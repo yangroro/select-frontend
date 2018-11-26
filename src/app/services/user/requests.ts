@@ -51,18 +51,18 @@ export interface AccountsMeResponse {
   }
 }
 
-const ACCOUNT_BASE_URL = process.env.ACCOUNT_BASE_URL || 'https://account.ridibooks.com';
+const BASE_URL_ACCOUNT_API = process.env.BASE_URL_ACCOUNT_API || 'https://account.ridibooks.com';
 
 export const requestSubscription = (): Promise<AxiosResponse<SubscriptionResponse>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/subscription`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/subscription`,
     method: 'GET',
   }).then((response: AxiosResponse<SubscriptionResponse>) =>
     camelize<AxiosResponse<SubscriptionResponse>>(response.data, { recursive: true }));
 
 export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesResponse>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/purchases`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/purchases`,
     data: { page },
     method: 'GET',
   }).then((response: AxiosResponse<PurchasesResponse>) =>
@@ -70,13 +70,13 @@ export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesR
 
 export const requestCancelPurchase = (ticketId: number): Promise<AxiosResponse<CancelPurchaseResponse>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/purchases/${ticketId}`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/purchases/${ticketId}`,
     method: 'DELETE',
   })
 
 export const reqeustMySelectHistory = (page: number): Promise<AxiosResponse<MySelectHistoryResponse>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/books/history`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books/history`,
     method: 'GET',
     params: { page },
   }).then((response) =>
@@ -84,7 +84,7 @@ export const reqeustMySelectHistory = (page: number): Promise<AxiosResponse<MySe
 
 export const reqeustDeleteMySelectHistory = (mySelectBookIds: number[]): Promise<AxiosResponse<any>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/books/history`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books/history`,
     method: 'DELETE',
     data: {
       user_select_book_ids: mySelectBookIds,
@@ -93,19 +93,19 @@ export const reqeustDeleteMySelectHistory = (mySelectBookIds: number[]): Promise
 
 export const requestUnsubscribe = (subscriptionId: number): Promise<AxiosResponse<any>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/subscription/${subscriptionId}`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
     method: 'DELETE',
   });
 
 export const requestCancelUnsubscription = (subscriptionId: number): Promise<AxiosResponse<any>> =>
   request({
-    url: `${env.STORE_BASE_URL}/api/select/users/me/subscription/${subscriptionId}`,
+    url: `${env.BASE_URL_STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
     method: 'PUT',
   });
 
 export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> =>
   axios({
-    url: `${ACCOUNT_BASE_URL}/accounts/me`,
+    url: `${BASE_URL_ACCOUNT_API}/accounts/me`,
     method: 'GET',
     timeout: 3000,
     withCredentials: true

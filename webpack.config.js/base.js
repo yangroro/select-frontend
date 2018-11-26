@@ -7,7 +7,6 @@ const webpack = require('webpack');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
-const { DefinePlugin } = webpack;
 
 const PATHS = require('./paths');
 const { NameEveryModulePlugin } = require('./helpers');
@@ -26,11 +25,11 @@ const {
   outputDir,
 } = PATHS;
 
-const { VHOST = 'ridibooks.com' } = (() => {
+const { HOST_STATIC = 'static.select.ridibooks.com' } = (() => {
   try {
-    return dotenv.parse(fs.readFileSync('../../.env'));
+    return dotenv.parse(fs.readFileSync(path.resolve(__dirname, '../../.env')));
   } catch (err) {
-    return process.env.VHOST ? { VHOST: process.env.VHOST } : {};
+    return process.env.HOST_STATIC ? { HOST_STATIC: process.env.HOST_STATIC } : {};
   }
 })();
 
@@ -40,10 +39,11 @@ module.exports = {
     polyfill: ['app/config/customEvent.polyfill.js', 'core-js/shim', 'whatwg-fetch', 'element-closest'],
     main: 'app/index.tsx',
     payments: 'standalone/payments.ts',
+    sentry: 'app/utils/sentry.js'
   },
   output: {
     path: outputDir,
-    publicPath: `//static.${VHOST}/unlimited/dist/`,
+    publicPath: `https://${HOST_STATIC}/dist/`,
     filename: '[name].min.js',
     chunkFilename: '[name].[chunkhash].min.js',
     hashDigestLength: 8,
@@ -84,11 +84,8 @@ module.exports = {
   },
   plugins: [
     new ProgressPlugin(),
-    new DefinePlugin({
-      'process.env.STORE_BASE_URL': `'${VHOST}'`,
-    }),
     new DotenvPlugin({
-      path: '../../.env',
+      path: path.resolve(__dirname, '../../.env'),
       systemvars: true,
     }),
     new NoEmitOnErrorsPlugin(),
