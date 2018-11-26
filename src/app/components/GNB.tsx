@@ -15,7 +15,7 @@ interface Props {
   solidBackgroundColorRGBString: string;
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
-  BASE_URL: string;
+  BASE_URL_RIDISELECT: string;
   isLoggedIn: boolean;
   isSubscribing: boolean;
   showRidibooksLogo: boolean;
@@ -31,7 +31,7 @@ export const GNB: React.SFC<Props> = (props) => {
     isLoggedIn,
     isSubscribing,
     BASE_URL_STORE,
-    BASE_URL,
+    BASE_URL_RIDISELECT,
     showRidibooksLogo,
     showGnbRightSection,
     logoType,
@@ -98,7 +98,7 @@ export const GNB: React.SFC<Props> = (props) => {
           {isLoggedIn && !isSubscribing && (
             <div className="GNBRightButtonWrapper">
               <a
-                href={`${ BASE_URL_STORE }/account/logout?return_url=${ BASE_URL }`}
+                href={`${ BASE_URL_STORE }/account/logout?return_url=${ BASE_URL_RIDISELECT }`}
                 className="GNB_LinkButton"
               >
                 <h2 className="reset-heading">로그아웃</h2>
@@ -137,7 +137,7 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(rootState),
   backgroundColorRGBString: rootState.commonUI.gnbTransparentType === GNBTransparentType.transparent ? 'rgba(0,0,0,0)' : getSolidBackgroundColorRGBString(rootState),
   BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
-  BASE_URL: rootState.environment.constants.BASE_URL,
+  BASE_URL_RIDISELECT: rootState.environment.constants.BASE_URL_RIDISELECT,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
   showRidibooksLogo: !rootState.environment.platform.isRidiApp,
