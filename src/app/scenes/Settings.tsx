@@ -59,7 +59,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   public renderSubscriptionInfo() {
     const { uId, subscriptionState, isPurchaseCancelFetching, latestPurchaseTicket, environment } = this.props;
-    const { BASE_URL_STORE, BASE_URL } = environment.constants;
+    const { BASE_URL_STORE, BASE_URL_RIDISELECT } = environment.constants;
     const { ticketStartDate, ticketEndDate, isOptout } = subscriptionState!;
     const isPurchaseCancellable = !!latestPurchaseTicket && latestPurchaseTicket.isCancellable;
     const latestPurchaseId = latestPurchaseTicket && latestPurchaseTicket.id;
@@ -131,7 +131,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   public render() {
     const { environment, subscriptionState } = this.props;
-    const { BASE_URL_STORE, BASE_URL } = environment.constants;
+    const { BASE_URL_STORE, BASE_URL_RIDISELECT } = environment.constants;
 
     return (
       <main className="SceneWrapper PageSetting">
@@ -205,7 +205,7 @@ export class Settings extends React.PureComponent<SettingProps> {
             <li className="SettingMenu_Item">
               <a
                 className="SettingMenu_Link"
-                href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL}/`}
+                href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}/`}
                 target="_self"
               >
                 <Icon name="exit_1" className="SettingMenu_Icon SettingMenu_Logout_Icon" />

@@ -1,9 +1,9 @@
-{% macro render_gnb(BASE_URL_STORE, BASE_URL, USER_ID, additional_class) %} {% import "@unlimited/macros/svg_macro.twig" as svg_macro %}
+{% macro render_gnb(BASE_URL_STORE, BASE_URL_RIDISELECT, USER_ID, additional_class) %} {% import "@unlimited/macros/svg_macro.twig" as svg_macro %}
 <header class="GNBWrapper GNBWrapper-transparent {{ additional_class}}">
   {% spaceless %}
   <div class="GNBContentWrapper">
     <div class="GNBLeft">
-      <a class="GNBLogoWrapper" href="{{ BASE_URL }}">
+      <a class="GNBLogoWrapper" href="{{ BASE_URL_RIDISELECT }}">
         {{ svg_macro.ridi_select_logo() }}
         <h1 class="a11y">리디셀렉트</h1>
       </a>
@@ -21,10 +21,10 @@
     <div class="GNBRight">
       <div class="GNBRightButtonWrapper">
         {% if USER_ID %}
-          <a href="{{ BASE_URL_STORE }}/account/logout?return_url={{ BASE_URL }}" class="GNB_LinkButton"><h2 class="reset-heading">로그아웃</h2></a>
+          <a href="{{ BASE_URL_STORE }}/account/logout?return_url={{ BASE_URL_RIDISELECT }}" class="GNB_LinkButton"><h2 class="reset-heading">로그아웃</h2></a>
         {% else %}
-          <a href="{{ BASE_URL_STORE }}/account/oauth-authorize?fallback=signup&return_url={{ BASE_URL }}" class="GNB_LinkButton"><h2 class="reset-heading">회원가입</h2></a>
-          <a href="{{ BASE_URL_STORE }}/account/oauth-authorize?fallback=login&return_url={{ BASE_URL }}" class="GNB_LinkButton GNB_LinkButton-fill"><h2 class="reset-heading">로그인</h2></a>
+          <a href="{{ BASE_URL_STORE }}/account/oauth-authorize?fallback=signup&return_url={{ BASE_URL_RIDISELECT }}" class="GNB_LinkButton"><h2 class="reset-heading">회원가입</h2></a>
+          <a href="{{ BASE_URL_STORE }}/account/oauth-authorize?fallback=login&return_url={{ BASE_URL_RIDISELECT }}" class="GNB_LinkButton GNB_LinkButton-fill"><h2 class="reset-heading">로그인</h2></a>
         {% endif %}
       </div>
     </div>
@@ -46,7 +46,7 @@
         </svg>뷰어 다운로드</a>
     </li>
     <li class="Footer_Headline_Item">
-      <a class="Footer_Headline_Link" href="{{ BASE_URL }}/guide">이용 방법</a>
+      <a class="Footer_Headline_Link" href="{{ BASE_URL_RIDISELECT }}/guide">이용 방법</a>
     </li>
     <li class="Footer_Headline_Item">
       <a class="Footer_Headline_Link" href="https://help.ridibooks.com/hc/ko/categories/360000139267" target="_blank">리디셀렉트 FAQ</a>
@@ -65,7 +65,7 @@
   </ul>
   <ul class="Footer_Terms_List">
     <li class="Footer_Terms_Item">
-      <a class="Footer_Term_Link" href="{{ BASE_URL }}/books">서비스 도서 목록</a>
+      <a class="Footer_Term_Link" href="{{ BASE_URL_RIDISELECT }}/books">서비스 도서 목록</a>
     </li>
     <li class="Footer_Terms_Item">
       <a class="Footer_Term_Link" href="{{ BASE_URL_STORE }}/legal/terms" target="_blank">이용약관</a>

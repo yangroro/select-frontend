@@ -20,7 +20,7 @@ interface IntroStateProps {
   uId: string;
   BASE_URL_STORE: string;
   BASE_URL_STATIC: string;
-  BASE_URL: string;
+  BASE_URL_RIDISELECT: string;
   FREE_PROMOTION_MONTHS: number;
 }
 
@@ -294,7 +294,7 @@ const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
     BASE_URL_STATIC: rootState.environment.constants.BASE_URL_STATIC,
     BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
-    BASE_URL: rootState.environment.constants.BASE_URL,
+    BASE_URL_RIDISELECT: rootState.environment.constants.BASE_URL_RIDISELECT,
     FREE_PROMOTION_MONTHS: rootState.environment.constants.FREE_PROMOTION_MONTHS,
   };
 };
