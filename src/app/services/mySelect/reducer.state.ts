@@ -1,5 +1,6 @@
 import { FetchStatusFlag } from 'app/constants';
 import { Book } from 'app/services/book';
+import { Paginated } from 'app/types';
 
 export interface MySelectBook extends Book {
   mySelectBookId: number;
@@ -7,22 +8,23 @@ export interface MySelectBook extends Book {
   endDate: string;
 }
 
+export interface PaginatedMySelectBooks extends Paginated<MySelectBook> {
+  size: number;
+}
+
 export interface MySelectState {
-  fetchStatus: FetchStatusFlag;
   deletionFetchStatus: FetchStatusFlag;
   additionFetchStatus: FetchStatusFlag;
   replacementFetchStatus: FetchStatusFlag;
-  books: MySelectBook[];
-  isFetched: boolean;
-  replacingBookId: number | null;
+  mySelectBooks: PaginatedMySelectBooks;
 }
 
 export const mySelectInitialState: MySelectState = {
-  fetchStatus: FetchStatusFlag.IDLE,
   deletionFetchStatus: FetchStatusFlag.IDLE,
   additionFetchStatus: FetchStatusFlag.IDLE,
   replacementFetchStatus: FetchStatusFlag.IDLE,
-  books: [],
-  isFetched: false,
-  replacingBookId: null,
+  mySelectBooks: {
+    itemListByPage: {},
+    size: 0,
+  },
 };

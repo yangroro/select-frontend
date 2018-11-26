@@ -58,7 +58,7 @@
 
   <script src="{{ cacheBuster('unlimited/dist/payments.min.js') }}"></script>
   {{ tracking_macro.track_current_page() }}
-  {{ custom_event_macro.ridi_select_load(isPc, isTablet, isMobile, isPaper, paperDeviceModel, isRidiApp, free_promotion_months) }}
+  {{ custom_event_macro.ridi_select_load(login_user_id, isPc, isTablet, isMobile, isPaper, paperDeviceModel, isRidiApp, free_promotion_months) }}
   {{ ui_macro.load_font() }}
 </body>
 

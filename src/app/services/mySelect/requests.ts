@@ -5,6 +5,11 @@ import request from 'app/utils/request';
 import { AxiosResponse } from 'axios';
 import { env } from 'app/config/env';
 
+export interface BookIdsPair {
+  bookId: number;
+  mySelectBookId: number;
+}
+
 export interface UserRidiSelectBookResponse {
   id: number;
   bId: string;
@@ -13,8 +18,11 @@ export interface UserRidiSelectBookResponse {
   book: Book;
 }
 
+// TODO: 반환되는 response에 따라 서 수정 필요
 export interface MySelectListResponse {
   userRidiSelectBooks: UserRidiSelectBookResponse[];
+  totalCount: number;
+  size: number;
 }
 
 export interface MySelectDeleteResponse {
@@ -22,12 +30,13 @@ export interface MySelectDeleteResponse {
   message: string;
 }
 
-export const requestMySelectList = (): Promise<MySelectListResponse> =>
+export const requestMySelectList = (page: number): Promise<MySelectListResponse> =>
   request({
     url: `${env.STORE_BASE_URL}/api/select/users/me/books`,
     method: 'GET',
     params: {
       newest_first: true,
+      page,
     },
   }).then((response) => camelize<AxiosResponse<MySelectListResponse>>(response, { recursive: true }).data);
 

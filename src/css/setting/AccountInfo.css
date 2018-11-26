@@ -103,15 +103,6 @@
   vertical-align: top;
 }
 
-.ManageSubscriptionButton {
-  display: block;
-  width: 100%;
-  max-width: var(--max-pc-content-width);
-  height: 40px;
-  margin-top: 20px;
-  line-height: 2.8em;
-}
-
 .SubscriptionInfoWrapper.Skeleton_Wrapper {
   box-sizing: border-box;
   height: 231px;
@@ -162,7 +153,13 @@
 }
 .MoveToNewRelease_Button,
 .Unsubscribe_Button {
+  display: block;
+  align-items: initial;
+  justify-content: initial;
   width: 100%;
+  text-align: center;
+  pointer-events: all;
+  vertical-align: middle;
 }
 
 .Unsubscribe_Button {
@@ -219,15 +216,6 @@
   }
   .NextSubscriptionInfo_Icon {
     top: 4px;
-  }
-
-  .ManageSubscriptionButton {
-    width: var(--min-content-width);
-    margin: 18px auto 0;
-    border-width: 2px;
-    &.expired {
-      color: var(--brown_50);
-    }
   }
 
   .SubscriptionInfoWrapper.Skeleton_Wrapper {

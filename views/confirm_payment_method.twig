@@ -46,7 +46,7 @@
           <svg class="RSGIcon RSGIcon-arrowRight RSGIcon-arrow5Right PagePayments_RidiPaySettings_Icon" viewBox="0 0 22 37"><path d="M3.5.5c.3 0 .6.1.9.3l16.8 16.8c.3.3.3.4.3.9 0 .3-.2.6-.3.9L4.4 36.2c-.3.3-.5.3-.9.3s-.6-.2-.9-.3L.8 34.4c-.1-.3-.3-.6-.3-.9 0-.3.1-.6.3-.9L15 18.3.8 4.4c-.2-.3-.3-.6-.3-.9 0-.3.1-.6.3-.9L2.6.8c.3-.2.6-.3.9-.3z"></path></svg>
         </a>
         <a class="RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button Payments_SubscribeButton"
-          href="/select/payments/ridi-pay/callback?payment_method_id={{ card.payment_method_id }}"
+          href="/select/payments/ridi-pay/callback?payment_method_id={{ card.payment_method_id }}&return_url={{ return_url }}"
         >
           구독 시작하기
         </a>
@@ -56,7 +56,7 @@
   </div>
 
   {{ tracking_macro.track_current_page() }}
-  {{ custom_event_macro.ridi_select_load(USER_ID, isPc, isTablet, isMobile, isPaper, paperDeviceModel, isRidiApp, IS_RIDI_SELECT_SUBSCRIBER, free_promotion_months, is_free_promotion_available) }}
+  {{ custom_event_macro.ridi_select_load(login_user_id, isPc, isTablet, isMobile, isPaper, paperDeviceModel, isRidiApp, free_promotion_months) }}
   {{ ui_macro.load_font() }}
 </body>
 

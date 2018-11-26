@@ -3,11 +3,13 @@ import { CheckBox } from '@ridi/rsg/components/dist/check_box';
 import { Empty } from '@ridi/rsg/components/dist/empty';
 import { PCPageHeader } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
-import { MySelectBook } from 'app/services/mySelect';
+import { MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 import {
   ActionDeleteMySelectRequest,
   deleteMySelectRequest,
   loadMySelectRequest,
+  resetMySelectPageFetchedStatus,
+  ActionResetMySelectPageFetchedStatus,
 } from 'app/services/mySelect/actions';
 import { ActionLoadSelectionRequest } from 'app/services/selection/actions';
 import { RidiSelectState } from 'app/store';
@@ -20,16 +22,20 @@ import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import { BookIdsPair } from 'app/services/mySelect/requests';
 
 interface StateProps {
-  books: MySelectBook[];
-  fetchStatus: FetchStatusFlag;
+  mySelectBooks: PaginatedMySelectBooks;
   deletionFetchStatus: FetchStatusFlag;
+  page: number;
 }
 
 interface DispatchProps {
-  dispatchLoadMySelectRequest: () => ActionLoadSelectionRequest;
-  dispatchDeleteMySelectRequest: (mySelectBookIds: number[]) => ActionDeleteMySelectRequest;
+  dispatchLoadMySelectRequest: (page: number) => ActionLoadSelectionRequest;
+  dispatchDeleteMySelectRequest: (deleteBookIdPairs: Array<BookIdsPair>, page: number, isEveryBookChecked: boolean) => ActionDeleteMySelectRequest;
+  dispatchResetMySelectPageFetchedStatus: (page: number) => ActionResetMySelectPageFetchedStatus;
 }
 
 type Props = StateProps & DispatchProps;
@@ -50,7 +56,8 @@ class MySelect extends React.Component<Props, State> {
 
   private handleDeleteButtonClick = () => {
     const { bookInputs } = this.state;
-    const { deletionFetchStatus, dispatchDeleteMySelectRequest, books } = this.props;
+    const { deletionFetchStatus, dispatchDeleteMySelectRequest, mySelectBooks, page } = this.props;
+    const isEveryBookChecked = this.areEveryBookChecked();
     const bookEntries: Array<[string, boolean]> = Object.entries(bookInputs);
     if (!bookEntries.some((entry) => entry[1]) || deletionFetchStatus !== FetchStatusFlag.IDLE) {
       toast.fail('삭제할 책을 선택해주세요.');
@@ -59,20 +66,24 @@ class MySelect extends React.Component<Props, State> {
     if (!confirm('삭제하시겠습니까?')) {
       return;
     }
-    const mySelectBookIds = this.props.books
+    const deleteBookIdPairs = mySelectBooks.itemListByPage[page].itemList
       .filter((book) => !!bookInputs[book.mySelectBookId])
-      .map((book) => book.mySelectBookId);
-    dispatchDeleteMySelectRequest(mySelectBookIds);
+      .map((book) => ({
+        bookId: book.id,
+        mySelectBookId: book.mySelectBookId,
+      }));
+    dispatchDeleteMySelectRequest(deleteBookIdPairs, page, isEveryBookChecked);
   }
 
   private handleDownloadSelectedBooksButtonClick = () => {
     const { bookInputs } = this.state;
+    const { mySelectBooks, page } = this.props;
     const bookEntries: Array<[string, boolean]> = Object.entries(bookInputs);
     if (bookEntries.filter(([_, selected]) => selected).length === 0) {
       toast.fail('다운로드할 책을 선택해주세요.');
       return;
     }
-    const bookIds = this.props.books
+    const bookIds = mySelectBooks.itemListByPage[page].itemList
       .filter((book) => !!bookInputs[book.mySelectBookId])
       .map((book) => book.id);
     downloadBooksInRidiselect(bookIds);
@@ -83,8 +94,10 @@ class MySelect extends React.Component<Props, State> {
   }
 
   private handleSelectAllCheckBoxChange = () => {
+    const { mySelectBooks, page } = this.props;
+    const books = mySelectBooks.itemListByPage[page].itemList
     this.setState({
-      bookInputs: this.props.books.reduce((prev, book) => {
+      bookInputs: books.reduce((prev, book) => {
         return {
           ...prev,
           [book.mySelectBookId]: !this.areEveryBookChecked(),
@@ -93,22 +106,44 @@ class MySelect extends React.Component<Props, State> {
     })
   }
 
-  private areEveryBookChecked = () => Object.keys(this.state.bookInputs).length > 0 &&
-    this.props.books.every((book) => this.state.bookInputs[book.mySelectBookId]);
+  private areEveryBookChecked = () => {
+    const { bookInputs } = this.state;
+    const { mySelectBooks, page } = this.props;
+
+    const books = mySelectBooks.itemListByPage[page].itemList;
+
+    return Object.keys(bookInputs).length > 0 && books.every((book) => bookInputs[book.mySelectBookId]);
+  }
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      this.props.dispatchLoadMySelectRequest();
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
     });
   }
 
   public componentDidUpdate(prevProps: Props) {
-    if (prevProps.books.length !== this.props.books.length) {
+    const { dispatchResetMySelectPageFetchedStatus, mySelectBooks, page } = this.props;
+    if (prevProps.page !== page) {
+      this.setState({
+        bookInputs: {},
+      });
+      dispatchResetMySelectPageFetchedStatus(prevProps.page);
+    }
+    const books =
+      mySelectBooks &&
+      mySelectBooks.itemListByPage[page] &&
+      mySelectBooks.itemListByPage[page].itemList ?
+      mySelectBooks.itemListByPage[page].itemList : [];
+    const prevBooksLength =
+      prevProps.mySelectBooks &&
+      prevProps.mySelectBooks.itemListByPage[prevProps.page] &&
+      prevProps.mySelectBooks.itemListByPage[prevProps.page].itemList ?
+      prevProps.mySelectBooks.itemListByPage[prevProps.page].itemList.length : 0;
+    if (prevBooksLength !== books.length) {
       // Set up state for checkboxes
       this.setState({
-        bookInputs: Object.values(this.props.books).reduce((prev, book: MySelectBook) => {
+        bookInputs: Object.values(books).reduce((prev, book: MySelectBook) => {
           return {
             ...prev,
             [book.mySelectBookId]: this.state.bookInputs[book.mySelectBookId] || false,
@@ -119,15 +154,16 @@ class MySelect extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
+    const { page, dispatchResetMySelectPageFetchedStatus } = this.props;
     if (this.initialDispatchTimeout) {
       window.clearTimeout(this.initialDispatchTimeout);
       this.initialDispatchTimeout = null;
-      this.setState({ isInitialized: true });
+      this.setState({ isInitialized: false });
     }
+    dispatchResetMySelectPageFetchedStatus(page);
   }
 
-  public renderBooks() {
-    const { books } = this.props;
+  public renderBooks(books: Array<MySelectBook>) {
     return (
       <div>
         <ul className="MySelectBookList">
@@ -178,74 +214,89 @@ class MySelect extends React.Component<Props, State> {
     );
   }
   public render() {
-    const { books, fetchStatus } = this.props;
+    const { mySelectBooks, dispatchLoadMySelectRequest } = this.props;
     return (
       <main className="SceneWrapper">
         <Helmet>
           <title>마이 셀렉트 - 리디셀렉트</title>
         </Helmet>
-        {(
-          !this.state.isInitialized ||
-          fetchStatus === FetchStatusFlag.FETCHING
-        ) ? (
-          <div className="PageMySelect Skeleton_Wrapper">
-            <PCPageHeader pageTitle="마이 셀렉트" />
+        <div className="PageMySelect">
+          {!this.state.isInitialized ? (
             <LandscapeBookListSkeleton hasCheckbox={true} />
-          </div>
-        ) : (books.length === 0
-          ? <div className="PageMySelect">
-              <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
-            </div>
-          : <>
-              <PCPageHeader pageTitle="마이 셀렉트" />
-              <div className="PageMySelect">
-                <div className="MySelectControls">
-                  <div className="MySelectControls_CheckBoxWrapper">
-                    <CheckBox
-                      className="MySelectControls_CheckBox"
-                      checked={this.areEveryBookChecked()}
-                      onChange={this.handleSelectAllCheckBoxChange}
-                    >
-                      전체 선택
-                    </CheckBox>
-                  </div>
-                  <Button
-                    onClick={this.handleDeleteButtonClick}
-                    className="MySelectControls_Button"
-                    outline={true}
-                    spinner={this.props.deletionFetchStatus === FetchStatusFlag.FETCHING}
-                  >
-                    선택 삭제
-                  </Button>
-                  <Button
-                    className="MySelectControls_Button"
-                    color="blue"
-                    onClick={this.handleDownloadSelectedBooksButtonClick}
-                  >
-                    다운로드
-                  </Button>
-                </div>
-              {this.renderBooks()}
-              </div>
-            </>
+          ) : (
+            <ConnectedListWithPagination
+              isFetched={(page: number) =>
+                mySelectBooks &&
+                mySelectBooks.itemListByPage[page] &&
+                mySelectBooks.itemListByPage[page].isFetched
+              }
+              fetch={(page: number) => dispatchLoadMySelectRequest(page)}
+              itemCount={mySelectBooks ? mySelectBooks.itemCount : undefined}
+              itemCountPerPage={mySelectBooks.size}
+              buildPaginationURL={(page: number) => `/my-select?page=${page}`}
+              renderPlaceholder={() => (<LandscapeBookListSkeleton hasCheckbox={true} />)}
+              renderItems={(page: number) =>
+                mySelectBooks.itemCount === 0 ? (
+                  <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
+                ) : (
+                  <>
+                    <PCPageHeader pageTitle="마이 셀렉트" />
+                    <div className="PageMySelect">
+                      <div className="MySelectControls">
+                        <div className="MySelectControls_CheckBoxWrapper">
+                          <CheckBox
+                            className="MySelectControls_CheckBox"
+                            checked={this.areEveryBookChecked()}
+                            onChange={this.handleSelectAllCheckBoxChange}
+                          >
+                            전체 선택
+                          </CheckBox>
+                        </div>
+                        <Button
+                          onClick={this.handleDeleteButtonClick}
+                          className="MySelectControls_Button"
+                          outline={true}
+                          spinner={this.props.deletionFetchStatus === FetchStatusFlag.FETCHING}
+                        >
+                          선택 삭제
+                        </Button>
+                        <Button
+                          className="MySelectControls_Button"
+                          color="blue"
+                          onClick={this.handleDownloadSelectedBooksButtonClick}
+                        >
+                          다운로드
+                        </Button>
+                      </div>
+                      {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
+                    </div>
+                  </>
+                )
+              }
+            />
           )}
+        </div>
       </main>
     );
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): StateProps => {
+const mapStateToProps = (state: RidiSelectState, props: {}): StateProps => {
   return {
-    books: state.mySelect.books,
-    fetchStatus: state.mySelect.fetchStatus,
+    mySelectBooks: state.mySelect.mySelectBooks,
     deletionFetchStatus: state.mySelect.deletionFetchStatus,
+    page: getPageQuery(state, props),
   };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => {
   return {
-    dispatchLoadMySelectRequest: () => dispatch(loadMySelectRequest()),
-    dispatchDeleteMySelectRequest: (mySelectBookIds: number[]) => dispatch(deleteMySelectRequest(mySelectBookIds)),
+    dispatchLoadMySelectRequest: (page: number) =>
+      dispatch(loadMySelectRequest(page)),
+    dispatchDeleteMySelectRequest: (deleteBookIdPairs: Array<BookIdsPair>, page: number, isEveryBookChecked: boolean) =>
+      dispatch(deleteMySelectRequest(deleteBookIdPairs, page, isEveryBookChecked)),
+    dispatchResetMySelectPageFetchedStatus: (page: number) =>
+      dispatch(resetMySelectPageFetchedStatus(page)),
   };
 };
 

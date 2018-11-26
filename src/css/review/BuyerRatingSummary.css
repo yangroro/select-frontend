@@ -62,7 +62,7 @@
   margin: 0 0 5px;
   color: #808991;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .AverageRating_StarRating {
@@ -101,7 +101,7 @@
   background: 0 0;
   color: rgb(128, 137, 145);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   box-shadow: none;
   cursor: pointer;
   -webkit-appearance: none;

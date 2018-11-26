@@ -3,8 +3,8 @@
 }
 
 .PageHome.Skeleton_Wrapper {
+  padding-bottom: 200px;
   background-color: #fff;
-
   @media (--pc-screen) {
     padding-bottom: 150px;
   }
@@ -45,7 +45,7 @@
 }
 
 .HomeSection_Skeleton {
-  padding: 30px 20px 200px;
+  padding: 30px 20px 0;
 
   @media (--pc-screen) {
     width: 800px;

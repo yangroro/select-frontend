@@ -95,7 +95,6 @@ export interface BookStateItem extends StaticBookState {
   detailFetchStatus: FetchStatusFlag;
   ownershipFetchStatus: FetchStatusFlag;
   ownershipStatus?: BookOwnershipStatus;
-  isMySelectReplacementPopupOpen: boolean;
 }
 
 export interface BookState {

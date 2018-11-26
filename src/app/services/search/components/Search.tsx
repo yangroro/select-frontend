@@ -117,6 +117,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
       keyword,
       highlightIndex: -1,
       currentHelperType: SearchHelperFlag.NONE,
+      isClearButtonVisible: false,
     }, () => {
       this.searchInput && this.searchInput.blur();
     });
@@ -238,9 +239,11 @@ export class Search extends React.Component<SearchProps, SearchState> {
       keyword,
       highlightIndex: -1,
       currentHelperType: SearchHelperFlag.HISTORY,
+      isClearButtonVisible: true,
     };
     if (this.props.gnbSearchActiveType !== GNBSearchActiveType.block) {
       targetState.keyword = '';
+      targetState.isClearButtonVisible = false;
     } else if (keyword.length > 0) {
       this.getInstantSearchedList(keyword);
       targetState.currentHelperType = SearchHelperFlag.INSTANT;
@@ -562,7 +565,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           className="dim"
           onClick={() => {
             this.manageScrollDisable(false);
-            this.setState({ isActive: false });
+            this.setState({ isActive: false, isClearButtonVisible: false });
           }}
         />) : null}
       </div>

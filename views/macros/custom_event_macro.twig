@@ -1,17 +1,23 @@
 {% macro ridi_select_load(
+  loginUserId,
   isPc,
   isTablet,
   isMobile,
   isPaper,
   paperDeviceModel,
   isRidiApp,
-  freePromotionMonths
+  freePromotionMonths,
+  OAUTH2_CLIENT_ID
 ) %}
 <script>
   window.dispatchEvent(new CustomEvent('ridiSelectLoad', {
     detail: {
       targetElementId: 'app',
       dto: {
+        user: {
+          {# tracking_macro.twig 에서만 사용하고, SAP에서는 자체적으로 `/accounts/me` API를 호출한 결과를 사용함 #}
+          uId: '{{ loginUserId }}',
+        },
         environment: {
           platform: {
             type: '{{ isMobile ? 'mobile' : isPc ? 'pc' : isTablet ? 'tablet' : isPaper ? 'paper' : isRidiApp ? 'ridi_app' : 'unknown' }}',
@@ -20,7 +26,7 @@
             isMobile: {{ isMobile ? 'true' : 'false' }},
             isPaper: {{ isPaper ? 'true' : 'false' }},
             isPaperPro: {{ paperDeviceModel == 'paper_pro' ? 'true' : 'false' }},
-            isRidiApp: {{ isRidiApp ? 'true' : 'false' }},
+            isRidiApp: (/RIDIBOOKS\/[0-9]+\.[0-9]+/).test(navigator.userAgent),
           },
           constants: {
             STORE_URL: '{{ STORE_URL}}',
@@ -28,6 +34,7 @@
             STATIC_URL: '{{ STATIC_URL }}',
             RIDI_PAY_URL: '{{ RIDI_PAY_URL }}',
             FREE_PROMOTION_MONTHS: {{ freePromotionMonths }},
+            OAUTH2_CLIENT_ID: '{{ OAUTH2_CLIENT_ID }}',
           }
         },
       },

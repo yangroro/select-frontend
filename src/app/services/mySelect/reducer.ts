@@ -9,10 +9,8 @@ import {
   LOAD_MY_SELECT_REQUEST,
   LOAD_MY_SELECT_SUCCESS,
   MySelectActionTypes,
-  REPLACE_MY_SELECT_FAILURE,
-  REPLACE_MY_SELECT_REQUEST,
-  REPLACE_MY_SELECT_SUCCESS,
   DELETE_MY_SELECT_FAILURE,
+  RESET_MY_SELECT_PAGE_FETCHED_STATUS,
 } from 'app/services/mySelect/actions';
 import { MySelectBook, mySelectInitialState, MySelectState } from 'app/services/mySelect/reducer.state';
 import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
@@ -32,25 +30,54 @@ export const mySelectReducer = (
 ): MySelectState => {
   switch (action.type) {
     case LOAD_MY_SELECT_REQUEST: {
+      const { page } = action.payload!;
       return {
         ...state,
-        fetchStatus: FetchStatusFlag.FETCHING,
+        mySelectBooks: {
+          ...state.mySelectBooks,
+          itemListByPage: {
+            ...state.mySelectBooks.itemListByPage,
+            [page]: {
+              ...state.mySelectBooks.itemListByPage[page],
+              fetchStatus: FetchStatusFlag.FETCHING,
+              isFetched: false,
+            }
+          }
+        },
       };
     }
     case LOAD_MY_SELECT_SUCCESS: {
-      const { response } = action.payload!;
+      const { response, page } = action.payload!;
       return {
         ...state,
-        books: response.userRidiSelectBooks.map(userRidiSelectBookToMySelectBook),
-        fetchStatus: FetchStatusFlag.IDLE,
-        isFetched: true,
+        mySelectBooks: {
+          itemCount: response.totalCount,
+          size: response.size,
+          itemListByPage: {
+            ...state.mySelectBooks.itemListByPage,
+            [page]: {
+              fetchStatus: FetchStatusFlag.IDLE,
+              itemList: response.userRidiSelectBooks.map(userRidiSelectBookToMySelectBook),
+              isFetched: true,
+            }
+          }
+        },
       };
     }
     case LOAD_MY_SELECT_FAILURE: {
+      const { page } = action.payload!;
       return {
         ...state,
-        books: state.books,
-        fetchStatus: FetchStatusFlag.FETCH_ERROR,
+        mySelectBooks: {
+          ...state.mySelectBooks,
+          itemListByPage: {
+            ...state.mySelectBooks.itemListByPage,
+            [page]: {
+              ...state.mySelectBooks.itemListByPage[page],
+              fetchStatus: FetchStatusFlag.FETCH_ERROR,
+            }
+          }
+        },
       };
     }
     case DELETE_MY_SELECT_REQUEST: {
@@ -63,9 +90,6 @@ export const mySelectReducer = (
       return {
         ...state,
         deletionFetchStatus: FetchStatusFlag.IDLE,
-        books: state.books.filter((book) => {
-          return !action.payload!.mySelectBookIds.includes(book.mySelectBookId);
-        }),
       };
     }
     case DELETE_MY_SELECT_FAILURE: {
@@ -84,10 +108,6 @@ export const mySelectReducer = (
       return {
         ...state,
         additionFetchStatus: FetchStatusFlag.IDLE,
-        books: [
-          userRidiSelectBookToMySelectBook(action.payload!.userRidiSelectResponse),
-          ...state.books,
-        ]
       };
     }
     case ADD_MY_SELECT_FAILURE: {
@@ -96,31 +116,21 @@ export const mySelectReducer = (
         additionFetchStatus: FetchStatusFlag.FETCH_ERROR,
       };
     }
-    case REPLACE_MY_SELECT_REQUEST: {
+    case RESET_MY_SELECT_PAGE_FETCHED_STATUS: {
+      const { page } = action.payload!;
       return {
         ...state,
-        replacingBookId: action.payload!.mySelectBookId,
-        replacementFetchStatus: FetchStatusFlag.FETCHING,
-      };
-    }
-    case REPLACE_MY_SELECT_SUCCESS: {
-      const { mySelectBookId, userRidiSelectResponse } = action.payload!;
-      return {
-        ...state,
-        replacementFetchStatus: FetchStatusFlag.IDLE,
-        replacingBookId: null,
-        books: [
-          ...state.books.filter((book) => book.mySelectBookId !== mySelectBookId),
-          userRidiSelectBookToMySelectBook(userRidiSelectResponse),
-        ],
-      };
-    }
-    case REPLACE_MY_SELECT_FAILURE: {
-      return {
-        ...state,
-        replacingBookId: null,
-        replacementFetchStatus: FetchStatusFlag.FETCH_ERROR,
-      };
+        mySelectBooks: {
+          ...state.mySelectBooks,
+          itemListByPage: {
+            ...state.mySelectBooks.itemListByPage,
+            [page]: {
+              ...state.mySelectBooks.itemListByPage[page],
+              isFetched: false,
+            }
+          }
+        }
+      }
     }
     default:
       return state;

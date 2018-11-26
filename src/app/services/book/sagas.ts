@@ -5,8 +5,6 @@ import {
   LOAD_BOOK_DETAIL_REQUEST,
   LOAD_BOOK_DETAIL_SUCCESS,
   LOAD_BOOK_OWNERSHIP_REQUEST,
-  MY_SELECT_REPLACEMENT_POPUP_OPEN,
-  MY_SELECT_REPLACEMENT_POPUP_CLOSE,
   loadBookFailure,
   loadBookOwnershipFailure,
   loadBookOwnershipSuccess,
@@ -113,22 +111,11 @@ export function* watchLoadBookOwnership() {
   }
 }
 
-export function* watchMySelectReplacementPopup() {
-  while(true) {
-    yield take(MY_SELECT_REPLACEMENT_POPUP_OPEN);
-    yield setDisableScroll(true);
-    yield take(MY_SELECT_REPLACEMENT_POPUP_CLOSE);
-    yield setDisableScroll(false);
-  }
-}
-
-
 export function* bookRootSaga() {
   yield fork(initialSaga);
   yield all([
     watchLoadBookDetail(),
     watchActionsToCache(),
     watchLoadBookOwnership(),
-    watchMySelectReplacementPopup(),
   ]);
 }

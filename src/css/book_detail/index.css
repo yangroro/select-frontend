@@ -643,57 +643,6 @@
   }
 }
 
-.PageBookDetail_BookReplacingList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.PageBookDetail_BookReplacingItem {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-
-  & + .PageBookDetail_BookReplacingItem {
-    border-top: 1px solid #e6e8eb;
-  }
-  & .RSGBookThumbnail {
-    align-items: center;
-  }
-}
-
-.PageBookDetail_BookReplacingMeta {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 0 10px 0 12px;
-}
-.PageBookDetail_BookReplacingTitle {
-  display: -webkit-box;
-  max-height: 38px;
-  overflow: hidden;
-  color: #000;
-  font-weight: 700;
-  line-height: 19px;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.PageBookDetail_BookReplacingAddedDate {
-  margin: 6px 0;
-  color: #636c73;
-  font-size: 12px;
-}
-
-.PageBookDetail_BookReplacingButton {
-  display: inline-block;
-  width: 67px;
-  font-size: 11px;
-}
-
-
 .BookDetailSectionPlaceholder_List {
   @apply --reset-list;
 

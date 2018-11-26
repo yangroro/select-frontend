@@ -2,7 +2,6 @@ import { DeviceType, Tracker } from '@ridi/event-tracker';
 import { RidiSelectState, hasCompletedSubscription } from 'app/store';
 import { LOCATION_CHANGE, replace } from 'react-router-redux';
 import { all, select, take, put } from 'redux-saga/effects';
-import { subscriptionEntryPointHelper } from '../../../utils';
 import { TRACK_CLICK, ActionTrackClick, TRACK_IMPRESSION, ActionTrackImpression } from './actions';
 import { clearScrollEndHandlers } from './onWindowScrollEnd';
 
@@ -60,10 +59,8 @@ export function* watchLocationChange() {
       // Remove new subscription search string for tracking and move to entry page if there is one
       yield put(replace({
         ...state.router.location,
-        pathname: subscriptionEntryPointHelper.getPathname() || state.router.location!.pathname,
         search: state.router.location!.search.replace(/new_subscription=[^&=]+/, ''),
       }));
-      subscriptionEntryPointHelper.clear();
     }
   }
 }

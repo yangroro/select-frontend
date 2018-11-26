@@ -5,8 +5,12 @@ import { ConnectedAvailableBooks } from './AvailableBooks';
 import { setDisableScroll } from 'app/utils/utils';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
+import { CommonLoader } from 'app/components/CommonLoader';
 
 interface StateProps {
+  isLoggedIn: boolean,
+  isSubscribing: boolean,
+  isTokenFetched: boolean,
   RIDISELECT_URL: string;
 }
 
@@ -18,7 +22,13 @@ export class InAppIntro extends React.Component<StateProps> {
     setDisableScroll(false);
   }
   render () {
+    const { isLoggedIn, isSubscribing, isTokenFetched } = this.props;
     return (
+      !isTokenFetched ||
+      (isLoggedIn && isSubscribing)
+    ) ? (
+      <CommonLoader />
+    ) : (
       <>
         <ConnectedAvailableBooks hidePageTitle={true} />
         <div className="InAppIntro_Overlay">
@@ -55,6 +65,9 @@ export class InAppIntro extends React.Component<StateProps> {
 }
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
+  isLoggedIn: rootState.user.isLoggedIn,
+  isSubscribing: rootState.user.isSubscribing,
+  isTokenFetched: rootState.user.isTokenFetched,
   RIDISELECT_URL: rootState.environment.constants.RIDISELECT_URL,
 });
 

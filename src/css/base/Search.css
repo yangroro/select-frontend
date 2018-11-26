@@ -16,7 +16,7 @@
     left: 0;
     width: 100%;
     height: var(--gnb_mobile_height);
-    padding: 6px;
+    padding: var(--mobile-search-vertical-inner-padding);
     background: var(--bluegray_90);
     & .GNBSearchButton {
       display: inline-block;
@@ -35,12 +35,21 @@
       &:not(.GNBSearchInputWrapper-empty) {
         padding-right: 38px;
       }
+      @nest .androidApp & {
+        height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
+      }
+    }
+    & .GNBSearchInput {
+      @nest .androidApp & {
+        height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
+        line-height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
+      }
     }
     & .GNBSearchResetButton {
       display: block;
     }
     @nest .androidApp & {
-      height:  var(--gnb_android_app_height);
+      height: var(--gnb_android_app_height);
     }
   }
 }
@@ -182,7 +191,7 @@
     top: var(--mobile-blocked-search-padding);
     left: 0;
     height: 44px;
-    padding: 6px 10px;
+    padding: var(--mobile-search-vertical-inner-padding) 10px;
     @nest .androidApp & {
       top: 41px;
     }

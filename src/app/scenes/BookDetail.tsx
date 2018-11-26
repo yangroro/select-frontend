@@ -30,10 +30,6 @@ import {
   loadBookOwnershipRequest,
   loadBookRequest,
   updateDominantColor,
-  ActionMySelectReplacementPopupOpen,
-  ActionMySelectReplacementPopupClose,
-  openMySelectPopup,
-  closeMySelectPopup
 } from 'app/services/book/actions';
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { Expander } from 'app/services/book/components/Expander';
@@ -43,19 +39,14 @@ import { ActionUpdateGNBColor, updateGNBColor } from 'app/services/commonUI/acti
 import { MySelectBook, MySelectState } from 'app/services/mySelect';
 import {
   ActionAddMySelectRequest,
-  ActionLoadMySelectRequest,
-  ActionReplaceMySelectRequest,
   addMySelectRequest,
-  loadMySelectRequest,
-  replaceMySelectRequest
 } from 'app/services/mySelect/actions';
 import { ConnectedReviews } from 'app/services/review';
 import { StarRating } from 'app/services/review/components';
 import { RidiSelectState } from 'app/store';
 import { BookId, TextWithLF } from 'app/types';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
-import toast from 'app/utils/toast';
+import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
@@ -63,7 +54,6 @@ import { EnvironmentState } from 'app/services/environment';
 import { stringifyAuthors } from 'app/utils/utils';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 import { Category } from 'app/services/category';
-import { subscriptionEntryPointHelper } from '../../utils';
 import { ConnectedPageHeader } from 'app/components';
 import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
 import { getSolidBackgroundColorRGBString, getTransparentBackgroundColorRGBString, getBackgroundColorGradientToLeft, getBackgroundColorGradientToRight } from 'app/services/commonUI/selectors';
@@ -73,11 +63,7 @@ interface BookDetailDispatchProps {
   dispatchUpdateGNBColor: (color: RGB) => ActionUpdateGNBColor;
   dispatchUpdateDominantColor: (bookId: BookId, color: RGB) => ActionUpdateDominantColor;
   dispatchLoadBookOwnershipRequest: (bookId: BookId) => ActionLoadBookOwnershipRequest;
-  dispatchLoadMySelect: () => ActionLoadMySelectRequest;
   dispatchAddMySelect: (bookId: BookId) => ActionAddMySelectRequest;
-  dispatchReplaceMySelect: (bookId: BookId, mySelectBookId: number) => ActionReplaceMySelectRequest;
-  dispatchMySelectReplacementPopupOpen: (bookId: BookId) => ActionMySelectReplacementPopupOpen;
-  dispatchMySelectReplacementPopupClose: (bookId: BookId) => ActionMySelectReplacementPopupClose;
 }
 
 interface BookDetailStateProps {
@@ -110,7 +96,6 @@ interface BookDetailStateProps {
   publisher?: Publisher;
   publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
-  isMySelectReplacementPopupOpen: boolean;
 
   mySelect: MySelectState;
   env: EnvironmentState;
@@ -193,6 +178,7 @@ export class BookDetail extends React.Component<Props, State> {
   };
 
   private handleDownloadButtonClick = () => {
+    const { env } = this.props;
     if (this.shouldDisplaySpinnerOnDownload()) {
       return;
     }
@@ -200,26 +186,19 @@ export class BookDetail extends React.Component<Props, State> {
       if (!this.currentBookExistsInMySelect() && !confirm('리디북스에서 이미 구매/대여한 책입니다.\n다운로드하시겠습니까?')) {
         return;
       }
-      downloadBooksInRidiselect([this.props.bookId]);
-    } else if (this.canAddToMySelect()) {
-      this.props.dispatchAddMySelect(this.props.bookId);
+      if (env.platform.isRidiApp) {
+        readBooksInRidiselect(this.props.bookId);
+      } else {
+        downloadBooksInRidiselect([this.props.bookId]);
+      }
     } else {
-      this.props.dispatchMySelectReplacementPopupOpen(this.props.bookId);
+      this.props.dispatchAddMySelect(this.props.bookId);
     }
-  };
-
-  private handleReplaceMySelectBookButtonClick = (book: MySelectBook) => () => {
-    if (this.props.mySelect.replacementFetchStatus === FetchStatusFlag.FETCHING) {
-      toast.info('도서 교체 진행중입니다. 잠시 후에 다시 시도해주세요.');
-      return;
-    }
-    this.props.dispatchReplaceMySelect(this.props.bookId, book.mySelectBookId);
   };
 
   private canDownload = () =>
     (!!this.props.ownershipStatus && this.props.ownershipStatus.isDownloadAvailable);
 
-  private canAddToMySelect = () => this.props.mySelect.books.length < 10;
 
   private currentBookExistsInMySelect = () =>
     (!!this.props.ownershipStatus && this.props.ownershipStatus.isCurrentlyUsedRidiSelectBook);
@@ -270,7 +249,7 @@ export class BookDetail extends React.Component<Props, State> {
   }
 
   private renderDownloadButton = () => {
-    const { isLoggedIn, isSubscribing, hasSubscribedBefore } = this.props;
+    const { isLoggedIn, isSubscribing, hasSubscribedBefore, env } = this.props;
     const { STORE_URL } = this.props.env.constants;
     const shouldDisplaySpinnerOnDownload = this.shouldDisplaySpinnerOnDownload();
     if (this.canDownload()) {
@@ -282,7 +261,7 @@ export class BookDetail extends React.Component<Props, State> {
           className="PageBookDetail_DownloadButton"
           onClick={this.handleDownloadButtonClick}
         >
-          다운로드
+          {env.platform.isRidiApp ? '읽기' : '다운로드'}
         </Button>
       )
     } else if (isSubscribing) {
@@ -299,6 +278,8 @@ export class BookDetail extends React.Component<Props, State> {
         </Button>
       )
     } else {
+      const paymentsUrl = `${STORE_URL}/select/payments?return_url=${window.location.href}`;
+      const paymentsWithAuthorizeUrl = `${STORE_URL}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
       return (
         <Button
           color="blue"
@@ -306,8 +287,7 @@ export class BookDetail extends React.Component<Props, State> {
           spinner={shouldDisplaySpinnerOnDownload}
           className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
           component="a"
-          href={isLoggedIn ? `${STORE_URL}/select/payments` : `${STORE_URL}/account/oauth-authorize?fallback=signup&return_url=${STORE_URL}/select/payments`}
-          onMouseDown={() => subscriptionEntryPointHelper.setPathname(window.location.pathname)}
+          href={isLoggedIn ? paymentsUrl : paymentsWithAuthorizeUrl}
         >
           {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
         </Button>
@@ -459,44 +439,6 @@ export class BookDetail extends React.Component<Props, State> {
             </div>
           </div>
         )}
-        <Popup
-          title="도서 교체"
-          caution={
-            <p className="caution_string">
-              <strong>최대 10권</strong>까지 동시 이용할 수 있습니다. <strong>현재 보유하신 도서와 교체</strong>해주세요.
-            </p>
-          }
-          active={this.props.isMySelectReplacementPopupOpen}
-          onCancel={() => this.props.dispatchMySelectReplacementPopupClose(this.props.bookId)}
-          bodyHeight={382}
-        >
-          <ul className="PageBookDetail_BookReplacingList">
-            {mySelect.books.slice().reverse().map(book => (
-              <li className="PageBookDetail_BookReplacingItem" key={book.id}>
-                <DTOBookThumbnail
-                  book={book}
-                  width={50}
-                  imageSize="small"
-                  imageClassName="PageBookDetail_BookReplacingThumbnail"
-                  hasOverflowWrapper={true}
-                />
-                <div className="PageBookDetail_BookReplacingMeta">
-                  <span className="PageBookDetail_BookReplacingTitle">{book.title.main}</span>
-                  <span className="PageBookDetail_BookReplacingAddedDate">{`${buildOnlyDateFormat(book.startDate)} 추가됨`}</span>
-                </div>
-                <Button
-                  className="PageBookDetail_BookReplacingButton"
-                  outline={true}
-                  onClick={this.handleReplaceMySelectBookButtonClick(book)}
-                  disabled={!!mySelect.replacingBookId && book.mySelectBookId !== mySelect.replacingBookId}
-                  spinner={!!mySelect.replacingBookId && book.mySelectBookId === mySelect.replacingBookId}
-                >
-                  교체하기
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </Popup>
       </>
     );
   }
@@ -713,17 +655,17 @@ export class BookDetail extends React.Component<Props, State> {
                 </div>
               </section>
             )}
-            {publishingDate && (publishingDate.ebookPublishingDate || publishingDate.paperBookPublishingDate) && (
+            {publishingDate && (publishingDate.ebookPublishDate || publishingDate.paperBookPublishDate) && (
               <section className="PageBookDetail_Panel">
                 <h2 className="PageBookDetail_PanelTitle">출간일</h2>
                 <div className="PageBookDetail_PanelContent">
-                  {publishingDate.ebookPublishingDate === publishingDate.paperBookPublishingDate
+                  {publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate
                     ? (
-                      `${buildOnlyDateFormat(publishingDate.ebookPublishingDate)} 전자책, 종이책 동시 출간`
+                      `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간`
                     )
                     : <>
-                      {publishingDate.ebookPublishingDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishingDate)} 전자책 출간<br /></>}
-                      {publishingDate.paperBookPublishingDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishingDate)} 종이책 출간`}
+                      {publishingDate.ebookPublishDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간<br /></>}
+                      {publishingDate.paperBookPublishDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
                     </>
                   }
                 </div>
@@ -763,7 +705,6 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     dominantColor: stateExists ? bookState.dominantColor : undefined,
-    isMySelectReplacementPopupOpen: stateExists ? bookState.isMySelectReplacementPopupOpen : false,
 
     // Data that can be pre-fetched in home
     title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
@@ -811,12 +752,7 @@ const mapDispatchToProps = (dispatch: any): BookDetailDispatchProps => {
       dispatch(updateDominantColor(bookId, color)),
     dispatchLoadBookOwnershipRequest: (bookId: number) =>
       dispatch(loadBookOwnershipRequest(bookId)),
-    dispatchLoadMySelect: () => dispatch(loadMySelectRequest()),
     dispatchAddMySelect: (bookId: BookId) => dispatch(addMySelectRequest(bookId)),
-    dispatchReplaceMySelect: (bookId: BookId, mySelectBookId: number) =>
-      dispatch(replaceMySelectRequest(bookId, mySelectBookId)),
-    dispatchMySelectReplacementPopupOpen: (bookId: BookId) => dispatch(openMySelectPopup(bookId)),
-    dispatchMySelectReplacementPopupClose: (bookId: BookId) => dispatch(closeMySelectPopup(bookId)),
   };
 };
 

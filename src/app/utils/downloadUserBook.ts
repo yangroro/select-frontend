@@ -27,6 +27,7 @@ interface PlatformDetail {
   isAndroid: boolean;
   isIE: boolean;
   isFirefox: boolean;
+  isRidiApp: boolean;
 }
 
 export function getPlatformDetail(): PlatformDetail {
@@ -35,12 +36,15 @@ export function getPlatformDetail(): PlatformDetail {
     isAndroid: (/android/gi).test(navigator.appVersion),
     isIE: (/MSIE|Trident\//g).test(navigator.appVersion),
     isFirefox: navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
+    isRidiApp: (/RIDIBOOKS\/[0-9]+\.[0-9]*/).test(navigator.userAgent),
   };
 }
 
-export function getAppUri(bookIds: number[], appUriFromResponse: string) {
-  const payload = JSON.stringify({ b_ids: bookIds });
-  return `${appUriFromResponse}&payload=${encodeURIComponent(payload)}`;
+export function getAppUri(bookIds: number[], appUriFromResponse: string, isRead: boolean) {
+  let bookIdData = isRead ?
+    `&b_id=${bookIds[0]}` :
+    `&payload=${encodeURIComponent(JSON.stringify({ b_ids: bookIds }))}`;
+  return `${appUriFromResponse}${bookIdData}`;
 }
 
 // 앱 호출 URI를 안드로이드 intent를 이용해 호출할 수 있는 URI로 변환해주는 함수
@@ -57,18 +61,19 @@ export function setAttributeForDesktopDownloadIframe(attrName: string, attrValue
   }
 }
 
-export function requestDownloadUserBook(bookIds: number[], preprocess: boolean) {
+export function requestDownloadUserBook(bookIds: number[], preprocess: boolean, isRead: boolean) {
   return request({
     url: DOWNLOAD_URL,
     method: 'GET',
     params: {
       b_ids: bookIds,
       preprocess,
+      is_read: isRead,
     },
     withCredentials: true,
   }).then((response) => {
     if (response.data.result) {
-      return Promise.resolve(getAppUri(response.data.b_ids, response.data.url));
+      return Promise.resolve(getAppUri(response.data.b_ids, response.data.url, isRead));
     } else {
       return Promise.reject(response.data.message);
     }
@@ -157,14 +162,6 @@ export function launchAppOrMoveToAppStore(appUri: string, hooks?: DownloaBooksHo
   }
 }
 
-export function launchAppToDownload(isRidiApp: boolean, appUri: string) {
-  if (isRidiApp) {
-    downloadUserBookInApp(appUri);
-  } else {
-    launchAppOrMoveToAppStore(appUri);
-  }
-}
-
 export interface DownloaBooksHooks {
   beforeRequestDownloadUrl?: () => any;
   afterRequestDownloadUrlSuccess?: (url: string) => any;
@@ -176,12 +173,13 @@ export const downloadBooks = (bookIds: BookId[], hooks?: DownloaBooksHooks) => {
   if (hooks && hooks.beforeRequestDownloadUrl) {
     hooks.beforeRequestDownloadUrl();
   }
-  requestDownloadUserBook(bookIds, true).then((url) => {
+  requestDownloadUserBook(bookIds, true, false).then((url) => {
     if (url) {
       launchAppOrMoveToAppStore(url, hooks);
     }
   });
 };
+
 
 export const downloadBooksInRidiselect = (bookIds: BookId[]) => {
   downloadBooks(bookIds, {
@@ -191,4 +189,12 @@ export const downloadBooksInRidiselect = (bookIds: BookId[]) => {
       }
     },
   })
+}
+
+export const readBooksInRidiselect = (bookId: BookId) => {
+  requestDownloadUserBook([bookId], true, true).then((url) => {
+    if (url) {
+      launchAppOrMoveToAppStore(url);
+    }
+  });
 }

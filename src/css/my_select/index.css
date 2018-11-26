@@ -46,14 +46,10 @@
   }
 }
 
-
 .MySelectBookList {
   margin: 0;
   padding: 0;
   border-bottom: 1px solid #e6e8eb;
-  @media (--pc-screen) {
-    margin-bottom: 225px;
-  }
 }
 
 .MySelectBookList_Right {

@@ -66,8 +66,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
           <li className="Guide_Item">
             <h2 className="Guide_Item_Title">3. 마이 셀렉트에 책 추가</h2>
             <p className="Guide_Item_Content">
-              최대 10권까지 추가 가능하며 마이 셀렉트에 추가 후 뷰어/앱에서 다운로드할 수 있습니다.<br/>
-              10권을 초과하는 경우, 도서를 교체해주시면 새롭게 추가한 도서를 바로 이용할 수 있습니다.
+              마이 셀렉트에 무제한으로 책을 추가할 수 있으며, 추가한 책은 뷰어/앱 구매 목록에서 확인할 수 있습니다.
               <img
                 className="Guide_Image"
                 src={`${STATIC_URL}/unlimited/dist/images/guide/guide_detail.jpg`}
@@ -78,7 +77,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
           <li className="Guide_Item">
             <h2 className="Guide_Item_Title">4. 뷰어 다운로드</h2>
             <div className="Guide_Item_Content">
-              리디북스 앱에서 책을 다운로드받아 볼 수 있습니다.
+              리디북스 뷰어/앱을 다운로드해주세요.
               <figure className="Guide_AppDownloadIcon_Figure">
                 <Icon
                   className="Guide_AppDownloadIcon"
@@ -106,7 +105,7 @@ export const Guide: React.SFC<GuideProps> = ({ STATIC_URL, STORE_URL, FREE_PROMO
           <li className="Guide_Item">
             <h2 className="Guide_Item_Title">5. 책 다운로드</h2>
             <p className="Guide_Item_Content">
-              뷰어/앱 실행 후 구매목록 탭에서 책을 다운로드해주세요.
+              뷰어/앱 실행 후 구매 목록 탭에서 책을 다운로드해주세요.
               <img
                 className="Guide_Image"
                 src={`${STATIC_URL}/unlimited/dist/images/guide/guide_download.jpg`}

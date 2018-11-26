@@ -124,16 +124,18 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                     </li>
                     <li className="SubscriptionInfo">
                       <p className="SubscriptionInfo_Title">결제 수단</p>
-                      <p className="SubscriptionInfo_Data">{subscriptionState.paymentMethod}</p>
-                      {subscriptionState.isUsingRidipay ? (
-                        <a className="SubscriptionInfo_Link" href={`${RIDI_PAY_URL}/settings`}>
-                          카드 관리
-                          <Icon
-                            name="arrow_5_right"
-                            className="SubscriptionInfo_Link_Icon"
-                          />
-                        </a>
-                      ) : null}
+                      <div className="SubscriptionInfo_Data">
+                        {subscriptionState.paymentMethod}
+                        {subscriptionState.isUsingRidipay ? (
+                          <a className="SubscriptionInfo_Link" href={`${RIDI_PAY_URL}/settings`}>
+                            카드 관리
+                            <Icon
+                              name="arrow_5_right"
+                              className="SubscriptionInfo_Link_Icon"
+                            />
+                          </a>
+                        ) : null}
+                      </div>
                     </li>
                   </>
                 }

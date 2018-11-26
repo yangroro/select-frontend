@@ -18,5 +18,6 @@ export const environmentInitialState: EnvironmentState = {
     RIDISELECT_URL: '',
     RIDI_PAY_URL: '',
     FREE_PROMOTION_MONTHS: 1,
+    OAUTH2_CLIENT_ID: '',
   }
 };

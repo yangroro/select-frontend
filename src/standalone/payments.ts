@@ -1,10 +1,13 @@
 import axios from 'axios';
+import * as qs from 'qs';
 
 const ACCOUNT_BASE_URL = process.env.ACCOUNT_BASE_URL || 'https://account.ridibooks.com';
 
 document.onreadystatechange = () => {
   if (document.readyState === 'complete') {
     const buttonToPayments = document.getElementsByClassName('js_ButtonToPaymentsRequest');
+
+    const { return_url: returnUrl } = qs.parse(window.location.search, { ignoreQueryPrefix: true });
 
     Array.from(buttonToPayments).forEach((button: HTMLButtonElement) =>
       button.addEventListener('click', () => {
@@ -14,7 +17,7 @@ document.onreadystatechange = () => {
         // 이 경우 고객이 불편을 겪으므로 일단 token을 refresh 한 후 PG사로 이동 처리
         axios.post(`${ACCOUNT_BASE_URL}/ridi/token/`, null, { withCredentials: true })
           .then(response => {
-            location.href = '/select/payments/request';
+            location.href = `/select/payments/request${returnUrl ? `?return_url=${returnUrl}` : ''}`;
           }).catch(e => {
             location.href = '/account/oauth-authorize?fallback=login';
         });

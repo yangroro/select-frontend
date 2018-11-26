@@ -11,8 +11,6 @@ import {
   LOAD_BOOK_OWNERSHIP_SUCCESS,
   UPDATE_BOOKS,
   UPDATE_DOMINANT_COLOR,
-  MY_SELECT_REPLACEMENT_POPUP_OPEN,
-  MY_SELECT_REPLACEMENT_POPUP_CLOSE,
   CLEAR_BOOK_OWNERSHIP,
 } from 'app/services/book/actions';
 import { LocalStorageStaticBookState } from 'app/services/book/reducer.state';
@@ -26,7 +24,6 @@ export const bookReducer = (state = bookInitialState, action: BookActionTypes): 
           ...state[book.id],
           isFetched: !!state[book.id] ? state[book.id].isFetched : false,
           isDetailFetched: !!state[book.id] ? state[book.id].isDetailFetched : false,
-          isMySelectReplacementPopupOpen: !!state[book.id] ? state[book.id].isMySelectReplacementPopupOpen : false,
           detailFetchStatus: !!state[book.id] ? state[book.id].detailFetchStatus : FetchStatusFlag.IDLE,
           ownershipFetchStatus: !!state[book.id] ? state[book.id].ownershipFetchStatus : FetchStatusFlag.IDLE,
           book: !!state[book.id] ? { ...state[book.id].book, ...book } : book,
@@ -44,7 +41,6 @@ export const bookReducer = (state = bookInitialState, action: BookActionTypes): 
           ...state[bookId],
           detailFetchStatus: FetchStatusFlag.FETCHING,
           ownershipFetchStatus: !!state[bookId] ? state[bookId].ownershipFetchStatus : FetchStatusFlag.IDLE,
-          isMySelectReplacementPopupOpen: !!state[bookId] ? state[bookId].isMySelectReplacementPopupOpen : false,
           isDetailFetched: !!state[bookId] ? state[bookId].isDetailFetched : false,
           isFetched: !!book ? state[bookId].isFetched : false,
           bookDetail: !!book && book.bookDetail ? state[bookId].bookDetail : undefined,
@@ -142,30 +138,9 @@ export const bookReducer = (state = bookInitialState, action: BookActionTypes): 
               detailFetchStatus: FetchStatusFlag.IDLE,
               isDetailFetched: false,
               isFetched: false,
-              isMySelectReplacementPopupOpen: false,
             },
           };
         }, {}),
-      };
-    }
-    case MY_SELECT_REPLACEMENT_POPUP_OPEN: {
-      const { bookId } = action.payload!;
-      return {
-        ...state,
-        [bookId]: {
-          ...state[bookId],
-          isMySelectReplacementPopupOpen: true,
-        },
-      };
-    }
-    case MY_SELECT_REPLACEMENT_POPUP_CLOSE: {
-      const { bookId } = action.payload!;
-      return {
-        ...state,
-        [bookId]: {
-          ...state[bookId],
-          isMySelectReplacementPopupOpen: false,
-        },
       };
     }
     default:

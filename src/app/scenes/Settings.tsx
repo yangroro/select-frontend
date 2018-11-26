@@ -115,16 +115,6 @@ export class Settings extends React.PureComponent<SettingProps> {
             </li>
           }
         </ul>
-        <Button
-          className="ManageSubscriptionButton"
-          outline={true}
-          size="large"
-          color="gray"
-          component={Link}
-          to="/manage-subscription"
-        >
-          구독 관리
-        </Button>
       </div>
     );
   }
@@ -145,13 +135,12 @@ export class Settings extends React.PureComponent<SettingProps> {
           )
         }
         <ul className="SettingMenu">
-          {/* TODO: 구독관리 버튼 변경 후 반영되어야 해서 일단 주석처리. */}
-          {/* <li className="SettingMenu_Item">
+          <li className="SettingMenu_Item">
             <Link className="SettingMenu_Link" to="/manage-subscription">
               <Icon name="invoice_1" className="SettingMenu_Icon SettingMenu_Invoice_Icon" />
               구독 관리
             </Link>
-          </li> */}
+          </li>
           <li className="SettingMenu_Item">
             <Link className="SettingMenu_Link" to="/order-history">
               {/* RIDI UI의 Coin_Bold Icon: 버젼 올리고 대응 필요. - svg 이슈로 업데이트 됨 */}

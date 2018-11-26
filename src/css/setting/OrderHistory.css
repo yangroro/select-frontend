@@ -72,9 +72,15 @@
   padding: 0;
 }
 .CancelOrderButton {
+  display: inline-block;
+  align-items: initial;
+  justify-content: initial;
   width: 66px;
   padding: 1px 0;
   font-size: 11px;
+  text-align: center;
+  pointer-events: all;
+  vertical-align: middle;
 }
 .NoticeList {
   @apply --reset-list;

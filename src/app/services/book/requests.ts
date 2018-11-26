@@ -24,10 +24,10 @@ export interface BookFile {
 }
 
 export interface BookDetailPublishingDate {
-  ridibooksRegisteredDate?: string;
+  ridibooksRegisterDate?: string;
   ridibooksPublishingDate?: string;
-  paperBookPublishingDate?: string;
-  ebookPublishingDate?: string;
+  paperBookPublishDate?: string;
+  ebookPublishDate?: string;
 }
 
 export interface NoticeResponse {

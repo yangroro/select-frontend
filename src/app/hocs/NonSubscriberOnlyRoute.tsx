@@ -21,7 +21,7 @@ export const NonSubscriberOnlyRoute: React.SFC<NonSubscriberOnlyRouteProps> = (p
   } = props;
 
   if (isLoggedIn && isSubscribing) {
-    history.push('/home' + window.location.search);
+    history.replace('/home' + window.location.search);
 
     return <CommonLoader />;
   }

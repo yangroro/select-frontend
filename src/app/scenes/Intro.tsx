@@ -5,7 +5,6 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { throttle, sortedIndex } from 'lodash-es';
 
-import { subscriptionEntryPointHelper } from 'src/utils';
 import { Icon } from '@ridi/rsg';
 import { Link } from "react-router-dom";
 import * as classNames from 'classnames';
@@ -17,6 +16,7 @@ interface IntroStateProps {
   isSubscribing: boolean;
   hasSubscribedBefore: boolean;
   isLoggedIn: boolean;
+  isTokenFetched: boolean;
   uId: string;
   STORE_URL: string;
   STATIC_URL: string;
@@ -108,13 +108,25 @@ export class Intro extends React.Component<Props, IntroPageState> {
   }
 
   private afterLoadingComplete() {
-    const { dispatchUpdateGNBTransparentType, dispatchUpdateFooterTheme } = this.props;
+    const {
+      isLoggedIn,
+      isSubscribing,
+      isTokenFetched,
+      dispatchUpdateGNBTransparentType,
+      dispatchUpdateFooterTheme,
+    } = this.props;
+
+    if (!isTokenFetched || (isLoggedIn && isSubscribing)) {
+      return;
+    }
+
     dispatchUpdateGNBTransparentType(GNBTransparentType.transparent);
     dispatchUpdateFooterTheme(FooterTheme.dark);
 
     this.sectionsOffsetTops = Array
       .from(this.sections)
       .map((section: HTMLDivElement) => section.offsetTop);
+
     setTimeout(() => this.setState({
       isLoaded: true,
       currentSection: 1,
@@ -123,10 +135,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
 
     window.addEventListener('resize', this.throttledResizeFunction);
     window.addEventListener('scroll', this.throttledScrollFunction);
-
-    Array.from(this.sectionMainButton).forEach((button: HTMLAnchorElement) =>
-      button.addEventListener('click', () => subscriptionEntryPointHelper.clear())
-    );
   }
 
   public componentWillUnmount() {
@@ -291,6 +299,7 @@ const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
     uId: rootState.user.uId,
     isLoggedIn: rootState.user.isLoggedIn,
     isSubscribing: rootState.user.isSubscribing,
+    isTokenFetched: rootState.user.isTokenFetched,
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
     STORE_URL: rootState.environment.constants.STORE_URL,
     STATIC_URL: rootState.environment.constants.STATIC_URL,

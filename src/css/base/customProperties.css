@@ -92,6 +92,7 @@
   --max-pc-content-width: 900px;
   --min-content-width: 320px;
   --mobile-blocked-search-padding: 38px;
+  --mobile-search-vertical-inner-padding: 6px;
   --defaultFontFamily: Noto Sans KR, NotoSansKR, Sans-serif;
 
   --reset-layout: {

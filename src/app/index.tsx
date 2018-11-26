@@ -39,7 +39,7 @@ window.addEventListener('ridiSelectLoad', (event: RidiSelectLoadEvent) => {
   const environment = event.detail.dto.environment;
   const targetElementId = event.detail.targetElementId;
 
-  fetchRidiSelectUserInfo().then(ridiSelectUser => {
+  fetchRidiSelectUserInfo(environment).then(ridiSelectUser => {
     launchApp(targetElementId, ridiSelectUser, environment)
   });
 });

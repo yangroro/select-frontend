@@ -15,8 +15,6 @@ export const LOAD_BOOK_OWNERSHIP_SUCCESS = 'LOAD_BOOK_OWNERSHIP_SUCCESS';
 export const LOAD_BOOK_OWNERSHIP_FAILURE = 'LOAD_BOOK_OWNERSHIP_FAILURE';
 export const CLEAR_BOOK_OWNERSHIP = 'CLEAR_BOOK_OWNERSHIP';
 export const UPDATE_DOMINANT_COLOR = 'UPDATE_DOMINANT_COLOR';
-export const MY_SELECT_REPLACEMENT_POPUP_OPEN = 'MY_SELECT_REPLACEMENT_POPUP_OPEN';
-export const MY_SELECT_REPLACEMENT_POPUP_CLOSE = 'MY_SELECT_REPLACEMENT_POPUP_CLOSE';
 
 export interface ActionInitializeBooks
   extends Action<typeof INITIALIZE_BOOKS, LocalStorageStaticBookState> {}
@@ -53,10 +51,6 @@ export interface ActionClearBookOwnership
 export interface ActionUpdateDominantColor
   extends Action<typeof UPDATE_DOMINANT_COLOR, { bookId: BookId; color: RGB }> {}
 
-export interface ActionMySelectReplacementPopupOpen
-  extends Action<typeof MY_SELECT_REPLACEMENT_POPUP_OPEN, { bookId: BookId; }> {}
-export interface ActionMySelectReplacementPopupClose
-  extends Action<typeof MY_SELECT_REPLACEMENT_POPUP_CLOSE, { bookId: BookId; }> {}
 
 export type BookActionTypes =
   | ActionInitializeBooks
@@ -68,9 +62,7 @@ export type BookActionTypes =
   | ActionLoadBookOwnershipSuccess
   | ActionLoadBookOwnershipFailure
   | ActionClearBookOwnership
-  | ActionUpdateDominantColor
-  | ActionMySelectReplacementPopupOpen
-  | ActionMySelectReplacementPopupClose;
+  | ActionUpdateDominantColor;
 
 export const initializeBooks = (
   staticBookState: LocalStorageStaticBookState,
@@ -118,12 +110,4 @@ export const clearBookOwnership = (bookIds: BookId[]): ActionClearBookOwnership 
 
 export const updateDominantColor = (bookId: BookId, color: RGB): ActionUpdateDominantColor => {
   return { type: UPDATE_DOMINANT_COLOR, payload: { bookId, color } };
-};
-
-export const openMySelectPopup = (bookId: BookId): ActionMySelectReplacementPopupOpen => {
-  return { type: MY_SELECT_REPLACEMENT_POPUP_OPEN, payload: { bookId } };
-};
-
-export const closeMySelectPopup = (bookId: BookId): ActionMySelectReplacementPopupClose => {
-  return { type: MY_SELECT_REPLACEMENT_POPUP_CLOSE, payload: { bookId } };
 };
