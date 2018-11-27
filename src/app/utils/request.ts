@@ -13,12 +13,12 @@ function fixWrongPaginationScope(response: AxiosResponse) {
     return;
   }
   const pageParam = response.config.params.page;
-  if (!pageParam || !response.data.total_page) {
-    return;
-  }
-  if (Number(pageParam) > response.data.total_page) {
-    history.replace(`?${updateQueryStringParam('page', response.data.total_page)}`);
-  } else {
+  if (
+    pageParam && (
+      (response.status === 404 && Number(pageParam) > 1) ||
+      Number(pageParam) < 1
+    )
+  ) {
     history.replace(`?${updateQueryStringParam('page', 1)}`);
   }
 }
@@ -44,10 +44,11 @@ function requestWithDefaultHandling(config: RequestConfig): AxiosPromise {
 
   // Redirect to login page in case of 401
   instance.interceptors.response.use((response) => {
+    fixWrongPaginationScope(response);
     return response;
   }, (error) => {
     if (error && error.response && error.response.status === 404) {
-      fixWrongPaginationScope(error.response)
+      fixWrongPaginationScope(error.response);
     } else if (error && error.response && error.response.status === 401) {
       return axios
         .post(`${ACCOUNT_BASE_URL}/ridi/token/`, null, { withCredentials: true })

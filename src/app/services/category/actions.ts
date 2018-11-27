@@ -94,6 +94,8 @@ export const loadCategoryBooksSuccess = (
 };
 
 export const loadCategoryBooksFailure = (
+  categoryId: number,
+  page: number,
 ): ActionLoadCategoryBooksFailure => {
-  return { type: LOAD_CATEGORY_BOOKS_FAILURE };
+  return { type: LOAD_CATEGORY_BOOKS_FAILURE, payload: { categoryId, page } };
 };

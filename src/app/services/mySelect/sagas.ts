@@ -26,7 +26,7 @@ import {
 } from 'app/services/mySelect/requests';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
-import { all, call, put, take, select } from 'redux-saga/effects';
+import { all, call, put, take, select, takeEvery } from 'redux-saga/effects';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { RidiSelectState } from 'app/store';
 import { Book } from "app/services/book";
@@ -34,27 +34,38 @@ import { requestBooks } from "app/services/book/requests";
 import { keyBy } from "lodash-es";
 import showMessageForRequestError from "app/utils/toastHelper";
 import history from 'app/config/history';
+import { updateQueryStringParam } from 'app/utils/request';
 
-export function* watchLoadMySelectList() {
-  while (true) {
-    const { payload }: ActionLoadMySelectRequest = yield take(LOAD_MY_SELECT_REQUEST);
-    const { page } = payload!;
-    try {
-      let response: MySelectListResponse = yield call(requestMySelectList, page);
-      if (response.userRidiSelectBooks.length > 0) {
-        const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map(book => parseInt(book.bId)));
-        const books_map = keyBy(books, 'id');
-        response.userRidiSelectBooks.forEach((book, index) => {
-          response.userRidiSelectBooks[index].book = books_map[book.bId]
-        });
-        yield put(updateBooks(books));
-      }
-      yield put(loadMySelectSuccess(response, page));
-    } catch (e) {
-      yield put(loadMySelectFailure(page));
-      showMessageForRequestError(e);
+export function* loadMySelectList({ payload }: ActionLoadMySelectRequest) {
+  const { page } = payload!;
+  try {
+    let response: MySelectListResponse = yield call(requestMySelectList, page);
+    if (response.userRidiSelectBooks.length > 0) {
+      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map(book => parseInt(book.bId)));
+      const books_map = keyBy(books, 'id');
+      response.userRidiSelectBooks.forEach((book, index) => {
+        response.userRidiSelectBooks[index].book = books_map[book.bId]
+      });
+      yield put(updateBooks(books));
+    } else if (response.totalCount < page) {
+      history.replace(`?${updateQueryStringParam('page', 1)}`);
+    }
+    yield put(loadMySelectSuccess(response, page));
+  } catch (e) {
+    yield put(loadMySelectFailure(page));
+    if (
+      !e.response.config.params ||
+      !e.response.config.params.page ||
+      page === 1
+    ) {
+      toast.fail(`${typeof e === 'string' ? e :'없는 페이지입니다.'} 이전 페이지로 돌아갑니다.`);
+      window.requestAnimationFrame(history.goBack);
     }
   }
+}
+
+export function* watchLoadMySelectList() {
+  yield takeEvery(LOAD_MY_SELECT_REQUEST, loadMySelectList)
 }
 
 export function* watchDeleteMySelect() {

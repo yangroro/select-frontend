@@ -7,7 +7,8 @@ import {
 } from 'app/services/selection/actions';
 import { requestSelection, SelectionResponse } from 'app/services/selection/requests';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import showMessageForRequestError from "app/utils/toastHelper";
+import history from 'app/config/history';
+import toast from 'app/utils/toast';
 
 export function* loadSelection({ payload }: ActionLoadSelectionRequest) {
   const { page, selectionId } = payload!;
@@ -17,7 +18,14 @@ export function* loadSelection({ payload }: ActionLoadSelectionRequest) {
     yield put(loadSelectionSuccess(selectionId, page, response));
   } catch (e) {
     yield put(loadSelectionFailure(selectionId, page));
-    showMessageForRequestError(e);
+    if (
+      !e.response.config.params ||
+      !e.response.config.params.page ||
+      page === 1
+    ) {
+      toast.fail(`${typeof e === 'string' ? e :'없는 페이지입니다.'} 이전 페이지로 돌아갑니다.`);
+      window.requestAnimationFrame(history.goBack);
+    }
   }
 }
 

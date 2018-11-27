@@ -2,9 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 
-import { Pagination } from '@ridi/rsg/components/dist/pagination';
 import { RidiSelectState } from 'app/store';
 import { getPageQuery } from 'app/services/routing/selectors';
+import { Pagination } from 'app/components/Pagination';
+import MediaQuery from 'react-responsive';
 
 interface OwnProps {
   fetch: (page: number) => any;
@@ -76,17 +77,19 @@ export class ListWithPaginationPage extends React.Component<Props> {
               <h2 className="a11y">{page} 페이지</h2>
               {renderItems(page)}
             </section>
-            {itemCount > 0 && <Pagination
-              currentPage={page}
-              isMobile={true}
-              totalPages={Math.ceil(itemCount / itemCountPerPage)}
-              item={{
-                el: Link,
-                getProps: (p): LinkProps => ({
-                  to: buildPaginationURL(p),
-                }),
-              }}
-            />}
+            {itemCount > 0 && <MediaQuery maxWidth={840}>
+              {(isMobile) => <Pagination
+                currentPage={page}
+                isMobile={isMobile}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: buildPaginationURL(p),
+                  }),
+                }}
+              />}
+            </MediaQuery>}
             {children}
           </>
         )}
