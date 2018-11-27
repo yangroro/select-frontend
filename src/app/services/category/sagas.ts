@@ -1,5 +1,5 @@
 import { replace } from 'react-router-redux';
-import { all, call, put, select, take } from 'redux-saga/effects';
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import * as qs from 'qs';
 
 import { updateBooks } from 'app/services/book/actions';
@@ -17,6 +17,7 @@ import {
   loadCategoryBooksSuccess,
   loadCategoryListRequest,
   loadCategoryListSuccess,
+  loadCategoryBooksFailure,
 } from 'app/services/category/actions';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { RidiSelectState } from 'app/store';
@@ -94,22 +95,30 @@ export function* watchCacheCategoryId() {
   }
 }
 
-export function* watchLoadCategoryBooks() {
-  while (true) {
-    const { payload }: ActionLoadCategoryBooksRequest = yield take(LOAD_CATEGORY_BOOKS_REQUEST);
-    const { page, categoryId } = payload!;
-    try {
-      if (Number.isNaN(page)) {
-        throw '유효하지 않은 페이지입니다.';
-      }
-      const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
-      yield put(updateBooks(response.books));
-      yield put(loadCategoryBooksSuccess(categoryId, page, response));
-    } catch (e) {
+export function* loadCategoryBooks({ payload }: ActionLoadCategoryBooksRequest) {
+  const { page, categoryId } = payload!;
+  try {
+    if (Number.isNaN(page)) {
+      throw '유효하지 않은 페이지입니다.';
+    }
+    const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
+    yield put(updateBooks(response.books));
+    yield put(loadCategoryBooksSuccess(categoryId, page, response));
+  } catch (e) {
+    yield put(loadCategoryBooksFailure(categoryId, page))
+    if (
+      !e.response.config.params ||
+      !e.response.config.params.page ||
+      page === 1
+    ) {
       toast.fail(`${typeof e === 'string' ? e :'없는 페이지입니다.'} 이전 페이지로 돌아갑니다.`);
       window.requestAnimationFrame(history.goBack);
     }
   }
+}
+
+export function* watchLoadCategoryBooks() {
+  yield takeEvery(LOAD_CATEGORY_BOOKS_REQUEST, loadCategoryBooks);
 }
 
 export function* categoryRootSaga() {

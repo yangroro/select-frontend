@@ -10,7 +10,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 // tslint:disable-next-line
 const Vibrant = require('node-vibrant');
 
-import { Button, Popup, Icon } from '@ridi/rsg';
+import { Button, Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
 import { FetchStatusFlag } from 'app/constants';
 import {
@@ -36,7 +36,7 @@ import { Expander } from 'app/services/book/components/Expander';
 import { Publisher, BookFile, BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
 import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel } from 'app/services/commonUI';
 import { ActionUpdateGNBColor, updateGNBColor } from 'app/services/commonUI/actions';
-import { MySelectBook, MySelectState } from 'app/services/mySelect';
+import { MySelectState } from 'app/services/mySelect';
 import {
   ActionAddMySelectRequest,
   addMySelectRequest,
@@ -45,7 +45,6 @@ import { ConnectedReviews } from 'app/services/review';
 import { StarRating } from 'app/services/review/components';
 import { RidiSelectState } from 'app/store';
 import { BookId, TextWithLF } from 'app/types';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
@@ -178,21 +177,21 @@ export class BookDetail extends React.Component<Props, State> {
   };
 
   private handleDownloadButtonClick = () => {
-    const { env } = this.props;
+    const { env, bookId } = this.props;
     if (this.shouldDisplaySpinnerOnDownload()) {
       return;
     }
     if (this.canDownload()) {
+      if (env.platform.isRidiApp) {
+        readBooksInRidiselect(bookId);
+        return;
+      }
       if (!this.currentBookExistsInMySelect() && !confirm('리디북스에서 이미 구매/대여한 책입니다.\n다운로드하시겠습니까?')) {
         return;
       }
-      if (env.platform.isRidiApp) {
-        readBooksInRidiselect(this.props.bookId);
-      } else {
-        downloadBooksInRidiselect([this.props.bookId]);
-      }
+      downloadBooksInRidiselect([bookId]);
     } else {
-      this.props.dispatchAddMySelect(this.props.bookId);
+      this.props.dispatchAddMySelect(bookId);
     }
   };
 

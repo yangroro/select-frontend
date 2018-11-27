@@ -1,74 +1,72 @@
+/* TODO: 추후 Ridi Web UI 업데이트 되고 반영하게 되면 아래 페이지네이션 코드는 Ridi Web UI로 대체되어야 함. */
+/* 현재 Group 까지 부분적으로 추가되어있는 상태 */
+
 :root {
   --Paging-height: 30px;
 }
 
-.Paging {
+.RUIGroup_Element {
+  position: relative;
+  z-index: 1;
+  &:not(:disabled):focus,
+  &:not(:disabled):active {
+    z-index: 2;
+  }
+}
+
+.RUIGroup-horizontal {
+  white-space: nowrap;
+  & > .RUIGroup_Element {
+    margin: 0 0 0 -1px;
+    border-radius: 0;
+  }
+  & > .RUIGroup_Element:first-child {
+    margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  & > .RUIGroup_Element:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}
+
+.Pagination {
   height: var(--Paging-height);
   margin: 0;
   padding: 20px 0 0;
   line-height: var(--Paging-height);
   text-align: center;
-
-  & > .Paging_Button,
-  & > .Paging_ButtonGroup {
-    box-shadow: 0 1px 1px color(#d2d2d2 alpha(30%));
-  }
-
-  & > .Paging_Button {
-    border-radius: 3px;
-    & .ArrowIcon {
-      width: 6px;
-      height: 9px;
-      fill: #818a92;
-    }
-  }
+  white-space: nowrap;
 }
 
-.Paging_Button {
+.Pagination_Button {
   display: inline-block;
-  min-width: 20px;
-  height: var(--Paging-height);
+  min-width: 42px;
+  height: calc(var(--Paging-height) + 2px);
   margin-left: -1px;
   padding: 0 10px;
-  border: 1px solid #ced2d6;
-  color: #999;
-  font-size: 13px;
-  font-weight: 700;
   line-height: var(--Paging-height);
-  text-decoration: none;
 
-  &.active {
-    border-color: #0e7bc3;
-    background: #1a90df;
-    color: #fff;
-  }
-
-  &:not(.active):hover {
-    background-color: #f3f4f5;
+  & .Pagination_GoPrevIcon,
+  & .Pagination_GoNextIcon {
+    width: 6px;
+    height: 9px;
+    fill: #818a92;
   }
 }
 
-.Paging_ButtonGroup {
+.Pagination_Group {
   display: inline-block;
-  margin: -1px 6px 0;
-
-  & > .Paging_Button:first-child {
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-  }
-
-  & > .Paging_Button:last-child {
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-  }
+  margin: 0 6px;
 }
 
-.Paging_Dots {
+.Pagination_Dots {
   display: inline-block;
-  width: 13px;
+  width: 8px;
   height: var(--Paging-height);
   padding: 0 3px;
-  & .DotIcon {
+  & .Pagination_DeviderIcon {
     width: 100%;
     vertical-align: middle;
     fill: #bfc4c8;
