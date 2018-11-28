@@ -67,7 +67,7 @@ export const GNB: React.SFC<Props> = (props) => {
               <li className="GNBService">
                 <a
                   className="GNBServiceLink Ridibooks_Link"
-                  href={`${ window.location.protocol }${ BASE_URL_STORE }`}
+                  href={`${ BASE_URL_STORE }`}
                 >
                   <Icon
                     name="logo_ridibooks_1"
