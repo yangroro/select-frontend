@@ -9,6 +9,7 @@ import { BigBanner } from 'app/services/home/reducer.state';
 import { ConnectedTrackImpression, DefaultTrackingParams, ActionTrackClick, trackClick } from 'app/services/tracking';
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { ConnectedBigBannerItem } from './BigBannerItem';
 
 const PC_BANNER_WIDTH = 432;
 const PC_MIN_HEIGHT = 288;
@@ -116,9 +117,8 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
                   id={item.id}
                   key={index}
                 >
-                  <Link
-                    to={item.linkUrl}
-                    className="BigBanner_Item"
+                  <ConnectedBigBannerItem
+                    linkUrl={item.linkUrl}
                     onClick={() => this.props.trackClick({
                       section,
                       index: index,
@@ -135,7 +135,7 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
                       }}
                     />
                     <span className="a11y">배너 링크</span>
-                  </Link>
+                  </ConnectedBigBannerItem>
                 </ConnectedTrackImpression>
               ))}
             </Slider>
