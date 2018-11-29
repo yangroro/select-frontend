@@ -22,7 +22,7 @@ export const BigBannerItem: React.SFC<Props> = (props) => {
     onClick,
     children,
   };
-  const ridiselectReg = new RegExp(`^https?:${props.env.constants.RIDISELECT_URL}/`);
+  const ridiselectReg = new RegExp(`^https?:${props.env.constants.BASE_URL_RIDISELECT}/`);
   const schemeReg = /^https?:\/\//;
 
   if (ridiselectReg.test(linkUrl) || !schemeReg.test(linkUrl)) {
