@@ -172,7 +172,11 @@ export function* watchCancelUnsubscription() {
       alert('구독 해지 예약이 취소되었습니다.');
     } catch (e) {
       yield put(cancelUnsubscriptionFailure());
-      showMessageForRequestError(e);
+      if (e.response && e.response.data.code === "DELETED_PAYMENT_METHOD") {
+        toast.fail(e.response.data.message);
+      } else {
+        showMessageForRequestError(e);
+      }
     }
   }
 }
