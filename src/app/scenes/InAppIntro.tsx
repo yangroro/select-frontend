@@ -49,7 +49,7 @@ export class InAppIntro extends React.Component<StateProps> {
               className="InAppIntro_Overlay_Button"
               color="blue"
               size="large"
-              onClick={() => window.android && window.android.openBrowser && window.android.openBrowser(this.props.BASE_URL_RIDISELECT)}
+              onClick={() => window.android && window.android.openBrowser && window.android.openBrowser('//select.ridibooks.com')}
             >
               리디셀렉트 구독하러 가기
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="InAppIntro_Overlay_Button_Icon">
