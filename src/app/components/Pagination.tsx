@@ -24,29 +24,25 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
     getProps = (page?: number) => ({}),
   } = item;
 
-  const sibilingPagesRange = isMobile ? 2 : 4;
-  const maxButtonsCount = 1 + (sibilingPagesRange * 2);
-  const displayGoFirst = !isMobile && (currentPage > sibilingPagesRange + 1);
-  const displayGoPrev = currentPage !== 1;
-  const displayGoNext = currentPage !== totalPages;
-  const { max, min } = Math;
+  const { max, min, floor } = Math;
+  const buttonRangeCount = isMobile ? 5 : 10;
+  const paginationIdx = currentPage % buttonRangeCount === 0 ?
+    floor(currentPage / buttonRangeCount) - 1 :
+    floor(currentPage / buttonRangeCount);
 
-  const start = min(
-    max(1, currentPage - sibilingPagesRange),
-    max(totalPages - (maxButtonsCount - 1), 1)
-  );
-  const end = min(
-    max(currentPage + sibilingPagesRange, start + (maxButtonsCount - 1)),
-    totalPages
-  );
-  const pageNumbers = Array.from({ length: end - start + 1 }, (v, k) => k + start);
+  const startPageNum = max((paginationIdx * buttonRangeCount) + 1, 1);
+  const endPageNum = min(startPageNum + (buttonRangeCount - 1), totalPages);
+  const pageNumbers = Array.from({ length: endPageNum - startPageNum + 1 }, (v, k) => k + startPageNum);
+
+  const isDisplayGoPrev = startPageNum > buttonRangeCount;
+  const isDisplayGoNext = totalPages > endPageNum;
 
   if (totalPages === 1) { return null; }
   return (
     <nav aria-label="페이지 내비게이션">
       <h2 className="a11y indent_hidden">페이지 내비게이션</h2>
       <ul className="Pagination">
-        {displayGoFirst && (
+        {(!isMobile && isDisplayGoPrev) && (
           <>
             <Button
               component={el}
@@ -63,14 +59,14 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
             </span>
           </>
         )}
-        {displayGoPrev && (
+        {isDisplayGoPrev && (
           <Button
             component={el}
             color="gray"
             outline
             className="Pagination_Button museoSans"
             aria-label="이전 페이지"
-            {...getProps(currentPage - 1)}
+            {...getProps(startPageNum - buttonRangeCount)}
           >
             <Icon name="arrow_8_left" className="Pagination_GoPrevIcon" />
           </Button>
@@ -90,17 +86,34 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
             </Button>
           ))}
         </div>
-        {displayGoNext && (
+        {isDisplayGoNext && (
           <Button
             component={el}
             color="gray"
             outline
             className="Pagination_Button museoSans"
             aria-label="다음 페이지"
-            {...getProps(currentPage + 1)}
+            {...getProps(endPageNum + 1)}
           >
             <Icon name="arrow_8_right" className="Pagination_GoNextIcon" />
           </Button>
+        )}
+        {(!isMobile && isDisplayGoNext) && (
+          <>
+            <span className="Pagination_Dots">
+              <Icon name="dotdotdot" className="Pagination_DeviderIcon" />
+            </span>
+            <Button
+              component={el}
+              color="gray"
+              outline
+              className="Pagination_Button museoSans"
+              aria-label="마지막 페이지"
+              {...getProps(totalPages)}
+            >
+              마지막
+            </Button>
+          </>
         )}
       </ul>
     </nav>
