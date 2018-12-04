@@ -257,6 +257,17 @@ main.SceneWrapper {
   opacity: 1;
 }
 
+.RSGBookThumbnail_CoverImage_Shadow {
+  background:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, .2) 0,
+      rgba(0, 0, 0, 0) 5%,
+      rgba(0, 0, 0, 0) 95%,
+      rgba(0, 0, 0, .2) 100%
+    );
+}
+
 .RSGBookThumbnail_Link,
 .RSGBookThumbnail_Wrapper-lazyloaded {
   max-height: inherit;
