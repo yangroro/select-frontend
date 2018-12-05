@@ -18,7 +18,6 @@ export interface UserRidiSelectBookResponse {
   book: Book;
 }
 
-// TODO: 반환되는 response에 따라 서 수정 필요
 export interface MySelectListResponse {
   userRidiSelectBooks: UserRidiSelectBookResponse[];
   totalCount: number;

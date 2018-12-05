@@ -92,9 +92,6 @@ export const GNB: React.SFC<Props> = (props) => {
                     className="SettingIcon"
                     name="account_1"
                   />
-                  {/* <svg className="" width="48px" height="48px" viewBox="0 0 48 48">
-                    <path d="M24,26.667c-7.378,0-13.333-5.956-13.333-13.333S16.622,0,24,0c7.378,0,13.333,5.956,13.333,13.333S31.378,26.667,24,26.667z M48,44.4V48H0v-3.6C0,36.4,16,32,24,32S48,36.4,48,44.4z"/>
-                  </svg> */}
                 </Link>
               </div>
             </>
