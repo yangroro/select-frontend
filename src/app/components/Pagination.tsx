@@ -1,4 +1,4 @@
-import { Button, Icon } from '@ridi/rsg';
+import { Button, Icon, Group } from '@ridi/rsg';
 import * as React from 'react';
 
 export interface PaginationProps {
@@ -75,7 +75,9 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
             <Icon name="arrow_8_left" className="Pagination_GoPrevIcon" />
           </Button>
         )}
-        <div className="Pagination_Group RUIGroup RUIGroup-horizontal">
+        <Group
+          className="Pagination_Group"
+        >
           {pageNumbers.map((pageNumber) => (
             <Button
               component={el}
@@ -89,7 +91,7 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
               {pageNumber}
             </Button>
           ))}
-        </div>
+        </Group>
         {displayGoNext && (
           <Button
             component={el}
