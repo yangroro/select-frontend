@@ -2,11 +2,10 @@ import { Icon } from '@ridi/rsg';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
-import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { debounce } from 'lodash-es';
 import { BigBanner } from 'app/services/home/reducer.state';
-import { ConnectedTrackImpression, DefaultTrackingParams, ActionTrackClick, trackClick } from 'app/services/tracking';
+import { ConnectedTrackImpression, DefaultTrackingParams,trackImpression, ActionTrackClick, trackClick, ActionTrackImpression } from 'app/services/tracking';
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedBigBannerItem } from './BigBannerItem';
@@ -19,6 +18,7 @@ interface BigBannerProps {
 }
 interface DispatchProps {
   trackClick: (params: DefaultTrackingParams) => ActionTrackClick;
+  trackImpression: (params: DefaultTrackingParams) => ActionTrackImpression;
 }
 interface State {
   clientWidth: number;
@@ -81,7 +81,7 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
     if (this.props.items.length === 0) {
       return null;
     }
-
+    const { items, trackImpression, trackClick } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
     return (
       <MediaQuery maxWidth={432}>
@@ -107,10 +107,15 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
               speed={200}
               slidesToShow={1}
               slidesToScroll={1}
+              afterChange={(currentIdx) => trackImpression({
+                section,
+                index: currentIdx,
+                id: items[currentIdx].id,
+              })}
               touchThreshold={BigBannerCarousel.touchThereshold}
               dotsClass="BigBanner_Dots"
             >
-              {this.props.items.map((item, index) => (
+              {items.map((item, index) => (
                 <ConnectedTrackImpression
                   section={section}
                   index={index}
@@ -119,7 +124,7 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
                 >
                   <ConnectedBigBannerItem
                     linkUrl={item.linkUrl}
-                    onClick={() => this.props.trackClick({
+                    onClick={() => trackClick({
                       section,
                       index: index,
                       id: item.id,
@@ -167,6 +172,7 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
 const mapDispatchToProps = (dispatch: any): DispatchProps => {;
   return {
     trackClick: (params: DefaultTrackingParams) => dispatch(trackClick(params)),
+    trackImpression: (params: DefaultTrackingParams) => dispatch(trackImpression(params)),
   };
 };
 
