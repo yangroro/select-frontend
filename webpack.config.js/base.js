@@ -38,7 +38,6 @@ module.exports = {
   entry: {
     polyfill: ['app/config/customEvent.polyfill.js', 'core-js/shim', 'whatwg-fetch', 'element-closest'],
     main: 'app/index.tsx',
-    payments: 'standalone/payments.ts',
     sentry: 'app/utils/sentry.js'
   },
   output: {
