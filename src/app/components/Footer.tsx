@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as classNames from 'classnames';
 
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Icon } from '@ridi/rsg';
 import { getPlatformDetail, IOS_APPSTORE_URL, ANDROID_APPSTORE_URL } from 'app/utils/downloadUserBook';
 import { RidiSelectState } from 'app/store';
 import { FooterTheme } from 'app/services/commonUI';

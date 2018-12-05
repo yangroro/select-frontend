@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Icon, Button } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
 import {
   ActionLoadSubscriptionRequest,
@@ -20,7 +20,6 @@ import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import { FetchStatusFlag } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
-import { Button } from '@ridi/rsg';
 import { UnsubscribeWarningPopup } from 'app/components/UnsubscribeWarningPopup';
 import { EnvironmentState } from 'app/services/environment';
 

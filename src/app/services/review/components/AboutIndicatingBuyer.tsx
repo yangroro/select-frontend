@@ -1,7 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Icon } from '@ridi/rsg';
 
 interface AboutIndicatingBuyerState {
   isContentOpen: boolean;

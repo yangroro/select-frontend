@@ -1,6 +1,4 @@
-import { Button } from '@ridi/rsg/components/dist/button';
-import { CheckBox } from '@ridi/rsg/components/dist/check_box';
-import { Empty } from '@ridi/rsg/components/dist/empty';
+import { Button, CheckBox, Empty } from '@ridi/rsg';
 import { PCPageHeader } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';

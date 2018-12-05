@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Icon } from '@ridi/rsg';
 
 import { ReviewSummary } from 'app/services/review/reducer.state';
 import { StarRating } from '../StarRating/StarRating';

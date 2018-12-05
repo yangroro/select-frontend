@@ -5,8 +5,7 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
-import { Button } from '@ridi/rsg/components/dist/button';
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Button, Icon } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
 import { RidiSelectState } from 'app/store';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Popup } from '@ridi/rsg/components/dist/popup';
+import { Popup } from '@ridi/rsg';
 import { RUIRadioInput } from 'app/services/review/components';
 import { requestReportReview } from 'app/services/review/requests';
 import toast from 'app/utils/toast';

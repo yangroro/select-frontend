@@ -2,9 +2,7 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 
-import { Button } from '@ridi/rsg/components/dist/button';
-import { Icon } from '@ridi/rsg/components/dist/icon';
-import { FetchRetryBlock } from '@ridi/rsg/components/dist/fetch_retry_block';
+import { Button, Icon, FetchRetryBlock } from '@ridi/rsg';
 
 import { FetchStatusFlag } from 'app/constants';
 import { Review } from 'app/services/review';

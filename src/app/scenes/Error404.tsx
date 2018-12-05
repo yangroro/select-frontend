@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 
-import { Button } from '@ridi/rsg/components/dist/button';
+import { Button } from '@ridi/rsg';
 
 export const Error404: React.SFC = () => {
   return (

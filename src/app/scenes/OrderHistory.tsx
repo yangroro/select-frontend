@@ -2,7 +2,7 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
-import { Empty } from '@ridi/rsg/components/dist/empty';
+import { Empty, Button } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import {
@@ -25,7 +25,6 @@ import toast from 'app/utils/toast';
 import { connect } from 'react-redux';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { Helmet } from 'react-helmet';
-import { Button } from '@ridi/rsg/components/dist/button';
 
 interface DispatchProps {
   dispatchLoadOrderHistory: (page: number) => ActionLoadPurchasesRequest;

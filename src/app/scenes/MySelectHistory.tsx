@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps, RouteComponentProps, withRouter } from 'react-router-dom';
 
-import { Button } from '@ridi/rsg/components/dist/button';
-import { CheckBox } from '@ridi/rsg/components/dist/check_box';
-import { Empty } from '@ridi/rsg/components/dist/empty';
+import { Button, CheckBox, Empty } from '@ridi/rsg';
 import { Pagination } from 'app/components/Pagination';
 import { ConnectedPageHeader } from 'app/components';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';

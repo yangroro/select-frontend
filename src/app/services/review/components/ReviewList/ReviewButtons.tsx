@@ -1,8 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
-import { Button } from '@ridi/rsg/components/dist/button';
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Button, Icon } from '@ridi/rsg';
 import { FetchStatusFlag } from 'app/constants';
 
 export interface ReviewButtonsProps {

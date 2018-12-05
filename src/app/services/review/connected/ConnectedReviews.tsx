@@ -13,7 +13,7 @@ import { getReviewsSetFetchStatus } from 'app/services/review/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 import { ReviewPlaceholder } from 'app/services/review/components/ReviewPlaceholder';
-import { FetchRetryBlock } from '@ridi/rsg/components/dist/fetch_retry_block';
+import { FetchRetryBlock } from '@ridi/rsg';
 
 interface ReviewsProps {
   bookId: number;

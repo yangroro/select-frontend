@@ -3,8 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { Button } from '@ridi/rsg/components/dist/button';
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Button, Icon } from '@ridi/rsg';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
 import { GNBSearchActiveType } from 'app/services/commonUI';

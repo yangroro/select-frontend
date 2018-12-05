@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Icon } from '@ridi/rsg';
 import { MaskedUId } from 'app/types';
 
 export interface ReviewerMetadataProps {

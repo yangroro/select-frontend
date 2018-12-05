@@ -6,10 +6,12 @@ import request from 'app/utils/request';
 import { AxiosResponse } from 'axios';
 import { BigBanner } from 'app/services/home/reducer.state';
 import * as qs from 'qs';
+import { responseCommentsToCommentIdListByPage } from '../review/reducer.helpers';
 
 export interface HomeResponse {
   bigBanners: BigBanner[];
   selections: SelectionResponse[];
+  collections: SelectionResponse[];
 }
 
 function* thumbnailMaker() {

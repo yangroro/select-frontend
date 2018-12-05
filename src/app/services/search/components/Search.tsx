@@ -17,7 +17,7 @@ import 'rxjs/add/operator/debounceTime';
 import history from 'app/config/history';
 
 import { camelize } from '@ridi/object-case-converter';
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Icon } from '@ridi/rsg';
 import { FetchStatusFlag } from 'app/constants';
 import { GNBColorLevel, GNBSearchActiveType, RGB, toRGBString } from 'app/services/commonUI';
 import {

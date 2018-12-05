@@ -1,4 +1,4 @@
-import { Icon } from '@ridi/rsg/components/dist/icon';
+import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
 import { Book } from 'app/services/book/reducer.state';
 import { SelectionType } from 'app/services/home';

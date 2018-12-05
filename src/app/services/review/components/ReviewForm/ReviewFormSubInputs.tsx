@@ -1,8 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
-import { Icon } from '@ridi/rsg/components/dist/icon';
-import { Button } from '@ridi/rsg/components/dist/button';
+import { Icon, Button } from '@ridi/rsg';
 
 interface ToggleNoticeButtonProps {
   isPressed: boolean;
