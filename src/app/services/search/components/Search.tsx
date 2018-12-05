@@ -29,6 +29,7 @@ import { localStorageManager } from 'app/services/search/utils';
 import { RidiSelectState } from 'app/store';
 import request from 'app/utils/request';
 import { setDisableScroll } from 'app/utils/utils';
+import toast from 'app/utils/toast';
 
 export interface InstantSearchResultBook {
   id: string;
@@ -268,8 +269,11 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 
   private linkToBookDetail(book: InstantSearchResultBook): void {
+    if (!book) {
+      toast.defaultErrorMessage();
+      return;
+    }
     let targetKeyword = '';
-
     if (book.highlightTitle) {
       targetKeyword = book.title;
     } else if (book.highlightAuthor) {
