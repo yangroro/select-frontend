@@ -12,7 +12,7 @@ export class ScrollToTop extends React.Component<ScrollToTopProps> {
 
   public componentDidUpdate(prevProps: ScrollToTopProps) {
     if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
+      setTimeout(() => window.scrollTo(0, 0), 0);
     }
   }
 
