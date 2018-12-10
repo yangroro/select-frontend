@@ -277,7 +277,7 @@ export class BookDetail extends React.Component<Props, State> {
         </Button>
       )
     } else {
-      const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${window.location.href}`;
+      const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(window.location.href)}`;
       const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
       return (
         <Button

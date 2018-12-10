@@ -59,7 +59,7 @@ export function* watchLocationChange() {
       // Remove new subscription search string for tracking and move to entry page if there is one
       yield put(replace({
         ...state.router.location,
-        search: state.router.location!.search.replace(/new_subscription=[^&=]+/, ''),
+        search: state.router.location!.search.replace(/[&?]new_subscription=[^&=]+/, ''),
       }));
     }
   }
