@@ -21,13 +21,13 @@ export const selectionReducer = (
       const { selections = [] } = action.payload!;
       const newState: SelectionsState = selections.reduce((prev, selection) => {
         // Don't need to update data if data exists
-        const { selectionId } = selection;
-        if (!!state[selectionId]) {
-          prev[selectionId] = state[selectionId];
+        const { collectionId } = selection;
+        if (!!state[collectionId]) {
+          prev[collectionId] = state[collectionId];
         } else {
-          prev[selectionId] = {
-            ...state[selectionId],
-            id: selectionId,
+          prev[collectionId] = {
+            ...state[collectionId],
+            id: collectionId,
             itemCount: selection.totalCount, // TODO: Ask to @minq if we can get this number in home response
             itemListByPage: {
               1: {
@@ -78,7 +78,7 @@ export const selectionReducer = (
             },
           },
           title: response.title,
-          id: response.selectionId,
+          id: response.collectionId,
           itemCount: response.totalCount,
           type: response.type,
         },

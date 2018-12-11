@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios';
 import * as qs from 'qs';
 
 export interface SelectionResponse {
-  selectionId: number;
+  collectionId: number;
   totalCount: number;
   type: SelectionType;
   title: string;
