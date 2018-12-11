@@ -160,7 +160,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
             <CommonLoader />
             <img
               className="Load_Trigger_Image"
-              src={`${INTRO_IMAGE_DIR}/hero_bg_new.jpg`}
+              src={`${INTRO_IMAGE_DIR}/hero_bg_20181211.jpg`}
               onLoad={() => this.afterLoadingComplete()}
             />
           </>
@@ -210,19 +210,19 @@ export class Intro extends React.Component<Props, IntroPageState> {
             </div>
             <div className="SectionFeatured_ImageWrapper">
               <img
-                src={`${INTRO_IMAGE_DIR}/life_bg_1.png`}
+                src={`${INTRO_IMAGE_DIR}/life_bg_1_20181211.png`}
                 className="SectionFeatured_Image_1"
                 data-transformed="100"
                 alt=""
               />
               <img
-                src={`${INTRO_IMAGE_DIR}/life_bg_2.png`}
+                src={`${INTRO_IMAGE_DIR}/life_bg_2_20181211.png`}
                 className="SectionFeatured_Image_2"
                 data-transformed="30"
                 alt=""
               />
               <img
-                src={`${INTRO_IMAGE_DIR}/life_mobile.png`}
+                src={`${INTRO_IMAGE_DIR}/life_mobile_20181211.png`}
                 className="SectionFeatured_Image_3"
                 data-transformed="50"
                 alt=""
@@ -240,17 +240,17 @@ export class Intro extends React.Component<Props, IntroPageState> {
         >
           <div className="SectionReasonable_RotateWrapper">
             <div className="SectionReasonable_BgImageWrapper">
-              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_1.jpg`} alt=""
+              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_1_20181211.jpg`} alt=""
                 className="SectionFeatured_Reasonable_1" />
-              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_2.jpg`} alt=""
+              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_2_20181211.jpg`} alt=""
                 className="SectionFeatured_Reasonable_2" />
-              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_3.jpg`} alt=""
+              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_3_20181211.jpg`} alt=""
                 className="SectionFeatured_Reasonable_3 ImageForPc" />
-              <img src={`${INTRO_IMAGE_DIR}/m.unlimited_books_bg_3.jpg`} alt=""
+              <img src={`${INTRO_IMAGE_DIR}/m.unlimited_books_bg_3_20181211.jpg`} alt=""
                 className="SectionFeatured_Reasonable_3 ImageForMobile" />
-              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_4.jpg`} alt=""
+              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_4_20181211.jpg`} alt=""
                 className="SectionFeatured_Reasonable_4" />
-              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_mobile.png`} alt=""
+              <img src={`${INTRO_IMAGE_DIR}/unlimited_books_mobile_20181211.png`} alt=""
                 className="SectionFeatured_Reasonable_5" />
             </div>
           </div>
@@ -284,7 +284,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
               </a>
             </div>
             <div className="SectionPromotion_ImageWrapper">
-              <img src={`${INTRO_IMAGE_DIR}/free_month_mobile.png`} alt=""
+              <img src={`${INTRO_IMAGE_DIR}/free_month_mobile_20181211.png`} alt=""
                 className="SectionPromotion_Image" />
             </div>
           </div>

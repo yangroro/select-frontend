@@ -78,7 +78,7 @@ img.ImageForMobile {
   position: relative;
   flex-direction: column;
   height: 100vh;
-  background: url(/dist/images/intro/hero_bg_new.jpg) center center no-repeat;
+  background: url(/dist/images/intro/hero_bg_20181211.jpg) center center no-repeat;
   background-size: cover;
   & .Section_MainCopy,
   & .Section_Description,
@@ -106,7 +106,7 @@ img.ImageForMobile {
   .SectionMain {
     height: 100vh;
     max-height: 640px;
-    background: url(/dist/images/intro/m.hero_bg_new.jpg) center center no-repeat;
+    background: url(/dist/images/intro/m.hero_bg_20181211.jpg) center center no-repeat;
     background-size: cover;
     &.Button-fixed {
       & .Section_Description {
