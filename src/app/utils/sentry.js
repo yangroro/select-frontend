@@ -57,7 +57,7 @@ const RAVEN_OPTIONS = {
     'ReferenceError: _isMatchingDomain is not defined',
     // quit while calling Tracking uri
     'TypeError: Failed to fetch at _promiseRejectionHandler',
-    /^https\:\/\/s3\.ap-northeast-2\.amazonaws\.com\/beacon\-select\/beacon_select\.gif\?event\=/,
+    /^https:\/\/s3\.ap-northeast-2\.amazonaws\.com\/beacon-select\/beacon_select\.gif\?event=/,
   ],
   whitelistUrls: [
     /https?:\/\/(.+\.)?ridibooks\.com/,
