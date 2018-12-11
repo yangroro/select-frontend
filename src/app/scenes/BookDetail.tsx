@@ -7,6 +7,7 @@ import LazyLoad, { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
+import * as qs from 'qs';
 // tslint:disable-next-line
 const Vibrant = require('node-vibrant');
 
@@ -242,7 +243,7 @@ export class BookDetail extends React.Component<Props, State> {
       return true;
     }
     if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-      window.location.replace(`${ this.props.env.constants.BASE_URL_STORE }/account/oauth-authorize?fallback=login&return_url=${ window.location.href }`);
+      window.location.replace(`${ this.props.env.constants.BASE_URL_STORE }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
     }
     return false;
   }
@@ -277,7 +278,18 @@ export class BookDetail extends React.Component<Props, State> {
         </Button>
       )
     } else {
-      const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(window.location.href)}`;
+      // TODO: refactor to external utility function
+      const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
+        filter: (prefix, value) => {
+          if(~prefix.indexOf('utm_')) {
+            return;
+          }
+          return value;
+        },
+        addQueryPrefix: true,
+      });
+
+      const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${location.origin + location.pathname + encodeURIComponent(queryString)}`;
       const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
       return (
         <Button
