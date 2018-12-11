@@ -22,10 +22,9 @@ import {
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { RidiSelectState } from 'app/store';
 import { localStorageManager } from 'app/services/category/utils';
-import toast from 'app/utils/toast';
-import history from 'app/config/history';
 import { Category } from 'app/services/category/reducer.state';
 import showMessageForRequestError from "app/utils/toastHelper";
+import { callbackAfterFailedFetch } from 'app/utils/request';
 
 export async function loadCategoryList() {
   return await requestCategoryList();
@@ -106,14 +105,7 @@ export function* loadCategoryBooks({ payload }: ActionLoadCategoryBooksRequest) 
     yield put(loadCategoryBooksSuccess(categoryId, page, response));
   } catch (e) {
     yield put(loadCategoryBooksFailure(categoryId, page))
-    if (
-      !e.response.config.params ||
-      !e.response.config.params.page ||
-      page === 1
-    ) {
-      toast.fail(`${typeof e === 'string' ? e :'없는 페이지입니다.'} 이전 페이지로 돌아갑니다.`);
-      window.requestAnimationFrame(history.goBack);
-    }
+    callbackAfterFailedFetch(e, page);
   }
 }
 
