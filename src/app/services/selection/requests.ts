@@ -18,7 +18,7 @@ export const requestSelection = (
   selectionId: SelectionId,
   page: number,
 ): Promise<SelectionResponse> => {
-  const url = `/api/pages/selections/${selectionId}`;
+  const url = `/api/pages/collections/${selectionId}`;
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
   let params = {
     page,
