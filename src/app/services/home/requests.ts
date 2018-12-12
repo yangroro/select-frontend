@@ -1,6 +1,5 @@
 import { camelize } from '@ridi/object-case-converter';
 import { AuthorKeys, Book } from 'app/services/book/reducer.state';
-import { SelectionType } from 'app/services/home';
 import { SelectionResponse } from 'app/services/selection/requests';
 import request from 'app/utils/request';
 import { AxiosResponse } from 'axios';
@@ -10,7 +9,6 @@ import { responseCommentsToCommentIdListByPage } from '../review/reducer.helpers
 
 export interface HomeResponse {
   bigBanners: BigBanner[];
-  selections: SelectionResponse[];
   collections: SelectionResponse[];
 }
 
