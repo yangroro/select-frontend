@@ -9,21 +9,6 @@
   }
 }
 
-img.ImageForPc {
-  display: none;
-}
-img.ImageForMobile {
-  display: block;
-}
-@media (--pc-screen) {
-  img.ImageForPc {
-    display: block;
-  }
-  img.ImageForMobile {
-    display: none;
-  }
-}
-
 @media (--mobile-screen) {
   .Footer {
     padding-bottom: 70px;
