@@ -5,7 +5,7 @@ import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';
 import { debounce } from 'lodash-es';
 import { BigBanner } from 'app/services/home/reducer.state';
-import { ConnectedTrackImpression, DefaultTrackingParams,trackImpression, ActionTrackClick, trackClick, ActionTrackImpression } from 'app/services/tracking';
+import { DefaultTrackingParams,trackImpression, ActionTrackClick, trackClick, ActionTrackImpression } from 'app/services/tracking';
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedBigBannerItem } from './BigBannerItem';
@@ -29,6 +29,7 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
   private slider: Slider;
   private wrapper: HTMLElement | null;
   private firstClientX: number;
+  private sliderImpressionCheckTimeout?: number;
 
   public state: State = {
     clientWidth: 360,
@@ -59,6 +60,17 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
     if (this.state.clientWidth !== clientWidth) {
       this.setState({ clientWidth });
     }
+  }
+
+  private setSliderImpression(Idx: number) {
+    const { items } = this.props;
+    const section = getSectionStringForTracking('home', 'big-banner');
+    this.sliderImpressionCheckTimeout && window.clearTimeout(this.sliderImpressionCheckTimeout);
+    this.sliderImpressionCheckTimeout = window.setTimeout(() => trackImpression({
+      section,
+      index: Idx,
+      id: items[Idx].id,
+    }), 300);
   }
 
   public componentDidMount() {
@@ -107,41 +119,32 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
               speed={200}
               slidesToShow={1}
               slidesToScroll={1}
-              afterChange={(currentIdx) => trackImpression({
-                section,
-                index: currentIdx,
-                id: items[currentIdx].id,
-              })}
+              onInit={() => this.setSliderImpression(0)}
+              afterChange={(currentIdx) => this.setSliderImpression(currentIdx)}
               touchThreshold={BigBannerCarousel.touchThereshold}
               dotsClass="BigBanner_Dots"
             >
               {items.map((item, index) => (
-                <ConnectedTrackImpression
-                  section={section}
-                  index={index}
-                  id={item.id}
+                <ConnectedBigBannerItem
+                  linkUrl={item.linkUrl}
+                  onClick={() => trackClick({
+                    section,
+                    index: index,
+                    id: item.id,
+                  })}
                   key={index}
                 >
-                  <ConnectedBigBannerItem
-                    linkUrl={item.linkUrl}
-                    onClick={() => trackClick({
-                      section,
-                      index: index,
-                      id: item.id,
-                    })}
-                  >
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      style={{
-                        width: isMobile ? '100%' : PC_BANNER_WIDTH,
-                        height: isMobile? '100%' : 'auto',
-                        margin: !isMobile ? '0 1px' : 0,
-                      }}
-                    />
-                    <span className="a11y">배너 링크</span>
-                  </ConnectedBigBannerItem>
-                </ConnectedTrackImpression>
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    style={{
+                      width: isMobile ? '100%' : PC_BANNER_WIDTH,
+                      height: isMobile? '100%' : 'auto',
+                      margin: !isMobile ? '0 1px' : 0,
+                    }}
+                  />
+                  <span className="a11y">배너 링크</span>
+                </ConnectedBigBannerItem>
               ))}
             </Slider>
             <div className="BigBanner_Controls">
