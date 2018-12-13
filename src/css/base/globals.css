@@ -66,6 +66,22 @@ body {
     transition: background .2s;
     @media (hover: hover) {
       &:hover:not(:disabled) {
+        background: var(--dodgerblue_60);
+      }
+    }
+    @media (hover: none) {
+      &:active:not(:disabled) {
+        background: var(--dodgerblue_60);
+      }
+    }
+  }
+
+  & .RUIButton-color-blue.RUIButton-outline:not(.RUIButton_Spinner),
+  & [class^="rui_button_blue_line_"]:not(.spinner, .disabled),
+  & [class*=" rui_button_blue_line_"]:not(.spinner, .disabled) {
+    transition: background .2s;
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
         background: var(--dodgerblue_5);
       }
     }
