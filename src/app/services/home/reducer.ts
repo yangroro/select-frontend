@@ -15,7 +15,7 @@ export const homeReducer = (state = homeInitialState, action: HomeActionTypes): 
         ...state,
         fetchedAt: fetchedAt,
         bigBannerList: response.bigBanners,
-        selectionIdList: response.selections.map((selection) => selection.selectionId),
+        selectionIdList: response.collections.map((collection) => collection.collectionId),
         fetchStatus: FetchStatusFlag.IDLE,
       };
     }

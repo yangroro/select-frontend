@@ -13,14 +13,14 @@ export function* watchLoadHome() {
     try {
       const response: HomeResponse = yield call(requestHome);
       // This array might have duplicated book item
-      const books = response.selections.reduce((concatedBooks: Book[], section) => {
+      const books = response.collections.reduce((concatedBooks: Book[], section) => {
         return concatedBooks.concat(section.books);
       }, []);
       yield put(updateBooks(books));
-      const selections = response.selections.map((section): SelectionResponse => {
+      const selections = response.collections.map((section): SelectionResponse => {
         return {
           type: section.type,
-          selectionId: section.selectionId,
+          collectionId: section.collectionId,
           title: section.title,
           books: section.books,
           totalCount: 0, // TODO: Ask @minQ

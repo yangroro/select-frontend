@@ -32,9 +32,8 @@ import { RidiSelectState } from 'app/store';
 import { Book } from "app/services/book";
 import { requestBooks } from "app/services/book/requests";
 import { keyBy } from "lodash-es";
-import showMessageForRequestError from "app/utils/toastHelper";
 import history from 'app/config/history';
-import { updateQueryStringParam } from 'app/utils/request';
+import { updateQueryStringParam, callbackAfterFailedFetch } from 'app/utils/request';
 
 export function* loadMySelectList({ payload }: ActionLoadMySelectRequest) {
   const { page } = payload!;
@@ -53,14 +52,7 @@ export function* loadMySelectList({ payload }: ActionLoadMySelectRequest) {
     yield put(loadMySelectSuccess(response, page));
   } catch (e) {
     yield put(loadMySelectFailure(page));
-    if (
-      !e.response.config.params ||
-      !e.response.config.params.page ||
-      page === 1
-    ) {
-      toast.fail(`${typeof e === 'string' ? e :'없는 페이지입니다.'} 이전 페이지로 돌아갑니다.`);
-      window.requestAnimationFrame(history.goBack);
-    }
+    callbackAfterFailedFetch(e, page);
   }
 }
 

@@ -55,6 +55,9 @@ const RAVEN_OPTIONS = {
     'Failed to read the \'cssRules\' property from \'CSSStyleSheet\': Cannot access rules',
     // Facebook crawler. see https://app.asana.com/0/325622807541174/823860092252432
     'ReferenceError: _isMatchingDomain is not defined',
+    // quit while calling Tracking uri
+    'TypeError: Failed to fetch at _promiseRejectionHandler',
+    /^https:\/\/s3\.ap-northeast-2\.amazonaws\.com\/beacon-select\/beacon_select\.gif\?event=/,
   ],
   whitelistUrls: [
     /https?:\/\/(.+\.)?ridibooks\.com/,
