@@ -191,7 +191,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
       <main className="SceneWrapper">
         <Helmet>
           <title>
-            리디셀렉트 - 베스트셀러를 무제한으로 읽어보세요, 첫 1개월 무료
+            리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이
           </title>
         </Helmet>
         {isLoaded ? null : (
@@ -216,9 +216,8 @@ export class Intro extends React.Component<Props, IntroPageState> {
         >
           <div className="SectionMain_Content">
             <h2 className="Section_MainCopy SectionMain_MainCopy">
-              베스트셀러를
-              <br />
-              무제한으로 읽어보세요
+              신간도 베스트셀러도<br />
+              월정액으로 제한없이
             </h2>
             <p className="Section_Description SectionMain_Description">
               {FREE_PROMOTION_MONTHS}개월 무료 후 월 6,500원
@@ -256,7 +255,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
             <div className="SectionFeature_CopyWrapper">
               <h2 className="Section_MainCopy SectionFeatured_MainCopy">
                 무엇을 고르든 <br className="BreakRow" />
-                인생의 책
+                인생 책
               </h2>
               <p className="Section_Description SectionFeatured_Description">
                 독자 평점으로 검증된 도서들과
