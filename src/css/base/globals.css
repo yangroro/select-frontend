@@ -66,12 +66,12 @@ body {
     transition: background .2s;
     @media (hover: hover) {
       &:hover:not(:disabled) {
-        background: var(--dodgerblue_60);
+        background: var(--dodgerblue_5);
       }
     }
     @media (hover: none) {
       &:active:not(:disabled) {
-        background: var(--dodgerblue_60);
+        background: var(--dodgerblue_5);
       }
     }
   }
