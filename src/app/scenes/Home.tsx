@@ -6,10 +6,8 @@ import * as differenceInHours from 'date-fns/difference_in_hours'
 
 import { FetchStatusFlag } from 'app/constants';
 import { BookState } from 'app/services/book';
-import { BigBanner } from 'app/services/home';
 import { ActionLoadHomeRequest, loadHomeRequest } from 'app/services/home/actions';
 import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
-import { ConnectedHomeSection } from 'app/services/home/components/HomeSection';
 import { SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import { ConnectedHomeSectionList } from 'app/services/home/components/HomSectionList';
