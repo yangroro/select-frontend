@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { forceCheck } from 'react-lazyload';
 import * as differenceInHours from 'date-fns/difference_in_hours'
 
-import { ConnectedLNB } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { BookState } from 'app/services/book';
 import { BigBanner } from 'app/services/home';
@@ -13,8 +12,7 @@ import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBann
 import { ConnectedHomeSection } from 'app/services/home/components/HomeSection';
 import { SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
-import { HomePlaceholder } from 'app/placeholder/HomePlaceholder';
-import { groupSelections } from 'app/services/home/uitls';
+import { ConnectedHomeSectionList } from 'app/services/home/components/HomSectionList';
 
 interface HomeDispatchProps {
   dispatchLoadHomeRequest: () => ActionLoadHomeRequest;
@@ -62,10 +60,6 @@ export class Home extends React.PureComponent<HomeDispatchProps & HomeStateProps
 
   public render() {
     const {
-      selectionIdList,
-      selections,
-      books,
-      fetchedAt,
       bigBannerList,
     } = this.props;
     return (
@@ -74,38 +68,10 @@ export class Home extends React.PureComponent<HomeDispatchProps & HomeStateProps
           <title>리디셀렉트</title>
         </Helmet>
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
-        {(
-          !fetchedAt ||
-          !this.state.isInitialized
-        ) ? (
-          <HomePlaceholder />
-        ) : (
-          <>
-            <ConnectedBigBannerCarousel
-              items={bigBannerList}
-            />
-            <div className="PageHome_Content">
-              {selectionIdList
-                .map((selectionId) => selections[selectionId])
-                .reduce(groupSelections, [])
-                .map((selectionGroup, idx) => (
-                  <div className="PageHome_Panel" key={idx}>
-                    {selectionGroup.map((selection) => (
-                      // TODO: Feel like it's error-prone...
-                      <ConnectedHomeSection
-                        key={selection.id}
-                        selectionId={selection.id}
-                        title={selection.title!}
-                        type={selection.type!}
-                        books={selection.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
-                      />
-                    ))}
-                  </div>
-                ))
-              }
-            </div>
-          </>
-        )}
+        <ConnectedBigBannerCarousel
+          items={bigBannerList}
+        />
+        <ConnectedHomeSectionList />
       </main>
     );
   }

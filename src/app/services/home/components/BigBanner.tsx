@@ -9,22 +9,32 @@ import { ConnectedTrackImpression, DefaultTrackingParams,trackImpression, Action
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedBigBannerItem } from './BigBannerItem';
+import { RidiSelectState } from 'app/store';
+import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
 
 const PC_BANNER_WIDTH = 432;
 const PC_MIN_HEIGHT = 288;
 
+interface BigBannerStateProps {
+  fetchedAt: number | null;
+}
+
 interface BigBannerProps {
   items: BigBanner[];
 }
+
 interface DispatchProps {
   trackClick: (params: DefaultTrackingParams) => ActionTrackClick;
   trackImpression: (params: DefaultTrackingParams) => ActionTrackImpression;
 }
+
+type Props = BigBannerStateProps & BigBannerProps & DispatchProps;
+
 interface State {
   clientWidth: number;
 }
 
-export class BigBannerCarousel extends React.Component<BigBannerProps & DispatchProps, State> {
+export class BigBannerCarousel extends React.Component<Props, State> {
   private static touchThereshold = 10;
   private slider: Slider;
   private wrapper: HTMLElement | null;
@@ -78,12 +88,17 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
   }
 
   public render() {
-    if (this.props.items.length === 0) {
+    const { fetchedAt, items, trackImpression, trackClick } = this.props;
+    const section = getSectionStringForTracking('home', 'big-banner');
+    if (items.length === 0) {
       return null;
     }
-    const { items, trackImpression, trackClick } = this.props;
-    const section = getSectionStringForTracking('home', 'big-banner');
+
     return (
+      !fetchedAt
+    ) ? (
+      <BigBannerPlaceholder />
+    ) : (
       <MediaQuery maxWidth={432}>
         {(isMobile) => (
           <section
@@ -169,11 +184,17 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
   }
 }
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {;
+const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
+  return {
+    fetchedAt: state.home.fetchedAt,
+  }
+};
+
+const mapDispatchToProps = (dispatch: any): DispatchProps => {
   return {
     trackClick: (params: DefaultTrackingParams) => dispatch(trackClick(params)),
     trackImpression: (params: DefaultTrackingParams) => dispatch(trackImpression(params)),
   };
 };
 
-export const ConnectedBigBannerCarousel = connect(null, mapDispatchToProps)(BigBannerCarousel);
+export const ConnectedBigBannerCarousel = connect(mapStateToProps, mapDispatchToProps)(BigBannerCarousel);
