@@ -342,7 +342,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
                 className={classNames(
                   "Section",
                   "SectionPromotion",
-                  !isMobile || currentSection >= 4 ? "active" : ""
+                  (!isMobile || currentSection >= 4) ? "active" : ""
                 )}
                 ref={(section: HTMLElement | null) => (this.sections[3] = section)}
               >
