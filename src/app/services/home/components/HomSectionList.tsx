@@ -1,12 +1,15 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { throttle } from "lodash-es";
+
 import { RidiSelectState } from "app/store";
 import { BookState } from 'app/services/book';
 import { SelectionsState } from "app/services/selection";
-import { groupSelections } from "../uitls";
 import { ConnectedHomeSection } from "./HomeSection";
 import { InlineHorizontalBookListSkeleton } from "app/placeholder/BookListPlaceholder";
-import { throttle } from "lodash-es";
+import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
+
+import { groupSelections } from "../uitls";
 
 
 interface HomeSelectionListStateProps {
@@ -42,12 +45,9 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
   public componentDidUpdate(prevProps: HomeSelectionListStateProps) {
     const { fetchedAt } = this.props;
     const { renderedLastGroupIdx } = this.state;
-    if (!fetchedAt) {
-      return;
-    }
-    if (prevProps.fetchedAt !== fetchedAt) {
-      this.checkSectionsOnViewport();
-    }
+
+    if (!fetchedAt) return;
+
     if (this.panels.length > 0 && (renderedLastGroupIdx + 1) >= this.panels.length) {
       window.removeEventListener("scroll", this.scrollEvent);
     }
@@ -73,35 +73,39 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
   }
 
   public render() {
-    const { selectionIdList, selections, books } = this.props;
+    const { fetchedAt, selectionIdList, selections, books } = this.props;
     const { renderedLastGroupIdx } = this.state;
-    const sectionGroup = selectionIdList
-      .map((selectionId) => selections[selectionId])
-      .reduce(groupSelections, []);
-    console.log(sectionGroup);
+
+    if (!fetchedAt) {
+      return (<HomeSectionPlaceholder />);
+    }
     return (
       <div className="PageHome_Content">
-        {sectionGroup ? sectionGroup.map((selectionGroup, idx) => (
-          <div
-            className="PageHome_Panel"
-            key={idx}
-            ref={(ref) => this.panels[idx] = ref!}
-          >
-            {renderedLastGroupIdx >= idx ? selectionGroup.map((selection) => (
-              <ConnectedHomeSection
-                key={selection.id}
-                selectionId={selection.id}
-                title={selection.title!}
-                type={selection.type!}
-                books={selection.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
-              />
-            )) : (<InlineHorizontalBookListSkeleton />)}
-          </div>
-        )) : (
-          <div className="HomeSection_Skeleton Skeleton_Wrapper">
-            <div className="HomeSection_Header_Skeleton Skeleton" />
-            <InlineHorizontalBookListSkeleton />
-          </div>
+        {selectionIdList
+          .map((selectionId) => selections[selectionId])
+          .reduce(groupSelections, [])
+          .map((selectionGroup, idx) => (
+            <div
+              className="PageHome_Panel"
+              key={idx}
+              ref={(ref) => {
+                if (this.panels[idx] !== ref) {
+                  this.panels[idx] = ref!;
+                  this.checkSectionsOnViewport();
+                }
+              }}
+            >
+              {renderedLastGroupIdx >= idx ? selectionGroup.map((selection) => (
+                <ConnectedHomeSection
+                  key={selection.id}
+                  selectionId={selection.id}
+                  title={selection.title!}
+                  type={selection.type!}
+                  books={selection.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
+                />
+              )) : (<InlineHorizontalBookListSkeleton />)}
+            </div>
+          )
         )}
       </div>
     );

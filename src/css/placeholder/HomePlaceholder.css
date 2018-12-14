@@ -12,34 +12,18 @@
 
 .BigBannerSkeleton {
   position: relative;
-  min-height: 0;
-  max-height: 362.8px;
   overflow: hidden;
-
-  &::before {
-    display: block;
-    width: 100%;
-    max-width: 544px;
-    margin: 0 auto;
-    padding-top: calc((48 / 72) * 100%);
-    content: '';
+  &.Skeleton_Wrapper {
+    min-height: 0;
   }
-
   & .Skeleton {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
+    padding-top: calc((2 / 3) * 100%);
     content: '';
-  }
-
-  @media (--pc-screen) {
-    min-height: 288px;
-
-    & .Skeleton {
-      width: 100%;
+    @media (min-width: 433px) {
       height: 288px;
+      padding-top: 0;
     }
   }
 }
@@ -56,6 +40,6 @@
 
 .HomeSection_Header_Skeleton {
   width: 49px;
-  height: 18px;
+  height: 19px;
 }
 

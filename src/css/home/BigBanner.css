@@ -43,7 +43,22 @@
 
 .BigBanner_Item {
   display: block;
+  width: 100%;
   position: relative;
+  @media (--pc-screen) {
+    height: 288px;
+    padding-top: 0;
+  }
+  @media (--mobile-screen) {
+    &::before {
+      display: block;
+      position: absolute;
+      width: 100%;
+      padding-top: calc((2 / 3) * 100%);
+      content: '';
+    }
+  }
+
   & > img {
     pointer-events: none;
   }

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { InlineHorizontalBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
-export const HomePlaceholder: React.SFC = () => (
+export const HomeSectionPlaceholder: React.SFC = () => (
   <div className="PageHome Skeleton_Wrapper">
     <div className="HomeSection_Skeleton">
       <div className="HomeSection_Header_Skeleton Skeleton" />
