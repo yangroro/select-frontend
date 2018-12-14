@@ -17,10 +17,7 @@ const PC_MIN_HEIGHT = 288;
 
 interface BigBannerStateProps {
   fetchedAt: number | null;
-}
-
-interface BigBannerProps {
-  items: BigBanner[];
+  bigBannerList: BigBanner[];
 }
 
 interface DispatchProps {
@@ -28,7 +25,7 @@ interface DispatchProps {
   trackImpression: (params: DefaultTrackingParams) => ActionTrackImpression;
 }
 
-type Props = BigBannerStateProps & BigBannerProps & DispatchProps;
+type Props = BigBannerStateProps & DispatchProps;
 
 interface State {
   clientWidth: number;
@@ -88,9 +85,9 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   }
 
   public render() {
-    const { fetchedAt, items, trackImpression, trackClick } = this.props;
+    const { fetchedAt, bigBannerList, trackImpression, trackClick } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
-    if (items.length === 0) {
+    if (bigBannerList.length === 0) {
       return null;
     }
 
@@ -125,12 +122,12 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               afterChange={(currentIdx) => trackImpression({
                 section,
                 index: currentIdx,
-                id: items[currentIdx].id,
+                id: bigBannerList[currentIdx].id,
               })}
               touchThreshold={BigBannerCarousel.touchThereshold}
               dotsClass="BigBanner_Dots"
             >
-              {items.map((item, index) => (
+              {bigBannerList.map((item, index) => (
                 <ConnectedTrackImpression
                   section={section}
                   index={index}
@@ -187,6 +184,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
 const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
   return {
     fetchedAt: state.home.fetchedAt,
+    bigBannerList: state.home.bigBannerList,
   }
 };
 

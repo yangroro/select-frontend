@@ -22,7 +22,6 @@ interface HomeStateProps {
   fetchStatus: FetchStatusFlag;
   fetchedAt: number | null;
   selectionIdList: number[];
-  bigBannerList: BigBanner[];
   books: BookState;
   selections: SelectionsState;
 }
@@ -59,18 +58,13 @@ export class Home extends React.PureComponent<HomeDispatchProps & HomeStateProps
   }
 
   public render() {
-    const {
-      bigBannerList,
-    } = this.props;
     return (
       <main className='SceneWrapper PageHome'>
         <Helmet>
           <title>리디셀렉트</title>
         </Helmet>
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
-        <ConnectedBigBannerCarousel
-          items={bigBannerList}
-        />
+        <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />
       </main>
     );
@@ -84,7 +78,6 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
     selectionIdList: state.home.selectionIdList,
     selections: state.selectionsById,
     books: state.booksById,
-    bigBannerList: state.home.bigBannerList,
   };
 };
 
