@@ -2,12 +2,11 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { RidiSelectState } from "app/store";
 import { BookState } from 'app/services/book';
-import { SelectionsState, DefaultSelectionState } from "app/services/selection";
+import { SelectionsState } from "app/services/selection";
 import { groupSelections } from "../uitls";
 import { ConnectedHomeSection } from "./HomeSection";
 import { InlineHorizontalBookListSkeleton } from "app/placeholder/BookListPlaceholder";
 import { throttle } from "lodash-es";
-import { once } from "cluster";
 
 
 interface HomeSelectionListStateProps {
@@ -49,7 +48,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
     if (prevProps.fetchedAt !== fetchedAt) {
       this.checkSectionsOnViewport();
     }
-    if (this.panels.length > 0 && renderedLastGroupIdx >= this.panels.length) {
+    if (this.panels.length > 0 && (renderedLastGroupIdx + 1) >= this.panels.length) {
       window.removeEventListener("scroll", this.scrollEvent);
     }
   }
@@ -60,8 +59,8 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
 
   private checkSectionsOnViewport() {
     const { renderedLastGroupIdx } = this.state;
-    this.panels.forEach((panel, idx) => {
-      if (!panel || !this.getIsOnViewport(panel)) {
+    this.panels.forEach((panel, idx, panels) => {
+      if (idx > panels.length || !panel || !this.getIsOnViewport(panel)) {
         return false;
       }
       if (idx > renderedLastGroupIdx) {
@@ -79,14 +78,14 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
     const sectionGroup = selectionIdList
       .map((selectionId) => selections[selectionId])
       .reduce(groupSelections, []);
-
+    console.log(sectionGroup);
     return (
       <div className="PageHome_Content">
         {sectionGroup ? sectionGroup.map((selectionGroup, idx) => (
           <div
             className="PageHome_Panel"
             key={idx}
-            ref={(ref) => this.panels.push(ref!)}
+            ref={(ref) => this.panels[idx] = ref!}
           >
             {renderedLastGroupIdx >= idx ? selectionGroup.map((selection) => (
               <ConnectedHomeSection
