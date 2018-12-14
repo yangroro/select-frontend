@@ -87,7 +87,6 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   public render() {
     const { fetchedAt, bigBannerList, trackImpression, trackClick } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
-    return (<BigBannerPlaceholder />);
     if (!fetchedAt || bigBannerList.length === 0) {
       return (<BigBannerPlaceholder />);
     }
