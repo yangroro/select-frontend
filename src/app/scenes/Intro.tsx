@@ -284,102 +284,104 @@ export class Intro extends React.Component<Props, IntroPageState> {
         </section>
         <MediaQuery maxWidth={840}>
           {isMobile => (
-            <section
-              className={classNames(
-                "Section",
-                "SectionReasonable",
-                currentSection >= 3 ? "active" : ""
-              )}
-              ref={(section: HTMLElement | null) =>
-                (this.sections[2] = section)
-              }
-            >
-              <div className="SectionReasonable_RotateWrapper">
-                <div className="SectionReasonable_BgImageWrapper">
-                  <img
-                    src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_1_20181213.jpg`}
-                    className="SectionFeatured_Reasonable_1"
-                  />
-                  <img
-                    src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_2_20181213.jpg`}
-                    className="SectionFeatured_Reasonable_2"
-                  />
-                  {isMobile ? (
-                    <img
-                      src={`${INTRO_IMAGE_DIR}/m.unlimited_books_bg_3_20181213.jpg`}
-                      className="SectionFeatured_Reasonable_3"
-                    />
-                  ) : (
-                    <img
-                      src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_3_20181213.jpg`}
-                      className="SectionFeatured_Reasonable_3"
-                    />
-                  )}
-                  <img
-                    src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_4_20181213.jpg`}
-                    className="SectionFeatured_Reasonable_4"
-                  />
-                  <img
-                    src={`${INTRO_IMAGE_DIR}/unlimited_books_mobile_20181213.png`}
-                    className="SectionFeatured_Reasonable_5"
-                  />
-                </div>
-              </div>
-              <div className="SectionReasonable_ContentsWrapper">
-                <h2 className="Section_MainCopy SectionReasonable_MainCopy">
-                  이제 책값에서 <br className="BreakRow" />
-                  자유롭게
-                </h2>
-                <p className="Section_Description SectionReasonable_Description">
-                  원하는 기기로 언제 어디서나
-                  <br />
-                  추가 결제 없이 마음껏 이용
-                </p>
-              </div>
-            </section>
-          )}
-        </MediaQuery>
-        <section
-          className={classNames(
-            "Section",
-            "SectionPromotion",
-            currentSection >= 4 ? "active" : ""
-          )}
-          ref={(section: HTMLElement | null) => (this.sections[3] = section)}
-        >
-          <div className="SectionPromotion_InnerWrapper">
-            <div className="SectionPromotion_Content">
-              <h2 className="Section_MainCopy SectionPromotion_MainCopy">
-                첫 {FREE_PROMOTION_MONTHS}개월은 무료!
-              </h2>
-              <p className="Section_Description SectionPromotion_Description">
-                부담없이 이용해보고,
-                <br />
-                언제든 원클릭으로 해지 가능!
-              </p>
-              <a
-                className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-                href={
-                  isLoggedIn
-                    ? `${BASE_URL_STORE}/select/payments`
-                    : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
-                }
-                ref={(button: HTMLElement | null) =>
-                  this.sectionMainButton.push(button)
+            <>
+              <section
+                className={classNames(
+                  "Section",
+                  "SectionReasonable",
+                  currentSection >= 3 ? "active" : ""
+                )}
+                ref={(section: HTMLElement | null) =>
+                  (this.sections[2] = section)
                 }
               >
-                {FREE_PROMOTION_MONTHS}개월 무료로 읽어보기
-                <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-              </a>
-            </div>
-            <div className="SectionPromotion_ImageWrapper">
-              <img
-                src={`${INTRO_IMAGE_DIR}/free_month_mobile_20181213.png`}
-                className="SectionPromotion_Image"
-              />
-            </div>
-          </div>
-        </section>
+                <div className="SectionReasonable_RotateWrapper">
+                  <div className="SectionReasonable_BgImageWrapper">
+                    <img
+                      src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_1_20181213.jpg`}
+                      className="SectionFeatured_Reasonable_1"
+                    />
+                    <img
+                      src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_2_20181213.jpg`}
+                      className="SectionFeatured_Reasonable_2"
+                    />
+                    {isMobile ? (
+                      <img
+                        src={`${INTRO_IMAGE_DIR}/m.unlimited_books_bg_3_20181213.jpg`}
+                        className="SectionFeatured_Reasonable_3"
+                      />
+                    ) : (
+                      <img
+                        src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_3_20181213.jpg`}
+                        className="SectionFeatured_Reasonable_3"
+                      />
+                    )}
+                    <img
+                      src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_4_20181213.jpg`}
+                      className="SectionFeatured_Reasonable_4"
+                    />
+                    <img
+                      src={`${INTRO_IMAGE_DIR}/unlimited_books_mobile_20181213.png`}
+                      className="SectionFeatured_Reasonable_5"
+                    />
+                  </div>
+                </div>
+                <div className="SectionReasonable_ContentsWrapper">
+                  <h2 className="Section_MainCopy SectionReasonable_MainCopy">
+                    이제 책값에서 <br className="BreakRow" />
+                    자유롭게
+                  </h2>
+                  <p className="Section_Description SectionReasonable_Description">
+                    원하는 기기로 언제 어디서나
+                    <br />
+                    추가 결제 없이 마음껏 이용
+                  </p>
+                </div>
+              </section>
+              <section
+                className={classNames(
+                  "Section",
+                  "SectionPromotion",
+                  !isMobile || currentSection >= 4 ? "active" : ""
+                )}
+                ref={(section: HTMLElement | null) => (this.sections[3] = section)}
+              >
+                <div className="SectionPromotion_InnerWrapper">
+                  <div className="SectionPromotion_Content">
+                    <h2 className="Section_MainCopy SectionPromotion_MainCopy">
+                      첫 {FREE_PROMOTION_MONTHS}개월은 무료!
+                    </h2>
+                    <p className="Section_Description SectionPromotion_Description">
+                      부담없이 이용해보고,
+                      <br />
+                      언제든 원클릭으로 해지 가능!
+                    </p>
+                    <a
+                      className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
+                      href={
+                        isLoggedIn
+                          ? `${BASE_URL_STORE}/select/payments`
+                          : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
+                      }
+                      ref={(button: HTMLElement | null) =>
+                        this.sectionMainButton.push(button)
+                      }
+                    >
+                      {FREE_PROMOTION_MONTHS}개월 무료로 읽어보기
+                      <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
+                    </a>
+                  </div>
+                  <div className="SectionPromotion_ImageWrapper">
+                    <img
+                      src={`${INTRO_IMAGE_DIR}/free_month_mobile_20181213.png`}
+                      className="SectionPromotion_Image"
+                    />
+                  </div>
+                </div>
+              </section>
+            </>
+          )}
+        </MediaQuery>
       </main>
     );
   }
