@@ -25,7 +25,7 @@ const {
   outputDir,
 } = PATHS;
 
-const { HOST_STATIC = 'static.select.ridibooks.com' } = (() => {
+const { HOST_STATIC = 'static-select.ridibooks.com' } = (() => {
   try {
     return dotenv.parse(fs.readFileSync(path.resolve(__dirname, '../../.env')));
   } catch (err) {
