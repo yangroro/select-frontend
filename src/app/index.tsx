@@ -29,6 +29,10 @@ const launchApp = (targetElementId: string, ridiSelectUser: RidiSelectUserDTO, e
   store.dispatch(initializeUser(ridiSelectUser));
   store.dispatch(initializeEnvironmentData(environment));
 
+  if (environment.platform.isRidiApp) {
+    document.body.classList.add('androidApp');
+  }
+
   render(
     <App store={store} />,
     document.getElementById(targetElementId),
@@ -38,10 +42,6 @@ const launchApp = (targetElementId: string, ridiSelectUser: RidiSelectUserDTO, e
 window.addEventListener('ridiSelectLoad', (event: RidiSelectLoadEvent) => {
   const environment = event.detail.dto.environment;
   const targetElementId = event.detail.targetElementId;
-  if (environment.platform.isRidiApp) {
-    document.body.classList.add('androidApp');
-  }
-
   fetchRidiSelectUserInfo(environment).then(ridiSelectUser => {
     launchApp(targetElementId, ridiSelectUser, environment)
   });
