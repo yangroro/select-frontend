@@ -38,6 +38,9 @@ const launchApp = (targetElementId: string, ridiSelectUser: RidiSelectUserDTO, e
 window.addEventListener('ridiSelectLoad', (event: RidiSelectLoadEvent) => {
   const environment = event.detail.dto.environment;
   const targetElementId = event.detail.targetElementId;
+  if (environment.platform.isRidiApp) {
+    document.body.classList.add('androidApp');
+  }
 
   fetchRidiSelectUserInfo(environment).then(ridiSelectUser => {
     launchApp(targetElementId, ridiSelectUser, environment)
