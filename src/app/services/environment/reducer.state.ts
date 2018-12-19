@@ -4,12 +4,6 @@ export type EnvironmentState = EnvironmentDTO;;
 
 export const environmentInitialState: EnvironmentState = {
   platform: {
-    type: 'unknown',
-    isPc: false,
-    isTablet: false,
-    isMobile: false,
-    isPaper: false,
-    isPaperPro: false,
     isRidiApp: false,
   },
   constants: {

@@ -47,15 +47,6 @@ window.addEventListener('ridiSelectLoad', () => {
   const BASE_URL_RIDI_PAY_API = process.env.BASE_URL_RIDI_PAY_API || '';
   const OAUTH2_CLIENT_ID = process.env.OAUTH2_CLIENT_ID || '';
 
-  const platform = {
-    type: 'pc',
-    isPc: true,
-    isTablet: false,
-    isMobile: false,
-    isPaper: false,
-    isPaperPro: false,
-    isRidiApp: getPlatformDetail().isRidiApp,
-  };
   const constants = {
     BASE_URL_STORE,
     BASE_URL_RIDISELECT,
@@ -64,8 +55,11 @@ window.addEventListener('ridiSelectLoad', () => {
     FREE_PROMOTION_MONTHS: 1,
     OAUTH2_CLIENT_ID,
   };
+
   const environment: EnvironmentDTO = {
-    platform,
+    platform: {
+      isRidiApp: getPlatformDetail().isRidiApp,
+    },
     constants,
   };
   const targetElementId = 'app';

@@ -1,5 +1,4 @@
 {% import "@unlimited/macros/meta_macro.twig" as meta_macro %}
-{% import "@unlimited/macros/custom_event_macro.twig" as custom_event_macro %}
 {% import "@unlimited/macros/ui_macro.twig" as ui_macro %}
 {% import "@unlimited/macros/android_app_helpers_macro.twig" as android_app_macro %}
 
@@ -38,8 +37,9 @@
   <div id="app"{% if is_dev %} class="dev"{% endif %}></div>
   <iframe id="bookDownloadIframe" width="0" height="0" title="내용없음"></iframe>
   <script src="{{ cacheBuster('dist/main.min.js') }}"></script>
-  {# SAP에서는 첫번째 인자인 loginUserId를 직접 참조하지 않음. 인프라 분리 시 다시 제거할 인자. #}
-  {{ custom_event_macro.ridi_select_load('', isPc, isTablet, isMobile, isPaper, paperDeviceModel, isRidiApp, free_promotion_months, OAUTH2_CLIENT_ID) }}
+  <script>
+    window.dispatchEvent(new CustomEvent('ridiSelectLoad'));
+  </script>
   {{ ui_macro.load_font() }}
 </body>
 </html>

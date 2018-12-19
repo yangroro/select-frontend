@@ -8,12 +8,6 @@ export interface RidiSelectUserDTO {
 }
 
 export interface PlatformDTO {
-  type: string;
-  isPc: boolean;
-  isTablet: boolean;
-  isMobile: boolean;
-  isPaper: boolean;
-  isPaperPro: boolean;
   isRidiApp: boolean;
 }
 

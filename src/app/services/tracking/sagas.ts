@@ -12,10 +12,8 @@ let tracker: Tracker;
 // You may also need to change `tracking_macro.twig` when you change this function
 const initializeTracker = (state: RidiSelectState) => {
   let deviceType: DeviceType;
-  if (state.environment.platform.isMobile) {
+  if (document.body.clientWidth < 840) {
     deviceType = DeviceType.Mobile;
-  } else if (state.environment.platform.isPaper) {
-    deviceType = DeviceType.Paper;
   } else {
     deviceType = DeviceType.PC;
   }
