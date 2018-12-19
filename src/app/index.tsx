@@ -6,10 +6,11 @@ import App from 'app/App';
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
 import { EnvironmentState, initializeEnvironmentData } from 'app/services/environment';
 import { initializeUser } from 'app/services/user';
-import { RidiSelectLoadEvent, RidiSelectUserDTO } from '../types';
+import { RidiSelectUserDTO, EnvironmentDTO } from '../types';
 import { initializeScrollEnd } from 'app/services/tracking/onWindowScrollEnd';
 import { fetchRidiSelectUserInfo } from "app/services/user/helper";
 import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeHorizontalScroll';
+import { getPlatformDetail } from './utils/downloadUserBook';
 
 // Show browser input focused outline when tab key is pressed
 setTabKeyFocus();
@@ -39,9 +40,35 @@ const launchApp = (targetElementId: string, ridiSelectUser: RidiSelectUserDTO, e
   );
 }
 
-window.addEventListener('ridiSelectLoad', (event: RidiSelectLoadEvent) => {
-  const environment = event.detail.dto.environment;
-  const targetElementId = event.detail.targetElementId;
+window.addEventListener('ridiSelectLoad', () => {
+  const BASE_URL_STORE = process.env.BASE_URL_STORE || '';
+  const BASE_URL_RIDISELECT = process.env.BASE_URL_RIDISELECT || '';
+  const BASE_URL_STATIC = process.env.BASE_URL_STATIC || '';
+  const BASE_URL_RIDI_PAY_API = process.env.BASE_URL_RIDI_PAY_API || '';
+  const OAUTH2_CLIENT_ID = process.env.OAUTH2_CLIENT_ID || '';
+
+  const platform = {
+    type: 'pc',
+    isPc: true,
+    isTablet: false,
+    isMobile: false,
+    isPaper: false,
+    isPaperPro: false,
+    isRidiApp: getPlatformDetail().isRidiApp,
+  };
+  const constants = {
+    BASE_URL_STORE,
+    BASE_URL_RIDISELECT,
+    BASE_URL_STATIC,
+    BASE_URL_RIDI_PAY_API,
+    FREE_PROMOTION_MONTHS: 1,
+    OAUTH2_CLIENT_ID,
+  };
+  const environment: EnvironmentDTO = {
+    platform,
+    constants,
+  };
+  const targetElementId = 'app';
   fetchRidiSelectUserInfo(environment).then(ridiSelectUser => {
     launchApp(targetElementId, ridiSelectUser, environment)
   });

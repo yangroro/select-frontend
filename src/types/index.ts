@@ -7,10 +7,8 @@ export interface RidiSelectUserDTO {
   isTokenFetched: boolean;
 }
 
-export type PlatformType = 'mobile' | 'pc' | 'tablet' | 'paper' | 'ridi_app' | 'unknown';
-
 export interface PlatformDTO {
-  type: PlatformType;
+  type: string;
   isPc: boolean;
   isTablet: boolean;
   isMobile: boolean;
@@ -33,9 +31,3 @@ export interface EnvironmentDTO {
   constants: ConstantsDTO;
 }
 
-export type RidiSelectLoadEvent = CustomEvent<{
-  targetElementId: string;
-  dto: {
-    environment: EnvironmentDTO;
-  };
-}>;
