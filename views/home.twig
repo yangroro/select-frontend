@@ -12,11 +12,12 @@
   <meta name="format-detection" content="telephone=no">
   <title>리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이</title>
   <meta name="keywords" content="리디셀렉트, 리디북스 셀렉트, 셀렉트, 월정액 전자책, 무제한 전자책, 전자책, e-book, e북, 이북, 전자도서, 전자책어플, 인터넷책, 도서어플, 전자서점, 인터넷서점, 온라인서점" />
-  {# TODO: og 정보 twig에서 받던 것들 직접 입력형태로 변경처리 필요 #}
-  <meta name="description" content="{{ open_graph_tags.description }}" />
-  {% for tag, value in open_graph_tags %}
-    <meta property="og:{{ tag }}" content="{{ value }}" />
-  {% endfor %}
+  <meta name="description" content="신간도 베스트셀러도 월정액으로 제한없이" />
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://select.ridibooks.com">
+  <meta property="og:image" content="https://static-select.local.ridi.io/public/select-img_ridiselect.jpg?20181214124225">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:site" content="@ridibooks" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="msapplication-TileImage" content="{{ cacheBuster('public/select-mstile-144x144.png') }}">
@@ -35,9 +36,9 @@
     var isLoginRequired = function(url) {
       return false;
     };
-    {# TODO: 인앱 셀렉트에서 쓰는 인자 처리 위해서 HOST어떻게 할지 결정 필요. #}
     var isExternalLink = function(url) {
-      var innerLinkRegex = /^{{ HOST_RIDISELECT }}|^\/\/{{ HOST_RIDISELECT }}|^https:\/\/{{ HOST_RIDISELECT }}|^\/(?=\w)/g;
+      var locationHost = location.host;
+      var innerLinkRegex = new RegExp(`^${locationHost}|^\/\/${locationHost}|^https:\/\/${locationHost}|^\/(?=\w)`);
       return !innerLinkRegex.test(url);
     };
   </script>
