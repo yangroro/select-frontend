@@ -7,6 +7,7 @@ const webpack = require('webpack');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const PATHS = require('./paths');
 const { NameEveryModulePlugin } = require('./helpers');
@@ -25,11 +26,20 @@ const {
   outputDir,
 } = PATHS;
 
-const { HOST_STATIC = 'static-select.ridibooks.com' } = (() => {
+const {
+  HOST_STATIC = 'static-select.ridibooks.com',
+  HOST_RIDISELECT = 'select.ridibooks.com'
+} = (() => {
   try {
     return dotenv.parse(fs.readFileSync(path.resolve(__dirname, '../../.env')));
   } catch (err) {
-    return process.env.HOST_STATIC ? { HOST_STATIC: process.env.HOST_STATIC } : {};
+    const hostRidiselect = process.env.HOST_RIDISELECT ? process.env.HOST_RIDISELECT : null;
+    const hostStatic = process.env.HOST_STATIC ? process.env.HOST_STATIC : null;
+
+    return {
+      HOST_RIDISELECT: hostRidiselect,
+      HOST_STATIC: hostStatic
+    };
   }
 })();
 
@@ -86,6 +96,18 @@ module.exports = {
     new DotenvPlugin({
       path: path.resolve(__dirname, '../../.env'),
       systemvars: true,
+    }),
+    new HtmlWebpackPlugin({
+      template: '../views/home_template.html'
+    }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      hash: true,
+      filename: '../views/home.html',
+      staticHost: HOST_STATIC,
+      locationHost: HOST_RIDISELECT,
+      // template: HtmlWebpackTemplate,
+      template: '../views/home_template.html',
     }),
     new NoEmitOnErrorsPlugin(),
     new CheckerPlugin(),
