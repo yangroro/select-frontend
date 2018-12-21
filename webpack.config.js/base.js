@@ -106,7 +106,6 @@ module.exports = {
       filename: '../views/home.html',
       staticHost: HOST_STATIC,
       locationHost: HOST_RIDISELECT,
-      // template: HtmlWebpackTemplate,
       template: '../views/home_template.html',
     }),
     new NoEmitOnErrorsPlugin(),
