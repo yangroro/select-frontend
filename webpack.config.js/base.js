@@ -98,15 +98,15 @@ module.exports = {
       systemvars: true,
     }),
     new HtmlWebpackPlugin({
-      template: '../views/home_template.html'
-    }),
-    new HtmlWebpackPlugin({
       inject: false,
       hash: true,
+      template: '../views/home_template.html',
       filename: '../views/home.html',
       staticHost: HOST_STATIC,
       locationHost: HOST_RIDISELECT,
-      template: '../views/home_template.html',
+      minify: {
+        collapseWhitespace: true,
+      },
     }),
     new NoEmitOnErrorsPlugin(),
     new CheckerPlugin(),
