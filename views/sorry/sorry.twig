@@ -23,7 +23,9 @@
 </head>
 
 <body id="ridi_books">
-{% include "gnb/alert.twig" %}
+{% if ENV_NAME and ENV_NAME != 'REAL' %}
+  <p class="{{ ENV_NAME }}_environment_ribbon">{{ ENV_NAME }}</p>
+{% endif %}
 <header id="header_wrapper" class="{% if isPaper %}paper{% else %}books{% endif %}">
   <h1 class="header_logo">
     <a class="logo_wrapper js_home_link" href="/">
