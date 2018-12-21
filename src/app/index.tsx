@@ -42,7 +42,7 @@ const launchApp = (targetElementId: string, ridiSelectUser: RidiSelectUserDTO, e
 
 window.addEventListener('ridiSelectLoad', () => {
   const BASE_URL_STORE = process.env.BASE_URL_STORE || '';
-  const BASE_URL_RIDISELECT = process.env.BASE_URL_RIDISELECT || location.origin;
+  const BASE_URL_RIDISELECT = process.env.BASE_URL_RIDISELECT || `https://${process.env.HOST_RIDISELECT}`;
   const BASE_URL_STATIC = process.env.BASE_URL_STATIC || `https://${process.env.HOST_STATIC}`;
   const BASE_URL_RIDI_PAY_API = process.env.BASE_URL_RIDI_PAY_API || '';
   const OAUTH2_CLIENT_ID = process.env.OAUTH2_CLIENT_ID || '';
@@ -55,7 +55,6 @@ window.addEventListener('ridiSelectLoad', () => {
     FREE_PROMOTION_MONTHS: 1,
     OAUTH2_CLIENT_ID,
   };
-  console.log(constants);
   const environment: EnvironmentDTO = {
     platform: {
       isRidiApp: getPlatformDetail().isRidiApp,
