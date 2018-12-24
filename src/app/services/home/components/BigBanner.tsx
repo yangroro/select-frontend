@@ -29,7 +29,6 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
   private slider: Slider;
   private wrapper: HTMLElement | null;
   private firstClientX: number;
-  private sliderImpressionCheckTimeout?: number;
 
   public state: State = {
     clientWidth: 360,
@@ -65,12 +64,12 @@ export class BigBannerCarousel extends React.Component<BigBannerProps & Dispatch
   private setSliderImpression(Idx: number) {
     const { items } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
-    this.sliderImpressionCheckTimeout && window.clearTimeout(this.sliderImpressionCheckTimeout);
-    this.sliderImpressionCheckTimeout = window.setTimeout(() => trackImpression({
+
+    trackImpression({
       section,
       index: Idx,
       id: items[Idx].id,
-    }), 300);
+    });
   }
 
   public componentDidMount() {
