@@ -13,7 +13,6 @@ export class ScrollToTop extends React.Component<ScrollToTopProps> {
 
   public componentWillMount() {
     window.setTimeout(() => {
-      console.log('aa');
       setFixedScrollToTop(true);
       window.scrollTo(0, 0);
     }, 100);
@@ -22,7 +21,6 @@ export class ScrollToTop extends React.Component<ScrollToTopProps> {
   public shouldComponentUpdate(nextProps: ScrollToTopProps) {
     if (this.props.location !== nextProps.location) {
       window.setTimeout(() => {
-        console.log('aa');
         setFixedScrollToTop(true);
         window.scrollTo(0, 0);
       }, 100);
@@ -31,12 +29,10 @@ export class ScrollToTop extends React.Component<ScrollToTopProps> {
   }
 
   public componentDidMount() {
-    console.log('bb');
     window.setTimeout(() => setFixedScrollToTop(false), 500);
   }
 
   public componentDidUpdate() {
-    console.log('bb');
     window.setTimeout(() => setFixedScrollToTop(false), 500);
   }
 
