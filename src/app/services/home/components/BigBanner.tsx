@@ -69,13 +69,13 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   }
 
   private setSliderImpression(Idx: number) {
-    const { items } = this.props;
+    const { bigBannerList } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
 
     trackImpression({
       section,
       index: Idx,
-      id: items[Idx].id,
+      id: bigBannerList[Idx].id,
     });
   }
 
