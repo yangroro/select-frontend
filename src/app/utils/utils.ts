@@ -8,6 +8,14 @@ import {
   BookAuthor
 } from "app/services/book";
 
+export const setFixedScrollToTop = (isFixed: boolean) => {
+  if (isFixed) {
+    document.body.classList.add('scrollFixedToTop');
+  } else {
+    document.body.classList.remove('scrollFixedToTop');
+  }
+}
+
 export const setDisableScroll = (isDisabled: boolean) => {
   if (isDisabled) {
     document.body.classList.add('App-disableScroll');
