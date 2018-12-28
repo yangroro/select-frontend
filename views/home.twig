@@ -28,7 +28,7 @@
   <script src="https://account.ridibooks.com/script/ridi_token_refresher.js"></script>
 </head>
 
-<body class="{{ isRidiApp ? 'androidApp' : '' }}">
+<body>
   {% include "gnb/alert.twig" %}
   {% if ENV_NAME and ENV_NAME != 'REAL' %}
     {% set is_dev = true %}
