@@ -53,7 +53,7 @@ export class AboutIndicatingBuyer extends React.Component<{}, AboutIndicatingBuy
         {isContentOpen && (
           <div className="AboutIndicatingBuyer_DescriptionWrapper">
             <p className="AboutIndicatingBuyer_Paragraph">
-              <strong>‘구매자’ 표시는 유료 도서를 결제하고 다운로드하신 경우에만 표시됩니다.</strong>
+              <strong>'구매자' 표시는 리디북스에서 유료도서 결제 후 다운로드 하시거나 리디셀렉트 도서를 다운로드하신 경우에만 표시됩니다.</strong>
             </p>
             <dl className="AboutIndicatingBuyer_Description_List">
               <dt className="AboutIndicatingBuyer_Description_Title">무료 도서 (프로모션 등으로 무료로 전환된 도서 포함)</dt>
