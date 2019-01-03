@@ -69,7 +69,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   }
 
   private setSliderImpression(Idx: number) {
-    const { bigBannerList } = this.props;
+    const { bigBannerList, trackImpression } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
 
     trackImpression({
@@ -96,7 +96,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   }
 
   public render() {
-    const { fetchedAt, bigBannerList, trackImpression, trackClick } = this.props;
+    const { fetchedAt, bigBannerList, trackClick } = this.props;
     const section = getSectionStringForTracking('home', 'big-banner');
     if (!fetchedAt || bigBannerList.length === 0) {
       return (<BigBannerPlaceholder />);
