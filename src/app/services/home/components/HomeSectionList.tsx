@@ -106,7 +106,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                 />
               ) : (
                 <div
-                  className="PageHome_Section_Skeleton_Wrapper"
+                  className="HomeSection_Skeleton"
                   key={`${selection.id}_skeleton`}
                 >
                   <span className="HomeSection_Header Skeleton" />

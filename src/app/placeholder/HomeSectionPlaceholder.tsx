@@ -5,11 +5,11 @@ import { InlineHorizontalBookListSkeleton } from 'app/placeholder/BookListPlaceh
 export const HomeSectionPlaceholder: React.SFC = () => (
   <div className="PageHome Skeleton_Wrapper">
     <div className="HomeSection_Skeleton">
-      <div className="HomeSection_Header_Skeleton Skeleton" />
+      <div className="HomeSection_Header Skeleton" />
       <InlineHorizontalBookListSkeleton />
     </div>
     <div className="HomeSection_Skeleton">
-      <div className="HomeSection_Header_Skeleton Skeleton" />
+      <div className="HomeSection_Header Skeleton" />
       <InlineHorizontalBookListSkeleton />
     </div>
   </div>

@@ -28,21 +28,17 @@
   }
 }
 
-.PageHome_Section_Skeleton_Wrapper {
+.HomeSection_Skeleton {
+  box-sizing: border-box;
   width: 100%;
   overflow: hidden;
-  padding: 30px 20px 0;
+  padding: 30px 20px 20px;
   background: #fff;
   & .HomeSection_Header {
     display: block;
     width: 200px;
     height: 20px;
   }
-}
-
-.HomeSection_Skeleton {
-  padding: 30px 20px 0;
-
   @media (--pc-screen) {
     width: 800px;
     margin: 0 auto;
@@ -50,8 +46,20 @@
   }
 }
 
-.HomeSection_Header_Skeleton {
-  width: 49px;
-  height: 19px;
+.HomeSection_Chart_Skeleton {
+  & .HomeSection_ChartBookThumbnail {
+    display: inline-block;
+    width: 50px;
+    height: 70px;
+  }
+  & .HomeSection_ChartBookTitle {
+    display: block;
+    width: 120px;
+    height: 18px;
+  }
+  & .HomeSection_ChartBookRating {
+    display: block;
+    width: 68px;
+    height: 11px;
+  }
 }
-
