@@ -60,6 +60,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
             className={imageClassName}
             src={imageUrl}
             alt={bookTitle}
+            width={width}
             shadow={shadow}
           />
         </LazyloadWrapper>
