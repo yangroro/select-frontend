@@ -10,7 +10,7 @@ import { ActionLoadHomeRequest, loadHomeRequest } from 'app/services/home/action
 import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
 import { SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
-import { ConnectedHomeSectionList } from 'app/services/home/components/HomSectionList';
+import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
 
 interface HomeDispatchProps {
   dispatchLoadHomeRequest: () => ActionLoadHomeRequest;
