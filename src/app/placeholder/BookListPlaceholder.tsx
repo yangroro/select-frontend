@@ -45,6 +45,34 @@ export const InlineHorizontalBookListSkeleton: React.SFC = () => (
   </ul>
 );
 
+export const ChartBookListSkeleton: React.SFC = () => {
+  const dumpArray = [0, 0, 0, 0];
+  const dumpGroupArray = [dumpArray, dumpArray, dumpArray];
+  return (
+    <div className="HomeSection_Chart HomeSection_Chart_Skeleton">
+      {dumpGroupArray.map((groupedBooks, groupIdx) => (
+        <ol className="HomeSection_ChartGroup" start={groupIdx * 4 + 1} key={groupIdx}>
+          {groupedBooks.map((book, idxInGroup) => {
+            const index = groupIdx * 4 + idxInGroup;
+            return (
+              <li className="HomeSection_ChartBook" key={String(groupIdx) + idxInGroup}>
+                <span className="HomeSection_ChartBookRanking">
+                  {index + 1}
+                </span>
+                <span className="Skeleton HomeSection_ChartBookThumbnail" />
+                <div className="HomeSection_ChartBookMeta">
+                  <span className="HomeSection_ChartBookTitle Skeleton" />
+                  <span className="HomeSection_ChartBookRating Skeleton" />
+                </div>
+            </li>
+            )}
+          )}
+        </ol>
+      ))}
+    </div>
+  );
+}
+
 export const GridBookListSkeleton: React.SFC<GridBookListSkeletonProps> = (props) => {
   const { displayRanking } = props;
 

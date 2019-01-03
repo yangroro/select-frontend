@@ -28,6 +28,18 @@
   }
 }
 
+.PageHome_Section_Skeleton_Wrapper {
+  width: 100%;
+  overflow: hidden;
+  padding: 30px 20px 0;
+  background: #fff;
+  & .HomeSection_Header {
+    display: block;
+    width: 200px;
+    height: 20px;
+  }
+}
+
 .HomeSection_Skeleton {
   padding: 30px 20px 0;
 

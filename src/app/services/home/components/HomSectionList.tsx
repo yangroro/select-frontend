@@ -4,9 +4,10 @@ import { throttle } from "lodash-es";
 
 import { RidiSelectState } from "app/store";
 import { BookState } from 'app/services/book';
+import { SelectionType } from 'app/services/home';
 import { SelectionsState } from "app/services/selection";
 import { ConnectedHomeSection } from "./HomeSection";
-import { InlineHorizontalBookListSkeleton } from "app/placeholder/BookListPlaceholder";
+import { InlineHorizontalBookListSkeleton, ChartBookListSkeleton } from "app/placeholder/BookListPlaceholder";
 import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
 
 import { groupSelections } from "../uitls";
@@ -95,7 +96,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                 }
               }}
             >
-              {renderedLastGroupIdx >= idx ? selectionGroup.map((selection) => (
+              {selectionGroup.map((selection) => renderedLastGroupIdx >= idx ? (
                 <ConnectedHomeSection
                   key={selection.id}
                   selectionId={selection.id}
@@ -103,7 +104,19 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                   type={selection.type!}
                   books={selection.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
                 />
-              )) : (<InlineHorizontalBookListSkeleton />)}
+              ) : (
+                <div
+                  className="PageHome_Section_Skeleton_Wrapper"
+                  key={`${selection.id}_skeleton`}
+                >
+                  <span className="HomeSection_Header Skeleton" />
+                  {selection.type === SelectionType.CHART ? (
+                    <ChartBookListSkeleton />
+                  ) : (
+                    <InlineHorizontalBookListSkeleton />
+                  )}
+                </div>
+              ))}
             </div>
           )
         )}
