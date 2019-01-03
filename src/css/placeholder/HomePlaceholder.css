@@ -31,6 +31,7 @@
 .HomeSection_Skeleton {
   box-sizing: border-box;
   width: 100%;
+  height: 298px;
   overflow: hidden;
   padding: 30px 20px 20px;
   background: #fff;
@@ -39,10 +40,17 @@
     width: 200px;
     height: 20px;
   }
+  &.HomeSection_Chart_Skeleton {
+    height: 440px;
+  }
   @media (--pc-screen) {
     width: 800px;
+    height: 318px;
     margin: 0 auto;
     padding: 60px 0 0;
+    &.HomeSection_Chart_Skeleton {
+      height: 479px;
+    }
   }
 }
 
