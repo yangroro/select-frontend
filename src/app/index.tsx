@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+
 import * as React from 'react';
 import { render } from 'react-dom';
 
@@ -40,12 +42,12 @@ const launchApp = (targetElementId: string, ridiSelectUser: RidiSelectUserDTO, e
   );
 }
 
-window.addEventListener('ridiSelectLoad', () => {
-  const BASE_URL_STORE = process.env.BASE_URL_STORE || '';
-  const BASE_URL_RIDISELECT = process.env.BASE_URL_RIDISELECT || `https://${process.env.HOST_RIDISELECT}`;
-  const BASE_URL_STATIC = process.env.BASE_URL_STATIC || `https://${process.env.HOST_STATIC}`;
-  const BASE_URL_RIDI_PAY_API = process.env.BASE_URL_RIDI_PAY_API || '';
-  const OAUTH2_CLIENT_ID = process.env.OAUTH2_CLIENT_ID || '';
+(() => {
+  const BASE_URL_STORE = process.env.STORE_URL!;
+  const BASE_URL_RIDISELECT = process.env.SELECT_URL!;
+  const BASE_URL_STATIC = process.env.SELECT_URL!;
+  const BASE_URL_RIDI_PAY_API = process.env.PAY_URL!;
+  const OAUTH2_CLIENT_ID = process.env.OAUTH2_CLIENT_ID!;
 
   const constants = {
     BASE_URL_STORE,
@@ -65,5 +67,5 @@ window.addEventListener('ridiSelectLoad', () => {
   fetchRidiSelectUserInfo(environment).then(ridiSelectUser => {
     launchApp(targetElementId, ridiSelectUser, environment)
   });
-});
+})();
 

@@ -57,7 +57,7 @@ const getTokenWithSessId = (environment: EnvironmentState): Promise<RidiSelectSu
 
 const fetchSubscriptionInfo = async (environment: EnvironmentState): Promise<RidiSelectSubscriptionDTO> => {
   return request({
-    url: `${env.BASE_URL_STORE_API}/api/select/users/me/subscription`,
+    url: `${process.env.STORE_API}/api/select/users/me/subscription`,
     withCredentials: true
   }).then(response => ({
     isSubscribing: true,

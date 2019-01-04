@@ -1,12 +1,17 @@
 const path = require('path');
-const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const DotenvPlugin = require('dotenv-webpack');
 
 const {
   ProgressPlugin,
   NoEmitOnErrorsPlugin,
-} = webpack;
+  HotModuleReplacementPlugin,
+} = require('webpack');
+
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const DotenvPlugin = require('dotenv-webpack');
+
+require('dotenv').config();
 
 module.exports = (env = {}) => ({
   entry: './src/app/index.tsx',
@@ -14,6 +19,7 @@ module.exports = (env = {}) => ({
     path: path.resolve(__dirname, 'dist'),
     filename: 'app.[hash].js',
   },
+  mode: 'development',
   module: {
     rules: [
       {
@@ -47,40 +53,30 @@ module.exports = (env = {}) => ({
       systemvars: true,
       silent: true,
     }),
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, 'src/images/**/*'),
-      to: path.resolve(__dirname, 'dist'),
-    },{
-      from: path.resolve(__dirname, 'src/css/extends/rui.css'),
-      to: path.resolve(__dirname, 'dist/css/extends/rui.css'),
-    }]),
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html.hbs',
+      cache: true,
+    }),
+    new HotModuleReplacementPlugin(),
+    // new CopyWebpackPlugin([{
+    //   from: path.resolve(__dirname, 'src/images/**/*'),
+    //   to: path.resolve(__dirname, 'dist'),
+    // },{
+    //   from: path.resolve(__dirname, 'src/css/extends/rui.css'),
+    //   to: path.resolve(__dirname, 'dist/css/extends/rui.css'),
+    // }]),
   ],
-  optimization: {
-    splitChunks: {
-      chunks: 'async',
-      minSize: 30000,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
-      }
-    }
-  },
-  watch: !env.production,
-  watchOptions: {
-    ignored: /node_modules/,
-    poll: true,
+  devtool: 'inline-source-map',
+  devServer: {
+    compress: true,
+    contentBase: path.join(__dirname, 'dist'),
+    disableHostCheck: true,
+    historyApiFallback: true,
+    host: '0.0.0.0',
+    hot: true,
+    open: false,
+    port: process.env.WDS_PORT,
+    public: process.env.SELECT_URL,
   },
 });
