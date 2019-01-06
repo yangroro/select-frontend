@@ -16,8 +16,9 @@ require('dotenv').config();
 module.exports = (env = {}) => ({
   entry: './src/app/index.tsx',
   output: {
-    path: path.resolve(__dirname, 'dist'),
     filename: 'app.[hash].js',
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/',
   },
   mode: 'development',
   module: {
@@ -56,7 +57,6 @@ module.exports = (env = {}) => ({
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: 'src/index.html.hbs',
-      cache: true,
     }),
     new HotModuleReplacementPlugin(),
     // new CopyWebpackPlugin([{
@@ -70,7 +70,7 @@ module.exports = (env = {}) => ({
   devtool: 'inline-source-map',
   devServer: {
     compress: true,
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: __dirname,
     disableHostCheck: true,
     historyApiFallback: true,
     host: '0.0.0.0',
