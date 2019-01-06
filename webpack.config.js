@@ -17,7 +17,7 @@ module.exports = (env = {}) => ({
   output: {
     filename: 'app.[hash].js',
     path: path.join(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '/dist/',
   },
   mode: 'development',
   module: {
@@ -49,22 +49,24 @@ module.exports = (env = {}) => ({
   plugins: [
     new ProgressPlugin(),
     new NoEmitOnErrorsPlugin(),
+    new HotModuleReplacementPlugin(),
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      template: 'src/index.hbs',
+    }),
     new DotenvPlugin({
       systemvars: true,
       silent: true,
     }),
-    new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html.hbs',
-    }),
-    new HotModuleReplacementPlugin(),
   ],
   devtool: 'inline-source-map',
   devServer: {
     compress: true,
     contentBase: __dirname,
     disableHostCheck: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/dist/index.html',
+    },
     host: '0.0.0.0',
     hot: true,
     open: false,
