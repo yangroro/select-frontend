@@ -8,7 +8,6 @@ const {
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
 
 require('dotenv').config();
@@ -59,13 +58,6 @@ module.exports = (env = {}) => ({
       template: 'src/index.html.hbs',
     }),
     new HotModuleReplacementPlugin(),
-    // new CopyWebpackPlugin([{
-    //   from: path.resolve(__dirname, 'src/images/**/*'),
-    //   to: path.resolve(__dirname, 'dist'),
-    // },{
-    //   from: path.resolve(__dirname, 'src/css/extends/rui.css'),
-    //   to: path.resolve(__dirname, 'dist/css/extends/rui.css'),
-    // }]),
   ],
   devtool: 'inline-source-map',
   devServer: {

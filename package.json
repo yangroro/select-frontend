@@ -37,7 +37,6 @@
     "axios-mock-adapter": "^1.16.0",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.0",
-    "copy-webpack-plugin": "^4.6.0",
     "cpx": "^1.5.0",
     "cssnano": "^4.1.8",
     "dotenv": "^6.2.0",
@@ -61,6 +60,8 @@
     "tslint-config-prettier": "^1.17.0",
     "tslint-loader": "^3.5.4",
     "typescript": "^3.2.2",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.0",
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
@@ -102,9 +103,7 @@
     "rxjs-compat": "^6.3.3",
     "spaniel": "^2.5.2",
     "vex-dialog": "^1.1.0",
-    "vex-js": "^4.1.0",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.2.0"
+    "vex-js": "^4.1.0"
   },
   "scripts": {
     "start": "webpack-dev-server",
