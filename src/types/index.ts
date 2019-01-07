@@ -1,12 +1,3 @@
-export interface RidiSelectUserDTO {
-  isLoggedIn: boolean;
-  uId: string;
-  email: string;
-  isSubscribing: boolean;
-  hasSubscribedBefore: boolean;
-  isTokenFetched: boolean;
-}
-
 export interface PlatformDTO {
   isRidiApp: boolean;
 }

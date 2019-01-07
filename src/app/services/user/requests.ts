@@ -5,7 +5,7 @@ import request from 'app/utils/request';
 import axios, { AxiosResponse } from 'axios';
 import { SubscriptionState } from 'app/services/user/reducer.state';
 import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 
 export interface Ticket {
   id: number;

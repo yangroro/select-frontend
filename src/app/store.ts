@@ -34,7 +34,7 @@ import { selectionsRootSaga } from 'app/services/selection/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
 
 import { userReducer, UserState } from 'app/services/user';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 import { downloadSaga } from 'app/services/download/sagas';
 import { stateHydrator } from 'app/utils/stateHydrator';
 import { CustomHistoryState, customHistoryReducer, customHistorySaga } from 'app/services/customHistory';
@@ -79,7 +79,7 @@ export interface RidiSelectState {
   customHistory: CustomHistoryState;
 }
 
-const composeEnhancers = env.development
+const composeEnhancers = !env.production
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   : compose;
 const sagaMiddleware = createSagaMiddleware();

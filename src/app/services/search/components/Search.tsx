@@ -14,6 +14,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/debounceTime';
 
+import env from 'app/config/env';
 import history from 'app/config/history';
 
 import { camelize } from '@ridi/object-case-converter';
@@ -206,7 +207,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     }, () => {
       request({
         method: 'get',
-        url: '/api/search/instant',
+        url: `${env.SELECT_API}/api/search/instant`,
         params: { keyword: value },
       }).then((axResponse: AxiosResponse) => this.setState({
         fetchStatus: FetchStatusFlag.IDLE,

@@ -1,7 +1,6 @@
 import { EnvironmentState } from './../environment/reducer.state';
 import { requestAccountsMe } from "app/services/user/requests";
-import { RidiSelectUserDTO } from "../../../types";
-import { env } from "app/config/env";
+import env from "app/config/env";
 import request from "app/utils/request";
 import axios, { AxiosError } from "axios";
 
@@ -18,22 +17,29 @@ interface RidiSelectAccountDTO {
   email: string;
 }
 
+export interface UserDTO {
+  isLoggedIn: boolean;
+  uId: string;
+  email: string;
+  isSubscribing: boolean;
+  hasSubscribedBefore: boolean;
+  isTokenFetched: boolean;
+}
+
 const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
   isLoggedIn: false,
   uId: '',
   email: ''
 };
 
-const getTokenWithSessId = (environment: EnvironmentState): Promise<RidiSelectSubscriptionDTO> => {
-  const { constants } = environment;
-  const ACCOUNT_BASE_URL = process.env.ACCOUNT_BASE_URL || 'https://account.ridibooks.com';
+const getTokenWithSessId = (): Promise<RidiSelectSubscriptionDTO> => {
   return axios.get(
-    `${ACCOUNT_BASE_URL}/ridi/authorize/`,
+    `${env.ACCOUNT_API}/ridi/authorize/`,
     {
       params: {
-        client_id: constants.OAUTH2_CLIENT_ID,
+        client_id: env.OAUTH2_CLIENT_ID,
         response_type: 'code',
-        redirect_uri: `${ACCOUNT_BASE_URL}/ridi/complete`,
+        redirect_uri: `${env.ACCOUNT_API}/ridi/complete`,
       },
       withCredentials: true,
     }
@@ -55,9 +61,9 @@ const getTokenWithSessId = (environment: EnvironmentState): Promise<RidiSelectSu
   });
 }
 
-const fetchSubscriptionInfo = async (environment: EnvironmentState): Promise<RidiSelectSubscriptionDTO> => {
+const fetchSubscriptionInfo = async (): Promise<RidiSelectSubscriptionDTO> => {
   return request({
-    url: `${process.env.STORE_API}/api/select/users/me/subscription`,
+    url: `${env.STORE_API}/api/select/users/me/subscription`,
     withCredentials: true
   }).then(response => ({
     isSubscribing: true,
@@ -65,9 +71,8 @@ const fetchSubscriptionInfo = async (environment: EnvironmentState): Promise<Rid
     fetchError: null,
     isTokenFetched: true,
   })).catch(e => {
-    const { platform } = environment;
-    if (platform.isRidiApp && e.response && e.response.status === 401) {
-      return getTokenWithSessId(environment);
+    if (env.platform.isRidibooks && e.response && e.response.status === 401) {
+      return getTokenWithSessId();
     } else {
       return {
         isSubscribing: false,
@@ -93,8 +98,8 @@ const fetchAccountInfo = async (): Promise<RidiSelectAccountDTO> => {
   });
 }
 
-export const fetchRidiSelectUserInfo = async (environment: EnvironmentState): Promise<RidiSelectUserDTO> => {
-  const fetchedSubscriptionInfo = await fetchSubscriptionInfo(environment);
+export const fetchUserInfo = async (): Promise<UserDTO> => {
+  const fetchedSubscriptionInfo = await fetchSubscriptionInfo();
   const { fetchError, ...subscriptionInfo } = fetchedSubscriptionInfo;
 
   // 401 응답이 아닌 경우에만 계정 정보 fetch

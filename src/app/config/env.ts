@@ -1,10 +1,18 @@
-declare const USE_MOCK_RESPONSES: boolean;
-declare const DELAY_RESPONSE: number;
+export default {
+  SELECT_URL: process.env.SELECT_URL || 'https://select.ridibooks.com',
+  SELECT_API: process.env.SELECT_API || 'https://select-api.ridibooks.com',
+  STORE_URL: process.env.STORE_URL || 'https://ridibooks.com',
+  STORE_API: process.env.STORE_API || 'https://ridibooks.com',
+  PAY_URL: process.env.PAY_URL || 'https://pay.ridibooks.com',
+  ACCOUNT_API: process.env.ACCOUNT_API || 'https://account.ridibooks.com',
+  OAUTH2_CLIENT_ID: process.env.OAUTH2_CLIENT_ID || '',
 
-export const env = {
   production: process.env.NODE_ENV === 'production',
-  development: process.env.NODE_ENV !== 'production',
-  useMockResponses: typeof USE_MOCK_RESPONSES !== 'undefined' ? USE_MOCK_RESPONSES : false,
-  delayResponse: typeof DELAY_RESPONSE !== 'undefined' ? DELAY_RESPONSE : false,
-  SENTRY_DSN_FRONTEND: process.env.SENTRY_DSN,
+  platform: {
+    isIos: /iphone|ipad|ipod/i.test(window.navigator.userAgent),
+    isAndroid: /android/i.test(window.navigator.userAgent),
+    isIE: /msie|trident\//i.test(window.navigator.userAgent),
+    isFirefox: /firefox\//i.test(window.navigator.userAgent),
+    isRidibooks: /ridibooks\/[0-9]+\.?[0-9]*/i.test(window.navigator.userAgent),
+  }
 };

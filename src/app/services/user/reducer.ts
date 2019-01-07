@@ -10,6 +10,7 @@ import {
   DELETE_MY_SELECT_HISTORY_FAILURE,
   DELETE_MY_SELECT_HISTORY_REQUEST,
   DELETE_MY_SELECT_HISTORY_SUCCESS,
+  FETCH_USER_INFO,
   INITIALIZE_USER,
   LOAD_MY_SELECT_HISTORY_FAILURE,
   LOAD_MY_SELECT_HISTORY_REQUEST,
@@ -33,6 +34,11 @@ import { userRidiSelectBookToMySelectBook } from 'app/services/mySelect/reducer'
 
 export function userReducer(state = initialUserState, action: UserActionTypes): UserState {
   switch (action.type) {
+    case FETCH_USER_INFO:
+      return {
+        ...state,
+        ...action.payload,
+      }
     case INITIALIZE_USER:
       return {
         ...state,

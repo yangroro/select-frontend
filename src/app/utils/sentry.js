@@ -1,5 +1,5 @@
 import Raven from 'raven-js';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 
 const RAVEN_OPTIONS = {
   release: process.env.REVISION || 'latest',

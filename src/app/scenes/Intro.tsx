@@ -15,7 +15,7 @@ import {
   updateFooterTheme,
   ActionUpdateFooterTheme
 } from "app/services/commonUI/actions";
-import { CommonLoader } from "app/components/CommonLoader";
+import { SplashScreen as CommonLoader } from "app/components/SplashScreen";
 import MediaQuery from "react-responsive";
 
 interface IntroStateProps {

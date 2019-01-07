@@ -10,7 +10,7 @@ import {
   UserFilterType,
 } from './constants';
 import { Comment, Review, ReviewSummary } from './reducer.state';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 
 export interface RequestReviewsParameters {
   userFilterType: UserFilterType;

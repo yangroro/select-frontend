@@ -12,7 +12,7 @@ import {
 import { BookId, TextWithLF, DateDTO, Omit } from 'app/types';
 import request from 'app/utils/request';
 import { Category } from 'app/services/category';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 
 export interface Publisher {
   name: string;
@@ -73,18 +73,18 @@ export type BookDetailResponse = BookDetailResponseV2;
 
 export const requestBooks = (bookIds: number[]): Promise<BookDetailResponse> =>
   request({
-    url: `/api/books?b_ids=${bookIds.join(',')}`,
+    url: `${env.SELECT_API}/api/books?b_ids=${bookIds.join(',')}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data);
 
 export const requestBookDetail = (bookId: number): Promise<BookDetailResponse> =>
   request({
-    url: `/api/books/${bookId}`,
+    url: `${env.SELECT_API}/api/books/${bookId}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data);
 
 export const requestBookOwnership = (bookId: number): Promise<BookOwnershipStatus> =>
   request({
-    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books/${bookId}`,
+    url: `${env.STORE_API}/api/select/users/me/books/${bookId}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<BookOwnershipStatus>>(response, { recursive: true }).data);

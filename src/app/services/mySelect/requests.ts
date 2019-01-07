@@ -3,7 +3,7 @@ import { Book } from 'app/services/book';
 import { BookId, DateDTO } from 'app/types';
 import request from 'app/utils/request';
 import { AxiosResponse } from 'axios';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 
 export interface BookIdsPair {
   bookId: number;

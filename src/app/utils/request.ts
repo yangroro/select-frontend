@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as qs from 'qs';
 
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 import history from 'app/config/history';
 import toast from './toast';
 

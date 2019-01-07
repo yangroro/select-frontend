@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import { CommonLoader } from 'app/components/CommonLoader';
+import { SplashScreen as CommonLoader } from 'app/components/SplashScreen';
 import history from "app/config/history";
 
 export interface NonSubscriberOnlyRouteProps {
+  isFetching: boolean;
   isLoggedIn: boolean;
   isSubscribing: boolean;
   component: React.ComponentClass | React.StatelessComponent;
@@ -14,13 +15,14 @@ export interface NonSubscriberOnlyRouteProps {
 
 export const NonSubscriberOnlyRoute: React.SFC<NonSubscriberOnlyRouteProps> = (props) => {
   const {
+    isFetching,
     isSubscribing,
     isLoggedIn,
     component: Component,
     ...restProps
   } = props;
 
-  if (isLoggedIn && isSubscribing) {
+  if (!isFetching && isLoggedIn && isSubscribing) {
     history.replace('/home' + window.location.search);
 
     return <CommonLoader />;
@@ -31,6 +33,7 @@ export const NonSubscriberOnlyRoute: React.SFC<NonSubscriberOnlyRouteProps> = (p
 
 const mapStateToProps = (state: RidiSelectState): Omit<NonSubscriberOnlyRouteProps, 'component'> => {
   return {
+    isFetching: state.user.isFetching,
     isLoggedIn: state.user.isLoggedIn,
     isSubscribing: state.user.isSubscribing,
   };

@@ -6,6 +6,6 @@ export * from './PageHeader';
 export * from './PCPageHeader';
 export * from './GridBookList';
 export * from './DTOBookThumbnail';
-export * from './CommonLoader';
+export * from './SplashScreen';
 export * from './InlineHorizontalBookList';
 export * from './NewlineToBr';

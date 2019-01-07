@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import { CommonLoader } from 'app/components/CommonLoader';
+import { SplashScreen as CommonLoader } from 'app/components/SplashScreen';
 
 export interface PrivateRouteProps {
+  isFetching: boolean;
   isLoggedIn: boolean;
   isSubscribing: boolean;
   component: React.ComponentClass | React.StatelessComponent;
@@ -13,13 +14,14 @@ export interface PrivateRouteProps {
 
 export const PrivateRoute: React.SFC<PrivateRouteProps> = (props) => {
   const {
+    isFetching,
     isLoggedIn,
     isSubscribing,
     component: Component,
     ...restProps
   } = props;
 
-  if (!isLoggedIn || !isSubscribing) {
+  if (!isFetching && (isLoggedIn === false || !isSubscribing)) {
     location.replace('/');
     return <CommonLoader />;
   }
@@ -29,6 +31,7 @@ export const PrivateRoute: React.SFC<PrivateRouteProps> = (props) => {
 
 const mapStateToProps = (state: RidiSelectState): Omit<PrivateRouteProps, 'component'> => {
   return {
+    isFetching: state.user.isFetching,
     isLoggedIn: state.user.isLoggedIn,
     isSubscribing: state.user.isSubscribing,
   };
