@@ -1,4 +1,4 @@
-const smacss = require('../.smacss.json');
+// const smacss = require('../.smacss.json');
 
 module.exports = {
   extends: 'stylelint-config-standard',
@@ -28,6 +28,6 @@ module.exports = {
     'at-rule-empty-line-before': null,
 
     // order
-    'order/properties-order': smacss,
+    // 'order/properties-order': smacss,
   },
 };
