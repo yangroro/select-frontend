@@ -50,7 +50,7 @@
     overflow: hidden;
 
     & > .HotReleaseBookList_Item_Skeleton:first-child {
-      padding-left: var(--horizontal-padding);
+      padding-left: 0;
     }
 
     & > .HotReleaseBookList_Item_Skeleton:last-child {
@@ -61,6 +61,9 @@
 
 .HotReleaseBookList_Item_Skeleton {
   width: var(--book-width-mobile);
+  & .Skeleton {
+    background-color: rgba(0,0,0,.3);
+  }
   @media (--pc-screen) {
     width: 140PX;
     & .Book_Skeleton {
