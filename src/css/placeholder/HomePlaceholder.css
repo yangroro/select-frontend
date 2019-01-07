@@ -74,6 +74,8 @@
 
 .HomeSection_HotRelease_Skeleton {
   & .HomeSection_HotRelease_Contents {
+    width: 100%;
+    overflow: hidden;
     padding-top: 45px;
   }
   & .HomeSection_HotRelease_Title_Skeleton {
