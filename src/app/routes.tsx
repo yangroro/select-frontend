@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router'
 
 import { ConnectedGNB, ConnectedFooter, ConnectedLNB } from 'app/components';
 

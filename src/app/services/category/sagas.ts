@@ -1,4 +1,4 @@
-import { replace } from 'react-router-redux';
+import { replace } from 'connected-react-router';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import * as qs from 'qs';
 

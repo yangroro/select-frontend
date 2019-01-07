@@ -1,6 +1,6 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
 import { RidiSelectState, hasCompletedSubscription } from 'app/store';
-import { LOCATION_CHANGE, replace } from 'react-router-redux';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { all, select, take, put } from 'redux-saga/effects';
 import { TRACK_CLICK, ActionTrackClick, TRACK_IMPRESSION, ActionTrackImpression } from './actions';
 import { clearScrollEndHandlers } from './onWindowScrollEnd';
