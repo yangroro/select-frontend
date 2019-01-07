@@ -40,59 +40,43 @@ export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props
         disableInlineOnPC && 'InlineHorizontalBookList-disableInlineOnPC',
       ])}
     >
-    {books.map((book, idx) => (
+      {books.map((book, idx) => (
         <li className="InlineHorizontalBookList_Item" key={book.id}>
           <ConnectedTrackImpression
             section={section}
             index={idx}
             id={book.id}
           >
-            <MediaQuery
-              maxWidth={840}
-            >
-              <DTOBookThumbnail
-                book={book}
-                width={110}
-                linkUrl={`/book/${book.id}`}
-                linkType="Link"
-                onLinkClick={() => section && trackClick({
-                  section,
-                  index: idx,
-                  id: book.id,
-                })}
-                imageClassName="InlineHorizontalBookList_Thumbnail"
-                lazyload={lazyloadThumbnail}
-              />
+            <MediaQuery maxWidth={840}>
+              {(isSmallerThumbnail) => (
+                <>
+                  <DTOBookThumbnail
+                    book={book}
+                    width={isSmallerThumbnail ? 110 : 120}
+                    linkUrl={`/book/${book.id}`}
+                    linkType="Link"
+                    onLinkClick={() => section && trackClick({
+                      section,
+                      index: idx,
+                      id: book.id,
+                    })}
+                    imageClassName="InlineHorizontalBookList_Thumbnail"
+                    lazyload={lazyloadThumbnail}
+                  />
+                  <Link
+                    to={`/book/${book.id}`}
+                    className="InlineHorizontalBookList_Link"
+                    onClick={() => section && trackClick({
+                      section,
+                      index: idx,
+                      id: book.id,
+                    })}
+                  >
+                    <span className="InlineHorizontalBookList_Title">{book.title.main}</span>
+                  </Link>
+                </>
+              )}
             </MediaQuery>
-            <MediaQuery
-              minWidth={841}
-            >
-              <DTOBookThumbnail
-                book={book}
-                width={120}
-                linkUrl={`/book/${book.id}`}
-                linkType="Link"
-                onLinkClick={() => section && trackClick({
-                  section,
-                  index: idx,
-                  id: book.id,
-                })}
-                imageClassName="InlineHorizontalBookList_Thumbnail"
-                linkWrapperClassName="InlineHorizontalBookList_Link"
-                lazyload={lazyloadThumbnail}
-              />
-            </MediaQuery>
-            <Link
-              to={`/book/${book.id}`}
-              className="InlineHorizontalBookList_Link"
-              onClick={() => section && trackClick({
-                section,
-                index: idx,
-                id: book.id,
-              })}
-            >
-              <span className="InlineHorizontalBookList_Title">{book.title.main}</span>
-            </Link>
           </ConnectedTrackImpression>
         </li>
       ))}
