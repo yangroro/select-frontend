@@ -2,7 +2,7 @@ import { camelize } from '@ridi/object-case-converter';
 import { Book } from 'app/services/book/reducer.state';
 import { SelectionType } from 'app/services/home';
 import { SelectionId } from 'app/services/selection/actions';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import env from 'app/config/env';
 import { AxiosResponse } from 'axios';
 import * as qs from 'qs';
@@ -19,7 +19,7 @@ export const requestSelection = (
   selectionId: SelectionId,
   page: number,
 ): Promise<SelectionResponse> => {
-  const url = `${env.SELECT_API}/api/pages/collections/${selectionId}`;
+  const url = `/api/pages/collections/${selectionId}`;
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
   if (selectionId === 'hotRelease') {
     return request({

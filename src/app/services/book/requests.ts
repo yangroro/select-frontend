@@ -10,7 +10,7 @@ import {
   BookTitle,
 } from 'app/services/book/reducer.state';
 import { BookId, TextWithLF, DateDTO, Omit } from 'app/types';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import { Category } from 'app/services/category';
 import env from 'app/config/env';
 
@@ -73,13 +73,13 @@ export type BookDetailResponse = BookDetailResponseV2;
 
 export const requestBooks = (bookIds: number[]): Promise<BookDetailResponse> =>
   request({
-    url: `${env.SELECT_API}/api/books?b_ids=${bookIds.join(',')}`,
+    url: `/api/books?b_ids=${bookIds.join(',')}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data);
 
 export const requestBookDetail = (bookId: number): Promise<BookDetailResponse> =>
   request({
-    url: `${env.SELECT_API}/api/books/${bookId}`,
+    url: `/api/books/${bookId}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data);
 

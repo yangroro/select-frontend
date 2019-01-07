@@ -1,7 +1,7 @@
 import * as qs from 'qs';
 
 import env from 'app/config/env';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import toast from 'app/utils/toast';
 import { getBaseUrl } from 'app/utils/getBaseUrl';
 import { BookId } from 'app/types';

@@ -1,7 +1,7 @@
 import { camelize } from '@ridi/object-case-converter';
 
 import { DateDTO } from 'app/types';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import axios, { AxiosResponse } from 'axios';
 import { SubscriptionState } from 'app/services/user/reducer.state';
 import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
@@ -53,14 +53,14 @@ export interface AccountsMeResponse {
 
 export const requestSubscription = (): Promise<AxiosResponse<SubscriptionResponse>> =>
   request({
-    url: `${process.env.STORE_API}/api/select/users/me/subscription`,
+    url: `${env.STORE_API}/api/select/users/me/subscription`,
     method: 'GET',
   }).then((response: AxiosResponse<SubscriptionResponse>) =>
     camelize<AxiosResponse<SubscriptionResponse>>(response.data, { recursive: true }));
 
 export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesResponse>> =>
   request({
-    url: `${process.env.STORE_API}/api/select/users/me/purchases`,
+    url: `${env.STORE_API}/api/select/users/me/purchases`,
     data: { page },
     method: 'GET',
   }).then((response: AxiosResponse<PurchasesResponse>) =>
@@ -68,13 +68,13 @@ export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesR
 
 export const requestCancelPurchase = (ticketId: number): Promise<AxiosResponse<CancelPurchaseResponse>> =>
   request({
-    url: `${process.env.STORE_API}/api/select/users/me/purchases/${ticketId}`,
+    url: `${env.STORE_API}/api/select/users/me/purchases/${ticketId}`,
     method: 'DELETE',
   })
 
 export const reqeustMySelectHistory = (page: number): Promise<AxiosResponse<MySelectHistoryResponse>> =>
   request({
-    url: `${process.env.STORE_API}/api/select/users/me/books/history`,
+    url: `${env.STORE_API}/api/select/users/me/books/history`,
     method: 'GET',
     params: { page },
   }).then((response) =>
@@ -82,7 +82,7 @@ export const reqeustMySelectHistory = (page: number): Promise<AxiosResponse<MySe
 
 export const reqeustDeleteMySelectHistory = (mySelectBookIds: number[]): Promise<AxiosResponse<any>> =>
   request({
-    url: `${process.env.STORE_API}/api/select/users/me/books/history`,
+    url: `${env.STORE_API}/api/select/users/me/books/history`,
     method: 'DELETE',
     data: {
       user_select_book_ids: mySelectBookIds,
@@ -91,19 +91,19 @@ export const reqeustDeleteMySelectHistory = (mySelectBookIds: number[]): Promise
 
 export const requestUnsubscribe = (subscriptionId: number): Promise<AxiosResponse<any>> =>
   request({
-    url: `${process.env.STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
+    url: `${env.STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
     method: 'DELETE',
   });
 
 export const requestCancelUnsubscription = (subscriptionId: number): Promise<AxiosResponse<any>> =>
   request({
-    url: `${process.env.STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
+    url: `${env.STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
     method: 'PUT',
   });
 
 export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> =>
   axios({
-    url: `${process.env.ACCOUNT_API}/accounts/me`,
+    url: `${env.ACCOUNT_API}/accounts/me`,
     method: 'GET',
     timeout: 3000,
     withCredentials: true
