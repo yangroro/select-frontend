@@ -3,6 +3,7 @@ import { FetchStatusFlag } from 'app/constants';
 export enum SelectionType {
   'SELECTION' = 'SELECTION',
   'CHART' = 'CHART',
+  'HOT_RELEASE' = 'HOT_RELEASE',
 }
 
 export interface BigBanner {

@@ -1,6 +1,9 @@
 @import 'LNB.css';
 @import 'BigBanner.css';
 @import 'HomeSection.css';
+@import 'HomeSectionChartBook.css';
+@import 'HomeSectionHotRelease.css';
+@import 'SliderControls.css';
 
 :root {
   --panel-margin: 6px;
@@ -20,8 +23,6 @@
 
 .PageHome_Content {
   @media (--pc-screen) {
-    width: 800px;
-    margin: 0 auto;
     padding-bottom: 80px;
   }
 }

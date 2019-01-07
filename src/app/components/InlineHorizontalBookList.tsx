@@ -7,6 +7,7 @@ import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ConnectedTrackImpression, ActionTrackClick, DefaultTrackingParams, trackClick } from 'app/services/tracking';
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { stringifyAuthors } from 'app/utils/utils';
 
 interface Props {
   pageTitleForTracking?: string;
@@ -15,6 +16,8 @@ interface Props {
   books: Book[];
   disableInlineOnPC?: boolean;
   lazyloadThumbnail?: boolean;
+  renderAuthor?: boolean;
+  renderCategory?: boolean;
 }
 
 interface DispatchProps {
@@ -29,7 +32,9 @@ export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props
     books,
     disableInlineOnPC,
     lazyloadThumbnail,
-    trackClick
+    trackClick,
+    renderAuthor,
+    renderCategory,
   } = props;
 
   const section = !!pageTitleForTracking ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
@@ -72,7 +77,14 @@ export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props
                       id: book.id,
                     })}
                   >
+                    {renderCategory && (<span className="InlineHorizontalBookList_Category">
+                      {/* TODO: 데이터 받아서 하도록 변경 */}
+                      카테고리
+                    </span>)}
                     <span className="InlineHorizontalBookList_Title">{book.title.main}</span>
+                    {renderAuthor && (<span className="InlineHorizontalBookList_Author">
+                      {stringifyAuthors(book.authors, 2)}
+                    </span>)}
                   </Link>
                 </>
               )}
