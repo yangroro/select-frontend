@@ -5,7 +5,7 @@ import { throttle } from "lodash-es";
 import { RidiSelectState } from "app/store";
 import { BookState } from 'app/services/book';
 import { SelectionsState } from "app/services/selection";
-import { ConnectedHomeSection } from "./HomeSection";
+import { HomeSection } from "./HomeSection";
 import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
 
 import { groupSelections } from "../uitls";
@@ -99,8 +99,8 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                 }
               }}
             >
-              {selectionGroup.map((selection) => renderedLastGroupIdx >= idx ? (
-                <ConnectedHomeSection
+              {selectionGroup.map((selection, selectionIdx) => renderedLastGroupIdx >= idx ? (
+                <HomeSection
                   key={selection.id}
                   selectionId={selection.id}
                   title={selection.title!}
