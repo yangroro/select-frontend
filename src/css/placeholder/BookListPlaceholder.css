@@ -36,6 +36,48 @@
   }
 }
 
+/* 홈화면 방금 나온 신간 영역 북 리스트 스켈레톤 스타일. */
+.HotReleaseBookList_Skeleton {
+  display: -webkit-box;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding: 0;
+  list-style: none;
+
+  @media (--mobile-screen) {
+    margin: 21px 0 0;
+    overflow: hidden;
+
+    & > .HotReleaseBookList_Item_Skeleton:first-child {
+      padding-left: var(--horizontal-padding);
+    }
+
+    & > .HotReleaseBookList_Item_Skeleton:last-child {
+      padding-right: var(--horizontal-padding);
+    }
+  }
+}
+
+.HotReleaseBookList_Item_Skeleton {
+  width: var(--book-width-mobile);
+  @media (--pc-screen) {
+    width: 140PX;
+    & .Book_Skeleton {
+      & .Thumbnail_Skeleton {
+        height: 215px;
+      }
+    }
+  }
+
+  & + .HotReleaseBookList_Item_Skeleton {
+    margin-left: 10px;
+    @media (--pc-screen) {
+      margin-left: 25px;
+    }
+  }
+}
+
 /* 홈화면 가로 스크롤 북 리스트 스켈레톤 스타일. */
 .InlineHorizontalBookList_Skeleton {
   display: -webkit-box;

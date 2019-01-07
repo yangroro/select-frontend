@@ -45,6 +45,19 @@ export const InlineHorizontalBookListSkeleton: React.SFC = () => (
   </ul>
 );
 
+export const HotReleaseBookListSkeleton: React.SFC = () => (
+  <ul className="HotReleaseBookList_Skeleton">
+    {range(0, 5).map((value, index) => (
+      <li
+        className="HotReleaseBookList_Item_Skeleton"
+        key={`skeltonBook_${index}`}
+      >
+        <BookSkeleton />
+      </li>
+    ))}
+  </ul>
+);
+
 export const ChartBookListSkeleton: React.SFC = () => {
   const dumpArray = [0, 0, 0, 0];
   const dumpGroupArray = [dumpArray, dumpArray, dumpArray];
