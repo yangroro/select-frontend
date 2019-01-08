@@ -21,7 +21,7 @@ import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDat
 import { FetchStatusFlag } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { UnsubscribeWarningPopup } from 'app/components/UnsubscribeWarningPopup';
-import { EnvironmentState } from 'app/services/environment';
+import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
 
 interface DispatchProps {
   dispatchLoadSubscriptionRequest: () => ActionLoadSubscriptionRequest;
@@ -32,7 +32,7 @@ interface DispatchProps {
 
 interface ManageSubscriptionStateProps {
   userState: UserState;
-  environment: EnvironmentState;
+  environment: typeof EnvironmentState;
   subscriptionState?: SubscriptionState;
   subscriptionFetchStatus: FetchStatusFlag;
 }
