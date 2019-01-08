@@ -38,12 +38,15 @@ class App extends React.Component<{}, { isLoaded: boolean }> {
   }
 
   async componentDidMount() {
-    const user = await fetchUserInfo();
-    this.setState({
-      isLoaded: true,
-    });
-    store.dispatch(initializeUser(user));
-    store.dispatch(fetchUser({ isFetching: false }));
+    try {
+      const user = await fetchUserInfo();
+      store.dispatch(initializeUser(user));
+    } finally {
+      this.setState({
+        isLoaded: true,
+      });
+      store.dispatch(fetchUser({ isFetching: false }));
+    }
   }
 
   render () {
