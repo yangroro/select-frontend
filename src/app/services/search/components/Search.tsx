@@ -14,7 +14,6 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/debounceTime';
 
-import env from 'app/config/env';
 import history from 'app/config/history';
 
 import { camelize } from '@ridi/object-case-converter';
