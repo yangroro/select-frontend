@@ -4,7 +4,6 @@ import { camelize } from '@ridi/object-case-converter';
 import { Book } from 'app/services/book';
 import request from 'app/config/axios';
 import { Category } from 'app/services/category';
-import env from 'app/config/env';
 
 export interface CategoryBooksResponse  {
   totalCount: number;

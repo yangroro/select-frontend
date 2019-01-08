@@ -7,18 +7,7 @@ import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
 import { CategoryCollectionState, Category as CategoryState } from 'app/services/category';
-import {
-  loadCategoryBooksRequest,
-  ActionLoadCategoryListRequest,
-  loadCategoryListRequest,
-  ActionCacheCategoryId,
-  ActionInitializeCategoryId,
-  initializeCategoryId,
-  cacheCategoryId,
-  initializeCategoriesWhole,
-  ActionInitializeCategoriesWhole,
-  ActionLoadCategoryBooksRequest
-} from 'app/services/category/actions';
+import { Creators as categoryActions } from 'app/services/category';
 import { RidiSelectState } from 'app/store';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
@@ -34,11 +23,11 @@ interface CategoryStateProps {
 }
 
 interface CategoryDispatchProps {
-  dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => ActionInitializeCategoriesWhole;
-  dispatchLoadCategoryList: () => ActionLoadCategoryListRequest;
-  dispatchInitializeCategoryId: () => ActionInitializeCategoryId;
-  dispatchCacheCategoryId: (id: number) => ActionCacheCategoryId;
-  dispatchLoadCategoryBooks: (selectionId: number, page: number) => ActionLoadCategoryBooksRequest;
+  dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => { payload: { shouldFetchCategoryList: boolean; shouldInitializeCategoryId: boolean } };
+  dispatchLoadCategoryList: () => {};
+  dispatchInitializeCategoryId: () => {};
+  dispatchCacheCategoryId: (id: number) => { payload: { categoryId: number } };
+  dispatchLoadCategoryBooks: (selectionId: number, page: number) => { payload: { categoryId: number; page: number } };
 }
 
 type Props = CategoryStateProps & CategoryDispatchProps;
@@ -176,11 +165,11 @@ const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
 
 const mapDispatchToProps = (dispatch: any): CategoryDispatchProps => {
   return {
-    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList, shouldInitializeCategoryId) => dispatch(initializeCategoriesWhole(shouldFetchCategoryList, shouldInitializeCategoryId)),
-    dispatchLoadCategoryList: () => dispatch(loadCategoryListRequest()),
-    dispatchInitializeCategoryId: () => dispatch(initializeCategoryId()),
-    dispatchCacheCategoryId: (id: number) => dispatch(cacheCategoryId(id)),
-    dispatchLoadCategoryBooks: (categoryId: number, page: number) => dispatch(loadCategoryBooksRequest(categoryId, page)),
+    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList, shouldInitializeCategoryId) => dispatch(categoryActions.initializeCategoriesWhole(shouldFetchCategoryList, shouldInitializeCategoryId)),
+    dispatchLoadCategoryList: () => dispatch(categoryActions.loadCategoryListRequest()),
+    dispatchInitializeCategoryId: () => dispatch(categoryActions.initializeCategoryId()),
+    dispatchCacheCategoryId: (id: number) => dispatch(categoryActions.cacheCategoryId(id)),
+    dispatchLoadCategoryBooks: (categoryId: number, page: number) => dispatch(categoryActions.loadCategoryBooksRequest(categoryId, page)),
   };
 };
 

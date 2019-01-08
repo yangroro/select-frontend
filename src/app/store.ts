@@ -18,8 +18,7 @@ import { homeReducer } from 'app/services/home/reducer';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
 
-import { CategoryBooksState, CategoryListState } from 'app/services/category';
-import { categoryBooksReducer, categoryListReducer } from 'app/services/category/reducer';
+import { CategoryBooksState, CategoryListState, categoryBooksReducer, categoryListReducer } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
 import { MySelectState } from 'app/services/mySelect';
 import { mySelectReducer } from 'app/services/mySelect/reducer';
