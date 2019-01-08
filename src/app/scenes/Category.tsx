@@ -42,8 +42,8 @@ export class Category extends React.Component<Props, State> {
         this.props.dispatchCacheCategoryId(categoryId);
       }
       this.props.dispatchInitializeCategoriesWhole(
-        this.props.isCategoryListFetched,
-        isValidNumber(categoryId)
+        !this.props.isCategoryListFetched,
+        !isValidNumber(categoryId)
       );
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
@@ -66,7 +66,7 @@ export class Category extends React.Component<Props, State> {
   }
 
   private renderSelectBox() {
-    const { categoryId, categoryList } = this.props;
+    const { categoryId, categoryList = [] } = this.props;
     return (
       <div className="RUISelectBox RUISelectBox-outline Category_SelectBox">
         <select

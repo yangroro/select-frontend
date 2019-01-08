@@ -35,6 +35,22 @@ export function* watchLoadCategoryListRequest() {
   }
 }
 
+export function* watchInitializeWhole() {
+  while (true) {
+    const payload: {
+      shouldFetchCategoryList: boolean,
+      shouldInitializeCategoryId: boolean,
+    } = yield take(Types.INITIALIZE_CATEGORIES_WHOLE);
+    if (payload.shouldFetchCategoryList ) {
+      yield put(Creators.loadCategoryListRequest());
+      yield take(Types.LOAD_CATEGORY_LIST_SUCCESS);
+    }
+    if (payload.shouldInitializeCategoryId) {
+      yield put(Creators.initializeCategoryId());
+    }
+  }
+}
+
 export function* watchInitializeCategoryId() {
   while (true) {
     yield take(Types.INITIALIZE_CATEGORY_ID);
@@ -42,7 +58,7 @@ export function* watchInitializeCategoryId() {
     const idFromLocalStorage = localStorageManager.load().lastVisitedCategoryId;
 
     const categoryId =
-      state.categories.itemList
+      (state.categories.itemList || [])
         .map((category: Category) => category.id)
         .includes((idFromLocalStorage)) &&
         idFromLocalStorage ||
@@ -69,8 +85,8 @@ export function* watchCacheCategoryId() {
   }
 }
 
-export function* loadCategoryBooks({ payload }: { type: string, payload: { categoryId: number, page: number } }) {
-  const { page, categoryId } = payload!;
+export function* loadCategoryBooks(payload: { type: string, categoryId: number, page: number }) {
+  const { page, categoryId } = payload;
   try {
     if (Number.isNaN(page)) {
       throw '유효하지 않은 페이지입니다.';
@@ -92,6 +108,7 @@ export function* categoryRootSaga() {
   yield all([
     watchLoadCategoryListRequest(),
     watchInitializeCategoryId(),
+    watchInitializeWhole(),
     watchCacheCategoryId(),
     watchLoadCategoryBooks(),
   ]);

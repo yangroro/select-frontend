@@ -125,19 +125,19 @@ export const { Types, Creators } = createActions({
   initializeCategoriesWhole: (
     shouldFetchCategoryList: boolean,
     shouldInitializeCategoryId: boolean,
-  ) => ({ shouldFetchCategoryList, shouldInitializeCategoryId }),
+  ) => ({ type: TYPE.INITIALIZE_CATEGORIES_WHOLE, shouldFetchCategoryList, shouldInitializeCategoryId }),
   cacheCategoryId: ['categoryId'],
   loadCategoryBooksRequest: (
     categoryId: number,
     page: number,
-  ) => ({ categoryId, page }),
+  ) => ({ type: TYPE.LOAD_CATEGORY_BOOKS_REQUEST, categoryId, page }),
   loadCategoryBooksSuccess: (
     categoryId: number,
     page: number,
     response: CategoryBooksResponse,
-  ) => ({ categoryId, page, response }),
+  ) => ({ type: TYPE.LOAD_CATEGORY_BOOKS_SUCCESS, categoryId, page, response }),
   loadCategoryBooksFailure: (
     categoryId: number,
     page: number,
-  ) => ({ categoryId, page }),
+  ) => ({ type: TYPE.LOAD_CATEGORY_BOOKS_FAILURE, categoryId, page }),
 });
