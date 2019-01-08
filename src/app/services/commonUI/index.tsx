@@ -94,15 +94,19 @@ export const Reducer = createReducer(INITIAL_STATE, {
 
 export const { Types, Creators } = createActions({
   updateGNBColor: (color: RGB) => ({
+    type: TYPE.UPDATE_GNB_COLOR,
     color
   }),
   updateSearchActiveType: (gnbSearchActiveType: GNBSearchActiveType) => ({
+    type: TYPE.UPDATE_SEARCH_ACTIVE_TYPE,
     gnbSearchActiveType
   }),
   updateGNBTransparent: (transparentType: GNBTransparentType) => ({
+    type: TYPE.UPDATE_GNB_TRANSPARENT,
     transparentType
   }),
   updateFooterTheme: (theme: FooterTheme) => ({
+    type: TYPE.UPDATE_FOOTER_THEME,
     theme
   }),
 })

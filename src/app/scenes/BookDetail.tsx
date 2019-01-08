@@ -4,7 +4,7 @@ import { some } from 'lodash-es';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import LazyLoad, { forceCheck } from 'react-lazyload';
-import { connect } from 'react-redux';
+import { connect, MapDispatchToProps } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import * as qs from 'qs';
@@ -57,14 +57,6 @@ import { ConnectedPageHeader } from 'app/components';
 import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
 import { getSolidBackgroundColorRGBString, getTransparentBackgroundColorRGBString, getBackgroundColorGradientToLeft, getBackgroundColorGradientToRight } from 'app/services/commonUI/selectors';
 
-interface BookDetailDispatchProps {
-  dispatchLoadBookRequest: (bookId: BookId) => ActionLoadDetailBookRequest;
-  dispatchUpdateGNBColor: (color: RGB) => { payload: { color: RGB } };
-  dispatchUpdateDominantColor: (bookId: BookId, color: RGB) => ActionUpdateDominantColor;
-  dispatchLoadBookOwnershipRequest: (bookId: BookId) => ActionLoadBookOwnershipRequest;
-  dispatchAddMySelect: (bookId: BookId) => ActionAddMySelectRequest;
-}
-
 interface BookDetailStateProps {
   bookId: BookId;
   isSubscribing: boolean;
@@ -114,7 +106,7 @@ type RouteProps = RouteComponentProps<{
 
 type OwnProps = RouteProps & {};
 
-type Props = BookDetailDispatchProps & BookDetailStateProps & OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & BookDetailStateProps & OwnProps;
 
 interface State {
   thumbnailExapnded: boolean;
@@ -754,7 +746,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
   };
 };
 
-const mapDispatchToProps = (dispatch: any): BookDetailDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadBookRequest: (bookId: number) => dispatch(loadBookRequest(bookId)),
     dispatchUpdateGNBColor: (color: RGB) => dispatch(Creators.updateGNBColor(color)),
