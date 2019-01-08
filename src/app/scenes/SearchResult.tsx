@@ -13,13 +13,13 @@ import { ActionQueryKeywordRequest, queryKeywordRequest } from 'app/services/sea
 import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
 import { RidiSelectState } from 'app/store';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { EnvironmentState } from 'app/services/environment';
+import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
 import { Helmet } from 'react-helmet';
 
 interface SearchResultStateProps {
   books: BookState;
   searchResult: SearchResultState;
-  environment: EnvironmentState
+  environment: typeof EnvironmentState
 }
 
 interface SearchResultDispatchProps {
@@ -123,7 +123,7 @@ export class SearchResult extends React.Component<Props, State> {
           ) : this.renderEmpty()}
         >
           {
-            !environment.platform.isRidiApp &&
+            !environment.platform.isRidibooks &&
             <Button
               color="blue"
               outline={true}

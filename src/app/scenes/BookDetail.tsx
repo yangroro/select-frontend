@@ -50,7 +50,7 @@ import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/down
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { EnvironmentState } from 'app/services/environment';
+import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
 import { stringifyAuthors } from 'app/utils/utils';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 import { Category } from 'app/services/category';
@@ -98,7 +98,7 @@ interface BookDetailStateProps {
   dominantColor?: RGB;
 
   mySelect: MySelectState;
-  env: EnvironmentState;
+  env: typeof EnvironmentState;
   gnbColorLevel: GNBColorLevel;
   solidBackgroundColorRGBString: string;
   transparentBackgroundColorRGBString: string;
@@ -183,7 +183,7 @@ export class BookDetail extends React.Component<Props, State> {
       return;
     }
     if (this.canDownload()) {
-      if (env.platform.isRidiApp) {
+      if (env.platform.isRidibooks) {
         readBooksInRidiselect(bookId);
         return;
       }
@@ -243,14 +243,14 @@ export class BookDetail extends React.Component<Props, State> {
       return true;
     }
     if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-      window.location.replace(`${ this.props.env.constants.BASE_URL_STORE }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+      window.location.replace(`${ this.props.env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
     }
     return false;
   }
 
   private renderDownloadButton = () => {
     const { isLoggedIn, isSubscribing, hasSubscribedBefore, env } = this.props;
-    const { BASE_URL_STORE } = this.props.env.constants;
+    const { STORE_URL: BASE_URL_STORE } = this.props.env;
     const shouldDisplaySpinnerOnDownload = this.shouldDisplaySpinnerOnDownload();
     if (this.canDownload()) {
       return (
@@ -261,7 +261,7 @@ export class BookDetail extends React.Component<Props, State> {
           className="PageBookDetail_DownloadButton"
           onClick={this.handleDownloadButtonClick}
         >
-          {env.platform.isRidiApp ? '읽기' : '다운로드'}
+          {env.platform.isRidibooks ? '읽기' : '다운로드'}
         </Button>
       )
     } else if (isSubscribing) {
@@ -560,7 +560,7 @@ export class BookDetail extends React.Component<Props, State> {
       <MediaQuery maxWidth={840}>
         {isMobile => (
           <main className="SceneWrapper PageBookDetail">
-            {env.platform.isRidiApp && <ConnectedPageHeader pageTitle={title.main} />}
+            {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <div
               className={`PageBookDetail_Header PageBookDetail_Header-${gnbColorLevel}`}
               style={{ background: solidBackgroundColorRGBString }}
