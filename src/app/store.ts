@@ -1,6 +1,7 @@
 import { connectRouter } from 'connected-react-router'
 import { Dispatch } from 'react-redux';
 import { createLogger } from 'redux-logger';
+import { loggers } from 'redux-act';
 import { routerMiddleware, RouterState } from 'connected-react-router';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -85,6 +86,7 @@ const composeEnhancers = !env.production
   : compose;
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger({
+  ...loggers.reduxLogger,
 });
 
 export const hasRefreshedForAppDownload = () => !!qs.parse(location.search, { ignoreQueryPrefix: true })['to_app_store']

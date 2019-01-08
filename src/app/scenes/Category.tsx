@@ -7,7 +7,7 @@ import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
 import { CategoryCollectionState, Category as CategoryState } from 'app/services/category';
-import { Creators as categoryActions } from 'app/services/category';
+import { Actions as categoryActions } from 'app/services/category';
 import { RidiSelectState } from 'app/store';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
@@ -157,11 +157,11 @@ const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => dispatch(categoryActions.initializeCategoriesWhole(shouldFetchCategoryList, shouldInitializeCategoryId)),
+    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => dispatch(categoryActions.initializeCategoriesWhole({ shouldFetchCategoryList, shouldInitializeCategoryId })),
     dispatchLoadCategoryList: () => dispatch(categoryActions.loadCategoryListRequest()),
     dispatchInitializeCategoryId: () => dispatch(categoryActions.initializeCategoryId()),
-    dispatchCacheCategoryId: (id: number) => dispatch(categoryActions.cacheCategoryId(id)),
-    dispatchLoadCategoryBooks: (categoryId: number, page: number) => dispatch(categoryActions.loadCategoryBooksRequest(categoryId, page)),
+    dispatchCacheCategoryId: (categoryId: number) => dispatch(categoryActions.cacheCategoryId({ categoryId })),
+    dispatchLoadCategoryBooks: (categoryId: number, page: number) => dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page })),
   };
 };
 

@@ -6,7 +6,7 @@ import { updateBooks } from 'app/services/book/actions';
 import {
   Category,
   Types,
-  Creators,
+  Actions,
 } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { RidiSelectState } from 'app/store';
@@ -23,7 +23,7 @@ export function* watchLoadCategoryListRequest() {
     yield take(Types.LOAD_CATEGORY_LIST_REQUEST);
     try {
       const categoryList = yield call(loadCategoryList);
-      yield put(Creators.loadCategoryListSuccess(categoryList));
+      yield put(Actions.loadCategoryListSuccess({ categoryList }));
     } catch (e) {
       showMessageForRequestError(e);
       const state: RidiSelectState = yield select((s) => s);
@@ -37,16 +37,16 @@ export function* watchLoadCategoryListRequest() {
 
 export function* watchInitializeWhole() {
   while (true) {
-    const payload: {
+    const { payload }: { payload: {
       shouldFetchCategoryList: boolean,
       shouldInitializeCategoryId: boolean,
-    } = yield take(Types.INITIALIZE_CATEGORIES_WHOLE);
+    } } = yield take(Types.INITIALIZE_CATEGORIES_WHOLE);
     if (payload.shouldFetchCategoryList ) {
-      yield put(Creators.loadCategoryListRequest());
+      yield put(Actions.loadCategoryListRequest());
       yield take(Types.LOAD_CATEGORY_LIST_SUCCESS);
     }
     if (payload.shouldInitializeCategoryId) {
-      yield put(Creators.initializeCategoryId());
+      yield put(Actions.initializeCategoryId());
     }
   }
 }
@@ -74,7 +74,7 @@ export function* watchInitializeCategoryId() {
       })
     }));
 
-    yield put(Creators.cacheCategoryId(categoryId));
+    yield put(Actions.cacheCategoryId({ categoryId }));
   }
 }
 
@@ -85,7 +85,7 @@ export function* watchCacheCategoryId() {
   }
 }
 
-export function* loadCategoryBooks(payload: { type: string, categoryId: number, page: number }) {
+export function* loadCategoryBooks({ payload }: { type: string, payload: { categoryId: number, page: number } }) {
   const { page, categoryId } = payload;
   try {
     if (Number.isNaN(page)) {
@@ -93,9 +93,9 @@ export function* loadCategoryBooks(payload: { type: string, categoryId: number, 
     }
     const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
     yield put(updateBooks(response.books));
-    yield put(Creators.loadCategoryBooksSuccess(categoryId, page, response));
+    yield put(Actions.loadCategoryBooksSuccess({ categoryId, page, response }));
   } catch (e) {
-    yield put(Creators.loadCategoryBooksFailure(categoryId, page))
+    yield put(Actions.loadCategoryBooksFailure({ categoryId, page }));
     callbackAfterFailedFetch(e, page);
   }
 }

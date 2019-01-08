@@ -1,20 +1,57 @@
-import { createTypes, createReducer, createActions } from 'reduxsauce';
+import { createReducer, createAction } from 'redux-act';
 
 import { CategoryBooksResponse } from 'app/services/category/requests';
 import { DefaultSelectionState } from 'app/services/selection';
 import { FetchStatusFlag } from 'app/constants';
 
-const TYPE = createTypes(`
-  LOAD_CATEGORY_LIST_REQUEST
-  LOAD_CATEGORY_LIST_SUCCESS
-  LOAD_CATEGORY_LIST_FAILURE
-  INITIALIZE_CATEGORY_ID
-  INITIALIZE_CATEGORIES_WHOLE
-  CACHE_CATEGORY_ID
-  LOAD_CATEGORY_BOOKS_REQUEST
-  LOAD_CATEGORY_BOOKS_SUCCESS
-  LOAD_CATEGORY_BOOKS_FAILURE
-`);
+export enum Types {
+  LOAD_CATEGORY_LIST_REQUEST = 'LOAD_CATEGORY_LIST_REQUEST',
+  LOAD_CATEGORY_LIST_SUCCESS = 'LOAD_CATEGORY_LIST_SUCCESS',
+  LOAD_CATEGORY_LIST_FAILURE = 'LOAD_CATEGORY_LIST_FAILURE',
+  INITIALIZE_CATEGORY_ID = 'INITIALIZE_CATEGORY_ID',
+  INITIALIZE_CATEGORIES_WHOLE = 'INITIALIZE_CATEGORIES_WHOLE',
+  CACHE_CATEGORY_ID = 'CACHE_CATEGORY_ID',
+  LOAD_CATEGORY_BOOKS_REQUEST = 'LOAD_CATEGORY_BOOKS_REQUEST',
+  LOAD_CATEGORY_BOOKS_SUCCESS = 'LOAD_CATEGORY_BOOKS_SUCCESS',
+  LOAD_CATEGORY_BOOKS_FAILURE = 'LOAD_CATEGORY_BOOKS_FAILURE',
+}
+
+export const Actions = {
+  loadCategoryListRequest: createAction(Types.LOAD_CATEGORY_LIST_REQUEST),
+
+  loadCategoryListSuccess: createAction<{
+    categoryList: Category[],
+  }>(Types.LOAD_CATEGORY_LIST_SUCCESS),
+
+  loadCategoryListFailure: createAction(Types.LOAD_CATEGORY_LIST_FAILURE),
+
+  initializeCategoryId: createAction(Types.INITIALIZE_CATEGORY_ID),
+
+  initializeCategoriesWhole: createAction<{
+    shouldFetchCategoryList: boolean,
+    shouldInitializeCategoryId: boolean,
+  }>(Types.INITIALIZE_CATEGORIES_WHOLE),
+
+  cacheCategoryId: createAction<{
+    categoryId: number,
+  }>(Types.CACHE_CATEGORY_ID),
+
+  loadCategoryBooksRequest: createAction<{
+    categoryId: number,
+    page: number,
+  }>(Types.LOAD_CATEGORY_BOOKS_REQUEST),
+
+  loadCategoryBooksSuccess: createAction<{
+    categoryId: number,
+    page: number,
+    response: CategoryBooksResponse,
+  }>(Types.LOAD_CATEGORY_BOOKS_SUCCESS),
+
+  loadCategoryBooksFailure: createAction<{
+    categoryId: number,
+    page: number,
+  }>(Types.LOAD_CATEGORY_BOOKS_FAILURE),
+};
 
 export interface Category {
   id: number;
@@ -47,97 +84,77 @@ export const INITIAL_STATE: CategoryBooksState = {
 
 };
 
-export const categoryListReducer = createReducer(INITIAL_STATE, {
-  [TYPE.LOAD_CATEGORY_LIST_REQUEST]: (state = INITIAL_STATE) => ({
-    ...state,
-    fetchStatus: FetchStatusFlag.FETCHING,
-  }),
-  [TYPE.LOAD_CATEGORY_LIST_SUCCESS]: (state = INITIAL_STATE, action) => ({
-    ...state,
-    fetchStatus: FetchStatusFlag.IDLE,
-    isFetched: true,
-    itemList: action.categoryList,
-  }),
-  [TYPE.LOAD_CATEGORY_LIST_FAILURE]: (state = INITIAL_STATE) => ({
-    ...state,
-    fetchStatus: FetchStatusFlag.FETCH_ERROR,
-  }),
-  [TYPE.CACHE_CATEGORY_ID]: (state = INITIAL_STATE, action) => ({
-    ...state,
-    lastSelectedCategoryId: action.categoryId,
-  }),
-});
+export const categoryListReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
 
-export const categoryBooksReducer = createReducer(INITIAL_STATE, {
-  [TYPE.LOAD_CATEGORY_BOOKS_REQUEST]: (state = INITIAL_STATE, { page, categoryId }) => ({
-    ...state,
-    [categoryId]: {
-      ...state[categoryId],
-      id: categoryId,
-      itemCount: 0,
-      itemListByPage: {
-        ...(state[categoryId] && state[categoryId].itemListByPage),
-        [page]: {
-          fetchStatus: FetchStatusFlag.FETCHING,
-          itemList: [],
-          isFetched: false,
-        },
-      },
-    },
-  }),
-  [TYPE.LOAD_CATEGORY_BOOKS_SUCCESS]: (state = INITIAL_STATE, { categoryId, response, page }) => ({
-    ...state,
-    [categoryId]: {
-      ...state[categoryId],
-      itemListByPage: {
-        ...state[categoryId].itemListByPage,
-        [page]: {
-          fetchStatus: FetchStatusFlag.IDLE,
-          itemList: response.books.map((book: any) => book.id),
-          isFetched: true,
-        },
-      },
-      name: response.category.name,
-      itemCount: response.totalCount,
-    },
-  }),
-  [TYPE.LOAD_CATEGORY_BOOKS_FAILURE]: (state = INITIAL_STATE, { categoryId, page }) => ({
-    ...state,
-    [categoryId]: {
-      ...state[categoryId],
-      itemListByPage: {
-        ...state[categoryId].itemListByPage,
-        [page]: {
-          fetchStatus: FetchStatusFlag.FETCH_ERROR,
-          itemList: [],
-          isFetched: false,
-        },
-      },
-    },
-  }),
-});
+categoryListReducer.on(Actions.loadCategoryListRequest, state => ({
+	...state,
+  fetchStatus: FetchStatusFlag.FETCHING,
+}));
 
-export const { Types, Creators } = createActions({
-  loadCategoryListRequest: null,
-  loadCategoryListSuccess: ['categoryList'],
-  loadCategoryListFailure: null,
-  initializeCategoryId: null,
-  initializeCategoriesWhole: (
-    shouldFetchCategoryList: boolean,
-    shouldInitializeCategoryId: boolean,
-  ) => ({ type: TYPE.INITIALIZE_CATEGORIES_WHOLE, shouldFetchCategoryList, shouldInitializeCategoryId }),
-  cacheCategoryId: ['categoryId'],
-  loadCategoryBooksRequest: (
-    categoryId: number,
-    page: number,
-  ) => ({ type: TYPE.LOAD_CATEGORY_BOOKS_REQUEST, categoryId, page }),
-  loadCategoryBooksSuccess: (
-    categoryId: number,
-    page: number,
-    response: CategoryBooksResponse,
-  ) => ({ type: TYPE.LOAD_CATEGORY_BOOKS_SUCCESS, categoryId, page, response }),
-  loadCategoryBooksFailure: (
-    categoryId: number,
-    page: number,
-  ) => ({ type: TYPE.LOAD_CATEGORY_BOOKS_FAILURE, categoryId, page }),
-});
+categoryListReducer.on(Actions.loadCategoryListSuccess, (state, { categoryList }) => ({
+  ...state,
+  fetchStatus: FetchStatusFlag.IDLE,
+  isFetched: true,
+  itemList: categoryList,
+}));
+
+categoryListReducer.on(Actions.loadCategoryListFailure, state => ({
+  ...state,
+  fetchStatus: FetchStatusFlag.FETCH_ERROR,
+}));
+
+categoryListReducer.on(Actions.cacheCategoryId, (state, { categoryId }) => ({
+  ...state,
+  lastSelectedCategoryId: categoryId,
+}));
+
+export const categoryBooksReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
+
+categoryBooksReducer.on(Actions.loadCategoryBooksRequest, (state = INITIAL_STATE, { page, categoryId }) => ({
+  ...state,
+  [categoryId]: {
+    ...state[categoryId],
+    id: categoryId,
+    itemCount: 0,
+    itemListByPage: {
+      ...(state[categoryId] && state[categoryId].itemListByPage),
+      [page]: {
+        fetchStatus: FetchStatusFlag.FETCHING,
+        itemList: [],
+        isFetched: false,
+      },
+    },
+  },
+}));
+
+categoryBooksReducer.on(Actions.loadCategoryBooksSuccess, (state = INITIAL_STATE, { categoryId, response, page }) => ({
+  ...state,
+  [categoryId]: {
+    ...state[categoryId],
+    itemListByPage: {
+      ...state[categoryId].itemListByPage,
+      [page]: {
+        fetchStatus: FetchStatusFlag.IDLE,
+        itemList: response.books.map((book: any) => book.id),
+        isFetched: true,
+      },
+    },
+    name: response.category.name,
+    itemCount: response.totalCount,
+  },
+}));
+
+categoryBooksReducer.on(Actions.loadCategoryBooksFailure, (state = INITIAL_STATE, { categoryId, page }) => ({
+  ...state,
+  [categoryId]: {
+    ...state[categoryId],
+    itemListByPage: {
+      ...state[categoryId].itemListByPage,
+      [page]: {
+        fetchStatus: FetchStatusFlag.FETCH_ERROR,
+        itemList: [],
+        isFetched: false,
+      },
+    },
+  },
+}));
