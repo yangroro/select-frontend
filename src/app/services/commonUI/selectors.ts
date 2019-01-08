@@ -44,7 +44,6 @@ export const getBackgroundColorGradientToLeft = createSelector(
 export const getGNBType = createSelector(
   [selectTransparentType, selectGnbColorLevel],
   (gnbTransparentType: GNBTransparentType, gnbColorLevel: GNBColorLevel): GNBColorLevel => {
-    console.log(gnbTransparentType, gnbColorLevel)
     return gnbTransparentType === GNBTransparentType.transparent ?
       GNBColorLevel.TRANSPARENT :
       gnbColorLevel;
