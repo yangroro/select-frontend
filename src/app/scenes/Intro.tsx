@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet";
 import { throttle, sortedIndex } from "lodash-es";
 
 import { Icon } from "@ridi/rsg";
-import { Link } from "react-router-dom";
 import * as classNames from "classnames";
 import { GNBTransparentType, FooterTheme } from "app/services/commonUI";
 import {
@@ -15,7 +14,6 @@ import {
   updateFooterTheme,
   ActionUpdateFooterTheme
 } from "app/services/commonUI/actions";
-import { SplashScreen as CommonLoader } from "app/components/SplashScreen";
 import MediaQuery from "react-responsive";
 
 interface IntroStateProps {
@@ -194,16 +192,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
             리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이
           </title>
         </Helmet>
-        {isLoaded ? null : (
-          <>
-            <CommonLoader />
-            <img
-              className="Load_Trigger_Image"
-              src={`${INTRO_IMAGE_DIR}/hero_bg_20181213.jpg`}
-              onLoad={() => this.afterLoadingComplete()}
-            />
-          </>
-        )}
         <h1 className="a11y">리디셀렉트 인트로</h1>
         <section
           className={classNames({

@@ -315,7 +315,7 @@ main.SceneWrapper {
   align-items: flex-end;
 }
 
-.CommonLoader {
+.SplashScreen {
   display: flex;
   position: fixed;
   top: 0;
@@ -329,7 +329,7 @@ main.SceneWrapper {
   z-index: 100000;
 }
 
-.CommonLoader_Logo {
+.SplashScreen_Logo {
   width: 128px;
   height: 20px;
   fill: #475161;

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import { SplashScreen as CommonLoader } from 'app/components/SplashScreen';
 
 export interface PrivateRouteProps {
   isFetching: boolean;
@@ -23,7 +22,6 @@ export const PrivateRoute: React.SFC<PrivateRouteProps> = (props) => {
 
   if (!isFetching && (isLoggedIn === false || !isSubscribing)) {
     location.replace('/');
-    return <CommonLoader />;
   }
 
   return <Component {...restProps} />;
