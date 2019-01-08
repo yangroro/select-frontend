@@ -64,8 +64,8 @@ export function* watchInitializeCategoryId() {
 
 export function* watchCacheCategoryId() {
   while (true) {
-    const { payload } = yield take(Types.CACHE_CATEGORY_ID);
-    localStorageManager.save({ lastVisitedCategoryId: payload.categoryId });
+    const { categoryId } = yield take(Types.CACHE_CATEGORY_ID);
+    localStorageManager.save({ lastVisitedCategoryId: categoryId });
   }
 }
 

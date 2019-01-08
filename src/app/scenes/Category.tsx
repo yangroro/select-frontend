@@ -22,15 +22,7 @@ interface CategoryStateProps {
   books: BookState;
 }
 
-interface CategoryDispatchProps {
-  dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => { payload: { shouldFetchCategoryList: boolean; shouldInitializeCategoryId: boolean } };
-  dispatchLoadCategoryList: () => {};
-  dispatchInitializeCategoryId: () => {};
-  dispatchCacheCategoryId: (id: number) => { payload: { categoryId: number } };
-  dispatchLoadCategoryBooks: (selectionId: number, page: number) => { payload: { categoryId: number; page: number } };
-}
-
-type Props = CategoryStateProps & CategoryDispatchProps;
+type Props = CategoryStateProps & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   isInitialized: boolean;
@@ -50,8 +42,8 @@ export class Category extends React.Component<Props, State> {
         this.props.dispatchCacheCategoryId(categoryId);
       }
       this.props.dispatchInitializeCategoriesWhole(
-        !this.props.isCategoryListFetched,
-        !isValidNumber(categoryId)
+        this.props.isCategoryListFetched,
+        isValidNumber(categoryId)
       );
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
@@ -163,9 +155,9 @@ const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any): CategoryDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList, shouldInitializeCategoryId) => dispatch(categoryActions.initializeCategoriesWhole(shouldFetchCategoryList, shouldInitializeCategoryId)),
+    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => dispatch(categoryActions.initializeCategoriesWhole(shouldFetchCategoryList, shouldInitializeCategoryId)),
     dispatchLoadCategoryList: () => dispatch(categoryActions.loadCategoryListRequest()),
     dispatchInitializeCategoryId: () => dispatch(categoryActions.initializeCategoryId()),
     dispatchCacheCategoryId: (id: number) => dispatch(categoryActions.cacheCategoryId(id)),
