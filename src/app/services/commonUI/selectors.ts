@@ -1,7 +1,10 @@
 import { RidiSelectState } from "app/store";
-import { RGB } from "./reducer.state";
 import { createSelector } from "reselect";
 
+import { RGB, GNBColorLevel, GNBTransparentType } from 'app/services/commonUI';
+
+export const selectTransparentType = (state: RidiSelectState): GNBTransparentType => state.commonUI.gnbTransparentType;
+export const selectGnbColorLevel = (state: RidiSelectState): GNBColorLevel => state.commonUI.gnbColorLevel;
 export const selectGnbColor = (state: RidiSelectState): RGB => state.commonUI.gnbColor;
 
 export const getSolidBackgroundColorRGBString = createSelector(
@@ -12,6 +15,12 @@ export const getSolidBackgroundColorRGBString = createSelector(
 export const getTransparentBackgroundColorRGBString = createSelector(
   [selectGnbColor],
   (gnbColor: RGB): string => `rgba(${gnbColor.r}, ${gnbColor.g}, ${gnbColor.b}, 0.95)`,
+);
+
+export const getBackgroundColorRGBString = createSelector(
+  [selectTransparentType],
+  (state: RidiSelectState, gnbTransparentType: GNBTransparentType): string =>
+    gnbTransparentType === GNBTransparentType.transparent ? 'rgba(0,0,0,0)' : getSolidBackgroundColorRGBString(state)
 );
 
 export const getBackgroundColorGradientToRight = createSelector(
@@ -27,3 +36,11 @@ export const getBackgroundColorGradientToLeft = createSelector(
     rgba(${gnbColor.r},${gnbColor.g},${gnbColor.b},1) 0%,
     rgba(255, 255, 255, 0) 100%`,
 );
+
+export const getGNBType = createSelector(
+  [selectGnbColorLevel, selectTransparentType],
+  (gnbTransparentType: GNBTransparentType, gnbColorLevel: GNBColorLevel): GNBColorLevel =>
+    gnbTransparentType === GNBTransparentType.transparent ?
+      GNBColorLevel.TRANSPARENT :
+      gnbColorLevel,
+)

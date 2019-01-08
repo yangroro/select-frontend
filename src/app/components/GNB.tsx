@@ -8,7 +8,7 @@ import { ConnectedSearch } from 'app/services/search';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
-import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
+import { getSolidBackgroundColorRGBString, getGNBType, getBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 
 interface Props {
   gnbType: GNBColorLevel;
@@ -134,9 +134,9 @@ export const GNB: React.SFC<Props> = (props) => {
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  gnbType: rootState.commonUI.gnbTransparentType === GNBTransparentType.transparent ? 'transparent' : rootState.commonUI.gnbColorLevel,
+  gnbType: getGNBType(rootState),
   solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(rootState),
-  backgroundColorRGBString: rootState.commonUI.gnbTransparentType === GNBTransparentType.transparent ? 'rgba(0,0,0,0)' : getSolidBackgroundColorRGBString(rootState),
+  backgroundColorRGBString: getBackgroundColorRGBString(rootState),
   BASE_URL_STORE: rootState.environment.STORE_URL,
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isLoggedIn: rootState.user.isLoggedIn,
