@@ -10,7 +10,7 @@ const instance = axios.create({
 });
 
 axiosRetry(instance, {
-  retries: 2,
+  retries: 3,
   retryDelay: (retryNumber = 0) => 200 * (2 ** retryNumber),
 });
 
@@ -28,7 +28,7 @@ instance.interceptors.response.use(
         .get(`${env.ACCOUNT_API}/ridi/authorize/`, {
           withCredentials: true,
           params: {
-            client_id: env.OAUTH2_CLIENT_ID || 'ePgbKKRyPvdAFzTvFg2DvrS7GenfstHdkQ2uvFNd',
+            client_id: env.OAUTH2_CLIENT_ID,
             response_type: 'code',
             redirect_uri: `${env.ACCOUNT_API}/ridi/complete`,
           },
