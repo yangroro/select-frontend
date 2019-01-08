@@ -74,6 +74,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
   public render() {
     const { fetchedAt, selectionIdList, selections, books } = this.props;
     const { renderedLastGroupIdx } = this.state;
+    const { hotRelease } = selections;
 
     if (!fetchedAt) {
       return (
@@ -85,6 +86,19 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
     }
     return (
       <div className="PageHome_Content">
+        <div className="PageHome_Panel">
+          {hotRelease && hotRelease.itemListByPage[1].itemList ? (
+            <HomeSection
+              key={hotRelease.id}
+              selectionId={'hotRelease'}
+              title={hotRelease.title!}
+              type={hotRelease.type!}
+              books={hotRelease.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
+            />
+          ) : (
+            <HomeSectionPlaceholder type={hotRelease.type} />
+          )}
+        </div>
         {selectionIdList
           .map((selectionId) => selections[selectionId])
           .reduce(groupSelections, [])

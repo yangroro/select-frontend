@@ -17,7 +17,7 @@ export interface DefaultSelectionState extends Paginated<BookId>, SelectionState
   id: number;
 }
 
-export type ReservedSelectionIds = 'popular'|'recent';
+export type ReservedSelectionIds = 'popular'|'recent'|'hotRelease';
 export interface ReservedSelectionState extends Paginated<BookId>, SelectionState {
   id: ReservedSelectionIds;
 }
@@ -27,10 +27,15 @@ export interface ChartSelectionState extends ReservedSelectionState {
   sortBy?: ChartSortingCrietria;
 }
 
+export interface HotReleaseSelectionState extends Paginated<BookId>, SelectionState {
+  id: string;
+}
+
 export interface SelectionsState {
   [selectionId: number]: DefaultSelectionState;
   recent: ReservedSelectionState;
   popular: ChartSelectionState;
+  hotRelease: HotReleaseSelectionState;
 }
 
 export const selectionInitialState: SelectionsState = {
@@ -42,4 +47,8 @@ export const selectionInitialState: SelectionsState = {
     id: 'recent',
     itemListByPage: {},
   },
+  hotRelease: {
+    id: 'hotRelease',
+    itemListByPage: {},
+  }
 };

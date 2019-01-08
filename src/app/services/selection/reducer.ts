@@ -10,6 +10,7 @@ import {
   LOAD_SELECTION_SUCCESS,
   SelectionActionTypes,
   UPDATE_SELECTIONS,
+  UPDATE_HOT_RELEASE,
 } from 'app/services/selection/actions';
 
 export const selectionReducer = (
@@ -44,6 +45,25 @@ export const selectionReducer = (
         return prev;
       }, state);
       return newState;
+    case UPDATE_HOT_RELEASE: {
+      const { hotRelease } = action.payload!;
+      return {
+        ...state,
+        hotRelease: {
+          ...state.hotRelease,
+          itemListByPage: {
+            1: {
+              fetchStatus: FetchStatusFlag.IDLE,
+              itemList: hotRelease.books.map((book) => book.id),
+              isFetched: false,
+            },
+          },
+          pageCount: 0,
+          title: hotRelease.title,
+          type: hotRelease.type,
+        }
+      }
+    }
     case LOAD_SELECTION_REQUEST: {
       const { page, selectionId } = action.payload!;
       return {

@@ -17,7 +17,6 @@ interface Props {
   disableInlineOnPC?: boolean;
   lazyloadThumbnail?: boolean;
   renderAuthor?: boolean;
-  renderCategory?: boolean;
 }
 
 interface DispatchProps {
@@ -34,7 +33,6 @@ export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props
     lazyloadThumbnail,
     trackClick,
     renderAuthor,
-    renderCategory,
   } = props;
 
   const section = !!pageTitleForTracking ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
@@ -77,10 +75,6 @@ export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props
                       id: book.id,
                     })}
                   >
-                    {renderCategory && (<span className="InlineHorizontalBookList_Category">
-                      {/* TODO: 데이터 받아서 하도록 변경 */}
-                      카테고리
-                    </span>)}
                     <span className="InlineHorizontalBookList_Title">{book.title.main}</span>
                     {renderAuthor && (<span className="InlineHorizontalBookList_Author">
                       {stringifyAuthors(book.authors, 2)}

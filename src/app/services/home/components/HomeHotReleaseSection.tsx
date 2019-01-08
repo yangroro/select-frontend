@@ -52,14 +52,13 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                 pageTitleForTracking="home"
                 uiPartTitleForTracking={selectionId.toString()}
                 renderAuthor={true}
-                renderCategory={true}
               />
             ) : (
               <div className="HomeSection_HotRelease_Slider">
                 <Slider
                   ref={(slider: Slider) => this.slider = slider}
                   dots={false}
-                  infinite={true}
+                  infinite={books.length > 5}
                   adaptiveHeight={false}
                   arrows={false}
                   speed={200}
@@ -102,10 +101,6 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                             id: book.id,
                           })}
                         >
-                          <span className="HomeSection_HotRelease_Book_Category">
-                            {/* TODO: 데이터 받아서 하도록 변경 */}
-                            카테고리
-                          </span>
                           <span className="HomeSection_HotRelease_Book_Title">
                             {book.title.main}
                           </span>
@@ -117,10 +112,12 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                     </ConnectedTrackImpression>
                   ))}
                 </Slider>
-                <SliderControls
-                  onPrevClick={() => this.slider.slickPrev()}
-                  onNextClick={() => this.slider.slickNext()}
-                />
+                {books.length > 5 && (
+                  <SliderControls
+                    onPrevClick={() => this.slider.slickPrev()}
+                    onNextClick={() => this.slider.slickNext()}
+                  />
+                )}
               </div>
             )}
           </MediaQuery>
