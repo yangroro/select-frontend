@@ -65,10 +65,10 @@ export const INITIAL_STATE: CommonUIState = {
 export const Reducer = createReducer(INITIAL_STATE, {
   [TYPE.UPDATE_SEARCH_ACTIVE_TYPE]: (state = INITIAL_STATE, action) => ({
     ...state,
-    gnbSearchActiveType: action.payload.gnbSearchActiveType,
+    gnbSearchActiveType: action.gnbSearchActiveType,
   }),
   [TYPE.UPDATE_GNB_COLOR]: (state, action) => {
-    const { color } = action.payload;
+    const { color } = action;
     const redCalc = color.r * 0.299;
     const greenCalc = color.g * 0.587;
     const blueCalc = color.b * 0.114;
@@ -84,11 +84,11 @@ export const Reducer = createReducer(INITIAL_STATE, {
   },
   [TYPE.UPDATE_GNB_TRANSPARENT]: (state, action) => ({
     ...state,
-    gnbTransparentType: action.payload.transparentType,
+    gnbTransparentType: action.transparentType,
   }),
   [TYPE.UPDATE_FOOTER_THEME]: (state, action) => ({
     ...state,
-    footerTheme: action.payload.theme,
+    footerTheme: action.theme,
   }),
 });
 
