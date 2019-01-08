@@ -24,7 +24,7 @@ interface SearchResultStateProps {
 
 interface SearchResultDispatchProps {
   dispatchRequestSearchResult: (keyword: string, page: number) => ActionQueryKeywordRequest;
-  dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) => typeof Creators.updateSearchActiveType;
+  dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) => { payload: { type: GNBSearchActiveType } };
 }
 
 type OwnProps = RouteComponentProps;

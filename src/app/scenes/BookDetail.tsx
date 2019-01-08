@@ -59,7 +59,7 @@ import { getSolidBackgroundColorRGBString, getTransparentBackgroundColorRGBStrin
 
 interface BookDetailDispatchProps {
   dispatchLoadBookRequest: (bookId: BookId) => ActionLoadDetailBookRequest;
-  dispatchUpdateGNBColor: (color: RGB) => typeof Creators.updateGNBColor;
+  dispatchUpdateGNBColor: (color: RGB) => { payload: { color: RGB } };
   dispatchUpdateDominantColor: (bookId: BookId, color: RGB) => ActionUpdateDominantColor;
   dispatchLoadBookOwnershipRequest: (bookId: BookId) => ActionLoadBookOwnershipRequest;
   dispatchAddMySelect: (bookId: BookId) => ActionAddMySelectRequest;
