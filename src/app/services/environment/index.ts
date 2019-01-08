@@ -1,17 +1,19 @@
-import { createTypes, createReducer } from 'reduxsauce';
+import { createTypes, createReducer, createActions } from 'reduxsauce';
 
 import env from "app/config/env";
 
-export const Types = createTypes(`
+const TYPE = createTypes(`
   INITIALIZE_ENVIRONMENT
 `);
 
 export const INITIAL_STATE = env;
 
-export const HANDLERS = {
-  [Types.INITIALIZE_ENVIRONMENT]: (state = INITIAL_STATE) => ({
+export const Reducer = createReducer(INITIAL_STATE, {
+  [TYPE.INITIALIZE_ENVIRONMENT]: (state = INITIAL_STATE) => ({
     ...state,
   }),
-}
+});
 
-export default createReducer(INITIAL_STATE, HANDLERS)
+export const { Types, Creators } = createActions({
+  initializeEnvironment: null,
+})

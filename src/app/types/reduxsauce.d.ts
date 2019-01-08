@@ -9,8 +9,8 @@ declare module 'reduxsauce' {
     [ action: string ]: string;
   }
 
-  export interface ActionCreators {
-    [ action: string ]: ( ...args: any[] ) => AnyAction;
+  export type ActionCreators<S> = {
+    [ action in keyof S ]: ( ...args: any[] ) => AnyAction;
   }
 
   export interface Handlers<S> {
@@ -33,6 +33,5 @@ declare module 'reduxsauce' {
 
   export function createReducer<S>( initialState: S, handlers: Handlers<S> ): Reducer<S>;
   export function createTypes ( types: string, options?: Options ): ActionTypes;
-  export function createActions<T, U> ( actions: Actions, options?: Options ): CreatedActions<T, U>;
-  export function createActions( actions: Actions, options?: Options ): CreatedActions<ActionCreators, ActionTypes>;
+  export function createActions<Actions>( actions: Actions, options?: Options ): CreatedActions<ActionCreators<Actions>, ActionTypes>;
 }
