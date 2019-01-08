@@ -394,10 +394,10 @@ const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
     isSubscribing: rootState.user.isSubscribing,
     isTokenFetched: rootState.user.isTokenFetched,
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
-    BASE_URL_STATIC: rootState.environment.constants.BASE_URL_STATIC,
-    BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
-    BASE_URL_RIDISELECT: rootState.environment.constants.BASE_URL_RIDISELECT,
-    FREE_PROMOTION_MONTHS: rootState.environment.constants.FREE_PROMOTION_MONTHS
+    BASE_URL_STATIC: rootState.environment.SELECT_URL,
+    BASE_URL_STORE: rootState.environment.STORE_URL,
+    BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
+    FREE_PROMOTION_MONTHS: rootState.environment.FREE_PROMOTION_MONTHS,
   };
 };
 const mapDispatchToProps = (dispatch: any): IntroDispatchProps => {

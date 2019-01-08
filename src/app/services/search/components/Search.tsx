@@ -583,7 +583,7 @@ const mapStateToProps = (state: RidiSelectState): SearchStoreProps => {
     gnbColor: state.commonUI.gnbColor,
     gnbColorLevel: state.commonUI.gnbColorLevel,
     gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
-    isRidiApp: state.environment.platform.isRidiApp,
+    isRidiApp: state.environment.platform.isRidibooks,
     searchQuery: state.router.location!.search,
   };
 };

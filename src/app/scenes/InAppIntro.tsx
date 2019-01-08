@@ -68,7 +68,7 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
   isTokenFetched: rootState.user.isTokenFetched,
-  BASE_URL_RIDISELECT: rootState.environment.constants.BASE_URL_RIDISELECT,
+  BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
 });
 
 export const ConnectedInAppIntro = connect(mapStateToProps)(InAppIntro);

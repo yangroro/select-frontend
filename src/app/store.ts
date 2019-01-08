@@ -24,7 +24,7 @@ import { categoryRootSaga } from 'app/services/category/sagas';
 import { MySelectState } from 'app/services/mySelect';
 import { mySelectReducer } from 'app/services/mySelect/reducer';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
-import { EnvironmentState, environmentReducer } from 'app/services/environment';
+import environmentReducer, { INITIAL_STATE as environmentState } from 'app/services/environment';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
 import { SearchResultState } from 'app/services/searchResult';
@@ -77,7 +77,7 @@ export interface RidiSelectState {
   searchResult: SearchResultState;
   mySelect: MySelectState;
   tracking: TrackingState;
-  environment: EnvironmentState;
+  environment: typeof environmentState;
   customHistory: CustomHistoryState;
 }
 

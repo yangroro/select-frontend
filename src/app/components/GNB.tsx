@@ -137,13 +137,13 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   gnbType: rootState.commonUI.gnbTransparentType === GNBTransparentType.transparent ? 'transparent' : rootState.commonUI.gnbColorLevel,
   solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(rootState),
   backgroundColorRGBString: rootState.commonUI.gnbTransparentType === GNBTransparentType.transparent ? 'rgba(0,0,0,0)' : getSolidBackgroundColorRGBString(rootState),
-  BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
-  BASE_URL_RIDISELECT: rootState.environment.constants.BASE_URL_RIDISELECT,
+  BASE_URL_STORE: rootState.environment.STORE_URL,
+  BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
-  showRidibooksLogo: !rootState.environment.platform.isRidiApp,
-  showGnbRightSection: !(rootState.environment.platform.isRidiApp && rootState.router.location!.pathname === '/'),
-  logoType: (rootState.environment.platform.isRidiApp && rootState.router.location!.pathname === '/') ? 'inAppIntro' : 'default',
+  showRidibooksLogo: !rootState.environment.platform.isRidibooks,
+  showGnbRightSection: !(rootState.environment.platform.isRidibooks && rootState.router.location!.pathname === '/'),
+  logoType: (rootState.environment.platform.isRidibooks && rootState.router.location!.pathname === '/') ? 'inAppIntro' : 'default',
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);

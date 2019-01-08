@@ -127,7 +127,7 @@ export const Routes: React.SFC<Props> = (props) => {
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  isRidiApp: rootState.environment.platform.isRidiApp,
+  isRidiApp: rootState.environment.platform.isRidibooks,
 });
 export const ConnectedRoutes = connect(mapStateToProps)(Routes);
 
