@@ -2,19 +2,19 @@ declare module 'reduxsauce' {
   import { AnyAction, Reducer } from 'redux';
 
   export interface Actions {
-    [ action: string ]: string[] | null;
+    [action: string]: string[] | null;
   }
 
   export interface ActionTypes {
-    [ action: string ]: string;
+    [action: string]: string;
   }
 
   export type ActionCreators<S> = {
-    [ action in keyof S ]: ( ...args: any[] ) => AnyAction;
+    [action in keyof S]: (...args: any[]) => AnyAction;
   }
 
   export interface Handlers<S> {
-    [ type: string ]: ( state: S, action: AnyAction ) => S;
+    [type: string]: (state: S, action: AnyAction) => S;
   }
 
   /**
