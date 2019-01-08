@@ -1,11 +1,11 @@
 .HomeSection_HotRelease {
   box-sizing: border-box;
-  height: 367px;
+  height: 350px;
   margin-top: 6px;
   background-color: var(--bluegray_90);
   @media (--pc-screen) {
     position: relative;
-    height: 473px;
+    height: 460px;
     margin-top: 20px;
     width: 100%;
     text-align: center;
@@ -68,12 +68,12 @@
 }
 .HomeSection_HotRelease_Contents {
   box-sizing: border-box;
-  height: 367px;
+  height: 350px;
   background: url(../images/hot_release_bg@2x.jpg) center center no-repeat;
   background-size: 870px 473px;
   @media (--pc-screen) {
     width: 800px;
-    height: 473px;
+    height: 460px;
     margin: 0 auto;
     & .Slider_ControlButton_Left {
       left: -168px;
