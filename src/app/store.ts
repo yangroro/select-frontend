@@ -26,7 +26,7 @@ import { INITIAL_STATE as environmentState, Reducer as environmentReducer } from
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
 import { SearchResultState } from 'app/services/searchResult';
-import { searchResultReducer } from 'app/services/searchResult/reducer';
+import { Reducer as searchResultReducer } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { SelectionsState } from 'app/services/selection';
 import { selectionReducer } from 'app/services/selection/reducer';

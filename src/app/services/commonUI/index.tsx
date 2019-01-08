@@ -47,13 +47,6 @@ export interface CommonUIState {
   footerTheme: FooterTheme;
 }
 
-const TYPE = createTypes(`
-  UPDATE_GNB_COLOR
-  UPDATE_SEARCH_ACTIVE_TYPE
-  UPDATE_GNB_TRANSPARENT
-  UPDATE_FOOTER_THEME
-`);
-
 export const INITIAL_STATE: CommonUIState = {
   gnbColor: GNB_DEFAULT_COLOR,
   gnbColorLevel: GNBColorLevel.DEFAULT,
@@ -62,8 +55,15 @@ export const INITIAL_STATE: CommonUIState = {
   footerTheme: FooterTheme.default,
 };
 
+const TYPE = createTypes(`
+  UPDATE_GNB_COLOR
+  UPDATE_SEARCH_ACTIVE_TYPE
+  UPDATE_GNB_TRANSPARENT
+  UPDATE_FOOTER_THEME
+`);
+
 export const Reducer = createReducer(INITIAL_STATE, {
-  [TYPE.UPDATE_SEARCH_ACTIVE_TYPE]: (state = INITIAL_STATE, action) => ({
+  [TYPE.UPDATE_SEARCH_ACTIVE_TYPE]: (state, action) => ({
     ...state,
     gnbSearchActiveType: action.gnbSearchActiveType,
   }),

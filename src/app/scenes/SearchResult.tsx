@@ -7,9 +7,9 @@ import { Button, Icon } from '@ridi/rsg';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
 import { GNBSearchActiveType } from 'app/services/commonUI';
-import { Creators } from 'app/services/commonUI';
+import { Creators as CommonUICreators } from 'app/services/commonUI';
 import { SearchResultBook, SearchResultState } from 'app/services/searchResult';
-import { ActionQueryKeywordRequest, queryKeywordRequest } from 'app/services/searchResult/actions';
+import { Types, Creators as SearchResultCreators } from 'app/services/searchResult';
 import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
 import { RidiSelectState } from 'app/store';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
@@ -23,8 +23,8 @@ interface SearchResultStateProps {
 }
 
 interface SearchResultDispatchProps {
-  dispatchRequestSearchResult: (keyword: string, page: number) => ActionQueryKeywordRequest;
-  dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) => { payload: { type: GNBSearchActiveType } };
+  dispatchRequestSearchResult: (keyword: string, page: number) => { keyword: string, page: number };
+  dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) => { type: GNBSearchActiveType };
 }
 
 type OwnProps = RouteComponentProps;
@@ -155,9 +155,9 @@ const mapStateToProps = (rootState: RidiSelectState): SearchResultStateProps => 
 const mapDispatchToProps = (dispatch: any): SearchResultDispatchProps => {
   return {
     dispatchRequestSearchResult: (keyword: string, page: number) =>
-      dispatch(queryKeywordRequest(keyword, page)),
+      dispatch(SearchResultCreators.queryKeywordRequest(keyword, page)),
     dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) =>
-      dispatch(Creators.updateSearchActiveType(type)),
+      dispatch(CommonUICreators.updateSearchActiveType(type)),
   };
 };
 export const ConnectedSearchResult = withRouter(
