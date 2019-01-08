@@ -35,8 +35,7 @@ import {
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { Expander } from 'app/services/book/components/Expander';
 import { Publisher, BookFile, BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
-import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel } from 'app/services/commonUI';
-import { ActionUpdateGNBColor, updateGNBColor } from 'app/services/commonUI/actions';
+import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel, Creators } from 'app/services/commonUI';
 import { MySelectState } from 'app/services/mySelect';
 import {
   ActionAddMySelectRequest,
@@ -60,7 +59,7 @@ import { getSolidBackgroundColorRGBString, getTransparentBackgroundColorRGBStrin
 
 interface BookDetailDispatchProps {
   dispatchLoadBookRequest: (bookId: BookId) => ActionLoadDetailBookRequest;
-  dispatchUpdateGNBColor: (color: RGB) => ActionUpdateGNBColor;
+  dispatchUpdateGNBColor: (color: RGB) => typeof Creators.updateGNBColor;
   dispatchUpdateDominantColor: (bookId: BookId, color: RGB) => ActionUpdateDominantColor;
   dispatchLoadBookOwnershipRequest: (bookId: BookId) => ActionLoadBookOwnershipRequest;
   dispatchAddMySelect: (bookId: BookId) => ActionAddMySelectRequest;
@@ -392,7 +391,7 @@ export class BookDetail extends React.Component<Props, State> {
                   <StarRating
                     rating={reviewSummary.buyerRatingAverage}
                     width={74}
-                    darkBackground={!isMobile && gnbColorLevel !== 'bright'}
+                    darkBackground={!isMobile && gnbColorLevel !== GNBColorLevel.BRIGHT}
                   />
                   <span className="PageBookDetail_RatingSummaryAverage">{`${
                     reviewSummary.buyerRatingAverage
@@ -758,7 +757,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
 const mapDispatchToProps = (dispatch: any): BookDetailDispatchProps => {
   return {
     dispatchLoadBookRequest: (bookId: number) => dispatch(loadBookRequest(bookId)),
-    dispatchUpdateGNBColor: (color: RGB) => dispatch(updateGNBColor(color)),
+    dispatchUpdateGNBColor: (color: RGB) => dispatch(Creators.updateGNBColor(color)),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
       dispatch(updateDominantColor(bookId, color)),
     dispatchLoadBookOwnershipRequest: (bookId: number) =>

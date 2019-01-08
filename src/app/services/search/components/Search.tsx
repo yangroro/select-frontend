@@ -493,7 +493,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
         className={classNames({
           'GNBSearchWrapper': true,
           'active': isActive,
-          'GNBSearchWrapper-colored': gnbColorLevel !== 'default',
+          'GNBSearchWrapper-colored': gnbColorLevel !== GNBColorLevel.DEFAULT,
           'GNBSearchWrapper-typeBlock': gnbSearchActiveType === GNBSearchActiveType.block,
         })}
         style={{ background: toRGBString(gnbColor), }}

@@ -8,12 +8,7 @@ import { throttle, sortedIndex } from "lodash-es";
 import { Icon } from "@ridi/rsg";
 import * as classNames from "classnames";
 import { GNBTransparentType, FooterTheme } from "app/services/commonUI";
-import {
-  updateGNBTransparent,
-  ActionUpdateGNBTransparent,
-  updateFooterTheme,
-  ActionUpdateFooterTheme
-} from "app/services/commonUI/actions";
+import { Creators } from "app/services/commonUI";
 import MediaQuery from "react-responsive";
 
 interface IntroStateProps {
@@ -37,10 +32,8 @@ interface WindowSizeInfoTypes {
 }
 
 interface IntroDispatchProps {
-  dispatchUpdateGNBTransparentType: (
-    transparentType: GNBTransparentType
-  ) => ActionUpdateGNBTransparent;
-  dispatchUpdateFooterTheme: (theme: FooterTheme) => ActionUpdateFooterTheme;
+  dispatchUpdateGNBTransparentType: (transparentType: GNBTransparentType) => typeof Creators.updateGNBTransparent;
+  dispatchUpdateFooterTheme: (theme: FooterTheme) => typeof Creators.updateFooterTheme;
 }
 
 interface IntroPageState {
@@ -391,9 +384,9 @@ const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
 const mapDispatchToProps = (dispatch: any): IntroDispatchProps => {
   return {
     dispatchUpdateGNBTransparentType: (transparentType: GNBTransparentType) =>
-      dispatch(updateGNBTransparent(transparentType)),
+      dispatch(Creators.updateGNBTransparent(transparentType)),
     dispatchUpdateFooterTheme: (theme: FooterTheme) =>
-      dispatch(updateFooterTheme(theme))
+      dispatch(Creators.updateFooterTheme(theme))
   };
 };
 export const ConnectedIntro = withRouter(

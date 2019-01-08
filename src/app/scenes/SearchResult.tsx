@@ -7,7 +7,7 @@ import { Button, Icon } from '@ridi/rsg';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
 import { GNBSearchActiveType } from 'app/services/commonUI';
-import { ActionUpdateGNBSearchActiveType, updateSearchActiveType } from 'app/services/commonUI/actions';
+import { Creators } from 'app/services/commonUI';
 import { SearchResultBook, SearchResultState } from 'app/services/searchResult';
 import { ActionQueryKeywordRequest, queryKeywordRequest } from 'app/services/searchResult/actions';
 import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
@@ -24,7 +24,7 @@ interface SearchResultStateProps {
 
 interface SearchResultDispatchProps {
   dispatchRequestSearchResult: (keyword: string, page: number) => ActionQueryKeywordRequest;
-  dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) => ActionUpdateGNBSearchActiveType;
+  dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) => typeof Creators.updateSearchActiveType;
 }
 
 type OwnProps = RouteComponentProps;
@@ -128,7 +128,7 @@ export class SearchResult extends React.Component<Props, State> {
               color="blue"
               outline={true}
               component="a"
-              href={`${environment.constants.BASE_URL_STORE}/search?q=${encodeURIComponent(query)}`}
+              href={`${environment.STORE_URL}/search?q=${encodeURIComponent(query)}`}
               className="PageSearchResult_RidibooksResult"
               size="large"
             >
@@ -157,7 +157,7 @@ const mapDispatchToProps = (dispatch: any): SearchResultDispatchProps => {
     dispatchRequestSearchResult: (keyword: string, page: number) =>
       dispatch(queryKeywordRequest(keyword, page)),
     dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) =>
-      dispatch(updateSearchActiveType(type)),
+      dispatch(Creators.updateSearchActiveType(type)),
   };
 };
 export const ConnectedSearchResult = withRouter(
