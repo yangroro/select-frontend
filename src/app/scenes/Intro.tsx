@@ -186,7 +186,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
       hasSubscribedBefore
     } = this.props;
     const { isLoaded, currentSection, buttonFixed } = this.state;
-    const INTRO_IMAGE_DIR = `${BASE_URL_STATIC}/dist/images/intro`;
+    const INTRO_IMAGE_DIR = `/assets/images/intro`;
     return (
       <main className="SceneWrapper">
         <Helmet>
