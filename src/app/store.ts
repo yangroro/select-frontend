@@ -1,5 +1,6 @@
 import { connectRouter } from 'connected-react-router'
 import { Dispatch } from 'react-redux';
+import { createLogger } from 'redux-logger';
 import { routerMiddleware, RouterState } from 'connected-react-router';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -83,6 +84,8 @@ const composeEnhancers = !env.production
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   : compose;
 const sagaMiddleware = createSagaMiddleware();
+const logger = createLogger({
+});
 
 export const hasRefreshedForAppDownload = () => !!qs.parse(location.search, { ignoreQueryPrefix: true })['to_app_store']
 export const hasCompletedSubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true })['new_subscription']
@@ -108,6 +111,7 @@ const enhancers = composeEnhancers(
   applyMiddleware(
     routerMiddleware(history),
     sagaMiddleware,
+    logger,
   ),
 );
 
