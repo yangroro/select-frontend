@@ -3,6 +3,9 @@
   height: 350px;
   margin-top: 6px;
   background-color: var(--bluegray_90);
+  & .Skeleton {
+    background-color: #111a27;
+  }
   @media (--pc-screen) {
     position: relative;
     height: 460px;
