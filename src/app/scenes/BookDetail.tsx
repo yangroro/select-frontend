@@ -35,7 +35,7 @@ import {
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { Expander } from 'app/services/book/components/Expander';
 import { Publisher, BookFile, BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
-import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel, Creators } from 'app/services/commonUI';
+import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel, Actions as CommonUIActions } from 'app/services/commonUI';
 import { MySelectState } from 'app/services/mySelect';
 import {
   ActionAddMySelectRequest,
@@ -749,7 +749,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
 const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadBookRequest: (bookId: number) => dispatch(loadBookRequest(bookId)),
-    dispatchUpdateGNBColor: (color: RGB) => dispatch(Creators.updateGNBColor(color)),
+    dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
       dispatch(updateDominantColor(bookId, color)),
     dispatchLoadBookOwnershipRequest: (bookId: number) =>

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
-import { GNBColorLevel, GNBTransparentType } from 'app/services/commonUI';
+import { GNBColorLevel } from 'app/services/commonUI';
 import { ConnectedSearch } from 'app/services/search';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';

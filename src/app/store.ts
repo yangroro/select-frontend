@@ -13,7 +13,7 @@ import history from 'app/config/history';
 import { BookState } from 'app/services/book';
 import { bookReducer } from 'app/services/book/reducer';
 import { bookRootSaga } from 'app/services/book/sagas';
-import { CommonUIState, Reducer as commonUIReducer } from 'app/services/commonUI';
+import { CommonUIState, commonUIReducer } from 'app/services/commonUI';
 import { HomeState } from 'app/services/home';
 import { homeReducer } from 'app/services/home/reducer';
 import { homeRootSaga } from 'app/services/home/sagas';
@@ -28,7 +28,7 @@ import { INITIAL_STATE as environmentState, environmentReducer } from 'app/servi
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
 import { SearchResultState } from 'app/services/searchResult';
-import { Reducer as searchResultReducer } from 'app/services/searchResult';
+import { searchResultReducer } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { SelectionsState } from 'app/services/selection';
 import { selectionReducer } from 'app/services/selection/reducer';

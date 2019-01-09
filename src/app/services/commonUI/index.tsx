@@ -1,10 +1,25 @@
-import { createTypes, createReducer, createActions } from 'reduxsauce';
+import { createReducer, createAction } from 'redux-act';
 
 export const isDefaultColor = (color: RGB) => color.r === GNB_DEFAULT_COLOR.r &&
   color.g === GNB_DEFAULT_COLOR.g &&
   color.b === GNB_DEFAULT_COLOR.b;
 
 export const toRGBString = (rgb: RGB): string => `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+
+export const Actions = {
+  updateGNBColor: createAction<{
+    color: RGB,
+  }>(),
+  updateSearchActiveType: createAction<{
+    gnbSearchActiveType: GNBSearchActiveType,
+  }>(),
+  updateGNBTransparent: createAction<{
+    transparentType: GNBTransparentType,
+  }>(),
+  updateFooterTheme: createAction<{
+    theme: FooterTheme,
+  }>(),
+};
 
 export const GNB_DEFAULT_COLOR: RGB = {
   r: 23,
@@ -55,58 +70,35 @@ export const INITIAL_STATE: CommonUIState = {
   footerTheme: FooterTheme.default,
 };
 
-const TYPE = createTypes(`
-  UPDATE_GNB_COLOR
-  UPDATE_SEARCH_ACTIVE_TYPE
-  UPDATE_GNB_TRANSPARENT
-  UPDATE_FOOTER_THEME
-`);
+export const commonUIReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
 
-export const Reducer = createReducer(INITIAL_STATE, {
-  [TYPE.UPDATE_SEARCH_ACTIVE_TYPE]: (state, action) => ({
+commonUIReducer.on(Actions.updateSearchActiveType, (state, action) => ({
+  ...state,
+  gnbSearchActiveType: action.gnbSearchActiveType,
+}));
+
+commonUIReducer.on(Actions.updateGNBColor, (state, action) => {
+  const { color } = action;
+  const redCalc = color.r * 0.299;
+  const greenCalc = color.g * 0.587;
+  const blueCalc = color.b * 0.114;
+  return {
     ...state,
-    gnbSearchActiveType: action.gnbSearchActiveType,
-  }),
-  [TYPE.UPDATE_GNB_COLOR]: (state, action) => {
-    const { color } = action;
-    const redCalc = color.r * 0.299;
-    const greenCalc = color.g * 0.587;
-    const blueCalc = color.b * 0.114;
-    return {
-      ...state,
-      gnbColor: color,
-      gnbColorLevel: isDefaultColor(color)
-        ? GNBColorLevel.DEFAULT
-        : color.r === GNB_DEFAULT_COLOR.r && redCalc + greenCalc + blueCalc > 186
-          ? GNBColorLevel.BRIGHT
-          : GNBColorLevel.DARK,
-    };
-  },
-  [TYPE.UPDATE_GNB_TRANSPARENT]: (state, action) => ({
-    ...state,
-    gnbTransparentType: action.transparentType,
-  }),
-  [TYPE.UPDATE_FOOTER_THEME]: (state, action) => ({
-    ...state,
-    footerTheme: action.theme,
-  }),
+    gnbColor: color,
+    gnbColorLevel: isDefaultColor(color)
+      ? GNBColorLevel.DEFAULT
+      : color.r === GNB_DEFAULT_COLOR.r && redCalc + greenCalc + blueCalc > 186
+        ? GNBColorLevel.BRIGHT
+        : GNBColorLevel.DARK,
+  };
 });
 
-export const { Types, Creators } = createActions({
-  updateGNBColor: (color: RGB) => ({
-    type: TYPE.UPDATE_GNB_COLOR,
-    color
-  }),
-  updateSearchActiveType: (gnbSearchActiveType: GNBSearchActiveType) => ({
-    type: TYPE.UPDATE_SEARCH_ACTIVE_TYPE,
-    gnbSearchActiveType
-  }),
-  updateGNBTransparent: (transparentType: GNBTransparentType) => ({
-    type: TYPE.UPDATE_GNB_TRANSPARENT,
-    transparentType
-  }),
-  updateFooterTheme: (theme: FooterTheme) => ({
-    type: TYPE.UPDATE_FOOTER_THEME,
-    theme
-  }),
-})
+commonUIReducer.on(Actions.updateGNBTransparent, (state, action) => ({
+  ...state,
+  gnbTransparentType: action.transparentType,
+}));
+
+commonUIReducer.on(Actions.updateFooterTheme, (state, action) => ({
+  ...state,
+  footerTheme: action.theme,
+}));
