@@ -117,10 +117,9 @@ const enhancers = composeEnhancers(
   ),
 );
 
-// const savedState = stateHydrator.load();
-// export const store = hasRefreshedForAppDownload() && savedState
-//   ? createStore(reducers, savedState, enhancers)
-//   : createStore(reducers, enhancers);
-export const store = createStore(reducers, enhancers);
+const savedState = stateHydrator.load();
+export const store = hasRefreshedForAppDownload() && savedState
+  ? createStore(reducers, savedState, enhancers)
+  : createStore(reducers, enhancers);
 
 sagaMiddleware.run(rootSaga, store.dispatch);
