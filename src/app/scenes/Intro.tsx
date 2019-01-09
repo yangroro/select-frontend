@@ -383,9 +383,9 @@ const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
 const mapDispatchToProps = (dispatch: any): IntroDispatchProps => {
   return {
     dispatchUpdateGNBTransparentType: (transparentType: GNBTransparentType) =>
-      dispatch(CommonUIActions.updateGNBTransparent(transparentType)),
+      dispatch(CommonUIActions.updateGNBTransparent({ transparentType })),
     dispatchUpdateFooterTheme: (theme: FooterTheme) =>
-      dispatch(CommonUIActions.updateFooterTheme(theme))
+      dispatch(CommonUIActions.updateFooterTheme({ theme }))
   };
 };
 export const ConnectedIntro = withRouter(
