@@ -14,7 +14,6 @@ import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { FetchStatusFlag } from 'app/constants';
 import { connect } from 'react-redux';
 import { RidiSelectState } from 'app/store';
-import { BookId } from 'app/types';
 
 interface HomeSectionProps {
   selection: DefaultSelectionState | HotReleaseSelectionState;
@@ -59,19 +58,19 @@ export class HomeSection extends React.Component<Props> {
   public render() {
     const { selection, onScreen, books } = this.props;
     const { type, title, id } = selection;
-    const bookIds: BookId[] = selection.itemListByPage[1].itemList;
-    const selectionBooks: Book[] = bookIds.map((bookId: number) => books[bookId].book!);
+    const firstPageItemList = selection.itemListByPage[1];
+    const selectionBooks: Book[] = firstPageItemList.itemList.map((bookId: number) => books[bookId].book!);
 
     if (
-      selection.itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE && bookIds.length < 1 ||
-      selection.itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR
+      firstPageItemList.fetchStatus === FetchStatusFlag.IDLE && firstPageItemList.itemList.length < 1 ||
+      firstPageItemList.fetchStatus === FetchStatusFlag.FETCH_ERROR
     ) {
       return null;
     }
 
     if (
       !onScreen ||
-      selection.itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING
+      firstPageItemList.fetchStatus === FetchStatusFlag.FETCHING
     ) {
       return (
         <HomeSectionPlaceholder
