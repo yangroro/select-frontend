@@ -20,6 +20,12 @@ export const requestSelection = (
 ): Promise<SelectionResponse> => {
   const url = `/api/pages/collections/${selectionId}`;
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
+  if (selectionId === 'hotRelease') {
+    return request({
+      url: '/api/pages/collections/hot-release',
+      method: 'GET'
+    }).then((response) => camelize<AxiosResponse<SelectionResponse>>(response, { recursive: true }).data);
+  }
   let params = {
     page,
   };

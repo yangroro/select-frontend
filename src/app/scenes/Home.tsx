@@ -11,9 +11,11 @@ import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBann
 import { SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
+import { ActionLoadSelectionRequest, loadSelectionRequest, SelectionId } from 'app/services/selection/actions';
 
 interface HomeDispatchProps {
   dispatchLoadHomeRequest: () => ActionLoadHomeRequest;
+  dispatchLoadSelectionRequest: (selectionid: SelectionId) => ActionLoadSelectionRequest;
 }
 
 interface HomeStateProps {
@@ -35,11 +37,17 @@ export class Home extends React.PureComponent<HomeDispatchProps & HomeStateProps
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
+      const {
+        fetchedAt,
+        dispatchLoadHomeRequest,
+        dispatchLoadSelectionRequest
+      } = this.props;
       if (
-        !this.props.fetchedAt ||
-        Math.abs(differenceInHours(this.props.fetchedAt, Date.now())) >= 3
+        !fetchedAt ||
+        Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3
       ) {
-        this.props.dispatchLoadHomeRequest();
+        dispatchLoadHomeRequest();
+        dispatchLoadSelectionRequest('hotRelease');
       }
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
@@ -82,6 +90,7 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
 const mapDispatchToProps = (dispatch: any): HomeDispatchProps => {
   return {
     dispatchLoadHomeRequest: () => dispatch(loadHomeRequest()),
+    dispatchLoadSelectionRequest: (selectionid: SelectionId) => dispatch(loadSelectionRequest(selectionid, 1)),
   };
 };
 
