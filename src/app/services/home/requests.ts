@@ -62,8 +62,3 @@ export const requestHome = (): Promise<HomeResponse> => {
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<HomeResponse>>(response, { recursive: true }).data);
 }
-
-export const requestHotRelease = (): Promise<SelectionResponse> => request({
-    url: '/api/pages/collections/hot-release',
-    method: 'GET'
-  }).then((response) => camelize<AxiosResponse<SelectionResponse>>(response, { recursive: true }).data);

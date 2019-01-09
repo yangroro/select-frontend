@@ -4,6 +4,7 @@ import {
   LOAD_SELECTION_REQUEST,
   loadSelectionFailure,
   loadSelectionSuccess,
+  updateHotRelease,
 } from 'app/services/selection/actions';
 import { requestSelection, SelectionResponse } from 'app/services/selection/requests';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
@@ -14,7 +15,11 @@ export function* loadSelection({ payload }: ActionLoadSelectionRequest) {
   try {
     const response: SelectionResponse = yield call(requestSelection, selectionId, page);
     yield put(updateBooks(response.books));
-    yield put(loadSelectionSuccess(selectionId, page, response));
+    if (selectionId === 'hotRelease') {
+      yield put(updateHotRelease(response));
+    } else {
+      yield put(loadSelectionSuccess(selectionId, page, response));
+    }
   } catch (e) {
     yield put(loadSelectionFailure(selectionId, page));
     callbackAfterFailedFetch(e, page);
