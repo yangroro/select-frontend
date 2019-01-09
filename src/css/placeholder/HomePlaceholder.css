@@ -71,3 +71,27 @@
     height: 11px;
   }
 }
+
+.HomeSection_HotRelease_Skeleton {
+  & .HomeSection_HotRelease_Contents {
+    width: 100%;
+    overflow: hidden;
+    padding-top: 45px;
+  }
+  & .HomeSection_HotRelease_Title_Skeleton {
+    width: 150px;
+    height: 34px;
+    margin: 0 auto 34px;
+    background-color: rgba(0,0,0,.3);
+  }
+
+  @media (--mobile-screen) {
+    & .HomeSection_HotRelease_Contents {
+      padding-top: 34px;
+    }
+    & .HomeSection_HotRelease_Title_Skeleton {
+      height: 24px;
+      margin: 0 0 11px;
+    }
+  }
+}

@@ -1,0 +1,148 @@
+.HomeSection_HotRelease {
+  box-sizing: border-box;
+  height: 350px;
+  margin-top: 6px;
+  background-color: var(--bluegray_90);
+  @media (--pc-screen) {
+    position: relative;
+    height: 460px;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+  }
+  & .InlineHorizontalBookList {
+    padding-bottom: 30px;
+  }
+  & .InlineHorizontalBookList_Item {
+    @media (hover: hover) {
+      &:hover {
+        & .InlineHorizontalBookList_Title {
+          color: #fff;
+          opacity: .8;
+        }
+      }
+    }
+    @media (hover: none) {
+      &:active {
+        & .InlineHorizontalBookList_Title {
+          color: #fff;
+          opacity: .8;
+        }
+      }
+    }
+  }
+  & .InlineHorizontalBookList_Link {
+    flex-direction: column;
+    width: 110px;
+  }
+  & .InlineHorizontalBookList_Title,
+  & .InlineHorizontalBookList_Author {
+    width: 110px;
+  }
+  & .InlineHorizontalBookList_Author {
+    display: block;
+    display: -webkit-box;
+    max-height: 2.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    transition: opacity .2s;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+  }
+  & .InlineHorizontalBookList_Title {
+    padding-top: 4px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    transition: opacity .2s;
+  }
+  & .InlineHorizontalBookList_Author {
+    padding-top: 4px;
+    font-size: 13px;
+    color: var(--slategray_30);
+  }
+}
+.HomeSection_HotRelease_Contents {
+  box-sizing: border-box;
+  height: 350px;
+  background: url(../images/hot_release_bg@2x.jpg) center center no-repeat;
+  background-size: 870px 473px;
+  @media (--pc-screen) {
+    width: 800px;
+    height: 460px;
+    margin: 0 auto;
+    & .Slider_ControlButton_Left {
+      left: -168px;
+    }
+    & .Slider_ControlButton_Right {
+      right: -168px;
+    }
+  }
+  @media (--mobile-screen) {
+    padding: 0 20px;
+  }
+}
+.HomeSection_HotRelease_Title {
+  padding-top: 45px;
+  font-size: 24px;
+  letter-spacing: -0.3px;
+  text-align: center;
+  color: #fff;
+  @media (--mobile-screen) {
+    padding-top: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: left;
+  }
+}
+.HomeSection_HotRelease_NewBadge {
+  width: 40px;
+  height: 22px;
+  margin-left: 10px;
+  vertical-align: top;
+  @media (--mobile-screen) {
+    width: 33px;
+    height: 18px;
+    margin-left: 6px;
+  }
+}
+.HomeSection_HotRelease_Slider {
+  padding-top: 40px;
+}
+.HomeSection_HotRelease_Book_Link {
+  text-decoration: none;
+  text-align: left;
+}
+.HomeSection_HotRelease_Book_Title,
+.HomeSection_HotRelease_Book_Author {
+  display: block;
+  display: -webkit-box;
+  width: 140px;
+  max-height: 2.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-all;
+  transition: color .2s;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+}
+.HomeSection_HotRelease_Book_Title {
+  -webkit-line-clamp: 2;
+  padding-top: 2px;
+  font-size: 15px;
+  line-height: 20px;
+  color: #fff;
+  font-weight: 700;
+}
+.HomeSection_HotRelease_Book_Author {
+  -webkit-line-clamp: 1;
+  padding-top: 2px;
+  line-height: 20px;
+  font-size: 14px;
+  color: var(--slategray_30);
+}

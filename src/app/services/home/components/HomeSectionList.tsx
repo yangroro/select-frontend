@@ -5,7 +5,7 @@ import { throttle } from "lodash-es";
 import { RidiSelectState } from "app/store";
 import { BookState } from 'app/services/book';
 import { SelectionsState } from "app/services/selection";
-import { ConnectedHomeSection } from "./HomeSection";
+import { HomeSection } from "./HomeSection";
 import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
 
 import { groupSelections } from "../uitls";
@@ -74,6 +74,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
   public render() {
     const { fetchedAt, selectionIdList, selections, books } = this.props;
     const { renderedLastGroupIdx } = this.state;
+    const { hotRelease } = selections;
 
     if (!fetchedAt) {
       return (
@@ -85,6 +86,19 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
     }
     return (
       <div className="PageHome_Content">
+        <div className="PageHome_Panel">
+          {hotRelease && hotRelease.itemListByPage[1].itemList ? (
+            <HomeSection
+              key={hotRelease.id}
+              selectionId={'hotRelease'}
+              title={hotRelease.title!}
+              type={hotRelease.type!}
+              books={hotRelease.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
+            />
+          ) : (
+            <HomeSectionPlaceholder type={hotRelease.type} />
+          )}
+        </div>
         {selectionIdList
           .map((selectionId) => selections[selectionId])
           .reduce(groupSelections, [])
@@ -99,8 +113,8 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                 }
               }}
             >
-              {selectionGroup.map((selection) => renderedLastGroupIdx >= idx ? (
-                <ConnectedHomeSection
+              {selectionGroup.map((selection, selectionIdx) => renderedLastGroupIdx >= idx ? (
+                <HomeSection
                   key={selection.id}
                   selectionId={selection.id}
                   title={selection.title!}

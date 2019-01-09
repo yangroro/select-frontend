@@ -9,6 +9,7 @@ import { DefaultTrackingParams,trackImpression, ActionTrackClick, trackClick, Ac
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedBigBannerItem } from './BigBannerItem';
+import { SliderControls } from './SliderControls';
 import { RidiSelectState } from 'app/store';
 import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
 
@@ -154,24 +155,10 @@ export class BigBannerCarousel extends React.Component<Props, State> {
                 </ConnectedBigBannerItem>
               ))}
             </Slider>
-            <div className="BigBanner_Controls">
-              <button
-                className="BigBanner_ControlButton"
-                onClick={() => this.slider.slickPrev()}
-                type="button"
-              >
-                <Icon name="arrow_5_left" className="BigBanner_ControlIcon" />
-                <span className="a11y">이전 배너 보기</span>
-              </button>
-              <button
-                className="BigBanner_ControlButton"
-                onClick={() => this.slider.slickNext()}
-                type="button"
-              >
-                <Icon name="arrow_5_right" className="BigBanner_ControlIcon" />
-                <span className="a11y">다음 배너 보기</span>
-              </button>
-            </div>
+            <SliderControls
+              onPrevClick={() => this.slider.slickPrev()}
+              onNextClick={() => this.slider.slickNext()}
+            />
           </section>
         )}
       </MediaQuery>
