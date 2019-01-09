@@ -155,14 +155,17 @@ const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => dispatch(categoryActions.initializeCategoriesWhole({ shouldFetchCategoryList, shouldInitializeCategoryId })),
-    dispatchLoadCategoryList: () => dispatch(categoryActions.loadCategoryListRequest()),
-    dispatchInitializeCategoryId: () => dispatch(categoryActions.initializeCategoryId()),
-    dispatchCacheCategoryId: (categoryId: number) => dispatch(categoryActions.cacheCategoryId({ categoryId })),
-    dispatchLoadCategoryBooks: (categoryId: number, page: number) => dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page })),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) =>
+    dispatch(categoryActions.initializeCategoriesWhole({ shouldFetchCategoryList, shouldInitializeCategoryId })),
+  dispatchLoadCategoryList: () =>
+    dispatch(categoryActions.loadCategoryListRequest()),
+  dispatchInitializeCategoryId: () =>
+    dispatch(categoryActions.initializeCategoryId()),
+  dispatchCacheCategoryId: (categoryId: number) =>
+    dispatch(categoryActions.cacheCategoryId({ categoryId })),
+  dispatchLoadCategoryBooks: (categoryId: number, page: number) =>
+    dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page })),
+});
 
 export const ConnectedCategory = connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(Category);
