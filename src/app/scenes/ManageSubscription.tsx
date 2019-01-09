@@ -84,7 +84,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   public render() {
     const { subscriptionState, environment } = this.props;
     const { isUnsubscribeWarningPopupActive } = this.state;
-    const { BASE_URL_RIDI_PAY_API } = environment.constants;
+    const { PAY_URL: BASE_URL_RIDI_PAY_API } = environment;
     return (
       <main className="SceneWrapper PageManageSubscription">
         <Helmet>

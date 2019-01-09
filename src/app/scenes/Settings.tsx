@@ -59,7 +59,6 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   public renderSubscriptionInfo() {
     const { uId, subscriptionState, isPurchaseCancelFetching, latestPurchaseTicket, environment } = this.props;
-    const { BASE_URL_STORE, BASE_URL_RIDISELECT } = environment.constants;
     const { ticketStartDate, ticketEndDate, isOptout } = subscriptionState!;
     const isPurchaseCancellable = !!latestPurchaseTicket && latestPurchaseTicket.isCancellable;
     const latestPurchaseId = latestPurchaseTicket && latestPurchaseTicket.id;
@@ -121,7 +120,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   public render() {
     const { environment, subscriptionState } = this.props;
-    const { BASE_URL_STORE, BASE_URL_RIDISELECT } = environment.constants;
+    const { STORE_URL: BASE_URL_STORE, SELECT_URL: BASE_URL_RIDISELECT } = environment;
 
     return (
       <main className="SceneWrapper PageSetting">
