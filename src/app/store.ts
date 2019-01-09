@@ -1,5 +1,5 @@
 import { connectRouter } from 'connected-react-router'
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { createLogger } from 'redux-logger';
 import { loggers } from 'redux-act';
 import { routerMiddleware, RouterState } from 'connected-react-router';
@@ -48,7 +48,7 @@ declare global {
   }
 }
 
-function* rootSaga(dispatch: Dispatch<RidiSelectState>) {
+function* rootSaga(dispatch: Dispatch) {
   yield all([
     homeRootSaga(),
     bookRootSaga(),
