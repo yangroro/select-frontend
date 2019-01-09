@@ -1,19 +1,6 @@
-import { createTypes, createReducer, createActions } from 'reduxsauce';
+import { createReducer } from 'redux-act';
 
 import env from "app/config/env";
 
-const TYPE = createTypes(`
-  INITIALIZE_ENVIRONMENT
-`);
-
-export const INITIAL_STATE = env;
-
-export const Reducer = createReducer(INITIAL_STATE, {
-  [TYPE.INITIALIZE_ENVIRONMENT]: (state = INITIAL_STATE) => ({
-    ...state,
-  }),
-});
-
-export const { Types, Creators } = createActions({
-  initializeEnvironment: null,
-})
+export const environmentReducer = createReducer<typeof env>({}, env);
+export { env as INITIAL_STATE }; // TODO: convert to reselect

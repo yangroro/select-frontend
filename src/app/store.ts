@@ -24,7 +24,7 @@ import { categoryRootSaga } from 'app/services/category/sagas';
 import { MySelectState } from 'app/services/mySelect';
 import { mySelectReducer } from 'app/services/mySelect/reducer';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
-import { INITIAL_STATE as environmentState, Reducer as environmentReducer } from 'app/services/environment';
+import { INITIAL_STATE as environmentState, environmentReducer } from 'app/services/environment';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
 import { SearchResultState } from 'app/services/searchResult';
