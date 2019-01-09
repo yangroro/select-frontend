@@ -3,11 +3,7 @@ import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import * as qs from 'qs';
 
 import { updateBooks } from 'app/services/book/actions';
-import {
-  Category,
-  Types,
-  Actions,
-} from 'app/services/category';
+import { Category, Actions } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { RidiSelectState } from 'app/store';
 import { localStorageManager } from 'app/services/category/utils';
@@ -20,7 +16,7 @@ export async function loadCategoryList() {
 
 export function* watchLoadCategoryListRequest() {
   while (true) {
-    yield take(Types.LOAD_CATEGORY_LIST_REQUEST);
+    yield take(Actions.loadCategoryListRequest.getType());
     try {
       const categoryList = yield call(loadCategoryList);
       yield put(Actions.loadCategoryListSuccess({ categoryList }));
@@ -40,10 +36,10 @@ export function* watchInitializeWhole() {
     const { payload }: { payload: {
       shouldFetchCategoryList: boolean,
       shouldInitializeCategoryId: boolean,
-    } } = yield take(Types.INITIALIZE_CATEGORIES_WHOLE);
+    } } = yield take(Actions.initializeCategoriesWhole.getType());
     if (payload.shouldFetchCategoryList ) {
       yield put(Actions.loadCategoryListRequest());
-      yield take(Types.LOAD_CATEGORY_LIST_SUCCESS);
+      yield take(Actions.loadCategoryListSuccess.getType());
     }
     if (payload.shouldInitializeCategoryId) {
       yield put(Actions.initializeCategoryId());
@@ -53,7 +49,7 @@ export function* watchInitializeWhole() {
 
 export function* watchInitializeCategoryId() {
   while (true) {
-    yield take(Types.INITIALIZE_CATEGORY_ID);
+    yield take(Actions.initializeCategoryId.getType());
     const state: RidiSelectState = yield select((s) => s);
     const idFromLocalStorage = localStorageManager.load().lastVisitedCategoryId;
 
@@ -80,7 +76,7 @@ export function* watchInitializeCategoryId() {
 
 export function* watchCacheCategoryId() {
   while (true) {
-    const { categoryId } = yield take(Types.CACHE_CATEGORY_ID);
+    const { categoryId } = yield take(Actions.cacheCategoryId.getType());
     localStorageManager.save({ lastVisitedCategoryId: categoryId });
   }
 }
@@ -101,7 +97,7 @@ export function* loadCategoryBooks({ payload }: { type: string, payload: { categ
 }
 
 export function* watchLoadCategoryBooks() {
-  yield takeEvery(Types.LOAD_CATEGORY_BOOKS_REQUEST, loadCategoryBooks);
+  yield takeEvery(Actions.loadCategoryBooksRequest.getType(), loadCategoryBooks);
 }
 
 export function* categoryRootSaga() {

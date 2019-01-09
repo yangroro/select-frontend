@@ -4,53 +4,41 @@ import { CategoryBooksResponse } from 'app/services/category/requests';
 import { DefaultSelectionState } from 'app/services/selection';
 import { FetchStatusFlag } from 'app/constants';
 
-export enum Types {
-  LOAD_CATEGORY_LIST_REQUEST = 'LOAD_CATEGORY_LIST_REQUEST',
-  LOAD_CATEGORY_LIST_SUCCESS = 'LOAD_CATEGORY_LIST_SUCCESS',
-  LOAD_CATEGORY_LIST_FAILURE = 'LOAD_CATEGORY_LIST_FAILURE',
-  INITIALIZE_CATEGORY_ID = 'INITIALIZE_CATEGORY_ID',
-  INITIALIZE_CATEGORIES_WHOLE = 'INITIALIZE_CATEGORIES_WHOLE',
-  CACHE_CATEGORY_ID = 'CACHE_CATEGORY_ID',
-  LOAD_CATEGORY_BOOKS_REQUEST = 'LOAD_CATEGORY_BOOKS_REQUEST',
-  LOAD_CATEGORY_BOOKS_SUCCESS = 'LOAD_CATEGORY_BOOKS_SUCCESS',
-  LOAD_CATEGORY_BOOKS_FAILURE = 'LOAD_CATEGORY_BOOKS_FAILURE',
-}
-
 export const Actions = {
-  loadCategoryListRequest: createAction(Types.LOAD_CATEGORY_LIST_REQUEST),
+  loadCategoryListRequest: createAction(),
 
   loadCategoryListSuccess: createAction<{
     categoryList: Category[],
-  }>(Types.LOAD_CATEGORY_LIST_SUCCESS),
+  }>(),
 
-  loadCategoryListFailure: createAction(Types.LOAD_CATEGORY_LIST_FAILURE),
+  loadCategoryListFailure: createAction(),
 
-  initializeCategoryId: createAction(Types.INITIALIZE_CATEGORY_ID),
+  initializeCategoryId: createAction(),
 
   initializeCategoriesWhole: createAction<{
     shouldFetchCategoryList: boolean,
     shouldInitializeCategoryId: boolean,
-  }>(Types.INITIALIZE_CATEGORIES_WHOLE),
+  }>(),
 
   cacheCategoryId: createAction<{
     categoryId: number,
-  }>(Types.CACHE_CATEGORY_ID),
+  }>(),
 
   loadCategoryBooksRequest: createAction<{
     categoryId: number,
     page: number,
-  }>(Types.LOAD_CATEGORY_BOOKS_REQUEST),
+  }>(),
 
   loadCategoryBooksSuccess: createAction<{
     categoryId: number,
     page: number,
     response: CategoryBooksResponse,
-  }>(Types.LOAD_CATEGORY_BOOKS_SUCCESS),
+  }>(),
 
   loadCategoryBooksFailure: createAction<{
     categoryId: number,
     page: number,
-  }>(Types.LOAD_CATEGORY_BOOKS_FAILURE),
+  }>(),
 };
 
 export interface Category {
