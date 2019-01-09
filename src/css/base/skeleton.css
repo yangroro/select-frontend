@@ -47,6 +47,7 @@
     content: '';
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
     opacity: .2;
+    z-index: 100;
   }
 }
 

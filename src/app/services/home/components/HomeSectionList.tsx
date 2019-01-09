@@ -8,6 +8,7 @@ import { ConnectedHomeSection } from "./HomeSection";
 import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
 
 import { groupSelections } from "../uitls";
+import { SelectionType } from "../reducer.state";
 
 
 interface HomeSelectionListStateProps {
@@ -77,8 +78,15 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
     if (!fetchedAt) {
       return (
         <div className="PageHome_Content Skeleton_Wrapper">
-          <HomeSectionPlaceholder />
-          <HomeSectionPlaceholder />
+          <div className="PageHome_Panel">
+            <HomeSectionPlaceholder
+              type={SelectionType.HOT_RELEASE}
+            />
+          </div>
+          <div className="PageHome_Panel">
+            <HomeSectionPlaceholder />
+            <HomeSectionPlaceholder />
+          </div>
         </div>
       );
     }

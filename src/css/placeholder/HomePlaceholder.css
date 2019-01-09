@@ -73,6 +73,8 @@
 }
 
 .HomeSection_HotRelease_Skeleton {
+  position: relative;
+  z-index: 200;
   & .HomeSection_HotRelease_Contents {
     width: 100%;
     overflow: hidden;

@@ -9,7 +9,7 @@
   @media (--pc-screen) {
     position: relative;
     height: 460px;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
     text-align: center;
   }
@@ -136,7 +136,7 @@
 }
 .HomeSection_HotRelease_Book_Title {
   -webkit-line-clamp: 2;
-  padding-top: 2px;
+  padding-top: 8px;
   font-size: 15px;
   line-height: 20px;
   color: #fff;
