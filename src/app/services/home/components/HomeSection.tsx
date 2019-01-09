@@ -5,18 +5,27 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@ridi/rsg';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { Book } from 'app/services/book/reducer.state';
+import { Book, BookState } from 'app/services/book/reducer.state';
 import { SelectionType } from 'app/services/home';
-import { SelectionId } from 'app/services/selection/actions';
 import { ConnectedHomeHotReleaseSection } from './HomeHotReleaseSection';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
+import { DefaultSelectionState, HotReleaseSelectionState } from 'app/services/selection';
+import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
+import { FetchStatusFlag } from 'app/constants';
+import { connect } from 'react-redux';
+import { RidiSelectState } from 'app/store';
+import { BookId } from 'app/types';
 
 interface HomeSectionProps {
-  books: Book[];
-  title: string;
-  type: SelectionType;
-  selectionId: SelectionId;
+  selection: DefaultSelectionState | HotReleaseSelectionState;
+  onScreen: boolean;
 }
+
+interface HomeSelectionStateProps {
+  books: BookState;
+}
+
+type Props = HomeSectionProps & HomeSelectionStateProps;
 
 export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => {
   return (
@@ -46,37 +55,68 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = (props)
   );
 };
 
-export const HomeSection: React.SFC<HomeSectionProps> = (props) => {
-  const { books, title, type, selectionId } = props;
+export class HomeSection extends React.Component<Props> {
+  public render() {
+    const { selection, onScreen, books } = this.props;
+    const { type, title, id } = selection;
+    const bookIds: BookId[] = selection.itemListByPage[1].itemList;
+    const selectionBooks: Book[] = bookIds.map((bookId: number) => books[bookId].book!);
 
-  if (type === SelectionType.HOT_RELEASE) {
-    return (
-      <ConnectedHomeHotReleaseSection
-        books={books}
-        selectionId={selectionId}
-      />
-    )
-  }
+    if (
+      selection.itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE && bookIds.length < 1 ||
+      selection.itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR
+    ) {
+      return null;
+    }
 
-  if (type === SelectionType.CHART) {
+    if (
+      !onScreen ||
+      selection.itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING
+    ) {
+      return (
+        <HomeSectionPlaceholder
+          type={selection.type}
+          key={`${selection.id}_skeleton`}
+        />
+      );
+    }
+
+    if (type === SelectionType.HOT_RELEASE) {
+      return (
+        <ConnectedHomeHotReleaseSection
+          books={selectionBooks}
+          selectionId={selection.id}
+        />
+      )
+    }
+
+    if (type === SelectionType.CHART) {
+      return (
+        <ConnectedHomeChartBooksSection
+          books={selectionBooks}
+          title={title!}
+          selectionId={id}
+        />
+      );
+    }
+
     return (
-      <ConnectedHomeChartBooksSection
-        books={books}
-        title={title}
-        selectionId={selectionId}
-      />
+      <section className="HomeSection">
+        <SectionHeader title={title!} link={`/selection/${id}`} />
+        <ConnectedInlineHorizontalBookList
+          books={selectionBooks}
+          pageTitleForTracking="home"
+          uiPartTitleForTracking={id.toString()}
+        />
+      </section>
     );
   }
-
-  return (
-    <section className="HomeSection">
-      <SectionHeader title={title} link={`/selection/${selectionId}`} />
-      <ConnectedInlineHorizontalBookList
-        books={books}
-        pageTitleForTracking="home"
-        uiPartTitleForTracking={selectionId.toString()}
-      />
-    </section>
-  );
 }
 
+const mapStateToProps = (state: RidiSelectState, ownProps: HomeSectionProps): HomeSelectionStateProps => {
+  return {
+    books: state.booksById,
+  };
+};
+
+export const ConnectedHomeSection = connect(mapStateToProps, null)(HomeSection);

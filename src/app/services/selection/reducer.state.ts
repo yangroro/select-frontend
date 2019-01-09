@@ -28,7 +28,7 @@ export interface ChartSelectionState extends ReservedSelectionState {
 }
 
 export interface HotReleaseSelectionState extends Paginated<BookId>, SelectionState {
-  id: string;
+  id: ReservedSelectionIds;
 }
 
 export interface SelectionsState {

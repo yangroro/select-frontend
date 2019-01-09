@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import { throttle } from "lodash-es";
 
 import { RidiSelectState } from "app/store";
-import { BookState } from 'app/services/book';
 import { SelectionsState } from "app/services/selection";
-import { HomeSection } from "./HomeSection";
+import { ConnectedHomeSection } from "./HomeSection";
 import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
 
 import { groupSelections } from "../uitls";
@@ -15,7 +14,6 @@ interface HomeSelectionListStateProps {
   fetchedAt: number | null;
   selectionIdList: number[];
   selections: SelectionsState;
-  books: BookState;
 }
 
 interface HomeSelectionListState {
@@ -72,7 +70,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
   }
 
   public render() {
-    const { fetchedAt, selectionIdList, selections, books } = this.props;
+    const { fetchedAt, selectionIdList, selections } = this.props;
     const { renderedLastGroupIdx } = this.state;
     const { hotRelease } = selections;
 
@@ -87,17 +85,11 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
     return (
       <div className="PageHome_Content">
         <div className="PageHome_Panel">
-          {hotRelease && hotRelease.itemListByPage[1].itemList ? (
-            <HomeSection
-              key={hotRelease.id}
-              selectionId={'hotRelease'}
-              title={hotRelease.title!}
-              type={hotRelease.type!}
-              books={hotRelease.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
-            />
-          ) : (
-            <HomeSectionPlaceholder type={hotRelease.type} />
-          )}
+          <ConnectedHomeSection
+            key={hotRelease.id}
+            selection={hotRelease}
+            onScreen={true}
+          />
         </div>
         {selectionIdList
           .map((selectionId) => selections[selectionId])
@@ -113,18 +105,11 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                 }
               }}
             >
-              {selectionGroup.map((selection, selectionIdx) => renderedLastGroupIdx >= idx ? (
-                <HomeSection
+              {selectionGroup.map((selection) => (
+                <ConnectedHomeSection
                   key={selection.id}
-                  selectionId={selection.id}
-                  title={selection.title!}
-                  type={selection.type!}
-                  books={selection.itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!)}
-                />
-              ) : (
-                <HomeSectionPlaceholder
-                  type={selection.type}
-                  key={`${selection.id}_skeleton`}
+                  selection={selection}
+                  onScreen={renderedLastGroupIdx >= idx}
                 />
               ))}
             </div>
@@ -140,7 +125,6 @@ const mapStateToProps = (state: RidiSelectState): HomeSelectionListStateProps =>
     fetchedAt: state.home.fetchedAt,
     selectionIdList: state.home.selectionIdList,
     selections: state.selectionsById,
-    books: state.booksById,
   };
 };
 
