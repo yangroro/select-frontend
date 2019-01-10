@@ -85,7 +85,7 @@ export class HomeSection extends React.Component<Props> {
           books={selectionBooks}
           selectionId={selection.id}
         />
-      )
+      );
     }
 
     if (type === SelectionType.CHART) {

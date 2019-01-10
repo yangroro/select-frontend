@@ -75,10 +75,22 @@ export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props
                       id: book.id,
                     })}
                   >
-                    <span className="InlineHorizontalBookList_Title">{book.title.main}</span>
-                    {renderAuthor && (<span className="InlineHorizontalBookList_Author">
-                      {stringifyAuthors(book.authors, 2)}
-                    </span>)}
+                    <span
+                      className="InlineHorizontalBookList_Title"
+                      style={{
+                        width: `${isSmallerThumbnail ? 110 : 120}px`
+                      }}
+                    >{book.title.main}</span>
+                    {renderAuthor && (
+                        <span
+                          className="InlineHorizontalBookList_Author"
+                          style={{
+                            width: `${isSmallerThumbnail ? 110 : 120}px`
+                          }}
+                        >
+                        {stringifyAuthors(book.authors, 2)}
+                      </span>
+                    )}
                   </Link>
                 </>
               )}

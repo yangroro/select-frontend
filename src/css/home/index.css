@@ -32,7 +32,6 @@
     margin-top: var(--panel-margin);
   }
   @media (--pc-screen) {
-    padding-bottom: 21px;
     & + .PageHome_Panel {
       margin-top: 0;
     }

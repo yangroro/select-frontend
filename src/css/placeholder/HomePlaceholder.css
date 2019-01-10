@@ -80,17 +80,23 @@
     margin: 0 auto;
     overflow: hidden;
     padding-top: 45px;
-    text-align: center;
   }
   & .HomeSection_HotRelease_Title_Skeleton {
-    width: 150px;
+    width: 200px;
     height: 34px;
     margin: 0 0 34px;
     background-color: rgba(0,0,0,.3);
   }
+  @media (--pc-screen) {
+    & .HomeSection_HotRelease_Contents {
+      text-align: center;
+    }
+  }
   @media (--mobile-screen) {
     & .HomeSection_HotRelease_Contents {
+      width: 100%;
       padding-top: 34px;
+      overflow: hidden;
     }
     & .HomeSection_HotRelease_Title_Skeleton {
       height: 24px;

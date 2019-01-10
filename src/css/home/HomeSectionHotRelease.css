@@ -1,6 +1,11 @@
+:root {
+  --pc-hotRelease-section-height: 433px;
+  --mobile-hotRelease-section-height: 326px;
+}
+
 .HomeSection_HotRelease {
   box-sizing: border-box;
-  height: 350px;
+  height: var(--mobile-hotRelease-section-height);
   margin-top: 6px;
   background-color: var(--bluegray_90);
   & .Skeleton {
@@ -8,7 +13,7 @@
   }
   @media (--pc-screen) {
     position: relative;
-    height: 460px;
+    height: var(--pc-hotRelease-section-height);
     margin-top: 10px;
     width: 100%;
   }
@@ -55,7 +60,7 @@
     -webkit-line-clamp: 1;
   }
   & .InlineHorizontalBookList_Title {
-    padding-top: 4px;
+    padding-top: 10px;
     margin: 0;
     font-size: 14px;
     font-weight: 700;
@@ -71,12 +76,12 @@
 .HomeSection_HotRelease_Contents {
   position: relative;
   box-sizing: border-box;
-  height: 350px;
+  height: var(--mobile-hotRelease-section-height);
   background: url(../images/hot_release_bg@2x.jpg) center center no-repeat;
   background-size: 870px 473px;
   @media (--pc-screen) {
     width: 800px;
-    height: 460px;
+    height: var(--pc-hotRelease-section-height);
     margin: 0 auto;
     & .Slider_ControlButton_Left {
       left: -168px;
@@ -168,6 +173,7 @@
       background: rgba(209, 213, 217, 0.4);
       font-size: 0;
       opacity: .3;
+      cursor: pointer;
     }
      &:first-child > button {
       border-top-left-radius: 3px;
