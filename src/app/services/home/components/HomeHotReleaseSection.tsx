@@ -75,7 +75,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
               alt="NEW"
             />
           </div>
-          <MediaQuery maxWidth={840}>
+          <MediaQuery maxWidth={900}>
             {isMobile =>
               isMobile ? (
                 <ConnectedInlineHorizontalBookList
@@ -91,6 +91,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                     dots={true}
                     infinite={books.length > 5}
                     adaptiveHeight={false}
+                    variableWidth={true}
                     arrows={false}
                     speed={200}
                     slidesToShow={5}
@@ -105,8 +106,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                       <div
                         className="HomeSection_HotRelease_Book"
                         style={{
-                          width: "140px",
-                          margin: "0 auto"
+                          width: "165px",
                         }}
                         key={`hot-release-book-${idx}`}
                       >
@@ -148,7 +148,8 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                       </div>
                     ))}
                   </Slider>
-                  {books.length > 5 && (
+                  {/* {books.length > 5 && ( */}
+                  {(
                     <SliderControls
                       onPrevClick={() => this.slider.slickPrev()}
                       onNextClick={() => this.slider.slickNext()}

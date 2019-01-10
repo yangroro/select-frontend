@@ -1,17 +1,25 @@
 :root {
   --pc-hotRelease-section-height: 433px;
-  --mobile-hotRelease-section-height: 326px;
+  --inline-120-hotRelease-section-height: 340px;
+  --inline-110-hotRelease-section-height: 326px;
 }
+@custom-media --hotRelease-slider-view (min-width: 901px);
+@custom-media --hotRelease-inline-view (max-width: 900px);
 
 .HomeSection_HotRelease {
   box-sizing: border-box;
-  height: var(--mobile-hotRelease-section-height);
   margin-top: 6px;
   background-color: var(--bluegray_90);
   & .Skeleton {
     background-color: #111a27;
   }
-  @media (--pc-screen) {
+  @media (--mobile-screen) {
+    height: var(--inline-110-hotRelease-section-height);
+  }
+  @media (--hotRelease-inline-view) {
+    height: var(--inline-120-hotRelease-section-height);
+  }
+  @media (--hotRelease-slider-view) {
     position: relative;
     height: var(--pc-hotRelease-section-height);
     margin-top: 10px;
@@ -76,21 +84,28 @@
 .HomeSection_HotRelease_Contents {
   position: relative;
   box-sizing: border-box;
-  height: var(--mobile-hotRelease-section-height);
   background: url(../images/hot_release_bg@2x.jpg) center center no-repeat;
   background-size: 870px 473px;
-  @media (--pc-screen) {
-    width: 800px;
+  @media (--mobile-screen) {
+    height: var(--inline-110-hotRelease-section-height);
+  }
+  @media (--hotRelease-inline-view) {
+    height: var(--inline-120-hotRelease-section-height);
+  }
+  @media (--hotRelease-slider-view) {
+    box-sizing: border-box;
+    width: 850px;
+    padding-left: 25px;
     height: var(--pc-hotRelease-section-height);
     margin: 0 auto;
     & .Slider_ControlButton_Left {
-      left: -168px;
+      left: -178px;
     }
     & .Slider_ControlButton_Right {
-      right: -168px;
+      right: -178px;
     }
   }
-  @media (--mobile-screen) {
+  @media (--hotRelease-inline-view) {
     padding: 0 20px;
   }
 }
@@ -99,7 +114,7 @@
   font-size: 24px;
   letter-spacing: -0.3px;
   color: #fff;
-  @media (--mobile-screen) {
+  @media (--hotRelease-inline-view) {
     padding-top: 30px;
     font-size: 16px;
     font-weight: 700;
@@ -111,7 +126,7 @@
   height: 22px;
   margin-left: 10px;
   vertical-align: top;
-  @media (--mobile-screen) {
+  @media (--hotRelease-inline-view) {
     width: 33px;
     height: 18px;
     margin-left: 6px;
@@ -120,6 +135,9 @@
 .HomeSection_HotRelease_Slider {
   padding-top: 40px;
 }
+/* .HomeSection_HotRelease_Book > .RSGBookThumbnail {
+  margin: 0 auto;
+} */
 .HomeSection_HotRelease_Book_Link {
   text-decoration: none;
   text-align: left;

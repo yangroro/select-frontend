@@ -75,8 +75,12 @@
 .HomeSection_HotRelease_Skeleton {
   position: relative;
   z-index: 200;
+  & .HotReleaseBookList_Skeleton {
+    width: 825px;
+  }
   & .HomeSection_HotRelease_Contents {
-    width: 800px;
+    width: 850px;
+    padding: 45px 0 0 25px;
     margin: 0 auto;
     overflow: hidden;
     padding-top: 45px;
