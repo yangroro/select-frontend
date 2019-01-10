@@ -108,6 +108,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                           width: "140px",
                           margin: "0 auto"
                         }}
+                        key={`hot-release-book-${idx}`}
                       >
                         <DTOBookThumbnail
                           book={book}
