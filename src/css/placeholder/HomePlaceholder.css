@@ -76,17 +76,18 @@
   position: relative;
   z-index: 200;
   & .HomeSection_HotRelease_Contents {
-    width: 100%;
+    width: 800px;
+    margin: 0 auto;
     overflow: hidden;
     padding-top: 45px;
+    text-align: center;
   }
   & .HomeSection_HotRelease_Title_Skeleton {
     width: 150px;
     height: 34px;
-    margin: 0 auto 34px;
+    margin: 0 0 34px;
     background-color: rgba(0,0,0,.3);
   }
-
   @media (--mobile-screen) {
     & .HomeSection_HotRelease_Contents {
       padding-top: 34px;

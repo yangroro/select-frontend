@@ -57,13 +57,14 @@ export class HomeHotReleaseSection extends React.Component<Props> {
               <div className="HomeSection_HotRelease_Slider">
                 <Slider
                   ref={(slider: Slider) => this.slider = slider}
-                  dots={false}
+                  dots={true}
                   infinite={books.length > 5}
                   adaptiveHeight={false}
                   arrows={false}
                   speed={200}
                   slidesToShow={5}
                   slidesToScroll={5}
+                  dotsClass="HotRelease_Navigator"
                 >
                   {books.map((book, idx) => (
                     <ConnectedTrackImpression

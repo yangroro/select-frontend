@@ -11,7 +11,6 @@
     height: 460px;
     margin-top: 10px;
     width: 100%;
-    text-align: center;
   }
   & .InlineHorizontalBookList {
     padding-bottom: 30px;
@@ -70,6 +69,7 @@
   }
 }
 .HomeSection_HotRelease_Contents {
+  position: relative;
   box-sizing: border-box;
   height: 350px;
   background: url(../images/hot_release_bg@2x.jpg) center center no-repeat;
@@ -93,7 +93,6 @@
   padding-top: 45px;
   font-size: 24px;
   letter-spacing: -0.3px;
-  text-align: center;
   color: #fff;
   @media (--mobile-screen) {
     padding-top: 30px;
@@ -148,4 +147,45 @@
   line-height: 20px;
   font-size: 14px;
   color: var(--slategray_30);
+}
+
+.HotRelease_Navigator {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  top: -67px;
+  right: 11px;
+
+  & > li {
+    display: inline-block;
+
+    & > button {
+      width: 10px;
+      height: 3px;
+      padding: 0;
+      border: 0;
+      background: rgba(209, 213, 217, 0.4);
+      font-size: 0;
+      opacity: .3;
+    }
+     &:first-child > button {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+     &:last-child > button {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+
+    &.slick-active {
+      & > button {
+        background: #d1d5d9;
+      }
+    }
+
+    & + li {
+      margin-left: 4px;
+    }
+  }
 }
