@@ -33,10 +33,7 @@ export function* watchLoadCategoryListRequest() {
 
 export function* watchInitializeWhole() {
   while (true) {
-    const { payload }: { payload: {
-      shouldFetchCategoryList: boolean,
-      shouldInitializeCategoryId: boolean,
-    } } = yield take(Actions.initializeCategoriesWhole.getType());
+    const { payload }: ReturnType<typeof Actions.initializeCategoriesWhole> = yield take(Actions.initializeCategoriesWhole.getType());
     if (payload.shouldFetchCategoryList ) {
       yield put(Actions.loadCategoryListRequest());
       yield take(Actions.loadCategoryListSuccess.getType());
@@ -81,7 +78,7 @@ export function* watchCacheCategoryId() {
   }
 }
 
-export function* loadCategoryBooks({ payload }: { type: string, payload: { categoryId: number, page: number } }) {
+export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCategoryBooksRequest>) {
   const { page, categoryId } = payload;
   try {
     if (Number.isNaN(page)) {

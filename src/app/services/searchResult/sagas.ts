@@ -4,7 +4,7 @@ import { requestSearchResult, SearchResultReponse } from 'app/services/searchRes
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 
-export function* queryKeyword({ payload }: { type: string, payload: { keyword: string, page: number } }) {
+export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywordRequest>) {
   const { page, keyword } = payload;
   let response: SearchResultReponse;
   try {
