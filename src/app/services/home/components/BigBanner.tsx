@@ -5,7 +5,7 @@ import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';
 import { debounce } from 'lodash-es';
 import { BigBanner } from 'app/services/home/reducer.state';
-import { DefaultTrackingParams,trackImpression, ActionTrackClick, trackClick, ActionTrackImpression } from 'app/services/tracking';
+import { DefaultTrackingParams, ActionTrackClick, trackClick, ActionTrackImpression, trackImpression } from 'app/services/tracking';
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedBigBannerItem } from './BigBannerItem';
@@ -69,9 +69,8 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     }
   }
 
-  private setSliderImpression(Idx: number) {
-    const { bigBannerList, trackImpression } = this.props;
-    const section = getSectionStringForTracking('home', 'big-banner');
+  private setSliderImpression (section: string, Idx: number) {
+    const { trackImpression, bigBannerList } = this.props;
 
     trackImpression({
       section,
@@ -127,8 +126,8 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               speed={200}
               slidesToShow={1}
               slidesToScroll={1}
-              onInit={() => this.setSliderImpression(0)}
-              afterChange={(currentIdx) => this.setSliderImpression(currentIdx)}
+              onInit={() => this.setSliderImpression(section, 0)}
+              afterChange={(currentIdx) => this.setSliderImpression(section, currentIdx)}
               touchThreshold={BigBannerCarousel.touchThereshold}
               dotsClass="BigBanner_Dots"
             >

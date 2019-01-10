@@ -21,6 +21,7 @@ const initializeTracker = (state: RidiSelectState) => {
   }
 
   tracker = new Tracker({
+    debug: true,
     deviceType,
     userId: state.user.uId,
     tagManagerOptions: {
