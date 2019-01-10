@@ -57,20 +57,19 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = (props)
 export class HomeSection extends React.Component<Props> {
   public render() {
     const { selection, onScreen, books } = this.props;
-    const { type, title, id } = selection;
-    const firstPageItemList = selection.itemListByPage[1];
-    const selectionBooks: Book[] = firstPageItemList.itemList.map((bookId: number) => books[bookId].book!);
+    const { type, title, id, itemListByPage } = selection;
+    const selectionBooks: Book[] = itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!);
 
     if (
-      firstPageItemList.fetchStatus === FetchStatusFlag.IDLE && firstPageItemList.itemList.length < 1 ||
-      firstPageItemList.fetchStatus === FetchStatusFlag.FETCH_ERROR
+      itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE && itemListByPage[1].itemList.length < 1 ||
+      itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR
     ) {
       return null;
     }
 
     if (
       !onScreen ||
-      firstPageItemList.fetchStatus === FetchStatusFlag.FETCHING
+      itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING
     ) {
       return (
         <HomeSectionPlaceholder
