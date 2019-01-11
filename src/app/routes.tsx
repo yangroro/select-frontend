@@ -30,7 +30,7 @@ import {
 import {
   ConnectedNonSubscriberOnlyRoute,
   ConnectedPrivateRoute,
-  ConnectedScrollToTop,
+  ConnectedScrollManager,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
 
@@ -57,7 +57,7 @@ export const LNBRoutes = [
 export const Routes: React.SFC<Props> = (props) => {
   return (
     <ConnectedRouter history={history}>
-      <ConnectedScrollToTop>
+      <ConnectedScrollManager>
         <Route render={({ location }) => (
           (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname)) && <ConnectedGNB />
         )} />
@@ -121,7 +121,7 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route render={() => <Error404 />} />
         </Switch>
         {!props.isRidiApp && <ConnectedFooter />}
-      </ConnectedScrollToTop>
+      </ConnectedScrollManager>
     </ConnectedRouter>
   );
 };
