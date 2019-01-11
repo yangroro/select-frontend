@@ -70,7 +70,7 @@ module.exports = (env = {}) => ({
     host: '0.0.0.0',
     hot: true,
     open: false,
-    port: process.env.WDS_PORT,
+    port: 9000,
     public: process.env.SELECT_URL,
   },
 });
