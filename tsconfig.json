@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
     "baseUrl": ".", // To use paths option
     "paths": { // To use absolute paths for local modules with "moduleResolution: node"
       "app/*": ["./src/app/*"],

@@ -1,7 +1,8 @@
 import { camelize } from '@ridi/object-case-converter';
+import env from 'app/config/env';
 import { AuthorKeys, Book } from 'app/services/book/reducer.state';
 import { SelectionResponse } from 'app/services/selection/requests';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import { AxiosResponse } from 'axios';
 import { BigBanner } from 'app/services/home/reducer.state';
 import * as qs from 'qs';
@@ -57,7 +58,7 @@ export const getDummyBook = (id: number): Book => ({
 export const requestHome = (): Promise<HomeResponse> => {
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
   return request({
-    url: '/api/pages/home',
+    url: `/api/pages/home`,
     params: queryString.test_group && queryString.test_group.length > 0 ? { test_group: queryString.test_group } : {},
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<HomeResponse>>(response, { recursive: true }).data);

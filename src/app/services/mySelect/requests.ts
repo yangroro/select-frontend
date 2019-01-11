@@ -1,9 +1,9 @@
 import { camelize } from '@ridi/object-case-converter';
 import { Book } from 'app/services/book';
 import { BookId, DateDTO } from 'app/types';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import { AxiosResponse } from 'axios';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 
 export interface BookIdsPair {
   bookId: number;
@@ -31,7 +31,7 @@ export interface MySelectDeleteResponse {
 
 export const requestMySelectList = (page: number): Promise<MySelectListResponse> =>
   request({
-    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books`,
+    url: `${env.STORE_API}/api/select/users/me/books`,
     method: 'GET',
     params: {
       newest_first: true,
@@ -41,7 +41,7 @@ export const requestMySelectList = (page: number): Promise<MySelectListResponse>
 
 export const requestDeleteMySelect = (mySelectBookIds: number[]): Promise<AxiosResponse<MySelectDeleteResponse>> =>
   request({
-    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books`,
+    url: `${env.STORE_API}/api/select/users/me/books`,
     method: 'DELETE',
     data: {
       user_select_book_ids: mySelectBookIds,
@@ -50,7 +50,7 @@ export const requestDeleteMySelect = (mySelectBookIds: number[]): Promise<AxiosR
 
 export const requestAddMySelect = (bookId: BookId): Promise<UserRidiSelectBookResponse> =>
   request({
-    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books`,
+    url: `${env.STORE_API}/api/select/users/me/books`,
     method: 'POST',
     data: {
       b_id: String(bookId),

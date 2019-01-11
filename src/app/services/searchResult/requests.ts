@@ -1,6 +1,7 @@
 import { camelize } from '@ridi/object-case-converter';
+import env from 'app/config/env';
 import { SearchResultBook } from 'app/services/searchResult/reducer.state';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import { AxiosResponse } from 'axios';
 
 export interface SearchResultReponse {
@@ -14,7 +15,7 @@ export const requestSearchResult = (
   page: number
 ): Promise<AxiosResponse<SearchResultReponse>> =>
   request({
-    url: '/api/search',
+    url: `/api/search`,
     method: 'get',
     params: {
       keyword,

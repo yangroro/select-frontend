@@ -1,5 +1,5 @@
 import { RidiSelectState, hasRefreshedForAppDownload } from 'app/store';
-import { LOCATION_CHANGE, replace } from 'react-router-redux';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { all, select, take, put } from 'redux-saga/effects';
 import toast from 'app/utils/toast';
 import { IOS_APPSTORE_URL } from 'app/utils/downloadUserBook';

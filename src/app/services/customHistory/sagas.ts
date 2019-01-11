@@ -1,5 +1,5 @@
 import { RidiSelectState } from 'app/store';
-import { LOCATION_CHANGE, go } from 'react-router-redux';
+import { LOCATION_CHANGE, go } from 'connected-react-router';
 import { all, select, take, put, call } from 'redux-saga/effects';
 import { NAVIGATE_UP, syncHistoryStack, SYNC_HISTORY_STACK } from 'app/services/customHistory/actions';
 import { findUpperPathDiff, historyStackSessionStorageHelper } from './historyStack.helpers';

@@ -5,7 +5,7 @@ import { ConnectedAvailableBooks } from './AvailableBooks';
 import { setDisableScroll } from 'app/utils/utils';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
-import { CommonLoader } from 'app/components/CommonLoader';
+import { SplashScreen as CommonLoader } from 'app/components/SplashScreen';
 
 interface StateProps {
   isLoggedIn: boolean,

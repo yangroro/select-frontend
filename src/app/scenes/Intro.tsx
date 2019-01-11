@@ -15,7 +15,7 @@ import {
   updateFooterTheme,
   ActionUpdateFooterTheme
 } from "app/services/commonUI/actions";
-import { CommonLoader } from "app/components/CommonLoader";
+import { SplashScreen as CommonLoader } from "app/components/SplashScreen";
 import MediaQuery from "react-responsive";
 
 interface IntroStateProps {
@@ -186,7 +186,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
       hasSubscribedBefore
     } = this.props;
     const { isLoaded, currentSection, buttonFixed } = this.state;
-    const INTRO_IMAGE_DIR = `${BASE_URL_STATIC}/dist/images/intro`;
+    const INTRO_IMAGE_DIR = `/assets/images/intro`;
     return (
       <main className="SceneWrapper">
         <Helmet>

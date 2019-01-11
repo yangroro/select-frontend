@@ -1,5 +1,6 @@
 import { INITIALIZE_ENVIRONMENT_DATA, EnvironmentActionTypes } from 'app/services/environment/actions';
 import { environmentInitialState, EnvironmentState } from 'app/services/environment/reducer.state';
+import env from "app/config/env";
 
 export const environmentReducer = (
   state = environmentInitialState,
@@ -9,7 +10,6 @@ export const environmentReducer = (
     case INITIALIZE_ENVIRONMENT_DATA: {
       return {
         ...state,
-        ...action.payload!.environment,
       };
     }
     default:

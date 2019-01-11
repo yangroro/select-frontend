@@ -1,49 +1,67 @@
+import "@babel/polyfill";
+
 import * as React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
+import { ConnectedRoutes } from 'app/routes';
 import { store } from 'app/store';
-import App from 'app/App';
+
+import { SplashScreen } from "app/components/SplashScreen";
+import { fetchUserInfo } from "app/services/user/helper";
+
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
-import { EnvironmentState, initializeEnvironmentData } from 'app/services/environment';
-import { initializeUser } from 'app/services/user';
-import { RidiSelectLoadEvent, RidiSelectUserDTO } from '../types';
+import { initializeEnvironmentData } from 'app/services/environment';
+import { initializeUser, fetchUser } from 'app/services/user';
 import { initializeScrollEnd } from 'app/services/tracking/onWindowScrollEnd';
-import { fetchRidiSelectUserInfo } from "app/services/user/helper";
 import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeHorizontalScroll';
 
 // Show browser input focused outline when tab key is pressed
-setTabKeyFocus();
+// setTabKeyFocus();
 
 // initialize ScrollEnd Event listener for imperssion tracking
-initializeScrollEnd();
+// initializeScrollEnd();
 
 // Set horizontal scroll handler
-controlAndroidAppNativeHorizontalScroll([
-  'InlineHorizontalBookList',
-  'BigBanner',
-  'HomeSection-horizontal-pad',
-]);
+// controlAndroidAppNativeHorizontalScroll([
+//   'InlineHorizontalBookList',
+//   'BigBanner',
+//   'HomeSection-horizontal-pad',
+// ]);
 
-const launchApp = (targetElementId: string, ridiSelectUser: RidiSelectUserDTO, environment: EnvironmentState) => {
-  // Initialize User State
-  store.dispatch(initializeUser(ridiSelectUser));
-  store.dispatch(initializeEnvironmentData(environment));
-
-  if (environment.platform.isRidiApp) {
-    document.body.classList.add('androidApp');
+class App extends React.Component<{}, { isLoaded: boolean }> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      isLoaded: false,
+    };
   }
 
-  render(
-    <App store={store} />,
-    document.getElementById(targetElementId),
-  );
-}
+  async componentDidMount() {
+    try {
+      const user = await fetchUserInfo();
+      store.dispatch(initializeUser(user));
+    } finally {
+      this.setState({
+        isLoaded: true,
+      });
+      store.dispatch(fetchUser({ isFetching: false }));
+    }
+  }
 
-window.addEventListener('ridiSelectLoad', (event: RidiSelectLoadEvent) => {
-  const environment = event.detail.dto.environment;
-  const targetElementId = event.detail.targetElementId;
-  fetchRidiSelectUserInfo(environment).then(ridiSelectUser => {
-    launchApp(targetElementId, ridiSelectUser, environment)
-  });
-});
+  render () {
+    return (
+      <Provider store={store}>
+        <>
+          <ConnectedRoutes />
+          {!this.state.isLoaded && <SplashScreen />}
+        </>
+      </Provider>
+    );
+  }
+};
 
+render(
+  <App />,
+  document.getElementById('app'),
+);

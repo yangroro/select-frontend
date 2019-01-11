@@ -1,9 +1,11 @@
+import { connectRouter } from 'connected-react-router'
 import { Dispatch } from 'react-redux';
-import { routerMiddleware, routerReducer, RouterState } from 'react-router-redux';
+import { routerMiddleware, RouterState } from 'connected-react-router';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import * as qs from 'qs';
+import { History } from 'history';
 
 import history from 'app/config/history';
 import { BookState } from 'app/services/book';
@@ -34,7 +36,7 @@ import { selectionsRootSaga } from 'app/services/selection/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
 
 import { userReducer, UserState } from 'app/services/user';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 import { downloadSaga } from 'app/services/download/sagas';
 import { stateHydrator } from 'app/utils/stateHydrator';
 import { CustomHistoryState, customHistoryReducer, customHistorySaga } from 'app/services/customHistory';
@@ -79,7 +81,7 @@ export interface RidiSelectState {
   customHistory: CustomHistoryState;
 }
 
-const composeEnhancers = env.development
+const composeEnhancers = !env.production
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   : compose;
 const sagaMiddleware = createSagaMiddleware();
@@ -87,8 +89,8 @@ const sagaMiddleware = createSagaMiddleware();
 export const hasRefreshedForAppDownload = () => !!qs.parse(location.search, { ignoreQueryPrefix: true })['to_app_store']
 export const hasCompletedSubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true })['new_subscription']
 
-const reducers = combineReducers({
-  router: routerReducer,
+const reducers = ((history: History) => combineReducers({
+  router: connectRouter(history),
   user: userReducer,
   home: homeReducer,
   booksById: bookReducer,
@@ -102,7 +104,7 @@ const reducers = combineReducers({
   tracking: trackingReducer,
   environment: environmentReducer,
   customHistory: customHistoryReducer
-});
+}))(history);
 
 const enhancers = composeEnhancers(
   applyMiddleware(
@@ -111,9 +113,10 @@ const enhancers = composeEnhancers(
   ),
 );
 
-const savedState = stateHydrator.load();
-export const store = hasRefreshedForAppDownload() && savedState
-  ? createStore(reducers, savedState, enhancers)
-  : createStore(reducers, enhancers);
+// const savedState = stateHydrator.load();
+// export const store = hasRefreshedForAppDownload() && savedState
+//   ? createStore(reducers, savedState, enhancers)
+//   : createStore(reducers, enhancers);
+export const store = createStore(reducers, enhancers);
 
 sagaMiddleware.run(rootSaga, store.dispatch);

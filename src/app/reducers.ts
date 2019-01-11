@@ -6,5 +6,5 @@ export interface Action<
   P = undefined
 > extends ReduxAction {
   type: T;
-  payload?: P;
+  payload: P;
 }

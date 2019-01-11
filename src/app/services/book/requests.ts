@@ -10,9 +10,9 @@ import {
   BookTitle,
 } from 'app/services/book/reducer.state';
 import { BookId, TextWithLF, DateDTO, Omit } from 'app/types';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
 import { Category } from 'app/services/category';
-import { env } from 'app/config/env';
+import env from 'app/config/env';
 
 export interface Publisher {
   name: string;
@@ -85,6 +85,6 @@ export const requestBookDetail = (bookId: number): Promise<BookDetailResponse> =
 
 export const requestBookOwnership = (bookId: number): Promise<BookOwnershipStatus> =>
   request({
-    url: `${env.BASE_URL_STORE_API}/api/select/users/me/books/${bookId}`,
+    url: `${env.STORE_API}/api/select/users/me/books/${bookId}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<BookOwnershipStatus>>(response, { recursive: true }).data);

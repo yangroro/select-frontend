@@ -9,6 +9,6 @@ export interface ActionInitializeEnvironmentData extends Action<typeof INITIALIZ
 
 export type EnvironmentActionTypes = ActionInitializeEnvironmentData;
 
-export const initializeEnvironmentData = (environment: EnvironmentState): ActionInitializeEnvironmentData => {
-  return { type: INITIALIZE_ENVIRONMENT_DATA, payload: { environment } };
+export const initializeEnvironmentData = (): ActionInitializeEnvironmentData => {
+  return { type: INITIALIZE_ENVIRONMENT_DATA };
 };

@@ -1,6 +1,6 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
 import { RidiSelectState, hasCompletedSubscription } from 'app/store';
-import { LOCATION_CHANGE, replace } from 'react-router-redux';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { all, select, take, put } from 'redux-saga/effects';
 import { TRACK_CLICK, ActionTrackClick, TRACK_IMPRESSION, ActionTrackImpression } from './actions';
 import { clearScrollEndHandlers } from './onWindowScrollEnd';
@@ -12,10 +12,8 @@ let tracker: Tracker;
 // You may also need to change `tracking_macro.twig` when you change this function
 const initializeTracker = (state: RidiSelectState) => {
   let deviceType: DeviceType;
-  if (state.environment.platform.isMobile) {
+  if (document.body.clientWidth < 840) {
     deviceType = DeviceType.Mobile;
-  } else if (state.environment.platform.isPaper) {
-    deviceType = DeviceType.Paper;
   } else {
     deviceType = DeviceType.PC;
   }

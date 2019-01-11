@@ -1,15 +1,20 @@
-import { EnvironmentDTO } from '../../../types';
 
-export type EnvironmentState = EnvironmentDTO;;
+export type EnvironmentState = {
+  platform: {
+    isRidiApp: boolean;
+  };
+  constants: {
+    BASE_URL_STORE: string;
+    BASE_URL_RIDISELECT: string;
+    BASE_URL_RIDI_PAY_API: string;
+    BASE_URL_STATIC: string;
+    FREE_PROMOTION_MONTHS: number;
+    OAUTH2_CLIENT_ID: string;
+  };
+};;
 
 export const environmentInitialState: EnvironmentState = {
   platform: {
-    type: 'unknown',
-    isPc: false,
-    isTablet: false,
-    isMobile: false,
-    isPaper: false,
-    isPaperPro: false,
     isRidiApp: false,
   },
   constants: {

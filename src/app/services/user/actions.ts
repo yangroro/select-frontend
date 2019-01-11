@@ -1,7 +1,8 @@
 import { Action } from 'app/reducers';
 import { MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse } from 'app/services/user/requests';
-import { RidiSelectUserDTO } from '../../../types';
+import { UserDTO } from 'app/services/user/helper';
 
+export const FETCH_USER_INFO = 'FETCH_USER_INFO';
 export const INITIALIZE_USER = 'INITIALIZE_USER';
 export const LOAD_SUBSCRIPTION_REQUEST = 'LOAD_SUBSCRIPTION_REQUEST';
 export const LOAD_SUBSCRIPTION_SUCCESS = 'LOAD_SUBSCRIPTION_SUCCESS';
@@ -27,7 +28,8 @@ export const CANCEL_UNSUBSCRIPTION_SUCCESS = 'CANCEL_UNSUBSCRIPTION_SUCCESS';
 export const CANCEL_UNSUBSCRIPTION_FAILURE = 'CANCEL_UNSUBSCRIPTION_FAILURE';
 export const CLEAR_MY_SELECT_HISTORY = 'CLEAR_MY_SELECT_HISTORY';
 
-export interface ActionInitializeUser extends Action<typeof INITIALIZE_USER, RidiSelectUserDTO> {}
+export interface ActionFetchUserInfo extends Action<typeof FETCH_USER_INFO, { isFetching: boolean }> {}
+export interface ActionInitializeUser extends Action<typeof INITIALIZE_USER, UserDTO> {}
 
 export interface ActionLoadSubscriptionRequest extends Action<typeof LOAD_SUBSCRIPTION_REQUEST> {}
 export interface ActionLoadSubscriptionSuccess extends Action<typeof LOAD_SUBSCRIPTION_SUCCESS, SubscriptionResponse> {}
@@ -73,6 +75,7 @@ export interface ActionCancelUnsubscriptionSuccess extends Action<typeof CANCEL_
 export interface ActionCancelUnsubscriptionFailure extends Action<typeof CANCEL_UNSUBSCRIPTION_FAILURE> {}
 
 export type UserActionTypes =
+  ActionFetchUserInfo |
   ActionInitializeUser |
   ActionLoadSubscriptionRequest |
   ActionLoadSubscriptionSuccess |
@@ -98,7 +101,11 @@ export type UserActionTypes =
   ActionCancelUnsubscriptionFailure |
   ActionClearMySelectHistory;
 
-export const initializeUser = (usderDTO: RidiSelectUserDTO): ActionInitializeUser => {
+export const fetchUser = (payload: { isFetching: boolean }): ActionFetchUserInfo => {
+  return { type: FETCH_USER_INFO, payload };
+};
+
+export const initializeUser = (usderDTO: UserDTO): ActionInitializeUser => {
   return { type: INITIALIZE_USER, payload: { ...usderDTO } };
 };
 

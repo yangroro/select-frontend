@@ -33,7 +33,7 @@ export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, 
               <span className="Guide_Item_Content_Right">
                 <img
                   className="Guide_Image"
-                  src={`${BASE_URL_STATIC}/dist/images/guide/guide_ridibooks.jpg`}
+                  src={`${BASE_URL_STATIC}/assets/images/guide/guide_ridibooks.jpg`}
                   alt=""
                 />
                 <Button
@@ -57,7 +57,7 @@ export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, 
               <MediaQuery minWidth={841}><br/><br/><br/></MediaQuery>
               <img
                 className="Guide_Image"
-                src={`${BASE_URL_STATIC}/dist/images/guide/guide_home_${FREE_PROMOTION_MONTHS}.jpg`}
+                src={`${BASE_URL_STATIC}/assets/images/guide/guide_home_${FREE_PROMOTION_MONTHS}.jpg`}
                 alt=""
               />
             </p>
@@ -68,7 +68,7 @@ export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, 
               마이 셀렉트에 무제한으로 책을 추가할 수 있으며, 추가한 책은 뷰어/앱 구매 목록에서 확인할 수 있습니다.
               <img
                 className="Guide_Image"
-                src={`${BASE_URL_STATIC}/dist/images/guide/guide_detail.jpg`}
+                src={`${BASE_URL_STATIC}/assets/images/guide/guide_detail.jpg`}
                 alt=""
               />
             </p>
@@ -107,7 +107,7 @@ export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, 
               뷰어/앱 실행 후 구매 목록 탭에서 책을 다운로드해주세요.
               <img
                 className="Guide_Image"
-                src={`${BASE_URL_STATIC}/dist/images/guide/guide_download.jpg`}
+                src={`${BASE_URL_STATIC}/assets/images/guide/guide_download.jpg`}
                 alt=""
               />
             </p>

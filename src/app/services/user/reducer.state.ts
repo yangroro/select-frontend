@@ -52,6 +52,7 @@ export interface PurchaseHistory extends Paginated<Ticket> {
 }
 
 export interface UserState {
+  isFetching: boolean;
   isLoggedIn: boolean;
   uId: string;
   email: string;
@@ -67,6 +68,7 @@ export interface UserState {
 }
 
 export const initialUserState: UserState = {
+  isFetching: true,
   isLoggedIn: false,
   uId: '',
   email: '',

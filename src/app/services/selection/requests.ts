@@ -2,7 +2,8 @@ import { camelize } from '@ridi/object-case-converter';
 import { Book } from 'app/services/book/reducer.state';
 import { SelectionType } from 'app/services/home';
 import { SelectionId } from 'app/services/selection/actions';
-import request from 'app/utils/request';
+import request from 'app/config/axios';
+import env from 'app/config/env';
 import { AxiosResponse } from 'axios';
 import * as qs from 'qs';
 
