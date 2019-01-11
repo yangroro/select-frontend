@@ -94,8 +94,7 @@
   }
   @media (--hotRelease-slider-view) {
     box-sizing: border-box;
-    width: 850px;
-    padding-left: 25px;
+    width: 825px;
     height: var(--pc-hotRelease-section-height);
     margin: 0 auto;
     & .Slider_ControlButton_Left {
@@ -135,9 +134,9 @@
 .HomeSection_HotRelease_Slider {
   padding-top: 40px;
 }
-/* .HomeSection_HotRelease_Book > .RSGBookThumbnail {
-  margin: 0 auto;
-} */
+.HomeSection_HotRelease_Book {
+  padding: 0 12.5px;
+}
 .HomeSection_HotRelease_Book_Link {
   text-decoration: none;
   text-align: left;

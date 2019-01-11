@@ -148,8 +148,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                       </div>
                     ))}
                   </Slider>
-                  {/* {books.length > 5 && ( */}
-                  {(
+                  {books.length > 5 && (
                     <SliderControls
                       onPrevClick={() => this.slider.slickPrev()}
                       onNextClick={() => this.slider.slickNext()}
