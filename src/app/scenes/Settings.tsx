@@ -19,14 +19,14 @@ import {
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
-import { EnvironmentState } from 'app/services/environment';
+import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
 import toast from 'app/utils/toast';
 import { Ticket } from 'app/services/user/requests';
 
 interface SettingStateProps {
   uId: string;
   subscriptionState?: SubscriptionState;
-  environment: EnvironmentState;
+  environment: typeof EnvironmentState;
   latestPurchaseTicket: Ticket;
   isPurchaseCancelFetching: boolean;
 }
@@ -59,7 +59,6 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   public renderSubscriptionInfo() {
     const { uId, subscriptionState, isPurchaseCancelFetching, latestPurchaseTicket, environment } = this.props;
-    const { BASE_URL_STORE, BASE_URL_RIDISELECT } = environment.constants;
     const { ticketStartDate, ticketEndDate, isOptout } = subscriptionState!;
     const isPurchaseCancellable = !!latestPurchaseTicket && latestPurchaseTicket.isCancellable;
     const latestPurchaseId = latestPurchaseTicket && latestPurchaseTicket.id;
@@ -121,7 +120,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   public render() {
     const { environment, subscriptionState } = this.props;
-    const { BASE_URL_STORE, BASE_URL_RIDISELECT } = environment.constants;
+    const { STORE_URL: BASE_URL_STORE, SELECT_URL: BASE_URL_RIDISELECT } = environment;
 
     return (
       <main className="SceneWrapper PageSetting">
@@ -190,7 +189,7 @@ export class Settings extends React.PureComponent<SettingProps> {
               <h2 className="reset-heading">정보 변경</h2>
             </a>
           </li>
-          {!environment.platform.isRidiApp && (
+          {!environment.platform.isRidibooks && (
             <li className="SettingMenu_Item">
               <a
                 className="SettingMenu_Link"

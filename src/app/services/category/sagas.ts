@@ -3,26 +3,10 @@ import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import * as qs from 'qs';
 
 import { updateBooks } from 'app/services/book/actions';
-import {
-  ActionInitializeCategoriesWhole,
-  ActionLoadCategoryBooksRequest,
-  CACHE_CATEGORY_ID,
-  cacheCategoryId,
-  INITIALIZE_CATEGORIES_WHOLE,
-  INITIALIZE_CATEGORY_ID,
-  initializeCategoryId,
-  LOAD_CATEGORY_BOOKS_REQUEST,
-  LOAD_CATEGORY_LIST_REQUEST,
-  LOAD_CATEGORY_LIST_SUCCESS,
-  loadCategoryBooksSuccess,
-  loadCategoryListRequest,
-  loadCategoryListSuccess,
-  loadCategoryBooksFailure,
-} from 'app/services/category/actions';
+import { Category, Actions } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { RidiSelectState } from 'app/store';
 import { localStorageManager } from 'app/services/category/utils';
-import { Category } from 'app/services/category/reducer.state';
 import showMessageForRequestError from "app/utils/toastHelper";
 import { callbackAfterFailedFetch } from 'app/utils/request';
 
@@ -32,10 +16,10 @@ export async function loadCategoryList() {
 
 export function* watchLoadCategoryListRequest() {
   while (true) {
-    yield take(LOAD_CATEGORY_LIST_REQUEST);
+    yield take(Actions.loadCategoryListRequest.getType());
     try {
       const categoryList = yield call(loadCategoryList);
-      yield put(loadCategoryListSuccess(categoryList));
+      yield put(Actions.loadCategoryListSuccess({ categoryList }));
     } catch (e) {
       showMessageForRequestError(e);
       const state: RidiSelectState = yield select((s) => s);
@@ -47,14 +31,27 @@ export function* watchLoadCategoryListRequest() {
   }
 }
 
+export function* watchInitializeWhole() {
+  while (true) {
+    const { payload }: ReturnType<typeof Actions.initializeCategoriesWhole> = yield take(Actions.initializeCategoriesWhole.getType());
+    if (payload.shouldFetchCategoryList ) {
+      yield put(Actions.loadCategoryListRequest());
+      yield take(Actions.loadCategoryListSuccess.getType());
+    }
+    if (payload.shouldInitializeCategoryId) {
+      yield put(Actions.initializeCategoryId());
+    }
+  }
+}
+
 export function* watchInitializeCategoryId() {
   while (true) {
-    yield take(INITIALIZE_CATEGORY_ID);
+    yield take(Actions.initializeCategoryId.getType());
     const state: RidiSelectState = yield select((s) => s);
     const idFromLocalStorage = localStorageManager.load().lastVisitedCategoryId;
 
     const categoryId =
-      state.categories.itemList
+      (state.categories.itemList || [])
         .map((category: Category) => category.id)
         .includes((idFromLocalStorage)) &&
         idFromLocalStorage ||
@@ -70,47 +67,34 @@ export function* watchInitializeCategoryId() {
       })
     }));
 
-    yield put(cacheCategoryId(categoryId));
-  }
-}
-
-export function* watchInitializeWhole() {
-  while (true) {
-    const { payload }: ActionInitializeCategoriesWhole = yield take(INITIALIZE_CATEGORIES_WHOLE);
-    if (payload!.shouldFetchCategoryList ) {
-      yield put(loadCategoryListRequest());
-      yield take(LOAD_CATEGORY_LIST_SUCCESS);
-    }
-    if (payload!.shouldInitializeCategoryId) {
-      yield put(initializeCategoryId());
-    }
+    yield put(Actions.cacheCategoryId({ categoryId }));
   }
 }
 
 export function* watchCacheCategoryId() {
   while (true) {
-    const { payload } = yield take(CACHE_CATEGORY_ID);
-    localStorageManager.save({ lastVisitedCategoryId: payload.categoryId });
+    const { categoryId } = yield take(Actions.cacheCategoryId.getType());
+    localStorageManager.save({ lastVisitedCategoryId: categoryId });
   }
 }
 
-export function* loadCategoryBooks({ payload }: ActionLoadCategoryBooksRequest) {
-  const { page, categoryId } = payload!;
+export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCategoryBooksRequest>) {
+  const { page, categoryId } = payload;
   try {
     if (Number.isNaN(page)) {
       throw '유효하지 않은 페이지입니다.';
     }
     const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
     yield put(updateBooks(response.books));
-    yield put(loadCategoryBooksSuccess(categoryId, page, response));
+    yield put(Actions.loadCategoryBooksSuccess({ categoryId, page, response }));
   } catch (e) {
-    yield put(loadCategoryBooksFailure(categoryId, page))
+    yield put(Actions.loadCategoryBooksFailure({ categoryId, page }));
     callbackAfterFailedFetch(e, page);
   }
 }
 
 export function* watchLoadCategoryBooks() {
-  yield takeEvery(LOAD_CATEGORY_BOOKS_REQUEST, loadCategoryBooks);
+  yield takeEvery(Actions.loadCategoryBooksRequest.getType(), loadCategoryBooks);
 }
 
 export function* categoryRootSaga() {

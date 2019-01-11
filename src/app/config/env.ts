@@ -6,6 +6,7 @@ export default {
   PAY_URL: process.env.PAY_URL || 'https://pay.ridibooks.com',
   ACCOUNT_API: process.env.ACCOUNT_API || 'https://account.ridibooks.com',
   OAUTH2_CLIENT_ID: process.env.OAUTH2_CLIENT_ID || '',
+  FREE_PROMOTION_MONTHS: Number(process.env.FREE_PROMOTION_MONTHS) || 1,
 
   production: process.env.NODE_ENV === 'production',
   platform: {

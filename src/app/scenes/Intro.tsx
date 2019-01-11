@@ -6,16 +6,8 @@ import { Helmet } from "react-helmet";
 import { throttle, sortedIndex } from "lodash-es";
 
 import { Icon } from "@ridi/rsg";
-import { Link } from "react-router-dom";
 import * as classNames from "classnames";
-import { GNBTransparentType, FooterTheme } from "app/services/commonUI";
-import {
-  updateGNBTransparent,
-  ActionUpdateGNBTransparent,
-  updateFooterTheme,
-  ActionUpdateFooterTheme
-} from "app/services/commonUI/actions";
-import { SplashScreen as CommonLoader } from "app/components/SplashScreen";
+import { GNBTransparentType, FooterTheme, Actions as CommonUIActions } from "app/services/commonUI";
 import MediaQuery from "react-responsive";
 
 interface IntroStateProps {
@@ -39,10 +31,8 @@ interface WindowSizeInfoTypes {
 }
 
 interface IntroDispatchProps {
-  dispatchUpdateGNBTransparentType: (
-    transparentType: GNBTransparentType
-  ) => ActionUpdateGNBTransparent;
-  dispatchUpdateFooterTheme: (theme: FooterTheme) => ActionUpdateFooterTheme;
+  dispatchUpdateGNBTransparentType: (transparentType: GNBTransparentType) => typeof CommonUIActions.updateGNBTransparent;
+  dispatchUpdateFooterTheme: (theme: FooterTheme) => typeof CommonUIActions.updateFooterTheme;
 }
 
 interface IntroPageState {
@@ -194,16 +184,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
             리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이
           </title>
         </Helmet>
-        {isLoaded ? null : (
-          <>
-            <CommonLoader />
-            <img
-              className="Load_Trigger_Image"
-              src={`${INTRO_IMAGE_DIR}/hero_bg_20181213.jpg`}
-              onLoad={() => this.afterLoadingComplete()}
-            />
-          </>
-        )}
         <h1 className="a11y">리디셀렉트 인트로</h1>
         <section
           className={classNames({
@@ -394,18 +374,18 @@ const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
     isSubscribing: rootState.user.isSubscribing,
     isTokenFetched: rootState.user.isTokenFetched,
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
-    BASE_URL_STATIC: rootState.environment.constants.BASE_URL_STATIC,
-    BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
-    BASE_URL_RIDISELECT: rootState.environment.constants.BASE_URL_RIDISELECT,
-    FREE_PROMOTION_MONTHS: rootState.environment.constants.FREE_PROMOTION_MONTHS
+    BASE_URL_STATIC: rootState.environment.SELECT_URL,
+    BASE_URL_STORE: rootState.environment.STORE_URL,
+    BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
+    FREE_PROMOTION_MONTHS: rootState.environment.FREE_PROMOTION_MONTHS,
   };
 };
 const mapDispatchToProps = (dispatch: any): IntroDispatchProps => {
   return {
     dispatchUpdateGNBTransparentType: (transparentType: GNBTransparentType) =>
-      dispatch(updateGNBTransparent(transparentType)),
+      dispatch(CommonUIActions.updateGNBTransparent({ transparentType })),
     dispatchUpdateFooterTheme: (theme: FooterTheme) =>
-      dispatch(updateFooterTheme(theme))
+      dispatch(CommonUIActions.updateFooterTheme({ theme }))
   };
 };
 export const ConnectedIntro = withRouter(

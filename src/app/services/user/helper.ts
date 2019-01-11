@@ -1,4 +1,3 @@
-import { EnvironmentState } from './../environment/reducer.state';
 import { requestAccountsMe } from 'app/services/user/requests';
 import env from 'app/config/env';
 import request from 'app/config/axios';

@@ -45,7 +45,7 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  isRidiApp: rootState.environment.platform.isRidiApp,
+  isRidiApp: rootState.environment.platform.isRidibooks,
   location: rootState.router.location,
 });
 

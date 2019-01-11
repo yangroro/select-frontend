@@ -4,7 +4,7 @@ import { some } from 'lodash-es';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import LazyLoad, { forceCheck } from 'react-lazyload';
-import { connect } from 'react-redux';
+import { connect, MapDispatchToProps } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import * as qs from 'qs';
@@ -35,8 +35,7 @@ import {
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { Expander } from 'app/services/book/components/Expander';
 import { Publisher, BookFile, BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
-import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel } from 'app/services/commonUI';
-import { ActionUpdateGNBColor, updateGNBColor } from 'app/services/commonUI/actions';
+import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel, Actions as CommonUIActions } from 'app/services/commonUI';
 import { MySelectState } from 'app/services/mySelect';
 import {
   ActionAddMySelectRequest,
@@ -50,21 +49,13 @@ import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/down
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { EnvironmentState } from 'app/services/environment';
+import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
 import { stringifyAuthors } from 'app/utils/utils';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 import { Category } from 'app/services/category';
 import { ConnectedPageHeader } from 'app/components';
 import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
 import { getSolidBackgroundColorRGBString, getTransparentBackgroundColorRGBString, getBackgroundColorGradientToLeft, getBackgroundColorGradientToRight } from 'app/services/commonUI/selectors';
-
-interface BookDetailDispatchProps {
-  dispatchLoadBookRequest: (bookId: BookId) => ActionLoadDetailBookRequest;
-  dispatchUpdateGNBColor: (color: RGB) => ActionUpdateGNBColor;
-  dispatchUpdateDominantColor: (bookId: BookId, color: RGB) => ActionUpdateDominantColor;
-  dispatchLoadBookOwnershipRequest: (bookId: BookId) => ActionLoadBookOwnershipRequest;
-  dispatchAddMySelect: (bookId: BookId) => ActionAddMySelectRequest;
-}
 
 interface BookDetailStateProps {
   bookId: BookId;
@@ -98,7 +89,7 @@ interface BookDetailStateProps {
   dominantColor?: RGB;
 
   mySelect: MySelectState;
-  env: EnvironmentState;
+  env: typeof EnvironmentState;
   gnbColorLevel: GNBColorLevel;
   solidBackgroundColorRGBString: string;
   transparentBackgroundColorRGBString: string;
@@ -115,7 +106,7 @@ type RouteProps = RouteComponentProps<{
 
 type OwnProps = RouteProps & {};
 
-type Props = BookDetailDispatchProps & BookDetailStateProps & OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & BookDetailStateProps & OwnProps;
 
 interface State {
   thumbnailExapnded: boolean;
@@ -183,7 +174,7 @@ export class BookDetail extends React.Component<Props, State> {
       return;
     }
     if (this.canDownload()) {
-      if (env.platform.isRidiApp) {
+      if (env.platform.isRidibooks) {
         readBooksInRidiselect(bookId);
         return;
       }
@@ -243,14 +234,14 @@ export class BookDetail extends React.Component<Props, State> {
       return true;
     }
     if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-      window.location.replace(`${ this.props.env.constants.BASE_URL_STORE }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+      window.location.replace(`${ this.props.env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
     }
     return false;
   }
 
   private renderDownloadButton = () => {
     const { isLoggedIn, isSubscribing, hasSubscribedBefore, env } = this.props;
-    const { BASE_URL_STORE } = this.props.env.constants;
+    const { STORE_URL: BASE_URL_STORE } = this.props.env;
     const shouldDisplaySpinnerOnDownload = this.shouldDisplaySpinnerOnDownload();
     if (this.canDownload()) {
       return (
@@ -261,7 +252,7 @@ export class BookDetail extends React.Component<Props, State> {
           className="PageBookDetail_DownloadButton"
           onClick={this.handleDownloadButtonClick}
         >
-          {env.platform.isRidiApp ? '읽기' : '다운로드'}
+          {env.platform.isRidibooks ? '읽기' : '다운로드'}
         </Button>
       )
     } else if (isSubscribing) {
@@ -392,7 +383,7 @@ export class BookDetail extends React.Component<Props, State> {
                   <StarRating
                     rating={reviewSummary.buyerRatingAverage}
                     width={74}
-                    darkBackground={!isMobile && gnbColorLevel !== 'bright'}
+                    darkBackground={!isMobile && gnbColorLevel !== GNBColorLevel.BRIGHT}
                   />
                   <span className="PageBookDetail_RatingSummaryAverage">{`${
                     reviewSummary.buyerRatingAverage
@@ -560,7 +551,7 @@ export class BookDetail extends React.Component<Props, State> {
       <MediaQuery maxWidth={840}>
         {isMobile => (
           <main className="SceneWrapper PageBookDetail">
-            {env.platform.isRidiApp && <ConnectedPageHeader pageTitle={title.main} />}
+            {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <div
               className={`PageBookDetail_Header PageBookDetail_Header-${gnbColorLevel}`}
               style={{ background: solidBackgroundColorRGBString }}
@@ -755,10 +746,10 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
   };
 };
 
-const mapDispatchToProps = (dispatch: any): BookDetailDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadBookRequest: (bookId: number) => dispatch(loadBookRequest(bookId)),
-    dispatchUpdateGNBColor: (color: RGB) => dispatch(updateGNBColor(color)),
+    dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
       dispatch(updateDominantColor(bookId, color)),
     dispatchLoadBookOwnershipRequest: (bookId: number) =>

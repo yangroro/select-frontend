@@ -6,29 +6,23 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
-import { GNBSearchActiveType } from 'app/services/commonUI';
-import { ActionUpdateGNBSearchActiveType, updateSearchActiveType } from 'app/services/commonUI/actions';
+import { GNBSearchActiveType, Actions as CommonUIActions } from 'app/services/commonUI';
 import { SearchResultBook, SearchResultState } from 'app/services/searchResult';
-import { ActionQueryKeywordRequest, queryKeywordRequest } from 'app/services/searchResult/actions';
+import { Actions as SearchResultActions } from 'app/services/searchResult';
 import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
 import { RidiSelectState } from 'app/store';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { EnvironmentState } from 'app/services/environment';
+import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
 import { Helmet } from 'react-helmet';
 
 interface SearchResultStateProps {
   books: BookState;
   searchResult: SearchResultState;
-  environment: EnvironmentState
-}
-
-interface SearchResultDispatchProps {
-  dispatchRequestSearchResult: (keyword: string, page: number) => ActionQueryKeywordRequest;
-  dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) => ActionUpdateGNBSearchActiveType;
+  environment: typeof EnvironmentState
 }
 
 type OwnProps = RouteComponentProps;
-type Props = SearchResultStateProps & SearchResultDispatchProps & OwnProps;
+type Props = SearchResultStateProps & ReturnType<typeof mapDispatchToProps> & OwnProps;
 
 interface QueryString {
   'q'?: string;
@@ -123,12 +117,12 @@ export class SearchResult extends React.Component<Props, State> {
           ) : this.renderEmpty()}
         >
           {
-            !environment.platform.isRidiApp &&
+            !environment.platform.isRidibooks &&
             <Button
               color="blue"
               outline={true}
               component="a"
-              href={`${environment.constants.BASE_URL_STORE}/search?q=${encodeURIComponent(query)}`}
+              href={`${environment.STORE_URL}/search?q=${encodeURIComponent(query)}`}
               className="PageSearchResult_RidibooksResult"
               size="large"
             >
@@ -152,12 +146,12 @@ const mapStateToProps = (rootState: RidiSelectState): SearchResultStateProps => 
     environment: rootState.environment,
   };
 };
-const mapDispatchToProps = (dispatch: any): SearchResultDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchRequestSearchResult: (keyword: string, page: number) =>
-      dispatch(queryKeywordRequest(keyword, page)),
+      dispatch(SearchResultActions.queryKeywordRequest({ keyword, page })),
     dispatchUpdateGNBSearchActiveType: (type: GNBSearchActiveType) =>
-      dispatch(updateSearchActiveType(type)),
+      dispatch(CommonUIActions.updateSearchActiveType({ gnbSearchActiveType: type })),
   };
 };
 export const ConnectedSearchResult = withRouter(

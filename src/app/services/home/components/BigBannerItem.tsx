@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { EnvironmentState } from 'app/services/environment';
+import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
 import { RidiSelectState } from 'app/store';
 import { Link } from 'react-router-dom';
 
 interface BigBannerItemStateProps {
-  env: EnvironmentState;
+  env: typeof EnvironmentState;
 }
 
 interface BigBannerItemProps {
@@ -22,7 +22,7 @@ export const BigBannerItem: React.SFC<Props> = (props) => {
     onClick,
     children,
   };
-  const ridiselectReg = new RegExp(`^https?:${props.env.constants.BASE_URL_RIDISELECT}/`);
+  const ridiselectReg = new RegExp(`^https?:${props.env.SELECT_URL}/`);
   const schemeReg = /^https?:\/\//;
 
   if (ridiselectReg.test(linkUrl) || !schemeReg.test(linkUrl)) {

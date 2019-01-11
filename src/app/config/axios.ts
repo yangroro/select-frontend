@@ -21,7 +21,7 @@ instance.interceptors.response.use(
       if (error.response.config.url !== `${env.ACCOUNT_API}/ridi/token/`) {
         return instance
           .post(`${env.ACCOUNT_API}/ridi/token/`)
-          .then(() => axios(error.response.config))
+          .then(() => instance(error.response.config))
           .catch(e => Promise.reject(e));
       }
       return axios

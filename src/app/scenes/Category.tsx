@@ -7,18 +7,7 @@ import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
 import { CategoryCollectionState, Category as CategoryState } from 'app/services/category';
-import {
-  loadCategoryBooksRequest,
-  ActionLoadCategoryListRequest,
-  loadCategoryListRequest,
-  ActionCacheCategoryId,
-  ActionInitializeCategoryId,
-  initializeCategoryId,
-  cacheCategoryId,
-  initializeCategoriesWhole,
-  ActionInitializeCategoriesWhole,
-  ActionLoadCategoryBooksRequest
-} from 'app/services/category/actions';
+import { Actions as categoryActions } from 'app/services/category';
 import { RidiSelectState } from 'app/store';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
@@ -33,15 +22,7 @@ interface CategoryStateProps {
   books: BookState;
 }
 
-interface CategoryDispatchProps {
-  dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) => ActionInitializeCategoriesWhole;
-  dispatchLoadCategoryList: () => ActionLoadCategoryListRequest;
-  dispatchInitializeCategoryId: () => ActionInitializeCategoryId;
-  dispatchCacheCategoryId: (id: number) => ActionCacheCategoryId;
-  dispatchLoadCategoryBooks: (selectionId: number, page: number) => ActionLoadCategoryBooksRequest;
-}
-
-type Props = CategoryStateProps & CategoryDispatchProps;
+type Props = CategoryStateProps & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   isInitialized: boolean;
@@ -85,7 +66,7 @@ export class Category extends React.Component<Props, State> {
   }
 
   private renderSelectBox() {
-    const { categoryId, categoryList } = this.props;
+    const { categoryId, categoryList = [] } = this.props;
     return (
       <div className="RUISelectBox RUISelectBox-outline Category_SelectBox">
         <select
@@ -174,14 +155,17 @@ const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any): CategoryDispatchProps => {
-  return {
-    dispatchInitializeCategoriesWhole: (shouldFetchCategoryList, shouldInitializeCategoryId) => dispatch(initializeCategoriesWhole(shouldFetchCategoryList, shouldInitializeCategoryId)),
-    dispatchLoadCategoryList: () => dispatch(loadCategoryListRequest()),
-    dispatchInitializeCategoryId: () => dispatch(initializeCategoryId()),
-    dispatchCacheCategoryId: (id: number) => dispatch(cacheCategoryId(id)),
-    dispatchLoadCategoryBooks: (categoryId: number, page: number) => dispatch(loadCategoryBooksRequest(categoryId, page)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchInitializeCategoriesWhole: (shouldFetchCategoryList: boolean, shouldInitializeCategoryId: boolean) =>
+    dispatch(categoryActions.initializeCategoriesWhole({ shouldFetchCategoryList, shouldInitializeCategoryId })),
+  dispatchLoadCategoryList: () =>
+    dispatch(categoryActions.loadCategoryListRequest()),
+  dispatchInitializeCategoryId: () =>
+    dispatch(categoryActions.initializeCategoryId()),
+  dispatchCacheCategoryId: (categoryId: number) =>
+    dispatch(categoryActions.cacheCategoryId({ categoryId })),
+  dispatchLoadCategoryBooks: (categoryId: number, page: number) =>
+    dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page })),
+});
 
 export const ConnectedCategory = connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(Category);

@@ -1,28 +1,23 @@
 import { updateBooks } from 'app/services/book/actions';
-import {
-  ActionQueryKeywordRequest,
-  QUERY_KEYWORD_REQUEST,
-  queryKeywordFailure,
-  queryKeywordSuccess,
-} from 'app/services/searchResult/actions';
+import { Actions } from 'app/services/searchResult';
 import { requestSearchResult, SearchResultReponse } from 'app/services/searchResult/requests';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 
-export function* queryKeyword({ payload }: ActionQueryKeywordRequest) {
-  const { page, keyword } = payload!;
+export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywordRequest>) {
+  const { page, keyword } = payload;
   let response: SearchResultReponse;
   try {
     response = yield call(requestSearchResult, keyword, page);
     yield put(updateBooks(response.books));
-    yield put(queryKeywordSuccess(keyword, page, response));
+    yield put(Actions.queryKeywordSuccess({ keyword, page, response }));
   } catch (e) {
-    yield put(queryKeywordFailure(keyword, page));
+    yield put(Actions.queryKeywordFailure({ keyword, page }));
   }
 }
 
 export function* watchQueryKeyword() {
-  yield takeEvery(QUERY_KEYWORD_REQUEST, queryKeyword);
+  yield takeEvery(Actions.queryKeywordRequest.getType(), queryKeyword);
 }
 
 export function* searchResultRootSaga() {

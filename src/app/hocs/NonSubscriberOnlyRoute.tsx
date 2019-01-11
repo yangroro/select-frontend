@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import { SplashScreen as CommonLoader } from 'app/components/SplashScreen';
 import history from "app/config/history";
 
 export interface NonSubscriberOnlyRouteProps {
@@ -24,8 +23,6 @@ export const NonSubscriberOnlyRoute: React.SFC<NonSubscriberOnlyRouteProps> = (p
 
   if (!isFetching && isLoggedIn && isSubscribing) {
     history.replace('/home' + window.location.search);
-
-    return <CommonLoader />;
   }
 
   return <Component {...restProps} />;

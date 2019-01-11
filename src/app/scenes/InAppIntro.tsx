@@ -5,7 +5,6 @@ import { ConnectedAvailableBooks } from './AvailableBooks';
 import { setDisableScroll } from 'app/utils/utils';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
-import { SplashScreen as CommonLoader } from 'app/components/SplashScreen';
 
 interface StateProps {
   isLoggedIn: boolean,
@@ -27,7 +26,7 @@ export class InAppIntro extends React.Component<StateProps> {
       !isTokenFetched ||
       (isLoggedIn && isSubscribing)
     ) ? (
-      <CommonLoader />
+      null
     ) : (
       <>
         <ConnectedAvailableBooks hidePageTitle={true} />
@@ -68,7 +67,7 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
   isTokenFetched: rootState.user.isTokenFetched,
-  BASE_URL_RIDISELECT: rootState.environment.constants.BASE_URL_RIDISELECT,
+  BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
 });
 
 export const ConnectedInAppIntro = connect(mapStateToProps)(InAppIntro);

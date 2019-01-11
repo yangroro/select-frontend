@@ -11,7 +11,6 @@ import { SplashScreen } from "app/components/SplashScreen";
 import { fetchUserInfo } from "app/services/user/helper";
 
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
-import { initializeEnvironmentData } from 'app/services/environment';
 import { initializeUser, fetchUser } from 'app/services/user';
 import { initializeScrollEnd } from 'app/services/tracking/onWindowScrollEnd';
 import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeHorizontalScroll';

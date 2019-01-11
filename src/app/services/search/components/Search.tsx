@@ -14,7 +14,6 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/debounceTime';
 
-import env from 'app/config/env';
 import history from 'app/config/history';
 
 import { camelize } from '@ridi/object-case-converter';
@@ -494,7 +493,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
         className={classNames({
           'GNBSearchWrapper': true,
           'active': isActive,
-          'GNBSearchWrapper-colored': gnbColorLevel !== 'default',
+          'GNBSearchWrapper-colored': gnbColorLevel !== GNBColorLevel.DEFAULT,
           'GNBSearchWrapper-typeBlock': gnbSearchActiveType === GNBSearchActiveType.block,
         })}
         style={{ background: toRGBString(gnbColor), }}
@@ -583,7 +582,7 @@ const mapStateToProps = (state: RidiSelectState): SearchStoreProps => {
     gnbColor: state.commonUI.gnbColor,
     gnbColorLevel: state.commonUI.gnbColorLevel,
     gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
-    isRidiApp: state.environment.platform.isRidiApp,
+    isRidiApp: state.environment.platform.isRidibooks,
     searchQuery: state.router.location!.search,
   };
 };

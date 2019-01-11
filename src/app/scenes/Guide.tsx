@@ -139,9 +139,9 @@ export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, 
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  BASE_URL_STATIC: rootState.environment.constants.BASE_URL_STATIC,
-  BASE_URL_STORE: rootState.environment.constants.BASE_URL_STORE,
-  FREE_PROMOTION_MONTHS: rootState.environment.constants.FREE_PROMOTION_MONTHS,
+  BASE_URL_STATIC: rootState.environment.SELECT_URL,
+  BASE_URL_STORE: rootState.environment.STORE_URL,
+  FREE_PROMOTION_MONTHS: rootState.environment.FREE_PROMOTION_MONTHS,
 });
 
 export const ConnectedGuide = connect(mapStateToProps)(Guide);

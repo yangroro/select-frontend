@@ -110,7 +110,7 @@ export function* watchAddMySelect() {
       response.book = books[0];
       yield put(addMySelectSuccess(response));
       yield put(loadBookOwnershipRequest(bookId));
-      const toastButton = state.environment.platform.isRidiApp ? {
+      const toastButton = state.environment.platform.isRidibooks ? {
         callback: () => { readBooksInRidiselect(bookId); },
         label: '읽기',
       } : {
