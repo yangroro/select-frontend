@@ -91,7 +91,6 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                     dots={true}
                     infinite={books.length > 5}
                     adaptiveHeight={false}
-                    variableWidth={true}
                     arrows={false}
                     speed={200}
                     slidesToShow={5}
