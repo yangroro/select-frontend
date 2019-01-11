@@ -38,7 +38,10 @@ export class ScrollManager extends React.Component<ScrollManagerProps, ScrollMan
     if (this.props.location === nextProps.location) {
       return true;
     }
-    if (scrollPosition[location.pathname] === window.scrollY) {
+    if (
+      !scrollPosition[location.pathname] ||
+      scrollPosition[location.pathname] !== window.scrollY
+    ) {
       this.setState({
         scrollPosition: {
           ...scrollPosition,
