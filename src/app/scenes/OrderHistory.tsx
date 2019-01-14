@@ -8,15 +8,7 @@ import { FetchStatusFlag } from 'app/constants';
 import {
   ConnectedListWithPagination,
 } from 'app/hocs/ListWithPaginationPage';
-import {
-  ActionCancelPurchaseRequest,
-  ActionClearPurchases,
-  ActionLoadPurchasesRequest,
-  cancelPurchaseRequest,
-  clearPurchases,
-  loadPurchasesRequest,
-  PurchaseHistory,
-} from 'app/services/user';
+import { Actions, PurchaseHistory } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat } from 'app/utils/formatDate';
@@ -25,13 +17,7 @@ import toast from 'app/utils/toast';
 import { connect } from 'react-redux';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { Helmet } from 'react-helmet';
-
-interface DispatchProps {
-  dispatchLoadOrderHistory: (page: number) => ActionLoadPurchasesRequest;
-  dispatchClearPurchases: () => ActionClearPurchases;
-  dispatchCancelPurchase: (purchaseId: number) => ActionCancelPurchaseRequest;
-}
-type Props = PurchaseHistory & DispatchProps;
+type Props = PurchaseHistory & ReturnType<typeof mapDispatchToProps>;
 
 export class OrderHistory extends React.PureComponent<Props> {
   private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
@@ -159,11 +145,11 @@ const mapStateToProps = (state: RidiSelectState): PurchaseHistory => {
   return state.user.purchaseHistory;
 };
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadOrderHistory: (page: number) => dispatch(loadPurchasesRequest(page)),
-    dispatchClearPurchases: () => dispatch(clearPurchases()),
-    dispatchCancelPurchase: (purchaseId: number) => dispatch(cancelPurchaseRequest(purchaseId)),
+    dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
+    dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
+    dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
   };
 };
 

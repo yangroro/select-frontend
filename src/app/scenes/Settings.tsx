@@ -5,17 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Icon } from '@ridi/rsg';
 
-import {
-  ActionLoadPurchasesRequest,
-  ActionLoadSubscriptionRequest,
-  ActionClearPurchases,
-  ActionCancelPurchaseRequest,
-  loadSubscriptionRequest,
-  SubscriptionState,
-  loadPurchasesRequest,
-  clearPurchases,
-  cancelPurchaseRequest,
-} from 'app/services/user';
+import { Actions, SubscriptionState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
@@ -31,14 +21,7 @@ interface SettingStateProps {
   isPurchaseCancelFetching: boolean;
 }
 
-interface SettingDispatchProps {
-  dispatchLoadSubscriptionRequest: () => ActionLoadSubscriptionRequest;
-  dispatchLoadOrderHistory: (page: number) => ActionLoadPurchasesRequest;
-  dispatchClearPurchases: () => ActionClearPurchases;
-  dispatchCancelPurchase: (purchaseId: number) => ActionCancelPurchaseRequest;
-}
-
-type SettingProps = SettingStateProps & SettingDispatchProps;
+type SettingProps = SettingStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Settings extends React.PureComponent<SettingProps> {
   public componentDidMount() {
@@ -217,13 +200,11 @@ return {
   };
 };
 
-const mapDispatchToProps = (dispatch: any): SettingDispatchProps => {
-  return {
-    dispatchLoadSubscriptionRequest: () => dispatch(loadSubscriptionRequest()),
-    dispatchLoadOrderHistory: (page: number) => dispatch(loadPurchasesRequest(page)),
-    dispatchClearPurchases: () => dispatch(clearPurchases()),
-    dispatchCancelPurchase: (purchaseId: number) => dispatch(cancelPurchaseRequest(purchaseId)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
+  dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
+  dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
+  dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
+});
 
 export const ConnectedSetting = connect(mapStateToProps, mapDispatchToProps)(Settings);

@@ -11,7 +11,7 @@ import { SplashScreen } from "app/components/SplashScreen";
 import { fetchUserInfo } from "app/services/user/helper";
 
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
-import { initializeUser, fetchUser } from 'app/services/user';
+import { Actions } from 'app/services/user';
 import { initializeScrollEnd } from 'app/services/tracking/onWindowScrollEnd';
 import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeHorizontalScroll';
 
@@ -39,12 +39,10 @@ class App extends React.Component<{}, { isLoaded: boolean }> {
   async componentDidMount() {
     try {
       const user = await fetchUserInfo();
-      store.dispatch(initializeUser(user));
+      store.dispatch(Actions.initializeUser({ userDTO: user }));
     } finally {
-      this.setState({
-        isLoaded: true,
-      });
-      store.dispatch(fetchUser({ isFetching: false }));
+      this.setState({ isLoaded: true });
+      store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
     }
   }
 
