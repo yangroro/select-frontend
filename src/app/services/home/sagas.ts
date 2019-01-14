@@ -1,5 +1,5 @@
 import { Book } from 'app/services/book';
-import { updateBooks } from 'app/services/book/actions';
+import { Actions as BookActions } from 'app/services/book';
 import { LOAD_HOME_REQUEST, loadHomeFailure, loadHomeSuccess } from 'app/services/home/actions';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
 import { Actions } from 'app/services/selection';
@@ -16,7 +16,7 @@ export function* watchLoadHome() {
       const books = response.collections.reduce((concatedBooks: Book[], section) => {
         return concatedBooks.concat(section.books);
       }, []);
-      yield put(updateBooks(books));
+      yield put(BookActions.updateBooks({ books }));
       const selections = response.collections.map((section): SelectionResponse => {
         return {
           type: section.type,

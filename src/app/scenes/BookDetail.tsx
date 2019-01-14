@@ -24,14 +24,7 @@ import {
   BookAuthor,
   formatFileSize,
 } from 'app/services/book';
-import {
-  ActionLoadBookOwnershipRequest,
-  ActionLoadDetailBookRequest,
-  ActionUpdateDominantColor,
-  loadBookOwnershipRequest,
-  loadBookRequest,
-  updateDominantColor,
-} from 'app/services/book/actions';
+import { Actions } from 'app/services/book';
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { Expander } from 'app/services/book/components/Expander';
 import { Publisher, BookFile, BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
@@ -554,16 +547,16 @@ export class BookDetail extends React.Component<Props, State> {
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <div
               className={`PageBookDetail_Header PageBookDetail_Header-${gnbColorLevel}`}
-              style={{ background: solidBackgroundColorRGBString }}
+              style={{ background: solidBackgroundColorRGBString, }}
             >
               <span
                 className="PageBookDetail_HeaderBackground"
                 style={{ backgroundImage: `url(${thumbnail ? `${thumbnail.xxlarge}?dpi=xxhdpi` : ''})` }}
               >
-                <span className="Left_GradientOverlay" style={{ background: backgroundColorGradientToRight }} />
-                <span className="Right_GradientOverlay" style={{ background: backgroundColorGradientToLeft }} />
+                <span className="Left_GradientOverlay" style={{ background: backgroundColorGradientToRight, }} />
+                <span className="Right_GradientOverlay" style={{ background: backgroundColorGradientToLeft, }} />
               </span>
-              <div className="PageBookDetail_HeaderMask" style={{ backgroundColor: transparentBackgroundColorRGBString }}>
+              <div className="PageBookDetail_HeaderMask" style={{ backgroundColor: transparentBackgroundColorRGBString, }}>
                 <div className="PageBookDetail_HeaderContent">
                   <div className="PageBookDetail_ThumbnailWrapper">
                     <button
@@ -748,12 +741,12 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadBookRequest: (bookId: number) => dispatch(loadBookRequest(bookId)),
+    dispatchLoadBookRequest: (bookId: number) => dispatch(Actions.loadBookDetailRequest({ bookId })),
     dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
-      dispatch(updateDominantColor(bookId, color)),
+      dispatch(Actions.updateDominantColor({ bookId, color })),
     dispatchLoadBookOwnershipRequest: (bookId: number) =>
-      dispatch(loadBookOwnershipRequest(bookId)),
+      dispatch(Actions.loadBookOwnershipRequest({ bookId })),
     dispatchAddMySelect: (bookId: BookId) => dispatch(addMySelectRequest(bookId)),
   };
 };

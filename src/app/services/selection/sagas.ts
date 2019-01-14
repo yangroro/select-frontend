@@ -1,4 +1,4 @@
-import { updateBooks } from 'app/services/book/actions';
+import { Actions as BookActions } from 'app/services/book';
 import { Actions } from 'app/services/selection';
 import { requestSelection, SelectionResponse } from 'app/services/selection/requests';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
@@ -8,7 +8,7 @@ export function* loadSelection({ payload }: ReturnType<typeof Actions.loadSelect
   const { page, selectionId } = payload!;
   try {
     const response: SelectionResponse = yield call(requestSelection, selectionId, page);
-    yield put(updateBooks(response.books));
+    yield put(BookActions.updateBooks({ books: response.books }));
     if (selectionId === 'hotRelease') {
       yield put(Actions.updateHotRelease({ hotRelease: response }));
     } else {

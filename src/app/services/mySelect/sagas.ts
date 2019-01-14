@@ -1,9 +1,7 @@
 import { ActionLoadMySelectRequest, loadMySelectRequest } from './actions';
 import {
-  clearBookOwnership,
-  loadBookOwnershipRequest,
-  updateBooks
-} from 'app/services/book/actions';
+  Actions as BookActions
+} from 'app/services/book';
 import {
   ActionAddMySelectRequest,
   ActionDeleteMySelectRequest,
@@ -45,7 +43,7 @@ export function* loadMySelectList({ payload }: ActionLoadMySelectRequest) {
       response.userRidiSelectBooks.forEach((book, index) => {
         response.userRidiSelectBooks[index].book = books_map[book.bId]
       });
-      yield put(updateBooks(books));
+      yield put(BookActions.updateBooks({ books }));
     } else if (response.totalCount < page) {
       history.replace(`?${updateQueryStringParam('page', 1)}`);
     }
@@ -83,14 +81,14 @@ export function* watchDeleteMySelect() {
       if (isEveryBookChecked && page > 1) {
         yield all([
           put(deleteMySelectSuccess(deleteBookIdPairs)),
-          put(clearBookOwnership(deleteBookIds)),
+          put(BookActions.clearBookOwnership({ bookIds: deleteBookIds })),
         ]);
         history.replace(`/my-select?page=${page - 1}`);
       } else {
         yield all([
           put(deleteMySelectSuccess(deleteBookIdPairs)),
           put(loadMySelectRequest(page)),
-          put(clearBookOwnership(deleteBookIds)),
+          put(BookActions.clearBookOwnership({ bookIds: deleteBookIds })),
         ]);
       }
     } catch (e) {
@@ -109,7 +107,7 @@ export function* watchAddMySelect() {
       const books = yield call(requestBooks, [parseInt(response.bId)]);
       response.book = books[0];
       yield put(addMySelectSuccess(response));
-      yield put(loadBookOwnershipRequest(bookId));
+      yield put(BookActions.loadBookOwnershipRequest({ bookId }));
       const toastButton = state.environment.platform.isRidibooks ? {
         callback: () => { readBooksInRidiselect(bookId); },
         label: '읽기',

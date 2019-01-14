@@ -1,26 +1,12 @@
-import {
-  ActionLoadBookOwnershipRequest,
-  ActionLoadDetailBookRequest,
-  initializeBooks,
-  LOAD_BOOK_DETAIL_REQUEST,
-  LOAD_BOOK_DETAIL_SUCCESS,
-  LOAD_BOOK_OWNERSHIP_REQUEST,
-  loadBookFailure,
-  loadBookOwnershipFailure,
-  loadBookOwnershipSuccess,
-  loadBookSuccess,
-  UPDATE_BOOKS,
-  UPDATE_DOMINANT_COLOR,
-  updateBooks,
-} from 'app/services/book/actions';
+import { mapValues } from 'lodash-es';
+
+import toast from 'app/utils/toast';
+import history from 'app/config/history';
+import { RidiSelectState } from 'app/store';
+import { Actions } from 'app/services/book';
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import { BookOwnershipStatus, BookState, LocalStorageStaticBookState, StaticBookState, LegacyStaticBookState } from 'app/services/book/reducer.state';
 import { BookDetailResponse, requestBookDetail, requestBookOwnership, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
-import { RidiSelectState } from 'app/store';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
-import { setDisableScroll } from 'app/utils/utils';
-import history from 'app/config/history';
-import { mapValues } from 'lodash-es';
-import toast from 'app/utils/toast';
 
 const KEY_LOCAL_STORAGE = 'rs.books';
 const booksLocalStorageManager = {
@@ -60,12 +46,18 @@ const booksLocalStorageManager = {
 };
 
 function* initialSaga() {
-  yield put(initializeBooks(booksLocalStorageManager.load()));
+  yield put(Actions.initializeBooks({
+    staticBookState: booksLocalStorageManager.load()
+  }));
 }
 
 function* watchActionsToCache() {
   while (true) {
-    yield take([UPDATE_BOOKS, LOAD_BOOK_DETAIL_SUCCESS, UPDATE_DOMINANT_COLOR]);
+    yield take([
+      Actions.updateBooks.getType(),
+      Actions.loadBookDetailSuccess.getType(),
+      Actions.updateDominantColor.getType(),
+    ]);
     const books = yield select((state: RidiSelectState) => state.booksById);
     booksLocalStorageManager.save(books);
   }
@@ -74,15 +66,20 @@ function* watchActionsToCache() {
 export function* watchLoadBookDetail() {
   while (true) {
     // Destructuring not working: https://github.com/Microsoft/TypeScript/issues/6784
-    const { payload }: ActionLoadDetailBookRequest = yield take(LOAD_BOOK_DETAIL_REQUEST);
-    const bookId = payload!.bookId;
+    const { action } = yield take(Actions.loadBookDetailRequest.getType());
+    const bookId = action;
 
     try {
       const response: BookDetailResponse = yield call(requestBookDetail, bookId);
       if (response.seriesBooks && response.seriesBooks.length > 0) {
-        yield put(updateBooks(response.seriesBooks));
+        yield put(Actions.updateBooks({
+          books: response.seriesBooks,
+        }));
       }
-      yield put(loadBookSuccess(response.id, response))
+      yield put(Actions.loadBookDetailSuccess({
+        bookId: response.id,
+        bookDetail: response
+      }));
       if (String(bookId) !== String(response.id)) {
         history.replace(`/book/${response.id}`);
       }
@@ -93,20 +90,27 @@ export function* watchLoadBookDetail() {
       } else {
         toast.defaultErrorMessage();
       }
-      yield put(loadBookFailure(bookId));
+      yield put(Actions.loadBookDetailFailure({
+        bookId
+      }));
     }
   }
 }
 
 export function* watchLoadBookOwnership() {
   while (true) {
-    const { payload }: ActionLoadBookOwnershipRequest = yield take(LOAD_BOOK_OWNERSHIP_REQUEST);
-    const bookId = payload!.bookId;
+    const { action } = yield take(Actions.loadBookOwnershipRequest.getType());
+    const bookId = action;
     try {
       const response: BookOwnershipStatus  = yield call(requestBookOwnership, bookId);
-      yield put(loadBookOwnershipSuccess(bookId, response));
+      yield put(Actions.loadBookOwnershipSuccess({
+        bookId,
+        ownershipStatus: response,
+      }));
     } catch (e) {
-      yield put(loadBookOwnershipFailure(bookId));
+      yield put(Actions.loadBookOwnershipFailure({
+        bookId
+      }));
     }
   }
 }

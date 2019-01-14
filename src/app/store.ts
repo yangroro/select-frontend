@@ -11,7 +11,7 @@ import { History } from 'history';
 
 import history from 'app/config/history';
 import { BookState } from 'app/services/book';
-import { bookReducer } from 'app/services/book/reducer';
+import { bookReducer } from 'app/services/book';
 import { bookRootSaga } from 'app/services/book/sagas';
 import { CommonUIState, commonUIReducer } from 'app/services/commonUI';
 import { HomeState } from 'app/services/home';

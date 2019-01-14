@@ -101,4 +101,4 @@ export interface BookState {
   [bookId: number]: BookStateItem;
 }
 
-export const bookInitialState: BookState = {};
+export const INITIAL_BOOK_STATE: BookState = {};
