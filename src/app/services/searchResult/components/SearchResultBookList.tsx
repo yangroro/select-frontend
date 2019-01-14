@@ -1,9 +1,8 @@
-import { SearchResultBook } from 'app/services/searchResult/reducer.state';
-import * as classNames from 'classnames';
+import { SearchResultBook } from 'app/services/searchResult';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { getSortedAuthorsHtmlString } from 'app/services/search/utils';
+import { getSortedAuthorsHtmlString } from 'app/utils/search';
 import { stringifyAuthors, getDTOAuthorsCount } from 'app/utils/utils';
 
 interface Props {
