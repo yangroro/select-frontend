@@ -5,7 +5,7 @@ import history from 'app/config/history';
 import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/book';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
-import { BookOwnershipStatus, BookState, LocalStorageStaticBookState, StaticBookState, LegacyStaticBookState } from 'app/services/book/reducer.state';
+import { BookOwnershipStatus, BookState, LocalStorageStaticBookState, StaticBookState, LegacyStaticBookState } from 'app/services/book';
 import { BookDetailResponse, requestBookDetail, requestBookOwnership, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
 
 const KEY_LOCAL_STORAGE = 'rs.books';

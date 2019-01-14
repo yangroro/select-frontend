@@ -1,14 +1,15 @@
-import { Book } from 'app/services/book/reducer.state';
-import * as classNames from 'classnames';
 import * as React from 'react';
-import MediaQuery from 'react-responsive';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as classNames from 'classnames';
+import MediaQuery from 'react-responsive';
+
+import { Book } from 'app/services/book';
+import { stringifyAuthors } from 'app/utils/utils';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
-import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
-import { stringifyAuthors } from 'app/utils/utils';
 
 interface Props {
   pageTitleForTracking?: string;

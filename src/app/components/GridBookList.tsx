@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 
-import { Book } from 'app/services/book/reducer.state';
+import { Book } from 'app/services/book';
 import { StarRating } from 'app/services/review/components';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ThumbnailLinkType, ThumbnailSize } from 'app/components/BookThumbnail';

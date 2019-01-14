@@ -8,7 +8,7 @@ import {
   BookReviewSummary,
   BookThumbnailUrlMap,
   BookTitle,
-} from 'app/services/book/reducer.state';
+} from 'app/services/book';
 import { BookId, TextWithLF, DateDTO, Omit } from 'app/types';
 import request from 'app/config/axios';
 import { Category } from 'app/services/category';
