@@ -5,8 +5,8 @@ import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';
 import { debounce } from 'lodash-es';
 import { BigBanner } from 'app/services/home/reducer.state';
-import { DefaultTrackingParams, ActionTrackClick, trackClick, ActionTrackImpression, trackImpression } from 'app/services/tracking';
 import { connect } from 'react-redux';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedBigBannerItem } from './BigBannerItem';
 import { SliderControls } from './SliderControls';
@@ -21,12 +21,7 @@ interface BigBannerStateProps {
   bigBannerList: BigBanner[];
 }
 
-interface DispatchProps {
-  trackClick: (params: DefaultTrackingParams) => ActionTrackClick;
-  trackImpression: (params: DefaultTrackingParams) => ActionTrackImpression;
-}
-
-type Props = BigBannerStateProps & DispatchProps;
+type Props = BigBannerStateProps & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   clientWidth: number;
@@ -172,11 +167,9 @@ const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
   }
 };
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {
-  return {
-    trackClick: (params: DefaultTrackingParams) => dispatch(trackClick(params)),
-    trackImpression: (params: DefaultTrackingParams) => dispatch(trackImpression(params)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
+  trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
+});
 
 export const ConnectedBigBannerCarousel = connect(mapStateToProps, mapDispatchToProps)(BigBannerCarousel);

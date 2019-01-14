@@ -40,7 +40,7 @@ import env from 'app/config/env';
 import { downloadSaga } from 'app/services/download/sagas';
 import { stateHydrator } from 'app/utils/stateHydrator';
 import { CustomHistoryState, customHistoryReducer, customHistorySaga } from 'app/services/customHistory';
-import { TrackingState, trackingReducer } from './services/tracking';
+import { INITIAL_STATE as TrackingState, trackingReducer } from 'app/services/tracking';
 
 declare global {
   interface Window {
@@ -76,7 +76,7 @@ export interface RidiSelectState {
   categoriesById: CategoryBooksState;
   searchResult: SearchResultState;
   mySelect: MySelectState;
-  tracking: TrackingState;
+  tracking: typeof TrackingState;
   environment: typeof environmentState;
   customHistory: CustomHistoryState;
 }

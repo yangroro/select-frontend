@@ -4,7 +4,8 @@ import * as React from 'react';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { ConnectedTrackImpression, ActionTrackClick, DefaultTrackingParams, trackClick } from 'app/services/tracking';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { stringifyAuthors } from 'app/utils/utils';
@@ -19,11 +20,7 @@ interface Props {
   renderAuthor?: boolean;
 }
 
-interface DispatchProps {
-  trackClick: (params: DefaultTrackingParams) => ActionTrackClick;
-}
-
-export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props) => {
+export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
   const {
     pageTitleForTracking,
     uiPartTitleForTracking,
@@ -102,10 +99,8 @@ export const InlineHorizontalBookList: React.SFC<Props & DispatchProps> = (props
   );
 };
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {;
-  return {
-    trackClick: (params: DefaultTrackingParams) => dispatch(trackClick(params)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
+});
 
 export const ConnectedInlineHorizontalBookList = connect(null, mapDispatchToProps)(InlineHorizontalBookList);

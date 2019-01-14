@@ -12,7 +12,7 @@ import { fetchUserInfo } from "app/services/user/helper";
 
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
 import { Actions } from 'app/services/user';
-import { initializeScrollEnd } from 'app/services/tracking/onWindowScrollEnd';
+import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeHorizontalScroll';
 
 // Show browser input focused outline when tab key is pressed

@@ -1,19 +1,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { DefaultTrackingParams, trackImpression, ActionTrackImpression } from '../actions';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { Omit } from 'app/types';
-import { isInViewport } from '../isInViewport';
-import { subscribeToScrollEnd, unsubscribeFromScrollEnd } from '../onWindowScrollEnd';
-
-export interface TrackImpressionDispatchProps {
-  trackImpression: (params: DefaultTrackingParams) => ActionTrackImpression;
-}
+import { isInViewport } from 'app/utils/isInViewport';
+import { subscribeToScrollEnd, unsubscribeFromScrollEnd } from 'app/utils/onWindowScrollEnd';
 
 export type TrackImpressionOwnProps = Omit<DefaultTrackingParams, 'section'> & {
   section?: string;
 };
 
-export type TrackImpressionProps = TrackImpressionDispatchProps & TrackImpressionOwnProps;
+export type TrackImpressionProps = TrackImpressionOwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class TrackImpression extends React.Component<TrackImpressionProps> {
   private ref: React.RefObject<HTMLDivElement>;
@@ -78,9 +74,9 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
   }
 };
 
-const mapDispatchToProps = (dispatch: any): TrackImpressionDispatchProps => {;
+const mapDispatchToProps = (dispatch: any) => {;
   return {
-    trackImpression: (params: DefaultTrackingParams) => dispatch(trackImpression(params)),
+    trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
   };
 };
 

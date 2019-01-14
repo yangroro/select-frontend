@@ -2,7 +2,9 @@ import * as React from "react";
 import { RidiSelectState } from "app/store";
 import { connect } from "react-redux";
 
-import { ConnectedTrackImpression, DefaultTrackingParams, trackClick, ActionTrackClick } from 'app/services/tracking';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
+
 import { SectionHeader } from "./HomeSection";
 import MediaQuery from "react-responsive";
 import { getSectionStringForTracking } from "app/services/tracking/utils";
@@ -20,11 +22,7 @@ interface HomeChartBooksSectionProps {
   selectionId: SelectionId;
 }
 
-interface HomeChartBooksSectionDispatchProps {
-  trackClick: (params: DefaultTrackingParams) => ActionTrackClick;
-}
-
-type Props = HomeChartBooksSectionProps & HomeChartBooksSectionDispatchProps;
+type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
 
 
 export class HomeChartBooksSection extends React.Component<Props> {
@@ -106,10 +104,8 @@ export class HomeChartBooksSection extends React.Component<Props> {
   }
 }
 
-const mapDispatchToProps = (dispatch: any): HomeChartBooksSectionDispatchProps => {;
-  return {
-    trackClick: (params: DefaultTrackingParams) => dispatch(trackClick(params)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
+});
 
 export const ConnectedHomeChartBooksSection = connect(null, mapDispatchToProps)(HomeChartBooksSection);

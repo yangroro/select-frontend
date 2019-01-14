@@ -7,8 +7,9 @@ import { Book } from 'app/services/book/reducer.state';
 import { StarRating } from 'app/services/review/components';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ThumbnailLinkType, ThumbnailSize } from 'app/components/BookThumbnail';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { ConnectedTrackImpression, DefaultTrackingParams, trackClick, ActionTrackClick } from 'app/services/tracking';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 
@@ -23,11 +24,7 @@ interface Props {
   onLinkClick?: (event: React.SyntheticEvent<any>) => any;
 }
 
-interface DispatchProps {
-  trackClick: (params: DefaultTrackingParams) => ActionTrackClick;
-}
-
-export class GridBookList extends React.Component<Props & DispatchProps>{
+export class GridBookList extends React.Component<Props & ReturnType<typeof mapDispatchToProps>>{
   renderItem = (width: ThumbnailSize, book: Book, rank: number, index: number) => {
     const {
       isChart = false,
@@ -133,9 +130,9 @@ export class GridBookList extends React.Component<Props & DispatchProps>{
 };
 
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {;
+const mapDispatchToProps = (dispatch: any) => {;
   return {
-    trackClick: (params: DefaultTrackingParams) => dispatch(trackClick(params)),
+    trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams } )),
   };
 };
 
