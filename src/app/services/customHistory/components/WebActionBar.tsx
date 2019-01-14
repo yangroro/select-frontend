@@ -2,7 +2,6 @@ import * as React from 'react';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import { ConnectedUpButton } from 'app/services/customHistory/components/UpButtons';
-import { RGB } from 'app/services/commonUI';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 
 const WINDOW_HAS_WEB_ACTION_BAR = 'hasWebActionBar';
@@ -25,7 +24,7 @@ export class WebActionBar extends React.Component<WebActionBarStateProps> {
     return (
       <div
         className="WebActionBar"
-        style={{ backgroundColor }}
+        style={{ backgroundColor, }}
       >
         <ConnectedUpButton />
         <h1 className="WebActionBar_Text">

@@ -2,13 +2,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Icon } from '@ridi/rsg';
-import { ActionNavigateUp, navigateUp } from '../actions';
+import { Actions } from 'app/services/customHistory';
 
-export interface UpButtonDispatchProps {
-  goToUpperPath: () => ActionNavigateUp;
-}
-
-export const UpButton: React.SFC<UpButtonDispatchProps> = (props) => (
+export const UpButton: React.SFC< & ReturnType<typeof mapDispatchToProps>> = (props) => (
   <button
     type="button"
     className="UpButton"
@@ -22,9 +18,9 @@ export const UpButton: React.SFC<UpButtonDispatchProps> = (props) => (
   </button>
 );
 
-const mapDispatchToProps = (dispatch: any): UpButtonDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    goToUpperPath: () => dispatch(navigateUp())
+    goToUpperPath: () => dispatch(Actions.navigateUp())
   };
 };
 
