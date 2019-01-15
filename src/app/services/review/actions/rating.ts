@@ -1,4 +1,4 @@
-import { Action } from 'app/reducers';
+import { Action } from 'app/services/review/types';
 
 import { ReviewSummary } from '../reducer.state';
 import { ResponseReview } from '../requests';
