@@ -21,12 +21,7 @@ interface HomeHotReleaseSectionProps {
   selectionId: SelectionId;
 }
 
-interface HomeHotReleaseSectionStateProps {
-  BASE_URL_STATIC: string;
-}
-
 type Props = HomeHotReleaseSectionProps &
-  HomeHotReleaseSectionStateProps &
   ReturnType<typeof mapDispatchToProps>;
 
 export class HomeHotReleaseSection extends React.Component<Props> {
@@ -51,7 +46,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
   }
 
   public render() {
-    const { books, trackClick, selectionId, BASE_URL_STATIC } = this.props;
+    const { books, trackClick, selectionId } = this.props;
     const section = getSectionStringForTracking("home", "hot-release");
     return (
       <div className="HomeSection_HotRelease">
@@ -60,7 +55,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
             집 앞 서점에 방금 나온 신간!
             <img
               className="HomeSection_HotRelease_NewBadge"
-              src={`${BASE_URL_STATIC}/dist/images/new-badge@2x.png`}
+              src="/assets/images/new-badge@2x.png"
               alt="NEW"
             />
           </div>
@@ -152,20 +147,12 @@ export class HomeHotReleaseSection extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (
-  rootState: RidiSelectState
-): HomeHotReleaseSectionStateProps => {
-  return {
-    BASE_URL_STATIC: rootState.environment.STORE_URL,
-  };
-};
-
 const mapDispatchToProps = (dispatch: any) => ({
   trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
   trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams }))
 });
 
 export const ConnectedHomeHotReleaseSection = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(HomeHotReleaseSection);
