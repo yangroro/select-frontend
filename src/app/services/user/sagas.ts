@@ -1,5 +1,5 @@
-import { deleteMySelectFailure } from 'app/services/mySelect/actions';
 import { Actions } from 'app/services/user';
+import { Actions as MySelectActions } from 'app/services/mySelect';
 import {
   MySelectHistoryResponse,
   PurchasesResponse,
@@ -93,7 +93,7 @@ export function* watchDeleteMySelectHistory() {
         history.replace(`/my-select-history?page=${page - 1}`);
       }
     } catch (e) {
-      yield put(deleteMySelectFailure());
+      yield put(MySelectActions.deleteMySelectFailure());
       showMessageForRequestError(e);
     }
   }

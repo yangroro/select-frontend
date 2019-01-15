@@ -20,7 +20,7 @@ import { userRootSaga } from 'app/services/user/sagas';
 import { CategoryBooksState, CategoryListState, categoryBooksReducer, categoryListReducer } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
 import { MySelectState } from 'app/services/mySelect';
-import { mySelectReducer } from 'app/services/mySelect/reducer';
+import { mySelectReducer } from 'app/services/mySelect';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { INITIAL_STATE as environmentState, environmentReducer } from 'app/services/environment';
 import { reviewsReducer, ReviewsState } from 'app/services/review';

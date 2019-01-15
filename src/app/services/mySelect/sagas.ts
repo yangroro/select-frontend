@@ -1,20 +1,5 @@
-import { ActionLoadMySelectRequest, loadMySelectRequest } from './actions';
-import {
-  Actions as BookActions
-} from 'app/services/book';
-import {
-  ActionAddMySelectRequest,
-  ActionDeleteMySelectRequest,
-  ADD_MY_SELECT_REQUEST,
-  addMySelectFailure,
-  addMySelectSuccess,
-  DELETE_MY_SELECT_REQUEST,
-  deleteMySelectFailure,
-  deleteMySelectSuccess,
-  LOAD_MY_SELECT_REQUEST,
-  loadMySelectFailure,
-  loadMySelectSuccess,
-} from 'app/services/mySelect/actions';
+import { Actions } from 'app/services/mySelect';
+import { Actions as BookActions } from 'app/services/book';
 import {
   MySelectListResponse,
   requestAddMySelect,
@@ -33,8 +18,8 @@ import { keyBy } from "lodash-es";
 import history from 'app/config/history';
 import { updateQueryStringParam, callbackAfterFailedFetch } from 'app/utils/request';
 
-export function* loadMySelectList({ payload }: ActionLoadMySelectRequest) {
-  const { page } = payload!;
+export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
+  const { page } = payload;
   try {
     let response: MySelectListResponse = yield call(requestMySelectList, page);
     if (response.userRidiSelectBooks.length > 0) {
@@ -47,20 +32,23 @@ export function* loadMySelectList({ payload }: ActionLoadMySelectRequest) {
     } else if (response.totalCount < page) {
       history.replace(`?${updateQueryStringParam('page', 1)}`);
     }
-    yield put(loadMySelectSuccess(response, page));
+    yield put(Actions.loadMySelectSuccess({
+      response,
+      page
+    }));
   } catch (e) {
-    yield put(loadMySelectFailure(page));
+    yield put(Actions.loadMySelectFailure({ page }));
     callbackAfterFailedFetch(e, page);
   }
 }
 
 export function* watchLoadMySelectList() {
-  yield takeEvery(LOAD_MY_SELECT_REQUEST, loadMySelectList)
+  yield takeEvery(Actions.loadMySelectRequest.getType(), loadMySelectList)
 }
 
 export function* watchDeleteMySelect() {
   while (true) {
-    const { payload }: ActionDeleteMySelectRequest = yield take(DELETE_MY_SELECT_REQUEST);
+    const { payload }: ReturnType<typeof Actions.deleteMySelectRequest> = yield take(Actions.deleteMySelectRequest.getType());
     const { deleteBookIdPairs, page, isEveryBookChecked } = payload!;
     const deleteBookIds: number[] = [];
     const deleteMySelectBookIds: number[] = [];
@@ -80,33 +68,33 @@ export function* watchDeleteMySelect() {
       }
       if (isEveryBookChecked && page > 1) {
         yield all([
-          put(deleteMySelectSuccess(deleteBookIdPairs)),
+          put(Actions.deleteMySelectSuccess({ deleteBookIdPairs })),
           put(BookActions.clearBookOwnership({ bookIds: deleteBookIds })),
         ]);
         history.replace(`/my-select?page=${page - 1}`);
       } else {
         yield all([
-          put(deleteMySelectSuccess(deleteBookIdPairs)),
-          put(loadMySelectRequest(page)),
+          put(Actions.deleteMySelectSuccess({ deleteBookIdPairs })),
+          put(Actions.loadMySelectRequest({ page })),
           put(BookActions.clearBookOwnership({ bookIds: deleteBookIds })),
         ]);
       }
     } catch (e) {
-      yield put(deleteMySelectFailure());
+      yield put(Actions.deleteMySelectFailure());
     }
   }
 }
 
 export function* watchAddMySelect() {
   while (true) {
-    const { payload }: ActionAddMySelectRequest = yield take(ADD_MY_SELECT_REQUEST);
+    const { payload }: ReturnType<typeof Actions.addMySelectRequest> = yield take(Actions.addMySelectSuccess.getType());
     const state: RidiSelectState = yield select((s) => s);
     const { bookId } = payload!;
     try {
       let response: UserRidiSelectBookResponse = yield call(requestAddMySelect, bookId);
       const books = yield call(requestBooks, [parseInt(response.bId)]);
       response.book = books[0];
-      yield put(addMySelectSuccess(response));
+      yield put(Actions.addMySelectSuccess({ userRidiSelectResponse: response }));
       yield put(BookActions.loadBookOwnershipRequest({ bookId }));
       const toastButton = state.environment.platform.isRidibooks ? {
         callback: () => { readBooksInRidiselect(bookId); },
@@ -125,7 +113,7 @@ export function* watchAddMySelect() {
         window.android.mySelectBookInserted(bookId);
       }
     } catch (e) {
-      yield put(addMySelectFailure());
+      yield put(Actions.addMySelectFailure());
       toast.fail('오류가 발생했습니다. 잠시 후에 다시 시도해주세요.');
     }
   }

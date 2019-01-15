@@ -3,12 +3,12 @@ import { HomeResponse } from './requests';
 import { FetchStatusFlag } from 'app/constants';
 
 export const Actions = {
-  loadHomeRequest: createAction(),
+  loadHomeRequest: createAction('loadHomeRequest'),
   loadHomeSuccess: createAction<{
     response: HomeResponse,
     fetchedAt: number,
-  }>(),
-  loadHomeFailure: createAction(),
+  }>('loadHomeSuccess'),
+  loadHomeFailure: createAction('loadHomeFailure'),
 };
 
 export enum SelectionType {
