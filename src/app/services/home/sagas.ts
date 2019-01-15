@@ -1,15 +1,15 @@
 import { Book } from 'app/services/book';
 import { Actions as BookActions } from 'app/services/book';
-import { LOAD_HOME_REQUEST, loadHomeFailure, loadHomeSuccess } from 'app/services/home/actions';
+import { Actions } from 'app/services/home';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
-import { Actions } from 'app/services/selection';
+import { Actions as SelectionActions } from 'app/services/selection';
 import { SelectionResponse } from 'app/services/selection/requests';
 import { all, call, put, take } from 'redux-saga/effects';
 import showMessageForRequestError from "app/utils/toastHelper";
 
 export function* watchLoadHome() {
   while (true) {
-    yield take(LOAD_HOME_REQUEST);
+    yield take(Actions.loadHomeRequest.getType());
     try {
       const response: HomeResponse = yield call(requestHome);
       // This array might have duplicated book item
@@ -26,10 +26,13 @@ export function* watchLoadHome() {
           totalCount: 0, // TODO: Ask @minQ
         };
       });
-      yield put(Actions.updateSelections({ selections }));
-      yield put(loadHomeSuccess(response, Date.now()));
+      yield put(SelectionActions.updateSelections({ selections }));
+      yield put(Actions.loadHomeSuccess({
+        response,
+        fetchedAt: Date.now()
+      }));
     } catch (e) {
-      yield put(loadHomeFailure());
+      yield put(Actions.loadHomeFailure());
       showMessageForRequestError(e);
     }
   }

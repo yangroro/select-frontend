@@ -10,12 +10,10 @@ import * as qs from 'qs';
 import { History } from 'history';
 
 import history from 'app/config/history';
-import { BookState } from 'app/services/book';
-import { bookReducer } from 'app/services/book';
-import { bookRootSaga } from 'app/services/book/sagas';
+import { HomeState, homeReducer } from 'app/services/home';
+import { BookState, bookReducer } from 'app/services/book';
 import { CommonUIState, commonUIReducer } from 'app/services/commonUI';
-import { HomeState } from 'app/services/home';
-import { homeReducer } from 'app/services/home/reducer';
+import { bookRootSaga } from 'app/services/book/sagas';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
 

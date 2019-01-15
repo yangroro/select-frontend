@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { throttle } from "lodash-es";
 
 import { RidiSelectState } from "app/store";
+import { SelectionType } from "app/services/home";
 import { SelectionsState } from "app/services/selection";
-import { ConnectedHomeSection } from "./HomeSection";
+import { groupSelections } from "app/services/home/uitls";
 import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
+import { ConnectedHomeSection } from "app/services/home/components/HomeSection";
 
-import { groupSelections } from "../uitls";
-import { SelectionType } from "../reducer.state";
 
 
 interface HomeSelectionListStateProps {

@@ -6,9 +6,9 @@ import * as differenceInHours from 'date-fns/difference_in_hours'
 
 import { FetchStatusFlag } from 'app/constants';
 import { BookState } from 'app/services/book';
-import { ActionLoadHomeRequest, loadHomeRequest } from 'app/services/home/actions';
+import { Actions } from 'app/services/home';
 import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
-import { Actions, SelectionId, SelectionsState } from 'app/services/selection';
+import { Actions as SelectionActions, SelectionId, SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
 
@@ -83,8 +83,8 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadHomeRequest: (): ActionLoadHomeRequest => dispatch(loadHomeRequest()),
-    dispatchLoadSelectionRequest: (selectionId: SelectionId) => dispatch(Actions.loadSelectionRequest({ selectionId, page: 1 })),
+    dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
+    dispatchLoadSelectionRequest: (selectionId: SelectionId) => dispatch(SelectionActions.loadSelectionRequest({ selectionId, page: 1 })),
   };
 };
 

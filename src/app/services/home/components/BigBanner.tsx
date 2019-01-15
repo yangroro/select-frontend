@@ -4,7 +4,7 @@ import * as React from 'react';
 import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';
 import { debounce } from 'lodash-es';
-import { BigBanner } from 'app/services/home/reducer.state';
+import { BigBanner } from 'app/services/home';
 import { connect } from 'react-redux';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
