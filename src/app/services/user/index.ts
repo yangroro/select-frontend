@@ -2,7 +2,7 @@ import { createReducer, createAction } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
 import { MySelectBook } from 'app/services/mySelect';
-import { userRidiSelectBookToMySelectBook } from 'app/services/mySelect/reducer';
+import { userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
 import { UserDTO } from 'app/services/user/helper';
 import { Ticket, MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse } from 'app/services/user/requests';
 import { DateDTO, Paginated, ItemListByPage } from 'app/types';
