@@ -2,7 +2,7 @@ import { replace } from 'connected-react-router';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import * as qs from 'qs';
 
-import { updateBooks } from 'app/services/book/actions';
+import { Actions as BookActions } from 'app/services/book';
 import { Category, Actions } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { RidiSelectState } from 'app/store';
@@ -85,7 +85,7 @@ export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCa
       throw '유효하지 않은 페이지입니다.';
     }
     const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
-    yield put(updateBooks(response.books));
+    yield put(BookActions.updateBooks({ books: response.books }));
     yield put(Actions.loadCategoryBooksSuccess({ categoryId, page, response }));
   } catch (e) {
     yield put(Actions.loadCategoryBooksFailure({ categoryId, page }));

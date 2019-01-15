@@ -9,16 +9,16 @@ export const toRGBString = (rgb: RGB): string => `rgb(${rgb.r},${rgb.g},${rgb.b}
 export const Actions = {
   updateGNBColor: createAction<{
     color: RGB,
-  }>(),
+  }>('updateGNBColor'),
   updateSearchActiveType: createAction<{
     gnbSearchActiveType: GNBSearchActiveType,
-  }>(),
+  }>('updateSearchActiveType'),
   updateGNBTransparent: createAction<{
     transparentType: GNBTransparentType,
-  }>(),
+  }>('updateGNBTransparent'),
   updateFooterTheme: createAction<{
     theme: FooterTheme,
-  }>(),
+  }>('updateFooterTheme'),
 };
 
 export const GNB_DEFAULT_COLOR: RGB = {

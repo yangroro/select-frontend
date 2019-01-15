@@ -4,16 +4,7 @@ import { connect } from 'react-redux';
 
 import { Icon, Button } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
-import {
-  ActionLoadSubscriptionRequest,
-  loadSubscriptionRequest,
-  SubscriptionState,
-  ActionUnsubscribeRequest,
-  unsubscribeRequest,
-  UserState,
-  ActionCancelUnsubscriptionRequest,
-  cancelUnsubscriptionRequest,
-} from 'app/services/user';
+import { Actions, SubscriptionState, UserState } from 'app/services/user';
 
 import history from 'app/config/history';
 import { RidiSelectState } from 'app/store';
@@ -22,13 +13,6 @@ import { FetchStatusFlag } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { UnsubscribeWarningPopup } from 'app/components/UnsubscribeWarningPopup';
 import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
-
-interface DispatchProps {
-  dispatchLoadSubscriptionRequest: () => ActionLoadSubscriptionRequest;
-  dispatchUnsubscribeRequest: () => ActionUnsubscribeRequest;
-  dispatchCancelUnsubscriptionRequest: () => ActionCancelUnsubscriptionRequest;
-}
-
 
 interface ManageSubscriptionStateProps {
   userState: UserState;
@@ -41,7 +25,7 @@ interface ManageSubscriptionState {
   isUnsubscribeWarningPopupActive: boolean;
 }
 
-type ManageSubscriptionProps = DispatchProps & ManageSubscriptionStateProps;
+type ManageSubscriptionProps = ManageSubscriptionStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class ManageSubscription extends React.PureComponent<ManageSubscriptionProps, ManageSubscriptionState> {
   public state: ManageSubscriptionState = {
@@ -205,11 +189,11 @@ const mapStateToProps = (state: RidiSelectState): ManageSubscriptionStateProps =
   };
 };
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadSubscriptionRequest: () => dispatch(loadSubscriptionRequest()),
-    dispatchUnsubscribeRequest: () => dispatch(unsubscribeRequest()),
-    dispatchCancelUnsubscriptionRequest: () => dispatch(cancelUnsubscriptionRequest())
+    dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
+    dispatchUnsubscribeRequest: () => dispatch(Actions.unsubscribeRequest()),
+    dispatchCancelUnsubscriptionRequest: () => dispatch(Actions.cancelUnsubscriptionRequest())
   };
 };
 

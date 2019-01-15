@@ -2,8 +2,8 @@ import { DeviceType, Tracker } from '@ridi/event-tracker';
 import { RidiSelectState, hasCompletedSubscription } from 'app/store';
 import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { all, select, take, put } from 'redux-saga/effects';
-import { TRACK_CLICK, ActionTrackClick, TRACK_IMPRESSION, ActionTrackImpression } from './actions';
-import { clearScrollEndHandlers } from './onWindowScrollEnd';
+import { Actions } from 'app/services/tracking';
+import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 
 export const PIXEL_ID = '417351945420295';
 let tracker: Tracker;
@@ -65,7 +65,7 @@ export function* watchLocationChange() {
 
 export function* watchTrackClick() {
   while (true) {
-    const { payload: bookTrackingParams }: ActionTrackClick = yield take(TRACK_CLICK);
+    const { payload: bookTrackingParams }: ReturnType<typeof Actions.trackClick> = yield take(Actions.trackClick.getType());
 
     if (!tracker) {
       initializeTracker(yield select((s) => s));
@@ -77,7 +77,7 @@ export function* watchTrackClick() {
 
 export function* watchTrackImpressions() {
   while (true) {
-    const { payload: bookTrackingParams }: ActionTrackImpression = yield take(TRACK_IMPRESSION);
+    const { payload: bookTrackingParams }: ReturnType<typeof Actions.trackImpression> = yield take(Actions.trackImpression.getType());
 
     if (!tracker) {
       initializeTracker(yield select((s) => s));

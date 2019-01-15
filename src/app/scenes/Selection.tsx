@@ -6,8 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
-import { DefaultSelectionState } from 'app/services/selection';
-import { ActionLoadSelectionRequest, loadSelectionRequest } from 'app/services/selection/actions';
+import { Actions, DefaultSelectionState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import { ConnectedPageHeader } from 'app/components';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
@@ -18,15 +17,11 @@ interface SelectionStateProps {
   selectionId: number;
 }
 
-interface SelectionDispatchProps {
-  dispatchLoadSelection: (selectionId: number, page: number) => ActionLoadSelectionRequest;
-}
-
 type RouteProps = RouteComponentProps<{
   selectionId: string;
 }>;
 type OwnProps = RouteProps;
-type Props = SelectionStateProps & SelectionDispatchProps & OwnProps;
+type Props = SelectionStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
 
 interface QueryString {
   page?: number;
@@ -66,9 +61,9 @@ const mapStateToProps = (rootState: RidiSelectState, ownProps: OwnProps): Select
     selectionId: Number(ownProps.match.params.selectionId),
   };
 };
-const mapDispatchToProps = (dispatch: any): SelectionDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadSelection: (selectionId: number, page: number) => dispatch(loadSelectionRequest(selectionId, page)),
+    dispatchLoadSelection: (selectionId: number, page: number) => dispatch(Actions.loadSelectionRequest({ selectionId, page })),
   };
 };
 export const ConnectedSelection = withRouter(

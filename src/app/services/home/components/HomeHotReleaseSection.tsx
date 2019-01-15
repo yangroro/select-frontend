@@ -4,13 +4,7 @@ import { connect } from "react-redux";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 
-import {
-  DefaultTrackingParams,
-  trackClick,
-  ActionTrackClick,
-  trackImpression,
-  ActionTrackImpression
-} from "app/services/tracking";
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from "app/services/tracking/utils";
 import MediaQuery from "react-responsive";
 import {
@@ -19,7 +13,7 @@ import {
 } from "app/components";
 import { stringifyAuthors } from "app/utils/utils";
 import { SliderControls } from "./SliderControls";
-import { SelectionId } from "app/services/selection/actions";
+import { SelectionId } from "app/services/selection";
 import { Book } from "app/services/book";
 
 interface HomeHotReleaseSectionProps {
@@ -31,14 +25,9 @@ interface HomeHotReleaseSectionStateProps {
   BASE_URL_STATIC: string;
 }
 
-interface HomeHotReleaseSectionDispatchProps {
-  trackClick: (params: DefaultTrackingParams) => ActionTrackClick;
-  trackImpression: (params: DefaultTrackingParams) => ActionTrackImpression;
-}
-
 type Props = HomeHotReleaseSectionProps &
   HomeHotReleaseSectionStateProps &
-  HomeHotReleaseSectionDispatchProps;
+  ReturnType<typeof mapDispatchToProps>;
 
 export class HomeHotReleaseSection extends React.Component<Props> {
   private slider: Slider;
@@ -167,19 +156,14 @@ const mapStateToProps = (
   rootState: RidiSelectState
 ): HomeHotReleaseSectionStateProps => {
   return {
-    BASE_URL_STATIC: rootState.environment.constants.BASE_URL_STATIC
+    BASE_URL_STATIC: rootState.environment.STORE_URL,
   };
 };
 
-const mapDispatchToProps = (
-  dispatch: any
-): HomeHotReleaseSectionDispatchProps => {
-  return {
-    trackClick: (params: DefaultTrackingParams) => dispatch(trackClick(params)),
-    trackImpression: (params: DefaultTrackingParams) =>
-      dispatch(trackImpression(params))
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
+  trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams }))
+});
 
 export const ConnectedHomeHotReleaseSection = connect(
   mapStateToProps,

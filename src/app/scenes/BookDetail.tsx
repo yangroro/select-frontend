@@ -24,23 +24,12 @@ import {
   BookAuthor,
   formatFileSize,
 } from 'app/services/book';
-import {
-  ActionLoadBookOwnershipRequest,
-  ActionLoadDetailBookRequest,
-  ActionUpdateDominantColor,
-  loadBookOwnershipRequest,
-  loadBookRequest,
-  updateDominantColor,
-} from 'app/services/book/actions';
+import { Actions as BookActions } from 'app/services/book';
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { Expander } from 'app/services/book/components/Expander';
 import { Publisher, BookFile, BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
 import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel, Actions as CommonUIActions } from 'app/services/commonUI';
-import { MySelectState } from 'app/services/mySelect';
-import {
-  ActionAddMySelectRequest,
-  addMySelectRequest,
-} from 'app/services/mySelect/actions';
+import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect';
 import { ConnectedReviews } from 'app/services/review';
 import { StarRating } from 'app/services/review/components';
 import { RidiSelectState } from 'app/store';
@@ -554,16 +543,16 @@ export class BookDetail extends React.Component<Props, State> {
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <div
               className={`PageBookDetail_Header PageBookDetail_Header-${gnbColorLevel}`}
-              style={{ background: solidBackgroundColorRGBString }}
+              style={{ background: solidBackgroundColorRGBString, }}
             >
               <span
                 className="PageBookDetail_HeaderBackground"
                 style={{ backgroundImage: `url(${thumbnail ? `${thumbnail.xxlarge}?dpi=xxhdpi` : ''})` }}
               >
-                <span className="Left_GradientOverlay" style={{ background: backgroundColorGradientToRight }} />
-                <span className="Right_GradientOverlay" style={{ background: backgroundColorGradientToLeft }} />
+                <span className="Left_GradientOverlay" style={{ background: backgroundColorGradientToRight, }} />
+                <span className="Right_GradientOverlay" style={{ background: backgroundColorGradientToLeft, }} />
               </span>
-              <div className="PageBookDetail_HeaderMask" style={{ backgroundColor: transparentBackgroundColorRGBString }}>
+              <div className="PageBookDetail_HeaderMask" style={{ backgroundColor: transparentBackgroundColorRGBString, }}>
                 <div className="PageBookDetail_HeaderContent">
                   <div className="PageBookDetail_ThumbnailWrapper">
                     <button
@@ -748,13 +737,13 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadBookRequest: (bookId: number) => dispatch(loadBookRequest(bookId)),
+    dispatchLoadBookRequest: (bookId: number) => dispatch(BookActions.loadBookDetailRequest({ bookId })),
     dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
-      dispatch(updateDominantColor(bookId, color)),
+      dispatch(BookActions.updateDominantColor({ bookId, color })),
     dispatchLoadBookOwnershipRequest: (bookId: number) =>
-      dispatch(loadBookOwnershipRequest(bookId)),
-    dispatchAddMySelect: (bookId: BookId) => dispatch(addMySelectRequest(bookId)),
+      dispatch(BookActions.loadBookOwnershipRequest({ bookId })),
+    dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
   };
 };
 

@@ -1,31 +1,5 @@
-import { deleteMySelectFailure } from 'app/services/mySelect/actions';
-import {
-  ActionCancelPurchaseRequest,
-  ActionDeleteMySelectHistoryRequest,
-  ActionLoadMySelectHistoryRequest,
-  ActionLoadPurchasesRequest,
-  CANCEL_PURCHASE_REQUEST,
-  CANCEL_UNSUBSCRIPTION_REQUEST,
-  cancelPurchaseFailure,
-  cancelPurchaseSuccess,
-  cancelUnsubscriptionFailure,
-  cancelUnsubscriptionSuccess,
-  DELETE_MY_SELECT_HISTORY_REQUEST,
-  deleteMySelectHistorySuccess,
-  LOAD_MY_SELECT_HISTORY_REQUEST,
-  LOAD_PURCHASES_REQUEST,
-  LOAD_SUBSCRIPTION_REQUEST,
-  loadMySelectHistoryFailure,
-  loadMySelectHistorySuccess,
-  loadPurchasesFailure,
-  loadPurchasesSuccess,
-  loadSubscriptionFailure,
-  loadSubscriptionRequest,
-  loadSubscriptionSuccess,
-  UNSUBSCRIBE_REQUEST,
-  unsubscribeFailure,
-  unsubscribeSuccess,
-} from 'app/services/user/actions';
+import { Actions } from 'app/services/user';
+import { Actions as MySelectActions } from 'app/services/mySelect';
 import {
   MySelectHistoryResponse,
   PurchasesResponse,
@@ -50,12 +24,12 @@ import showMessageForRequestError from "app/utils/toastHelper";
 
 export function* watchLoadSubscription() {
   while (true) {
-    yield take(LOAD_SUBSCRIPTION_REQUEST);
+    yield take(Actions.loadSubscriptionRequest.getType());
     try {
       const response: SubscriptionResponse = yield call(requestSubscription);
-      yield put(loadSubscriptionSuccess(response));
+      yield put(Actions.loadSubscriptionSuccess({ response }));
     } catch (e) {
-      yield put(loadSubscriptionFailure());
+      yield put(Actions.loadSubscriptionFailure());
       showMessageForRequestError(e);
     }
   }
@@ -63,19 +37,18 @@ export function* watchLoadSubscription() {
 
 export function* watchLoadPurchases() {
   while (true) {
-    const { payload }: ActionLoadPurchasesRequest = yield take(LOAD_PURCHASES_REQUEST);
-    const { page } = payload!;
+    const { payload: { page } }: ReturnType<typeof Actions.loadPurchasesRequest> = yield take(Actions.loadPurchasesRequest.getType());
     try {
       let response: PurchasesResponse = yield call(requestPurchases, page);
-      yield put(loadPurchasesSuccess(page, response));
+      yield put(Actions.loadPurchasesSuccess({ page, response }));
     } catch (e) {
-      yield put(loadPurchasesFailure(page));
+      yield put(Actions.loadPurchasesFailure({ page }));
       showMessageForRequestError(e);
     }
   }
 }
 
-export function* loadMySelectHistory({ payload }: ActionLoadMySelectHistoryRequest) {
+export function* loadMySelectHistory({ payload }: ReturnType<typeof Actions.loadMySelectHistoryRequest>) {
   const { page } = payload!;
   try {
     let response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
@@ -87,21 +60,21 @@ export function* loadMySelectHistory({ payload }: ActionLoadMySelectHistoryReque
       });
     }
 
-    yield put(loadMySelectHistorySuccess(page, response));
+    yield put(Actions.loadMySelectHistorySuccess({ page, response }));
   } catch (e) {
-    yield put(loadMySelectHistoryFailure(page));
+    yield put(Actions.loadMySelectHistoryFailure({ page }));
     showMessageForRequestError(e);
   }
 }
 
 export function* watchLoadMySelectHistory() {
-  yield takeEvery(LOAD_MY_SELECT_HISTORY_REQUEST, loadMySelectHistory);
+  yield takeEvery(Actions.loadMySelectHistoryRequest.getType(), loadMySelectHistory);
 }
 
 export function* watchDeleteMySelectHistory() {
   while (true) {
-    const { payload }: ActionDeleteMySelectHistoryRequest = yield take(
-      DELETE_MY_SELECT_HISTORY_REQUEST,
+    const { payload }: ReturnType<typeof Actions.deleteMySelectHistoryRequest> = yield take(
+      Actions.deleteMySelectHistoryRequest.getType(),
     );
     const { mySelectBookIds, page } = payload!;
     try {
@@ -115,12 +88,12 @@ export function* watchDeleteMySelectHistory() {
         });
       }
 
-      yield put(deleteMySelectHistorySuccess(page, response));
+      yield put(Actions.deleteMySelectHistorySuccess({ page, response }));
       if (response.userRidiSelectBooks.length === 0 && page > 1) {
         history.replace(`/my-select-history?page=${page - 1}`);
       }
     } catch (e) {
-      yield put(deleteMySelectFailure());
+      yield put(MySelectActions.deleteMySelectFailure());
       showMessageForRequestError(e);
     }
   }
@@ -128,50 +101,50 @@ export function* watchDeleteMySelectHistory() {
 
 export function* watchCancelPurchase() {
   while (true) {
-    const { payload }: ActionCancelPurchaseRequest = yield take(
-      CANCEL_PURCHASE_REQUEST,
+    const { payload }: ReturnType<typeof Actions.cancelPurchaseRequest> = yield take(
+      Actions.cancelPurchaseRequest.getType(),
     );
     const { purchaseId } = payload!;
     try {
       yield call(requestCancelPurchase, purchaseId);
-      yield put(cancelPurchaseSuccess(purchaseId));
+      yield put(Actions.cancelPurchaseSuccess({ purchaseId }));
       alert('결제가 취소되었습니다.');
       window.location.href = '/';
     } catch (e) {
       toast.fail(e.data.message);
-      yield put(cancelPurchaseFailure(purchaseId));
+      yield put(Actions.cancelPurchaseFailure({ purchaseId }));
     }
   }
 }
 
 export function* watchUnsubscribe() {
   while (true) {
-    yield take(UNSUBSCRIBE_REQUEST);
+    yield take(Actions.unsubscribeRequest.getType());
     const state: RidiSelectState = yield select((s) => s);
     try {
       yield call(requestUnsubscribe, state.user.subscription!.subscriptionId);
-      yield put(unsubscribeSuccess());
-      yield put(loadSubscriptionRequest());
+      yield put(Actions.unsubscribeSuccess());
+      yield put(Actions.loadSubscriptionRequest());
       const endDate = buildOnlyDateFormat(state.user.subscription!.ticketEndDate);
       alert(`구독 해지가 예약되었습니다.\n${endDate}까지 이용할 수 있습니다.`);
       history.replace('/settings');
     } catch (e) {
-      yield put(unsubscribeFailure());
+      yield put(Actions.unsubscribeFailure());
       showMessageForRequestError(e);
     }
   }
 }
 export function* watchCancelUnsubscription() {
   while (true) {
-    yield take(CANCEL_UNSUBSCRIPTION_REQUEST);
+    yield take(Actions.cancelUnsubscriptionRequest.getType());
     const state: RidiSelectState = yield select((s) => s);
     try {
       yield call(requestCancelUnsubscription, state.user.subscription!.subscriptionId);
-      yield put(cancelUnsubscriptionSuccess());
-      yield put(loadSubscriptionRequest());
+      yield put(Actions.cancelUnsubscriptionSuccess());
+      yield put(Actions.loadSubscriptionRequest());
       alert('구독 해지 예약이 취소되었습니다.');
     } catch (e) {
-      yield put(cancelUnsubscriptionFailure());
+      yield put(Actions.cancelUnsubscriptionFailure());
       if (e.response && e.response.data.code === "DELETED_PAYMENT_METHOD") {
         toast.fail(e.response.data.message);
       } else {

@@ -1,12 +1,12 @@
-import { camelize } from '@ridi/object-case-converter';
-import env from 'app/config/env';
-import { AuthorKeys, Book } from 'app/services/book/reducer.state';
-import { SelectionResponse } from 'app/services/selection/requests';
-import request from 'app/config/axios';
-import { AxiosResponse } from 'axios';
-import { BigBanner } from 'app/services/home/reducer.state';
 import * as qs from 'qs';
-import { responseCommentsToCommentIdListByPage } from '../review/reducer.helpers';
+import { AxiosResponse } from 'axios';
+
+import request from 'app/config/axios';
+import { BigBanner } from 'app/services/home';
+import { AuthorKeys, Book } from 'app/services/book';
+import { SelectionResponse } from 'app/services/selection/requests';
+
+import { camelize } from '@ridi/object-case-converter';
 
 export interface HomeResponse {
   bigBanners: BigBanner[];

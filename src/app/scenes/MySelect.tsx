@@ -2,14 +2,7 @@ import { Button, CheckBox, Empty } from '@ridi/rsg';
 import { PCPageHeader } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
-import {
-  ActionDeleteMySelectRequest,
-  deleteMySelectRequest,
-  loadMySelectRequest,
-  resetMySelectPageFetchedStatus,
-  ActionResetMySelectPageFetchedStatus,
-} from 'app/services/mySelect/actions';
-import { ActionLoadSelectionRequest } from 'app/services/selection/actions';
+import { Actions } from 'app/services/mySelect';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
@@ -30,13 +23,7 @@ interface StateProps {
   page: number;
 }
 
-interface DispatchProps {
-  dispatchLoadMySelectRequest: (page: number) => ActionLoadSelectionRequest;
-  dispatchDeleteMySelectRequest: (deleteBookIdPairs: Array<BookIdsPair>, page: number, isEveryBookChecked: boolean) => ActionDeleteMySelectRequest;
-  dispatchResetMySelectPageFetchedStatus: (page: number) => ActionResetMySelectPageFetchedStatus;
-}
-
-type Props = StateProps & DispatchProps;
+type Props = StateProps & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   bookInputs: {
@@ -287,14 +274,14 @@ const mapStateToProps = (state: RidiSelectState, props: {}): StateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadMySelectRequest: (page: number) =>
-      dispatch(loadMySelectRequest(page)),
+      dispatch(Actions.loadMySelectRequest({ page })),
     dispatchDeleteMySelectRequest: (deleteBookIdPairs: Array<BookIdsPair>, page: number, isEveryBookChecked: boolean) =>
-      dispatch(deleteMySelectRequest(deleteBookIdPairs, page, isEveryBookChecked)),
+      dispatch(Actions.deleteMySelectRequest({ deleteBookIdPairs, page, isEveryBookChecked })),
     dispatchResetMySelectPageFetchedStatus: (page: number) =>
-      dispatch(resetMySelectPageFetchedStatus(page)),
+      dispatch(Actions.resetMySelectPageFetchedStatus({ page })),
   };
 };
 

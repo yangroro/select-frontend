@@ -3,7 +3,7 @@ import { camelize } from '@ridi/object-case-converter';
 import { DateDTO } from 'app/types';
 import request from 'app/config/axios';
 import axios, { AxiosResponse } from 'axios';
-import { SubscriptionState } from 'app/services/user/reducer.state';
+import { SubscriptionState } from 'app/services/user';
 import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
 import env from 'app/config/env';
 

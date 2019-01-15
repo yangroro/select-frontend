@@ -1,4 +1,4 @@
-import { Action } from 'app/reducers';
+import { Action } from 'app/services/review/types';
 import { TextWithLF } from 'app/types';
 
 import { ReviewSortingCriteria, UserFilterType } from '../constants';

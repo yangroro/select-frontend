@@ -4,8 +4,7 @@ import { ConnectedPageHeader } from 'app/components';
 import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
-import { ChartSelectionState } from 'app/services/selection';
-import { ActionLoadSelectionRequest, loadSelectionRequest } from 'app/services/selection/actions';
+import { Actions, ChartSelectionState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -17,13 +16,9 @@ interface SelectionStateProps {
   books: BookState;
 }
 
-interface SelectionDispatchProps {
-  dispatchLoadNewReleases: (page: number) => ActionLoadSelectionRequest;
-}
-
 type RouteProps = RouteComponentProps<{}>;
 type OwnProps = RouteProps;
-type Props = SelectionStateProps & SelectionDispatchProps & OwnProps;
+type Props = SelectionStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Charts extends React.Component<Props> {
   public render() {
@@ -64,9 +59,9 @@ const mapStateToProps = (rootState: RidiSelectState): SelectionStateProps => {
     books: rootState.booksById,
   };
 };
-const mapDispatchToProps = (dispatch: any): SelectionDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadNewReleases: (page: number) => dispatch(loadSelectionRequest('popular', page)),
+    dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadSelectionRequest({ selectionId: 'popular', page })),
   };
 };
 export const ConnectedCharts = withRouter(

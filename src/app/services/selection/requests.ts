@@ -1,11 +1,13 @@
-import { camelize } from '@ridi/object-case-converter';
-import { Book } from 'app/services/book/reducer.state';
-import { SelectionType } from 'app/services/home';
-import { SelectionId } from 'app/services/selection/actions';
-import request from 'app/config/axios';
-import env from 'app/config/env';
-import { AxiosResponse } from 'axios';
 import * as qs from 'qs';
+import { AxiosResponse } from 'axios';
+
+import { camelize } from '@ridi/object-case-converter';
+
+import request from 'app/config/axios';
+import { Book } from 'app/services/book';
+import { SelectionType } from 'app/services/home';
+import { SelectionId } from 'app/services/selection';
+import env from 'app/config/env';
 
 export interface SelectionResponse {
   collectionId: number;

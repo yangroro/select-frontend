@@ -5,40 +5,40 @@ import { DefaultSelectionState } from 'app/services/selection';
 import { FetchStatusFlag } from 'app/constants';
 
 export const Actions = {
-  loadCategoryListRequest: createAction(),
+  loadCategoryListRequest: createAction('loadCategoryListRequest'),
 
   loadCategoryListSuccess: createAction<{
     categoryList: Category[],
-  }>(),
+  }>('loadCategoryListSuccess'),
 
-  loadCategoryListFailure: createAction(),
+  loadCategoryListFailure: createAction('loadCategoryListFailure'),
 
-  initializeCategoryId: createAction(),
+  initializeCategoryId: createAction('initializeCategoryId'),
 
   initializeCategoriesWhole: createAction<{
     shouldFetchCategoryList: boolean,
     shouldInitializeCategoryId: boolean,
-  }>(),
+  }>('initializeCategoriesWhole'),
 
   cacheCategoryId: createAction<{
     categoryId: number,
-  }>(),
+  }>('cacheCategoryId'),
 
   loadCategoryBooksRequest: createAction<{
     categoryId: number,
     page: number,
-  }>(),
+  }>('loadCategoryBooksRequest'),
 
   loadCategoryBooksSuccess: createAction<{
     categoryId: number,
     page: number,
     response: CategoryBooksResponse,
-  }>(),
+  }>('loadCategoryBooksSuccess'),
 
   loadCategoryBooksFailure: createAction<{
     categoryId: number,
     page: number,
-  }>(),
+  }>('loadCategoryBooksFailure'),
 };
 
 export interface Category {

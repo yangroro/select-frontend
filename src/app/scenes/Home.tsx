@@ -6,17 +6,11 @@ import * as differenceInHours from 'date-fns/difference_in_hours'
 
 import { FetchStatusFlag } from 'app/constants';
 import { BookState } from 'app/services/book';
-import { ActionLoadHomeRequest, loadHomeRequest } from 'app/services/home/actions';
+import { Actions } from 'app/services/home';
 import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
-import { SelectionsState } from 'app/services/selection';
+import { Actions as SelectionActions, SelectionId, SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
-import { ActionLoadSelectionRequest, loadSelectionRequest, SelectionId } from 'app/services/selection/actions';
-
-interface HomeDispatchProps {
-  dispatchLoadHomeRequest: () => ActionLoadHomeRequest;
-  dispatchLoadSelectionRequest: (selectionid: SelectionId) => ActionLoadSelectionRequest;
-}
 
 interface HomeStateProps {
   fetchStatus: FetchStatusFlag;
@@ -29,7 +23,7 @@ interface State {
   isInitialized: boolean;
 }
 
-export class Home extends React.PureComponent<HomeDispatchProps & HomeStateProps, State> {
+export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof mapDispatchToProps>, State> {
   private initialDispatchTimeout?: number | null;
   public state: State = {
     isInitialized: false,
@@ -87,10 +81,10 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any): HomeDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadHomeRequest: () => dispatch(loadHomeRequest()),
-    dispatchLoadSelectionRequest: (selectionid: SelectionId) => dispatch(loadSelectionRequest(selectionid, 1)),
+    dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
+    dispatchLoadSelectionRequest: (selectionId: SelectionId) => dispatch(SelectionActions.loadSelectionRequest({ selectionId, page: 1 })),
   };
 };
 

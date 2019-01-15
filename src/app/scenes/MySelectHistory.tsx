@@ -11,15 +11,7 @@ import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { FetchStatusFlag } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { MySelectBook } from 'app/services/mySelect';
-import {
-  ActionClearMySelectHistory,
-  ActionDeleteMySelectHistoryRequest,
-  ActionLoadMySelectHistoryRequest,
-  clearMySelectHistory,
-  deleteMySelectHistoryRequest,
-  loadMySelectHistoryRequest,
-  MySelectHistroyState,
-} from 'app/services/user';
+import { Actions, MySelectHistroyState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
@@ -30,16 +22,7 @@ interface StateProps {
   page: number;
 }
 
-interface DispatchProps {
-  dispatchLoadMySelectHistoryRequest: (page: number) => ActionLoadMySelectHistoryRequest;
-  dispatchClearMySelectHistory: () => ActionClearMySelectHistory;
-  dispatchDeleteMySelectHistoryRequest: (
-    mySelectBookId: number[],
-    page: number,
-  ) => ActionDeleteMySelectHistoryRequest;
-}
-
-type Props = StateProps & DispatchProps;
+type Props = StateProps & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   inputs: {
@@ -236,14 +219,13 @@ const mapStateToProps = (state: RidiSelectState, props: {}): StateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any): DispatchProps => {
-  return {
-    dispatchClearMySelectHistory: () => dispatch(clearMySelectHistory()),
-    dispatchLoadMySelectHistoryRequest: (page: number) =>
-      dispatch(loadMySelectHistoryRequest(page)),
-    dispatchDeleteMySelectHistoryRequest: (mySelectBookId: number[], page: number) =>
-      dispatch(deleteMySelectHistoryRequest(mySelectBookId, page)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatchClearMySelectHistory: () =>
+    dispatch(Actions.clearMySelectHistory()),
+  dispatchLoadMySelectHistoryRequest: (page: number) =>
+    dispatch(Actions.loadMySelectHistoryRequest({ page })),
+  dispatchDeleteMySelectHistoryRequest: (mySelectBookIds: number[], page: number) =>
+    dispatch(Actions.deleteMySelectHistoryRequest({ mySelectBookIds, page })),
+});
 
 export const ConnectedMySelectHistory = connect(mapStateToProps, mapDispatchToProps)(MySelectHistory);

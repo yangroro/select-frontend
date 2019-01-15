@@ -1,33 +1,27 @@
-import { updateBooks } from 'app/services/book/actions';
-import {
-  ActionLoadSelectionRequest,
-  LOAD_SELECTION_REQUEST,
-  loadSelectionFailure,
-  loadSelectionSuccess,
-  updateHotRelease,
-} from 'app/services/selection/actions';
+import { Actions as BookActions } from 'app/services/book';
+import { Actions } from 'app/services/selection';
 import { requestSelection, SelectionResponse } from 'app/services/selection/requests';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { callbackAfterFailedFetch } from 'app/utils/request';
 
-export function* loadSelection({ payload }: ActionLoadSelectionRequest) {
+export function* loadSelection({ payload }: ReturnType<typeof Actions.loadSelectionRequest>) {
   const { page, selectionId } = payload!;
   try {
     const response: SelectionResponse = yield call(requestSelection, selectionId, page);
-    yield put(updateBooks(response.books));
+    yield put(BookActions.updateBooks({ books: response.books }));
     if (selectionId === 'hotRelease') {
-      yield put(updateHotRelease(response));
+      yield put(Actions.updateHotRelease({ hotRelease: response }));
     } else {
-      yield put(loadSelectionSuccess(selectionId, page, response));
+      yield put(Actions.loadSelectionSuccess({ selectionId, page, response }));
     }
   } catch (e) {
-    yield put(loadSelectionFailure(selectionId, page));
+    yield put(Actions.loadSelectionFailure({ selectionId, page }));
     callbackAfterFailedFetch(e, page);
   }
 }
 
 export function* watchLoadSelection() {
-  yield takeEvery(LOAD_SELECTION_REQUEST, loadSelection);
+  yield takeEvery(Actions.loadSelectionRequest.getType(), loadSelection);
 }
 
 export function* selectionsRootSaga() {

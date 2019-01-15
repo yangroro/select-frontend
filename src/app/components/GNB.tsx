@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { GNBColorLevel } from 'app/services/commonUI';
-import { ConnectedSearch } from 'app/services/search';
+import { ConnectedSearch } from 'app/components/search';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';

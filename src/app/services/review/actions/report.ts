@@ -1,4 +1,4 @@
-import { Action } from 'app/reducers';
+import { Action } from 'app/services/review/types';
 
 export const POST_REVIEW_REPORT_SUCCESS = 'POST_REVIEW_REPORT_SUCCESS';
 

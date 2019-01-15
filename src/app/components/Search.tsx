@@ -20,16 +20,19 @@ import { camelize } from '@ridi/object-case-converter';
 import { Icon } from '@ridi/rsg';
 import { FetchStatusFlag } from 'app/constants';
 import { GNBColorLevel, GNBSearchActiveType, RGB, toRGBString } from 'app/services/commonUI';
-import {
-  InstantSearch,
-  SearchHelperFlag,
-  SearchHistory,
-} from 'app/services/search';
-import { localStorageManager } from 'app/services/search/utils';
+import { InstantSearch } from 'app/components/InstantSearch';
+import { SearchHistory } from 'app/components/SearchHistory';
+import { localStorageManager } from 'app/utils/search';
 import { RidiSelectState } from 'app/store';
 import request from 'app/config/axios';
 import { setDisableScroll } from 'app/utils/utils';
 import toast from 'app/utils/toast';
+
+export enum SearchHelperFlag {
+  NONE,
+  HISTORY,
+  INSTANT,
+}
 
 export interface InstantSearchResultBook {
   id: string;

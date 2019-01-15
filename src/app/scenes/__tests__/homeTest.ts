@@ -1,4 +1,4 @@
-  import { DefaultSelectionState } from "app/services/selection";
+import { DefaultSelectionState } from "app/services/selection";
 import { SelectionType } from "app/services/home";
 import { groupSelections, groupChartBooks } from "app/services/home/uitls";
 import { getDummyBook } from "app/services/home/requests";
