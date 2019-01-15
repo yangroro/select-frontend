@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Helmet } from "react-helmet";
 import { throttle, sortedIndex } from "lodash-es";
+import MediaQuery from "react-responsive";
 
 import { Icon } from "@ridi/rsg";
 import * as classNames from "classnames";
+
 import { GNBTransparentType, FooterTheme, Actions as CommonUIActions } from "app/services/commonUI";
+import { Actions as EnvironmentActions } from 'app/services/environment';
 import { Omit } from 'app/types';
-import MediaQuery from "react-responsive";
 
 interface IntroStateProps {
   hasSubscribedBefore: boolean;
@@ -29,11 +31,6 @@ interface WindowSizeInfoTypes {
   sectionMainButtonEndPoint: number;
 }
 
-interface IntroDispatchProps {
-  dispatchUpdateGNBTransparentType: (transparentType: GNBTransparentType) => typeof CommonUIActions.updateGNBTransparent;
-  dispatchUpdateFooterTheme: (theme: FooterTheme) => typeof CommonUIActions.updateFooterTheme;
-}
-
 interface IntroPageState {
   isLoaded: boolean;
   currentSection: number;
@@ -43,7 +40,7 @@ interface IntroPageState {
 
 type RouteProps = RouteComponentProps<{}>;
 type OwnProps = RouteProps;
-type Props = IntroStateProps & IntroDispatchProps & OwnProps;
+type Props = IntroStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Intro extends React.Component<Props, IntroPageState> {
   public state: IntroPageState = {
@@ -140,6 +137,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
         currentSection: 1,
         windowInfo: this.getWindowSize()
       });
+      this.props.dispatchCompleteIntroImageLoad();
     }, 100);
 
     window.addEventListener("resize", this.throttledResizeFunction);
@@ -375,12 +373,14 @@ const mapStateToProps = (rootState: RidiSelectState): Omit<IntroStateProps, 'onL
     FREE_PROMOTION_MONTHS: rootState.environment.FREE_PROMOTION_MONTHS,
   };
 };
-const mapDispatchToProps = (dispatch: any): IntroDispatchProps => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchUpdateGNBTransparentType: (transparentType: GNBTransparentType) =>
       dispatch(CommonUIActions.updateGNBTransparent({ transparentType })),
     dispatchUpdateFooterTheme: (theme: FooterTheme) =>
-      dispatch(CommonUIActions.updateFooterTheme({ theme }))
+      dispatch(CommonUIActions.updateFooterTheme({ theme })),
+    dispatchCompleteIntroImageLoad: () =>
+      dispatch(EnvironmentActions.completeIntroImageLoad()),
   };
 };
 export const ConnectedIntro = withRouter(

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
+import { EnvironmentState } from 'app/services/environment';
 import { RidiSelectState } from 'app/store';
 import { Link } from 'react-router-dom';
 
 interface BigBannerItemStateProps {
-  env: typeof EnvironmentState;
+  env: EnvironmentState;
 }
 
 interface BigBannerItemProps {

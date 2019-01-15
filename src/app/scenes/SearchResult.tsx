@@ -12,13 +12,13 @@ import { Actions as SearchResultActions } from 'app/services/searchResult';
 import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
 import { RidiSelectState } from 'app/store';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
+import { EnvironmentState } from 'app/services/environment';
 import { Helmet } from 'react-helmet';
 
 interface SearchResultStateProps {
   books: BookState;
   searchResult: SearchResultState;
-  environment: typeof EnvironmentState
+  environment: EnvironmentState;
 }
 
 type OwnProps = RouteComponentProps;

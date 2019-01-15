@@ -38,7 +38,7 @@ import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/down
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
+import { EnvironmentState } from 'app/services/environment';
 import { stringifyAuthors } from 'app/utils/utils';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 import { Category } from 'app/services/category';
@@ -78,7 +78,7 @@ interface BookDetailStateProps {
   dominantColor?: RGB;
 
   mySelect: MySelectState;
-  env: typeof EnvironmentState;
+  env: EnvironmentState;
   gnbColorLevel: GNBColorLevel;
   solidBackgroundColorRGBString: string;
   transparentBackgroundColorRGBString: string;

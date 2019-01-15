@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router'
 
 import { ConnectedGNB, ConnectedFooter, ConnectedLNB } from 'app/components';
-import { SplashScreen } from "app/components/SplashScreen";
+import { ConnectedSplashScreen } from "app/components/SplashScreen";
 
 import history from 'app/config/history';
 import {
@@ -59,7 +59,7 @@ export const LNBRoutes = [
 
 export const Routes: React.SFC<Props> = (props) => (
   <>
-    <SplashScreen {...props} />
+    <ConnectedSplashScreen {...props} />
     <ConnectedRouter history={history}>
       <ConnectedScrollManager>
         <Route render={({ location }) => (

@@ -1,11 +1,14 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 import { Icon } from "@ridi/rsg";
+import { RidiSelectState } from 'app/store';
 
 interface Props {
   isRidiApp: boolean;
   isFetching: boolean;
   isSubscribing: boolean;
+  introImageLoaded: boolean;
 }
 
 const WithLogo: React.SFC = () => (
@@ -21,18 +24,23 @@ const WhiteScreen: React.SFC = () => (
   <div className="SplashScreen .SplashScreen-whiteScreen" />
 );
 
-export const SplashScreen: React.SFC<Props> = (props) => {
+const SplashScreen: React.SFC<Props> = (props) => {
   if (props.isRidiApp) {
-    if (props.isFetching || !props.isSubscribing) {
+    if (props.isFetching) {
       return <WithLogo />;
     }
   } else {
     if (props.isFetching) {
       return <WhiteScreen />;
-    } else if (!props.isSubscribing) {
+    } else if (!props.isSubscribing && !props.introImageLoaded) {
       return <WithLogo />;
     }
   }
   return null;
 };
 
+const mapStateToProps = (rootState: RidiSelectState): Pick<Props, 'introImageLoaded'> => ({
+  introImageLoaded: rootState.environment.introImageLoaded,
+});
+
+export const ConnectedSplashScreen = connect(mapStateToProps)(SplashScreen);

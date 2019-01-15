@@ -14,7 +14,7 @@ export class InAppIntro extends React.Component {
   render () {
     return (
       <>
-        <ConnectedAvailableBooks hidePageTitle={true} />
+        <ConnectedAvailableBooks hidePageTitle />
         <div className="InAppIntro_Overlay">
           <div className="InAppIntro_Overlay_BG" />
           <div className="InAppIntro_Overlay_Main">
