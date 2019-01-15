@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router'
 
 import { ConnectedGNB, ConnectedFooter, ConnectedLNB } from 'app/components';
+import { SplashScreen } from "app/components/SplashScreen";
 
 import history from 'app/config/history';
 import {
@@ -28,14 +29,16 @@ import {
 } from 'app/scenes';
 
 import {
-  ConnectedNonSubscriberOnlyRoute,
-  ConnectedPrivateRoute,
+  PrivateRoute,
+  NonSubscriberOnlyRoute,
   ConnectedScrollManager,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
 
-interface Props {
+export interface Props {
   isRidiApp: boolean;
+  isFetching: boolean;
+  isSubscribing: boolean;
 }
 
 export const inAppGnbRoutes = [
@@ -54,8 +57,9 @@ export const LNBRoutes = [
   '/my-select',
 ];
 
-export const Routes: React.SFC<Props> = (props) => {
-  return (
+export const Routes: React.SFC<Props> = (props) => (
+  <>
+    <SplashScreen {...props} />
     <ConnectedRouter history={history}>
       <ConnectedScrollManager>
         <Route render={({ location }) => (
@@ -65,69 +69,86 @@ export const Routes: React.SFC<Props> = (props) => {
           (LNBRoutes.includes(location.pathname)) && <ConnectedLNB />
         )} />
         <Switch>
-          <Route
+          <PrivateRoute
             path="/home"
-            render={() => <ConnectedPrivateRoute component={ConnectedHome} />} />
-          <Route
+            component={ConnectedHome}
+            {...props}
+          />
+          <PrivateRoute
             path="/new-releases"
-            render={() => <ConnectedPrivateRoute component={ConnectedNewReleases} />}
+            component={ConnectedNewReleases}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/charts"
-            render={() => <ConnectedPrivateRoute component={ConnectedCharts} />}
+            component={ConnectedCharts}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/selection/:selectionId"
-            render={() => <ConnectedPrivateRoute component={ConnectedSelection} />}
+            component={ConnectedSelection}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/categories"
-            render={() => <ConnectedPrivateRoute component={ConnectedCategory} />}
+            component={ConnectedCategory}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/my-select"
-            render={() => <ConnectedPrivateRoute component={ConnectedMySelect} />}
+            component={ConnectedMySelect}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/book/:bookId"
-            render={() => <ConnectedBookDetail />}
+            component={ConnectedBookDetail}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/settings"
-            render={() => <ConnectedPrivateRoute component={ConnectedSetting} />}
+            component={ConnectedSetting}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/manage-subscription"
-            render={() => <ConnectedPrivateRoute component={ConnectedManageSubscription} />}
+            component={ConnectedManageSubscription}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/order-history"
-            render={() => <ConnectedPrivateRoute component={ConnectedOrderHistory} />}
+            component={ConnectedOrderHistory}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/my-select-history"
-            render={() => <ConnectedPrivateRoute component={ConnectedMySelectHistory} />}
+            component={ConnectedMySelectHistory}
+            {...props}
           />
-          <Route
+          <PrivateRoute
             path="/search"
-            render={() => <ConnectedPrivateRoute component={ConnectedSearchResult} />}
+            component={ConnectedSearchResult}
+            {...props}
+
           />
           <Route path="/guide" render={() => <ConnectedGuide />} />
           <Route path="/books" render={() => <ConnectedAvailableBooks />} />
-          <Route
+          <NonSubscriberOnlyRoute
             path="/"
-            render={() => <ConnectedNonSubscriberOnlyRoute component={props.isRidiApp ? ConnectedInAppIntro : ConnectedIntro} />}
+            component={props.isRidiApp ? ConnectedInAppIntro : ConnectedIntro}
+            {...props}
           />
           <Route render={() => <Error404 />} />
         </Switch>
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedScrollManager>
     </ConnectedRouter>
-  );
-};
+  </>
+);
 
-const mapStateToProps = (rootState: RidiSelectState) => ({
+const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isRidiApp: rootState.environment.platform.isRidibooks,
+  isFetching: rootState.user.isFetching,
+  isSubscribing: rootState.user.isSubscribing,
 });
 export const ConnectedRoutes = connect(mapStateToProps)(Routes);
 

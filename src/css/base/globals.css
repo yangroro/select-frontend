@@ -328,12 +328,16 @@ main.SceneWrapper {
   animation: @keyframes fade-in .5s;
   z-index: 100000;
 }
+.SplashScreen-whiteScreen {
+  background: #fff;
+}
 
 .SplashScreen_Logo {
   width: 128px;
   height: 20px;
   fill: #475161;
 }
+
 
 .ListWithPaginationPage {
   padding-bottom: 40px;

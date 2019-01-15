@@ -1,40 +1,28 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { RouteProps } from 'react-router';
+import { Route } from 'react-router-dom';
 
-import { RidiSelectState } from 'app/store';
-import { Omit } from 'app/types';
+import history from "app/config/history";
 
-export interface PrivateRouteProps {
+export interface PrivateRouteProps extends RouteProps {
   isFetching: boolean;
-  isLoggedIn: boolean;
   isSubscribing: boolean;
-  component: React.ComponentClass | React.StatelessComponent;
 }
 
 export const PrivateRoute: React.SFC<PrivateRouteProps> = (props) => {
   const {
     isFetching,
-    isLoggedIn,
     isSubscribing,
-    component: Component,
     ...restProps
   } = props;
 
-  if (!isFetching && (isLoggedIn === false || !isSubscribing)) {
-    location.replace('/');
+  if (isFetching) {
+    return null;
   }
 
-  return <Component {...restProps} />;
-};
+  if (!isSubscribing) {
+    history.replace('/' + window.location.search);
+  }
 
-const mapStateToProps = (state: RidiSelectState): Omit<PrivateRouteProps, 'component'> => {
-  return {
-    isFetching: state.user.isFetching,
-    isLoggedIn: state.user.isLoggedIn,
-    isSubscribing: state.user.isSubscribing,
-  };
+  return <Route {...restProps} />;
 };
-
-export const ConnectedPrivateRoute = connect(mapStateToProps, null, null, {
-  pure: false,
-})(PrivateRoute);

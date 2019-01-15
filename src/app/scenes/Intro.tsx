@@ -8,13 +8,12 @@ import { throttle, sortedIndex } from "lodash-es";
 import { Icon } from "@ridi/rsg";
 import * as classNames from "classnames";
 import { GNBTransparentType, FooterTheme, Actions as CommonUIActions } from "app/services/commonUI";
+import { Omit } from 'app/types';
 import MediaQuery from "react-responsive";
 
 interface IntroStateProps {
-  isSubscribing: boolean;
   hasSubscribedBefore: boolean;
   isLoggedIn: boolean;
-  isTokenFetched: boolean;
   uId: string;
   BASE_URL_STORE: string;
   BASE_URL_STATIC: string;
@@ -124,15 +123,9 @@ export class Intro extends React.Component<Props, IntroPageState> {
   private afterLoadingComplete() {
     const {
       isLoggedIn,
-      isSubscribing,
-      isTokenFetched,
       dispatchUpdateGNBTransparentType,
       dispatchUpdateFooterTheme
     } = this.props;
-
-    if (!isTokenFetched || (isLoggedIn && isSubscribing)) {
-      return;
-    }
 
     dispatchUpdateGNBTransparentType(GNBTransparentType.transparent);
     dispatchUpdateFooterTheme(FooterTheme.dark);
@@ -141,15 +134,13 @@ export class Intro extends React.Component<Props, IntroPageState> {
       (section: HTMLDivElement) => section.offsetTop
     );
 
-    setTimeout(
-      () =>
-        this.setState({
-          isLoaded: true,
-          currentSection: 1,
-          windowInfo: this.getWindowSize()
-        }),
-      100
-    );
+    setTimeout(() => {
+      this.setState({
+        isLoaded: true,
+        currentSection: 1,
+        windowInfo: this.getWindowSize()
+      });
+    }, 100);
 
     window.addEventListener("resize", this.throttledResizeFunction);
     window.addEventListener("scroll", this.throttledScrollFunction);
@@ -169,7 +160,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
 
   public render() {
     const {
-      BASE_URL_STATIC,
       BASE_URL_STORE,
       FREE_PROMOTION_MONTHS,
       isLoggedIn,
@@ -184,6 +174,13 @@ export class Intro extends React.Component<Props, IntroPageState> {
             리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이
           </title>
         </Helmet>
+        {isLoaded ? null : (
+        <img
+          className="Load_Trigger_Image"
+          src={`${INTRO_IMAGE_DIR}/hero_bg_20181213.jpg`}
+          onLoad={() => this.afterLoadingComplete()}
+        />
+        )}
         <h1 className="a11y">리디셀렉트 인트로</h1>
         <section
           className={classNames({
@@ -367,12 +364,10 @@ export class Intro extends React.Component<Props, IntroPageState> {
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): IntroStateProps => {
+const mapStateToProps = (rootState: RidiSelectState): Omit<IntroStateProps, 'onLoad'> => {
   return {
     uId: rootState.user.uId,
     isLoggedIn: rootState.user.isLoggedIn,
-    isSubscribing: rootState.user.isSubscribing,
-    isTokenFetched: rootState.user.isTokenFetched,
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
     BASE_URL_STATIC: rootState.environment.SELECT_URL,
     BASE_URL_STORE: rootState.environment.STORE_URL,

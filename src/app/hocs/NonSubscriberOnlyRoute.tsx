@@ -1,41 +1,28 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { RouteProps } from 'react-router';
+import { Route } from 'react-router-dom';
 
-import { RidiSelectState } from 'app/store';
-import { Omit } from 'app/types';
 import history from "app/config/history";
 
-export interface NonSubscriberOnlyRouteProps {
+export interface NonSubscriberOnlyRouteProps extends RouteProps {
   isFetching: boolean;
-  isLoggedIn: boolean;
   isSubscribing: boolean;
-  component: React.ComponentClass | React.StatelessComponent;
 }
 
 export const NonSubscriberOnlyRoute: React.SFC<NonSubscriberOnlyRouteProps> = (props) => {
   const {
     isFetching,
     isSubscribing,
-    isLoggedIn,
-    component: Component,
     ...restProps
   } = props;
 
-  if (!isFetching && isLoggedIn && isSubscribing) {
+  if (isFetching) {
+    return null;
+  }
+
+  if (isSubscribing) {
     history.replace('/home' + window.location.search);
   }
 
-  return <Component {...restProps} />;
+  return <Route {...restProps} />;
 };
-
-const mapStateToProps = (state: RidiSelectState): Omit<NonSubscriberOnlyRouteProps, 'component'> => {
-  return {
-    isFetching: state.user.isFetching,
-    isLoggedIn: state.user.isLoggedIn,
-    isSubscribing: state.user.isSubscribing,
-  };
-};
-
-export const ConnectedNonSubscriberOnlyRoute = connect(mapStateToProps, null, null, {
-  pure: false,
-})(NonSubscriberOnlyRoute);
