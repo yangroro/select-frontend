@@ -24,7 +24,7 @@ import {
   ConnectedNewReleases,
   ConnectedAvailableBooks,
   ConnectedIntro,
-  ConnectedInAppIntro,
+  InAppIntro,
   Error404,
 } from 'app/scenes';
 
@@ -134,7 +134,7 @@ export const Routes: React.SFC<Props> = (props) => (
           <Route path="/books" render={() => <ConnectedAvailableBooks />} />
           <NonSubscriberOnlyRoute
             path="/"
-            component={props.isRidiApp ? ConnectedInAppIntro : ConnectedIntro}
+            component={props.isRidiApp ? InAppIntro : ConnectedIntro}
             {...props}
           />
           <Route render={() => <Error404 />} />

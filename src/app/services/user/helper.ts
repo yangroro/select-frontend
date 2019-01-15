@@ -7,7 +7,6 @@ interface RidiSelectSubscriptionDTO {
   isSubscribing: boolean;
   hasSubscribedBefore: boolean;
   fetchError: AxiosError|null;
-  isTokenFetched: boolean;
 }
 
 interface RidiSelectAccountDTO {
@@ -22,7 +21,6 @@ export interface UserDTO {
   email: string;
   isSubscribing: boolean;
   hasSubscribedBefore: boolean;
-  isTokenFetched: boolean;
 }
 
 const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
@@ -39,14 +37,12 @@ const fetchSubscriptionInfo = async (): Promise<RidiSelectSubscriptionDTO> => {
     isSubscribing: true,
     hasSubscribedBefore: true,
     fetchError: null,
-    isTokenFetched: true,
   })).catch(e => ({
     isSubscribing: false,
     hasSubscribedBefore: (
       (e.response && e.response.status === 402) ? e.response.data.is_previously_subscribed : false
     ),
     fetchError: e,
-    isTokenFetched: true,
   }));
 }
 

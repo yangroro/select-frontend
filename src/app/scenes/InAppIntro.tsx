@@ -3,17 +3,8 @@ import * as React from 'react';
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedAvailableBooks } from './AvailableBooks';
 import { setDisableScroll } from 'app/utils/utils';
-import { RidiSelectState } from 'app/store';
-import { connect } from 'react-redux';
 
-interface StateProps {
-  isLoggedIn: boolean,
-  isSubscribing: boolean,
-  isTokenFetched: boolean,
-  BASE_URL_RIDISELECT: string;
-}
-
-export class InAppIntro extends React.Component<StateProps> {
+export class InAppIntro extends React.Component {
   componentDidMount() {
     setDisableScroll(true);
   }
@@ -21,13 +12,7 @@ export class InAppIntro extends React.Component<StateProps> {
     setDisableScroll(false);
   }
   render () {
-    const { isLoggedIn, isSubscribing, isTokenFetched } = this.props;
     return (
-      !isTokenFetched ||
-      (isLoggedIn && isSubscribing)
-    ) ? (
-      null
-    ) : (
       <>
         <ConnectedAvailableBooks hidePageTitle={true} />
         <div className="InAppIntro_Overlay">
@@ -62,12 +47,3 @@ export class InAppIntro extends React.Component<StateProps> {
     );
   }
 }
-
-const mapStateToProps = (rootState: RidiSelectState) => ({
-  isLoggedIn: rootState.user.isLoggedIn,
-  isSubscribing: rootState.user.isSubscribing,
-  isTokenFetched: rootState.user.isTokenFetched,
-  BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
-});
-
-export const ConnectedInAppIntro = connect(mapStateToProps)(InAppIntro);
