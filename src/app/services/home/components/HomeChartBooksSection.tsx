@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { StarRating } from "app/services/review";
 import { thousandsSeperator } from "app/utils/thousandsSeperator";
 import { Book } from "app/services/book";
-import { SelectionId } from "app/services/selection/actions";
+import { SelectionId } from "app/services/selection";
 
 interface HomeChartBooksSectionProps {
   books: Book[];

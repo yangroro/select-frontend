@@ -2,7 +2,7 @@ import { Book } from 'app/services/book';
 import { updateBooks } from 'app/services/book/actions';
 import { LOAD_HOME_REQUEST, loadHomeFailure, loadHomeSuccess } from 'app/services/home/actions';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
-import { updateSelections } from 'app/services/selection/actions';
+import { Actions } from 'app/services/selection';
 import { SelectionResponse } from 'app/services/selection/requests';
 import { all, call, put, take } from 'redux-saga/effects';
 import showMessageForRequestError from "app/utils/toastHelper";
@@ -26,7 +26,7 @@ export function* watchLoadHome() {
           totalCount: 0, // TODO: Ask @minQ
         };
       });
-      yield put(updateSelections(selections));
+      yield put(Actions.updateSelections({ selections }));
       yield put(loadHomeSuccess(response, Date.now()));
     } catch (e) {
       yield put(loadHomeFailure());

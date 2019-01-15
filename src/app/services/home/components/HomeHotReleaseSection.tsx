@@ -13,7 +13,7 @@ import {
 } from "app/components";
 import { stringifyAuthors } from "app/utils/utils";
 import { SliderControls } from "./SliderControls";
-import { SelectionId } from "app/services/selection/actions";
+import { SelectionId } from "app/services/selection";
 import { Book } from "app/services/book";
 
 interface HomeHotReleaseSectionProps {

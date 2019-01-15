@@ -2,8 +2,7 @@ import * as React from 'react';
 import { PCPageHeader, ConnectedGridBookList } from 'app/components';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { BookState } from 'app/services/book';
-import { ReservedSelectionState } from 'app/services/selection';
-import { ActionLoadSelectionRequest, loadSelectionRequest } from 'app/services/selection/actions';
+import { Actions, ReservedSelectionState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -16,7 +15,7 @@ interface SelectionStateProps {
 }
 
 interface SelectionDispatchProps {
-  dispatchLoadNewReleases: (page: number) => ActionLoadSelectionRequest;
+  dispatchLoadNewReleases: (page: number) => ReturnType<typeof Actions.loadSelectionRequest>;
 }
 
 type RouteProps = RouteComponentProps<{}>;
@@ -93,7 +92,7 @@ const mapStateToProps = (rootState: RidiSelectState): SelectionStateProps => {
 };
 const mapDispatchToProps = (dispatch: any): SelectionDispatchProps => {
   return {
-    dispatchLoadNewReleases: (page: number) => dispatch(loadSelectionRequest('recent', page)),
+    dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadSelectionRequest({ selectionId: 'recent', page })),
   };
 };
 export const ConnectedNewReleases = withRouter(

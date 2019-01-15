@@ -9,7 +9,7 @@ import {
   resetMySelectPageFetchedStatus,
   ActionResetMySelectPageFetchedStatus,
 } from 'app/services/mySelect/actions';
-import { ActionLoadSelectionRequest } from 'app/services/selection/actions';
+import { Actions } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
@@ -31,7 +31,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  dispatchLoadMySelectRequest: (page: number) => ActionLoadSelectionRequest;
+  dispatchLoadMySelectRequest: (page: number) => ReturnType<typeof Actions.loadSelectionRequest>;
   dispatchDeleteMySelectRequest: (deleteBookIdPairs: Array<BookIdsPair>, page: number, isEveryBookChecked: boolean) => ActionDeleteMySelectRequest;
   dispatchResetMySelectPageFetchedStatus: (page: number) => ActionResetMySelectPageFetchedStatus;
 }

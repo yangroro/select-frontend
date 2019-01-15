@@ -30,8 +30,7 @@ import { reviewRootSaga } from 'app/services/review/sagas';
 import { SearchResultState } from 'app/services/searchResult';
 import { searchResultReducer } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
-import { SelectionsState } from 'app/services/selection';
-import { selectionReducer } from 'app/services/selection/reducer';
+import { selectionReducer, SelectionsState } from 'app/services/selection';
 import { selectionsRootSaga } from 'app/services/selection/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
 
