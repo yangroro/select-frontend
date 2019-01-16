@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { Route } from 'react-router-dom';
 
-import history from "app/config/history";
+import history from 'app/config/history';
 
 export interface NonSubscriberOnlyRouteProps extends RouteProps {
   isFetching: boolean;

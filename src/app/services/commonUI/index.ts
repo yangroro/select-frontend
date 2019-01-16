@@ -1,4 +1,4 @@
-import { createReducer, createAction } from 'redux-act';
+import { createAction, createReducer } from 'redux-act';
 
 export const isDefaultColor = (color: RGB) => color.r === GNB_DEFAULT_COLOR.r &&
   color.g === GNB_DEFAULT_COLOR.g &&
@@ -51,8 +51,8 @@ export enum GNBColorLevel {
   DARK = 'dark',
   BRIGHT = 'bright',
   TRANSPARENT = 'transparent',
-  DEFAULT = 'default'
-};
+  DEFAULT = 'default',
+}
 
 export interface CommonUIState {
   gnbColor: RGB;

@@ -1,4 +1,4 @@
-import { Location } from "history";
+import { Location } from 'history';
 
 export type HistoryStack = Location[];
 
@@ -60,7 +60,7 @@ export const historyStackSessionStorageHelper = {
   saveStack: (stack: HistoryStack) => {
     try {
       window.sessionStorage.setItem(HISTORY_STACK_KEY, JSON.stringify(stack));
-    } catch(e) {
+    } catch (e) {
       this.clear();
     }
   },
@@ -73,4 +73,4 @@ export const historyStackSessionStorageHelper = {
   clear: () => {
     window.sessionStorage.removeItem(HISTORY_STACK_KEY);
   },
-}
+};

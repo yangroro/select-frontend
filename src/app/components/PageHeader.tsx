@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { RidiSelectState } from 'app/store';
-import { connect } from 'react-redux';
-import { ConnectedWebActionBar } from 'app/services/customHistory/components/WebActionBar';
-import { PageTitle } from './PageTitle';
 import { inAppGnbRoutes } from 'app/routes';
+import { ConnectedWebActionBar } from 'app/services/customHistory/components/WebActionBar';
+import { RidiSelectState } from 'app/store';
 import { Location } from 'history';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { PageTitle } from './PageTitle';
 
 export interface PageHeaderStateProps {
   isRidiApp: boolean;
@@ -23,7 +23,7 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
   location,
   underline,
   pageTitle,
-  children
+  children,
 }) => {
   if (!pageTitle && !children) {
     return null;

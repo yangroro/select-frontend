@@ -1,12 +1,11 @@
-import { createReducer, createAction } from 'redux-act';
+import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
 import { MySelectBook } from 'app/services/mySelect';
 import { userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
 import { UserDTO } from 'app/services/user/helper';
-import { Ticket, MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse } from 'app/services/user/requests';
-import { DateDTO, Paginated, ItemListByPage } from 'app/types';
-
+import { MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse, Ticket } from 'app/services/user/requests';
+import { DateDTO, ItemListByPage, Paginated } from 'app/types';
 
 export const Actions = {
   fetchUserInfo: createAction<{
@@ -286,7 +285,7 @@ userReducer.on(Actions.deleteMySelectHistorySuccess, (state = INITIAL_STATE, pay
           itemList: userRidiSelectBooks.map(userRidiSelectBookToMySelectBook),
           fetchStatus: FetchStatusFlag.IDLE,
         },
-      }
+      },
     },
   };
 });

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { InlineHorizontalBookListSkeleton, ChartBookListSkeleton, HotReleaseBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import { ChartBookListSkeleton, HotReleaseBookListSkeleton, InlineHorizontalBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { SelectionType } from 'app/services/home';
 
 interface HomeSectionPlaceholderProps {
@@ -31,4 +31,4 @@ export const HomeSectionPlaceholder: React.SFC<HomeSectionPlaceholderProps> = (p
       <InlineHorizontalBookListSkeleton />
     </div>
   );
-}
+};

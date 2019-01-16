@@ -1,42 +1,41 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { Book } from 'app/services/book';
-import { BookId, Paginated } from 'app/types';
 import { FetchStatusFlag } from 'app/constants';
-import { UserRidiSelectBookResponse, MySelectListResponse, BookIdsPair } from 'app/services/mySelect/requests';
+import { Book } from 'app/services/book';
+import { BookIdsPair, MySelectListResponse, UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
+import { BookId, Paginated } from 'app/types';
 
 export const Actions = {
   loadMySelectRequest: createAction<{
-    page: number
+    page: number,
   }>('loadMySelectRequest'),
   loadMySelectSuccess: createAction<{
     response: MySelectListResponse,
-    page: number
+    page: number,
   }>('loadMySelectSuccess'),
   loadMySelectFailure: createAction<{
-    page: number
+    page: number,
   }>('loadMySelectFailure'),
   deleteMySelectRequest: createAction<{
     page: number,
-    deleteBookIdPairs: Array<BookIdsPair>,
+    deleteBookIdPairs: BookIdsPair[],
     isEveryBookChecked: boolean,
   }>('deleteMySelectRequest'),
   deleteMySelectSuccess: createAction<{
-    deleteBookIdPairs: Array<BookIdsPair>
+    deleteBookIdPairs: BookIdsPair[],
   }>('deleteMySelectSuccess'),
   deleteMySelectFailure: createAction('deleteMySelectFailure'),
   addMySelectRequest: createAction<{
-    bookId: BookId
+    bookId: BookId,
   }>('addMySelectRequest'),
   addMySelectSuccess: createAction<{
-    userRidiSelectResponse: UserRidiSelectBookResponse
+    userRidiSelectResponse: UserRidiSelectBookResponse,
   }>('addMySelectSuccess'),
   addMySelectFailure: createAction('addMySelectFailure'),
   resetMySelectPageFetchedStatus: createAction<{
-    page: number
+    page: number,
   }>('resetMySelectPageFetchedStatus'),
 };
-
 
 export interface MySelectBook extends Book {
   mySelectBookId: number;
@@ -86,8 +85,8 @@ mySelectReducer.on(Actions.loadMySelectRequest, (state, { page }) => ({
         ...state.mySelectBooks.itemListByPage[page],
         fetchStatus: FetchStatusFlag.FETCHING,
         isFetched: false,
-      }
-    }
+      },
+    },
   },
 }));
 
@@ -102,8 +101,8 @@ mySelectReducer.on(Actions.loadMySelectSuccess, (state, { response, page }) => (
         fetchStatus: FetchStatusFlag.IDLE,
         itemList: response.userRidiSelectBooks.map(userRidiSelectBookToMySelectBook),
         isFetched: true,
-      }
-    }
+      },
+    },
   },
 }));
 
@@ -116,8 +115,8 @@ mySelectReducer.on(Actions.loadMySelectFailure, (state, { page }) => ({
       [page]: {
         ...state.mySelectBooks.itemListByPage[page],
         fetchStatus: FetchStatusFlag.FETCH_ERROR,
-      }
-    }
+      },
+    },
   },
 }));
 
@@ -160,7 +159,7 @@ mySelectReducer.on(Actions.resetMySelectPageFetchedStatus, (state, { page }) => 
       [page]: {
         ...state.mySelectBooks.itemListByPage[page],
         isFetched: false,
-      }
-    }
-  }
+      },
+    },
+  },
 }));

@@ -38,14 +38,14 @@ export const localStorageManager = (() => ({
     };
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newData));
-    } catch(e) {
+    } catch (e) {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
   },
 }))();
 
 export function getAuthorsCount(authors?: string): number {
-  return authors? authors.split(', ').length : 0;
+  return authors ? authors.split(', ').length : 0;
 }
 
 export function getSortedAuthorsHtmlString(authors: string, totalAuthorsCount: number, count: number = 2): string {
@@ -59,7 +59,7 @@ export function getSortedAuthorsHtmlString(authors: string, totalAuthorsCount: n
       } else if (/<strong.+<\/strong>/.test(b)) {
         return 1;
       } else {
-        return 0
+        return 0;
       }
     })
     .slice(0, count)

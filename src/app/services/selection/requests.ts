@@ -1,13 +1,13 @@
-import * as qs from 'qs';
 import { AxiosResponse } from 'axios';
+import * as qs from 'qs';
 
 import { camelize } from '@ridi/object-case-converter';
 
 import request from 'app/config/axios';
+import env from 'app/config/env';
 import { Book } from 'app/services/book';
 import { SelectionType } from 'app/services/home';
 import { SelectionId } from 'app/services/selection';
-import env from 'app/config/env';
 
 export interface SelectionResponse {
   collectionId: number;
@@ -26,7 +26,7 @@ export const requestSelection = (
   if (selectionId === 'hotRelease') {
     return request({
       url: '/api/pages/collections/hot-release',
-      method: 'GET'
+      method: 'GET',
     }).then((response) => camelize<AxiosResponse<SelectionResponse>>(response, { recursive: true }).data);
   }
   let params = {

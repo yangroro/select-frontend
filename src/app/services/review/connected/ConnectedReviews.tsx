@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 
+import { FetchRetryBlock } from '@ridi/rsg';
 import { FetchStatusFlag } from 'app/constants';
 import { getReviewsRequest } from 'app/services/review/actions';
 import { AboutIndicatingBuyer } from 'app/services/review/components';
+import { ReviewPlaceholder } from 'app/services/review/components/ReviewPlaceholder';
 import { ConnectedReviewList } from 'app/services/review/connected/ConnectedReviewList';
 import { ConnectedReviewListHeader } from 'app/services/review/connected/ConnectedReviewListHeader';
 import { ConnectedReviewsHeader } from 'app/services/review/connected/ConnectedReviewsHeader';
@@ -12,8 +14,6 @@ import { ReviewsSet } from 'app/services/review/reducer.state';
 import { getReviewsSetFetchStatus } from 'app/services/review/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import { ReviewPlaceholder } from 'app/services/review/components/ReviewPlaceholder';
-import { FetchRetryBlock } from '@ridi/rsg';
 
 interface ReviewsProps {
   bookId: number;

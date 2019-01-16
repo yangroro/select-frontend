@@ -5,17 +5,17 @@ import MediaQuery from 'react-responsive';
 import { Link, LinkProps, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Button, CheckBox, Empty } from '@ridi/rsg';
-import { Pagination } from 'app/components/Pagination';
 import { ConnectedPageHeader } from 'app/components';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
+import { Pagination } from 'app/components/Pagination';
 import { FetchStatusFlag } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { MySelectBook } from 'app/services/mySelect';
+import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, MySelectHistroyState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
-import { getPageQuery } from 'app/services/routing/selectors';
 
 interface StateProps {
   mySelectHistory: MySelectHistroyState;

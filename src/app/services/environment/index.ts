@@ -1,10 +1,10 @@
-import { createReducer, createAction } from 'redux-act';
+import { createAction, createReducer } from 'redux-act';
 
-import env from "app/config/env";
+import env from 'app/config/env';
 
 export const Actions = {
   completeIntroImageLoad: createAction('completeIntroImageLoad'),
-}
+};
 
 const INITIAL_STATE = {
   ...env,
@@ -18,4 +18,4 @@ export const environmentReducer = createReducer<EnvironmentState>({}, INITIAL_ST
 environmentReducer.on(Actions.completeIntroImageLoad, (state): EnvironmentState => ({
   ...state,
   introImageLoaded: true,
-}))
+}));

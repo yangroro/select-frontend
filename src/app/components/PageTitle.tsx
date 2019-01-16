@@ -7,11 +7,11 @@ export interface PageTitleProps {
 
 export const PageTitle: React.SFC<PageTitleProps> = ({
   underline,
-  children
+  children,
 }) => (
   <h1 className={classNames([
     'PageTitle',
-    { underline: underline }
+    { underline },
   ])}>
     {children}
   </h1>

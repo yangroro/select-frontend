@@ -1,8 +1,8 @@
-import { createReducer, createAction } from 'redux-act';
+import { createAction, createReducer } from 'redux-act';
 
+import { FetchStatusFlag } from 'app/constants';
 import { CategoryBooksResponse } from 'app/services/category/requests';
 import { DefaultSelectionState } from 'app/services/selection';
-import { FetchStatusFlag } from 'app/constants';
 
 export const Actions = {
   loadCategoryListRequest: createAction('loadCategoryListRequest'),
@@ -46,12 +46,12 @@ export interface Category {
   name: string;
 }
 
-export type CategoryListState = {
+export interface CategoryListState {
   lastSelectedCategoryId?: number;
   itemList: Category[];
   fetchStatus: FetchStatusFlag;
   isFetched: boolean;
-};
+}
 
 export interface CategoryBooksState {
   [categoryId: number]: CategoryCollectionState;
@@ -74,7 +74,7 @@ export const INITIAL_STATE: CategoryBooksState = {
 
 export const categoryListReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
 
-categoryListReducer.on(Actions.loadCategoryListRequest, state => ({
+categoryListReducer.on(Actions.loadCategoryListRequest, (state) => ({
 	...state,
   fetchStatus: FetchStatusFlag.FETCHING,
 }));
@@ -86,7 +86,7 @@ categoryListReducer.on(Actions.loadCategoryListSuccess, (state, { categoryList }
   itemList: categoryList,
 }));
 
-categoryListReducer.on(Actions.loadCategoryListFailure, state => ({
+categoryListReducer.on(Actions.loadCategoryListFailure, (state) => ({
   ...state,
   fetchStatus: FetchStatusFlag.FETCH_ERROR,
 }));

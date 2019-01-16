@@ -1,12 +1,12 @@
 import * as qs from 'qs';
 
-import env from 'app/config/env';
 import request from 'app/config/axios';
-import toast from 'app/utils/toast';
-import { getBaseUrl } from 'app/utils/getBaseUrl';
-import { BookId } from 'app/types';
+import env from 'app/config/env';
 import { store } from 'app/store';
+import { BookId } from 'app/types';
+import { getBaseUrl } from 'app/utils/getBaseUrl';
 import { stateHydrator } from 'app/utils/stateHydrator';
+import toast from 'app/utils/toast';
 
 // ridibooks.com/api/user_books/trigger_download
 // b_ids[], preprocess
@@ -41,7 +41,7 @@ export function getPlatformDetail(): PlatformDetail {
 }
 
 export function getAppUri(bookIds: number[], appUriFromResponse: string, isRead: boolean) {
-  let bookIdData = isRead ?
+  const bookIdData = isRead ?
     `&b_id=${bookIds[0]}` :
     `&payload=${encodeURIComponent(JSON.stringify({ b_ids: bookIds }))}`;
   return `${appUriFromResponse}${bookIdData}`;
@@ -98,8 +98,8 @@ export function moveToAppStore(platformDetail: PlatformDetail) {
     window.location.replace(
       `${window.location.pathname}?${qs.stringify({
         ...qs.parse(window.location.search, { ignoreQueryPrefix: true }),
-        'to_app_store': true
-      })}`
+        to_app_store: true,
+      })}`,
     );
   } else if (platformDetail.isAndroid) {
     window.location.assign(ANDROID_APPSTORE_URL);
@@ -180,7 +180,6 @@ export const downloadBooks = (bookIds: BookId[], hooks?: DownloaBooksHooks) => {
   });
 };
 
-
 export const downloadBooksInRidiselect = (bookIds: BookId[]) => {
   downloadBooks(bookIds, {
     beforeMoveToAppStore: (platformDetail) => {
@@ -188,8 +187,8 @@ export const downloadBooksInRidiselect = (bookIds: BookId[]) => {
         stateHydrator.save(store.getState());
       }
     },
-  })
-}
+  });
+};
 
 export const readBooksInRidiselect = (bookId: BookId) => {
   requestDownloadUserBook([bookId], true, true).then((url) => {
@@ -197,4 +196,4 @@ export const readBooksInRidiselect = (bookId: BookId) => {
       launchAppOrMoveToAppStore(url);
     }
   });
-}
+};

@@ -1,20 +1,20 @@
-import * as React from "react";
-import { RidiSelectState } from "app/store";
-import { connect } from "react-redux";
+import { RidiSelectState } from 'app/store';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 
-import { SectionHeader } from "./HomeSection";
-import MediaQuery from "react-responsive";
-import { getSectionStringForTracking } from "app/services/tracking/utils";
+import { DTOBookThumbnail } from 'app/components';
+import { Book } from 'app/services/book';
 import { groupChartBooks } from 'app/services/home/uitls';
-import { DTOBookThumbnail } from "app/components";
-import { Link } from "react-router-dom";
-import { StarRating } from "app/services/review";
-import { thousandsSeperator } from "app/utils/thousandsSeperator";
-import { Book } from "app/services/book";
-import { SelectionId } from "app/services/selection";
+import { StarRating } from 'app/services/review';
+import { SelectionId } from 'app/services/selection';
+import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import MediaQuery from 'react-responsive';
+import { Link } from 'react-router-dom';
+import { SectionHeader } from './HomeSection';
 
 interface HomeChartBooksSectionProps {
   books: Book[];
@@ -23,7 +23,6 @@ interface HomeChartBooksSectionProps {
 }
 
 type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
-
 
 export class HomeChartBooksSection extends React.Component<Props> {
   public renderCharts(contentsCount: number) {
@@ -82,12 +81,12 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       </Link>
                     </ConnectedTrackImpression>
                   </li>
-                )}
+                );},
               )}
             </ol>
           ))}
       </div>
-    )
+    );
   }
 
   public render() {
@@ -97,7 +96,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
       <div className="HomeSection HomeSection-horizontal-pad">
         <SectionHeader title={title} link={'/charts'} />
         <MediaQuery maxWidth={840}>
-          {(isMobile) => isMobile ? this.renderCharts(24) : this.renderCharts(12) }
+          {(isMobile) => isMobile ? this.renderCharts(24) : this.renderCharts(12)}
         </MediaQuery>
       </div>
     );

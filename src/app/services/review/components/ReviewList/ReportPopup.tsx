@@ -4,7 +4,7 @@ import { Popup } from '@ridi/rsg';
 import { RUIRadioInput } from 'app/services/review/components';
 import { requestReportReview } from 'app/services/review/requests';
 import toast from 'app/utils/toast';
-import showMessageForRequestError from "app/utils/toastHelper";
+import showMessageForRequestError from 'app/utils/toastHelper';
 
 const reportReasonMap: { [key: number]: string } = {
   10: '욕설/비속어',
@@ -73,7 +73,7 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
       } else {
         toast.defaultErrorMessage();
       }
-    }).catch(e => {
+    }).catch((e) => {
       showMessageForRequestError(e);
     }).finally(() => {
       this.setState({

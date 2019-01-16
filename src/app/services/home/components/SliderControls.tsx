@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Icon } from '@ridi/rsg';
+import * as React from 'react';
 
 interface SliderControlsProps {
   onPrevClick: () => void;

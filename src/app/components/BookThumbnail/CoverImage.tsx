@@ -1,8 +1,8 @@
-import * as React from 'react';
 import * as classNames from 'classnames';
+import * as React from 'react';
 
-import { ThumbnailSize } from 'app/components/BookThumbnail/types';
 import { getThumbnailHeight } from 'app/components/BookThumbnail/helpers';
+import { ThumbnailSize } from 'app/components/BookThumbnail/types';
 
 export interface CoverImageProps {
   className?: string;
@@ -10,7 +10,7 @@ export interface CoverImageProps {
   alt: string;
   width: ThumbnailSize;
   shadow: boolean;
-};
+}
 
 interface CoverImageState {
   isLoaded: boolean;
@@ -28,11 +28,10 @@ export class CoverImage extends React.Component<CoverImageProps, CoverImageState
     if (this.coverPlaceholder) {
       this.coverPlaceholder.addEventListener(
         'transitionend',
-        () => this.setState({ isEndTransition: true })
+        () => this.setState({ isEndTransition: true }),
       );
     }
   }
-
 
   public render() {
     const {
@@ -52,16 +51,16 @@ export class CoverImage extends React.Component<CoverImageProps, CoverImageState
           alt={alt}
           onLoad={() => this.setState({ isLoaded: true })}
         />
-        {shadow && <span className='RSGBookThumbnail_CoverImage_Shadow' />}
+        {shadow && <span className="RSGBookThumbnail_CoverImage_Shadow" />}
         {isLoaded && isEndTransition ? null : (
           <span
             className={classNames(
-              "Skeleton",
-              "CoverImage_Placeholder",
-              isLoaded ? "CoverImage_Placeholder-fadeout" : null
+              'Skeleton',
+              'CoverImage_Placeholder',
+              isLoaded ? 'CoverImage_Placeholder-fadeout' : null,
             )}
             style={{
-              width: width,
+              width,
               height: getThumbnailHeight(width),
             }}
             ref={(ref) => (this.coverPlaceholder = ref!)}

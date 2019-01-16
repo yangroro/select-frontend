@@ -1,4 +1,4 @@
-import { RidiSelectState } from "app/store";
+import { RidiSelectState } from 'app/store';
 
 const KEY_LOCALSTORAGE = 'rs.entireState';
 export const stateHydrator = {
@@ -13,7 +13,7 @@ export const stateHydrator = {
   save: (state: RidiSelectState) => {
     try {
       localStorage.setItem(KEY_LOCALSTORAGE, JSON.stringify(state));
-    } catch(e) {
+    } catch (e) {
       localStorage.removeItem(KEY_LOCALSTORAGE);
     }
   },

@@ -1,6 +1,8 @@
 import { AxiosResponse } from 'axios';
 
 import { camelize } from '@ridi/object-case-converter';
+import request from 'app/config/axios';
+import env from 'app/config/env';
 import {
   Book,
   BookAuthors,
@@ -9,10 +11,8 @@ import {
   BookThumbnailUrlMap,
   BookTitle,
 } from 'app/services/book';
-import { BookId, TextWithLF, DateDTO, Omit } from 'app/types';
-import request from 'app/config/axios';
 import { Category } from 'app/services/category';
-import env from 'app/config/env';
+import { BookId, DateDTO, Omit, TextWithLF } from 'app/types';
 
 export interface Publisher {
   name: string;
@@ -55,7 +55,7 @@ export interface BookDetailResponseV2 {
   introVideoUrl: string;
   introImageUrl: string;
   tableOfContents: TextWithLF;
-  notices: Array<NoticeResponse>;
+  notices: NoticeResponse[];
   categories: Category[][];
   publisher: Publisher;
   publishingDate: BookDetailPublishingDate;
@@ -65,7 +65,7 @@ export interface BookDetailResponseV2 {
   previewBId: BookId;
 }
 
-export interface BookDetailResponseV1 extends Omit<BookDetailResponseV2, 'introduction'>{
+export interface BookDetailResponseV1 extends Omit<BookDetailResponseV2, 'introduction'> {
   description: TextWithLF;
 }
 

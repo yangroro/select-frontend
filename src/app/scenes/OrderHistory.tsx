@@ -2,21 +2,21 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
-import { Empty, Button } from '@ridi/rsg';
+import { Button, Empty } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import {
   ConnectedListWithPagination,
 } from 'app/hocs/ListWithPaginationPage';
+import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { Actions, PurchaseHistory } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import toast from 'app/utils/toast';
-import { connect } from 'react-redux';
-import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
 type Props = PurchaseHistory & ReturnType<typeof mapDispatchToProps>;
 
 export class OrderHistory extends React.PureComponent<Props> {

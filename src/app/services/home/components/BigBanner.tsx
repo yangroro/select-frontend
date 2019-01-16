@@ -1,17 +1,17 @@
 import { Icon } from '@ridi/rsg';
-import * as classNames from 'classnames';
-import * as React from 'react';
-import MediaQuery from 'react-responsive';
-import Slider from 'react-slick';
-import { debounce } from 'lodash-es';
+import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
 import { BigBanner } from 'app/services/home';
-import { connect } from 'react-redux';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { RidiSelectState } from 'app/store';
+import * as classNames from 'classnames';
+import { debounce } from 'lodash-es';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
+import Slider from 'react-slick';
 import { ConnectedBigBannerItem } from './BigBannerItem';
 import { SliderControls } from './SliderControls';
-import { RidiSelectState } from 'app/store';
-import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
 
 const PC_BANNER_WIDTH = 432;
 const PC_MIN_HEIGHT = 288;
@@ -33,9 +33,13 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   private wrapper: HTMLElement | null;
   private firstClientX: number;
 
+  private handleWindowResize = debounce(() => {
+    this.updateClientWidth();
+  }, 100);
+
   public state: State = {
     clientWidth: 360,
-  }
+  };
 
   private handleTouchStart = (e: TouchEvent) => {
     this.firstClientX = e.touches[0].clientX;
@@ -49,14 +53,6 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     }
   }
 
-  public componentWillMount() {
-    this.updateClientWidth();
-  }
-
-  private handleWindowResize = debounce(() => {
-    this.updateClientWidth();
-  }, 100)
-
   private updateClientWidth = () => {
     const { clientWidth } = document.body;
     if (this.state.clientWidth !== clientWidth) {
@@ -64,7 +60,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     }
   }
 
-  private setSliderImpression (section: string, Idx: number) {
+  private setSliderImpression(section: string, Idx: number) {
     const { trackImpression, bigBannerList } = this.props;
 
     trackImpression({
@@ -72,6 +68,10 @@ export class BigBannerCarousel extends React.Component<Props, State> {
       index: Idx,
       id: bigBannerList[Idx].id,
     });
+  }
+
+  public componentWillMount() {
+    this.updateClientWidth();
   }
 
   public componentDidMount() {
@@ -131,7 +131,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
                   linkUrl={item.linkUrl}
                   onClick={() => trackClick({
                     section,
-                    index: index,
+                    index,
                     id: item.id,
                   })}
                   key={index}
@@ -141,7 +141,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
                     alt={item.title}
                     style={{
                       width: isMobile ? '100%' : PC_BANNER_WIDTH,
-                      height: isMobile? '100%' : 'auto',
+                      height: isMobile ? '100%' : 'auto',
                       margin: !isMobile ? '0 1px' : 0,
                     }}
                   />
@@ -164,7 +164,7 @@ const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
   return {
     fetchedAt: state.home.fetchedAt,
     bigBannerList: state.home.bigBannerList,
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({

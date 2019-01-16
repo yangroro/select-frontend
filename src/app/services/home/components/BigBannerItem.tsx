@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
 import { EnvironmentState } from 'app/services/environment';
 import { RidiSelectState } from 'app/store';
+import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface BigBannerItemStateProps {
@@ -13,12 +13,12 @@ interface BigBannerItemProps {
   linkUrl: string;
 }
 
-type Props = BigBannerItemStateProps & BigBannerItemProps
+type Props = BigBannerItemStateProps & BigBannerItemProps;
 
 export const BigBannerItem: React.SFC<Props> = (props) => {
   const { onClick, linkUrl, children } = props;
   const compProps = {
-    className: "BigBanner_Item",
+    className: 'BigBanner_Item',
     onClick,
     children,
   };
@@ -31,7 +31,7 @@ export const BigBannerItem: React.SFC<Props> = (props) => {
   }
   const anchorProps = { ...compProps, href: linkUrl };
   return <a {...anchorProps}/>;
-}
+};
 
 const mapStateToProps = (state: RidiSelectState, ownProps: BigBannerItemProps): BigBannerItemStateProps => {
   return { env: state.environment };

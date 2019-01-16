@@ -1,9 +1,9 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
-import { RidiSelectState, hasCompletedSubscription } from 'app/store';
-import { LOCATION_CHANGE, replace } from 'connected-react-router';
-import { all, select, take, put } from 'redux-saga/effects';
 import { Actions } from 'app/services/tracking';
+import { hasCompletedSubscription, RidiSelectState } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
+import { all, put, select, take } from 'redux-saga/effects';
 
 export const PIXEL_ID = '417351945420295';
 let tracker: Tracker;
@@ -35,7 +35,7 @@ export function* watchLocationChange() {
   while (true) {
     yield take(LOCATION_CHANGE);
     const state: RidiSelectState = yield select((s) => s);
-    const href = window.location.href
+    const href = window.location.href;
 
     if (!tracker) {
       initializeTracker(state);
@@ -52,7 +52,7 @@ export function* watchLocationChange() {
 
     if (hasCompletedSubscription()) {
       tracker.sendEvent('New Subscription', {
-        monthlyFee: 6500 // FIXME: get monthlyFee from backend
+        monthlyFee: 6500, // FIXME: get monthlyFee from backend
       });
       // Remove new subscription search string for tracking and move to entry page if there is one
       yield put(replace({

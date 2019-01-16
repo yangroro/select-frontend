@@ -2,9 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 
-import { RidiSelectState } from 'app/store';
-import { getPageQuery } from 'app/services/routing/selectors';
 import { Pagination } from 'app/components/Pagination';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { RidiSelectState } from 'app/store';
 import MediaQuery from 'react-responsive';
 
 interface OwnProps {

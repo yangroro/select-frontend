@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { range } from 'lodash-es';
+import * as React from 'react';
 
 export const ReviewPlaceholder: React.SFC = () => (
     <ul className="Skeleton_Wrapper ReviewPlaceholder_List">

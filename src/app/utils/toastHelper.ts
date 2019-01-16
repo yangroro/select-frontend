@@ -4,4 +4,4 @@ import toast from 'app/utils/toast';
 
 export default function showMessageForRequestError(e: any) {
   toast.defaultErrorMessage();
-};
+}

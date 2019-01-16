@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { PCPageHeader, ConnectedGridBookList } from 'app/components';
+import { ConnectedGridBookList, PCPageHeader } from 'app/components';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, ReservedSelectionState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
+import * as React from 'react';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { Helmet } from 'react-helmet';
 
 interface SelectionStateProps {
   newReleases: ReservedSelectionState;
@@ -25,7 +25,6 @@ type Props = SelectionStateProps & SelectionDispatchProps & OwnProps;
 interface State {
   isInitialized: boolean;
 }
-
 
 export class NewReleases extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;

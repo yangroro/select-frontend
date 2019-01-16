@@ -1,20 +1,20 @@
-import * as React from "react";
-import { RidiSelectState } from "app/store";
-import { connect } from "react-redux";
-import Slider from "react-slick";
-import { Link } from "react-router-dom";
+import { RidiSelectState } from 'app/store';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 
-import { Actions, DefaultTrackingParams } from 'app/services/tracking';
-import { getSectionStringForTracking } from "app/services/tracking/utils";
-import MediaQuery from "react-responsive";
 import {
   ConnectedInlineHorizontalBookList,
-  DTOBookThumbnail
-} from "app/components";
-import { stringifyAuthors } from "app/utils/utils";
-import { SliderControls } from "./SliderControls";
-import { SelectionId } from "app/services/selection";
-import { Book } from "app/services/book";
+  DTOBookThumbnail,
+} from 'app/components';
+import { Book } from 'app/services/book';
+import { SelectionId } from 'app/services/selection';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
+import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { stringifyAuthors } from 'app/utils/utils';
+import MediaQuery from 'react-responsive';
+import { SliderControls } from './SliderControls';
 
 interface HomeHotReleaseSectionProps {
   books: Book[];
@@ -29,7 +29,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
 
   private setSliderImpression(sliderIdx: number) {
     const { books, trackImpression } = this.props;
-    const section = getSectionStringForTracking("home", "hot-release");
+    const section = getSectionStringForTracking('home', 'hot-release');
 
     const trackingStartIdx = sliderIdx > 0 ? sliderIdx * 5 - 1 : 0;
     const trackingEndIdx =
@@ -40,14 +40,14 @@ export class HomeHotReleaseSection extends React.Component<Props> {
         trackImpression({
           section,
           index: idx,
-          id: books[idx].id
+          id: books[idx].id,
         });
     }
   }
 
   public render() {
     const { books, trackClick, selectionId } = this.props;
-    const section = getSectionStringForTracking("home", "hot-release");
+    const section = getSectionStringForTracking('home', 'hot-release');
     return (
       <div className="HomeSection_HotRelease">
         <div className="HomeSection_HotRelease_Contents">
@@ -60,7 +60,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
             />
           </div>
           <MediaQuery maxWidth={900}>
-            {isMobile =>
+            {(isMobile) =>
               isMobile ? (
                 <ConnectedInlineHorizontalBookList
                   books={books}
@@ -81,7 +81,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                     slidesToScroll={5}
                     dotsClass="HotRelease_Navigator"
                     onInit={() => this.setSliderImpression(0)}
-                    afterChange={currentIdx =>
+                    afterChange={(currentIdx) =>
                       this.setSliderImpression(currentIdx)
                     }
                   >
@@ -89,7 +89,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                       <div
                         className="HomeSection_HotRelease_Book"
                         style={{
-                          width: "165px",
+                          width: '165px',
                         }}
                         key={`hot-release-book-${idx}`}
                       >
@@ -103,7 +103,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                             trackClick({
                               section,
                               index: idx,
-                              id: book.id
+                              id: book.id,
                             })
                           }
                           imageClassName="InlineHorizontalBookList_Thumbnail"
@@ -117,7 +117,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                             trackClick({
                               section,
                               index: idx,
-                              id: book.id
+                              id: book.id,
                             })
                           }
                         >
@@ -149,10 +149,10 @@ export class HomeHotReleaseSection extends React.Component<Props> {
 
 const mapDispatchToProps = (dispatch: any) => ({
   trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
-  trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams }))
+  trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
 });
 
 export const ConnectedHomeHotReleaseSection = connect(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(HomeHotReleaseSection);

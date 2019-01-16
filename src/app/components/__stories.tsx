@@ -2,9 +2,9 @@ import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 
-import { ConnectedFooter } from '.';
-import 'dist/main.css';
 import { ConnectedPageHeader } from 'app/components';
+import 'dist/main.css';
+import { ConnectedFooter } from '.';
 
 storiesOf('Common Components', module)
   .addDecorator((story) => (

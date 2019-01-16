@@ -3,13 +3,13 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { ConnectedPageHeader } from 'app/components';
 import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, DefaultSelectionState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
-import { ConnectedPageHeader } from 'app/components';
-import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 interface SelectionStateProps {
   books: BookState;

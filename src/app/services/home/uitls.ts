@@ -1,5 +1,5 @@
-import { DefaultSelectionState } from "app/services/selection";
-import { Book } from "app/services/book";
+import { Book } from 'app/services/book';
+import { DefaultSelectionState } from 'app/services/selection';
 
 export const groupSelections = (groupedSelections: DefaultSelectionState[][], selection: DefaultSelectionState) => {
   const latestGroup = groupedSelections[groupedSelections.length - 1];
@@ -25,4 +25,4 @@ export const groupChartBooks = (groupingUnitCount: number) => (groupedBooks: Boo
     groupedBooks[groupedBooks.length - 1].push(book);
   }
   return groupedBooks;
-}
+};

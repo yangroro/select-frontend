@@ -1,21 +1,21 @@
 import { Button, CheckBox, Empty } from '@ridi/rsg';
 import { PCPageHeader } from 'app/components';
+import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { FetchStatusFlag } from 'app/constants';
+import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 import { Actions } from 'app/services/mySelect';
+import { BookIdsPair } from 'app/services/mySelect/requests';
+import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
+import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
+import toast from 'app/utils/toast';
+import { stringifyAuthors } from 'app/utils/utils';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import toast from 'app/utils/toast';
-import { stringifyAuthors } from 'app/utils/utils';
-import { getPageQuery } from 'app/services/routing/selectors';
-import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
-import { BookIdsPair } from 'app/services/mySelect/requests';
 
 interface StateProps {
   mySelectBooks: PaginatedMySelectBooks;
@@ -80,7 +80,7 @@ class MySelect extends React.Component<Props, State> {
 
   private handleSelectAllCheckBoxChange = () => {
     const { mySelectBooks, page } = this.props;
-    const books = mySelectBooks.itemListByPage[page].itemList
+    const books = mySelectBooks.itemListByPage[page].itemList;
     this.setState({
       bookInputs: books.reduce((prev, book) => {
         return {
@@ -88,7 +88,7 @@ class MySelect extends React.Component<Props, State> {
           [book.mySelectBookId]: !this.areEveryBookChecked(),
         };
       }, {}),
-    })
+    });
   }
 
   private areEveryBookChecked = () => {
@@ -148,7 +148,7 @@ class MySelect extends React.Component<Props, State> {
     dispatchResetMySelectPageFetchedStatus(page);
   }
 
-  public renderBooks(books: Array<MySelectBook>) {
+  public renderBooks(books: MySelectBook[]) {
     return (
       <div>
         <ul className="MySelectBookList">
@@ -278,7 +278,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadMySelectRequest: (page: number) =>
       dispatch(Actions.loadMySelectRequest({ page })),
-    dispatchDeleteMySelectRequest: (deleteBookIdPairs: Array<BookIdsPair>, page: number, isEveryBookChecked: boolean) =>
+    dispatchDeleteMySelectRequest: (deleteBookIdPairs: BookIdsPair[], page: number, isEveryBookChecked: boolean) =>
       dispatch(Actions.deleteMySelectRequest({ deleteBookIdPairs, page, isEveryBookChecked })),
     dispatchResetMySelectPageFetchedStatus: (page: number) =>
       dispatch(Actions.resetMySelectPageFetchedStatus({ page })),

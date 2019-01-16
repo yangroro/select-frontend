@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
 import { BuyerRatingSummaryBlock } from 'app/services/review/components';
+import { ConnectedCommentForm } from 'app/services/review/connected/ConnectedCommentForm';
 import { ConnectedCommentList } from 'app/services/review/connected/ConnectedCommentList';
 import { ConnectedMyReview } from 'app/services/review/connected/ConnectedMyReview';
 import { ConnectedStarRatingForm } from 'app/services/review/connected/ConnectedStarRatingForm';
@@ -10,7 +11,6 @@ import { ReviewSummary } from 'app/services/review/reducer.state';
 import { getMyReview, getReviewSummary } from 'app/services/review/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import { ConnectedCommentForm } from 'app/services/review/connected/ConnectedCommentForm';
 
 interface ReviewsHeaderProps {
   bookId: number;

@@ -2,7 +2,7 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 
-import { Button, Icon, FetchRetryBlock } from '@ridi/rsg';
+import { Button, FetchRetryBlock, Icon } from '@ridi/rsg';
 
 import { FetchStatusFlag } from 'app/constants';
 import { Review } from 'app/services/review';
@@ -14,6 +14,7 @@ import { ConnectedReviewItem } from './ConnectedReviewItem';
 
 import { getReviewsRequest } from 'app/services/review/actions';
 import { ReviewListEmpty } from 'app/services/review/components/ReviewList/ReviewEmpty';
+import { ReviewPlaceholder } from 'app/services/review/components/ReviewPlaceholder';
 import { ReviewSortingCriteria, UserFilterType } from 'app/services/review/constants';
 import { RequestReviewsParameters } from 'app/services/review/requests';
 import {
@@ -24,7 +25,6 @@ import {
   getReviewSortBy,
   getReviewUserFilterType,
 } from 'app/services/review/selectors';
-import { ReviewPlaceholder } from 'app/services/review/components/ReviewPlaceholder';
 
 export interface ReviewListProps {
   bookId: number;

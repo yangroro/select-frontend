@@ -1,11 +1,11 @@
 import { camelize } from '@ridi/object-case-converter';
 
-import { DateDTO } from 'app/types';
 import request from 'app/config/axios';
-import axios, { AxiosResponse } from 'axios';
-import { SubscriptionState } from 'app/services/user';
-import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
 import env from 'app/config/env';
+import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
+import { SubscriptionState } from 'app/services/user';
+import { DateDTO } from 'app/types';
+import axios, { AxiosResponse } from 'axios';
 
 export interface Ticket {
   id: number;
@@ -47,8 +47,8 @@ export interface AccountsMeResponse {
     id: string,
     idx: number,
     email: string,
-    is_verified_adult: boolean
-  }
+    is_verified_adult: boolean,
+  };
 }
 
 export const requestSubscription = (): Promise<AxiosResponse<SubscriptionResponse>> =>
@@ -70,7 +70,7 @@ export const requestCancelPurchase = (ticketId: number): Promise<AxiosResponse<C
   request({
     url: `${env.STORE_API}/api/select/users/me/purchases/${ticketId}`,
     method: 'DELETE',
-  })
+  });
 
 export const reqeustMySelectHistory = (page: number): Promise<AxiosResponse<MySelectHistoryResponse>> =>
   request({
@@ -106,5 +106,5 @@ export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> 
     url: `${env.ACCOUNT_API}/accounts/me`,
     method: 'GET',
     timeout: 3000,
-    withCredentials: true
+    withCredentials: true,
   });

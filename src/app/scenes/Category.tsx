@@ -1,18 +1,18 @@
-import MediaQuery from 'react-responsive';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
 
-import { ConnectedGridBookList } from 'app/components/GridBookList';
-import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
-import { BookState } from 'app/services/book';
-import { CategoryCollectionState, Category as CategoryState } from 'app/services/category';
-import { Actions as categoryActions } from 'app/services/category';
-import { RidiSelectState } from 'app/store';
-import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
-import history from 'app/config/history';
 import { PCPageHeader } from 'app/components';
+import { ConnectedGridBookList } from 'app/components/GridBookList';
+import history from 'app/config/history';
+import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import { BookState } from 'app/services/book';
+import { Category as CategoryState, CategoryCollectionState } from 'app/services/category';
+import { Actions as categoryActions } from 'app/services/category';
+import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
+import { RidiSelectState } from 'app/store';
 
 interface CategoryStateProps {
   isCategoryListFetched: boolean;
@@ -28,42 +28,11 @@ interface State {
   isInitialized: boolean;
 }
 
-
 export class Category extends React.Component<Props, State> {
   private initialDispatchTimeout?: number | null;
   public state: State = {
     isInitialized: false,
   };
-
-  public componentDidMount() {
-    const { categoryId } = this.props;
-    this.initialDispatchTimeout = window.setTimeout(() => {
-      if (isValidNumber(categoryId)) {
-        this.props.dispatchCacheCategoryId(categoryId);
-      }
-      this.props.dispatchInitializeCategoriesWhole(
-        !this.props.isCategoryListFetched,
-        !isValidNumber(categoryId)
-      );
-      this.initialDispatchTimeout = null;
-      this.setState({ isInitialized: true });
-    });
-  }
-
-  public componentDidUpdate(prevProps: Props) {
-    const { categoryId } = this.props;
-    if (this.state.isInitialized && isValidNumber(categoryId) && prevProps.categoryId !== categoryId) {
-      this.props.dispatchCacheCategoryId(categoryId);
-    }
-  }
-
-  public componentWillUnmount() {
-    if (this.initialDispatchTimeout) {
-      window.clearTimeout(this.initialDispatchTimeout);
-      this.initialDispatchTimeout = null;
-      this.setState({ isInitialized: true });
-    }
-  }
 
   private renderSelectBox() {
     const { categoryId, categoryList = [] } = this.props;
@@ -91,6 +60,36 @@ export class Category extends React.Component<Props, State> {
         </svg>
       </div>
     );
+  }
+
+  public componentDidMount() {
+    const { categoryId } = this.props;
+    this.initialDispatchTimeout = window.setTimeout(() => {
+      if (isValidNumber(categoryId)) {
+        this.props.dispatchCacheCategoryId(categoryId);
+      }
+      this.props.dispatchInitializeCategoriesWhole(
+        !this.props.isCategoryListFetched,
+        !isValidNumber(categoryId),
+      );
+      this.initialDispatchTimeout = null;
+      this.setState({ isInitialized: true });
+    });
+  }
+
+  public componentDidUpdate(prevProps: Props) {
+    const { categoryId } = this.props;
+    if (this.state.isInitialized && isValidNumber(categoryId) && prevProps.categoryId !== categoryId) {
+      this.props.dispatchCacheCategoryId(categoryId);
+    }
+  }
+
+  public componentWillUnmount() {
+    if (this.initialDispatchTimeout) {
+      window.clearTimeout(this.initialDispatchTimeout);
+      this.initialDispatchTimeout = null;
+      this.setState({ isInitialized: true });
+    }
   }
 
   public render() {

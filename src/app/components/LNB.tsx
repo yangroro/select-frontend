@@ -1,7 +1,7 @@
-import { RidiSelectState } from 'app/store';
 import { RGB, toRGBString } from 'app/services/commonUI';
+import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
-import { flow, assignIn, omit } from 'lodash-es';
+import { assignIn, flow, omit } from 'lodash-es';
 import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -22,7 +22,7 @@ interface Menu {
   defaultSearch?: {
     searchKey: string,
     propKeyForValue: keyof MenuStateProps,
-  },
+  };
 }
 
 const menus: Menu[] = [

@@ -1,17 +1,17 @@
+import { Button, Icon } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, Icon } from '@ridi/rsg';
 
-import { Actions, SubscriptionState } from 'app/services/user';
-import { RidiSelectState } from 'app/store';
-import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
-import toast from 'app/utils/toast';
+import { Actions, SubscriptionState } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
+import { RidiSelectState } from 'app/store';
+import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
+import toast from 'app/utils/toast';
 
 interface SettingStateProps {
   uId: string;
@@ -24,11 +24,6 @@ interface SettingStateProps {
 type SettingProps = SettingStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Settings extends React.PureComponent<SettingProps> {
-  public componentDidMount() {
-    const { dispatchLoadSubscriptionRequest, dispatchLoadOrderHistory } = this.props;
-    dispatchLoadSubscriptionRequest();
-    dispatchLoadOrderHistory(1);
-  }
 
   private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
     if (this.props.isPurchaseCancelFetching) {
@@ -38,6 +33,11 @@ export class Settings extends React.PureComponent<SettingProps> {
     if (confirm(`결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`)) {
       this.props.dispatchCancelPurchase(purchaseId);
     }
+  }
+  public componentDidMount() {
+    const { dispatchLoadSubscriptionRequest, dispatchLoadOrderHistory } = this.props;
+    dispatchLoadSubscriptionRequest();
+    dispatchLoadOrderHistory(1);
   }
 
   public renderSubscriptionInfo() {

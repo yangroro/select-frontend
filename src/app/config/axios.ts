@@ -5,7 +5,7 @@ import env from 'app/config/env';
 
 const instance = axios.create({
   baseURL: env.SELECT_API,
-  timeout: env.production ? 3500: 60000,
+  timeout: env.production ? 3500 : 60000,
   withCredentials: true,
 });
 
@@ -15,14 +15,14 @@ axiosRetry(instance, {
 });
 
 instance.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     if (error.response.status === 401) {
       if (error.response.config.url !== `${env.ACCOUNT_API}/ridi/token/`) {
         return instance
           .post(`${env.ACCOUNT_API}/ridi/token/`)
           .then(() => instance(error.response.config))
-          .catch(e => Promise.reject(e));
+          .catch((e) => Promise.reject(e));
       }
       return axios
         .get(`${env.ACCOUNT_API}/ridi/authorize/`, {
@@ -36,7 +36,7 @@ instance.interceptors.response.use(
         .then(() => instance(error.response.config));
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;

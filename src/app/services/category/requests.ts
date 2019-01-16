@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
 
 import { camelize } from '@ridi/object-case-converter';
-import { Book } from 'app/services/book';
 import request from 'app/config/axios';
+import { Book } from 'app/services/book';
 import { Category } from 'app/services/category';
 
 export interface CategoryBooksResponse  {

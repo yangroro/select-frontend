@@ -13,7 +13,6 @@ export type MaskedUId = string; // 'hck***'
 */
 export type TextWithLF = string;
 
-
 export interface ItemListByPage<P> {
   [pageNumber: number]: {
     fetchStatus: FetchStatusFlag; // 각 페이지별로 API 호출을 해야 하므로 페이지별로 존재
