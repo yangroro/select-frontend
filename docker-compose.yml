@@ -11,10 +11,7 @@ services:
       - "traefik.frontend.rule=Host:select.local.ridi.io"
     volumes:
       - .:/app
-      - modules:/app/node_modules
-
-volumes:
-  modules:
+      - /app/node_modules
 
 networks:
   default:
