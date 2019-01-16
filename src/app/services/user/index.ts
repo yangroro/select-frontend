@@ -143,7 +143,6 @@ export interface UserState {
   email: string;
   isSubscribing: boolean;
   hasSubscribedBefore: boolean;
-  isTokenFetched: boolean;
   subscriptionFetchStatus: FetchStatusFlag;
   unsubscriptionFetchStatus: FetchStatusFlag;
   unsubscriptionCancellationFetchStatus: FetchStatusFlag;
@@ -159,7 +158,6 @@ export const INITIAL_STATE: UserState = {
   email: '',
   isSubscribing: false,
   hasSubscribedBefore: false,
-  isTokenFetched: false,
   subscriptionFetchStatus: FetchStatusFlag.IDLE,
   unsubscriptionFetchStatus: FetchStatusFlag.IDLE,
   unsubscriptionCancellationFetchStatus: FetchStatusFlag.IDLE,

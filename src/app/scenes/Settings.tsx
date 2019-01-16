@@ -9,14 +9,14 @@ import { Actions, SubscriptionState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
-import { INITIAL_STATE as EnvironmentState } from 'app/services/environment';
+import { EnvironmentState } from 'app/services/environment';
 import toast from 'app/utils/toast';
 import { Ticket } from 'app/services/user/requests';
 
 interface SettingStateProps {
   uId: string;
   subscriptionState?: SubscriptionState;
-  environment: typeof EnvironmentState;
+  environment: EnvironmentState;
   latestPurchaseTicket: Ticket;
   isPurchaseCancelFetching: boolean;
 }

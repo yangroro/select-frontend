@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { ConnectedRoutes } from 'app/routes';
 import { store } from 'app/store';
 
-import { SplashScreen } from "app/components/SplashScreen";
 import { fetchUserInfo } from "app/services/user/helper";
 
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
@@ -28,20 +27,12 @@ import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeH
 //   'HomeSection-horizontal-pad',
 // ]);
 
-class App extends React.Component<{}, { isLoaded: boolean }> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      isLoaded: false,
-    };
-  }
-
+class App extends React.Component<{}, {}> {
   async componentDidMount() {
     try {
       const user = await fetchUserInfo();
       store.dispatch(Actions.initializeUser({ userDTO: user }));
     } finally {
-      this.setState({ isLoaded: true });
       store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
     }
   }
@@ -49,10 +40,7 @@ class App extends React.Component<{}, { isLoaded: boolean }> {
   render () {
     return (
       <Provider store={store}>
-        <>
-          <ConnectedRoutes />
-          {!this.state.isLoaded && <SplashScreen />}
-        </>
+        <ConnectedRoutes />
       </Provider>
     );
   }

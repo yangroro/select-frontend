@@ -1,6 +1,21 @@
-import { createReducer } from 'redux-act';
+import { createReducer, createAction } from 'redux-act';
 
 import env from "app/config/env";
 
-export const environmentReducer = createReducer<typeof env>({}, env);
-export { env as INITIAL_STATE }; // TODO: convert to reselect
+export const Actions = {
+  completeIntroImageLoad: createAction('completeIntroImageLoad'),
+}
+
+const INITIAL_STATE = {
+  ...env,
+  introImageLoaded: false,
+};
+
+export type EnvironmentState = typeof INITIAL_STATE;
+
+export const environmentReducer = createReducer<EnvironmentState>({}, INITIAL_STATE);
+
+environmentReducer.on(Actions.completeIntroImageLoad, (state): EnvironmentState => ({
+  ...state,
+  introImageLoaded: true,
+}))
