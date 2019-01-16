@@ -13,9 +13,11 @@ const DotenvPlugin = require('dotenv-webpack');
 require('dotenv').config();
 
 module.exports = (env = {}) => ({
-  entry: './src/app/index.tsx',
+  entry: {
+    app: ['./src/app/index.tsx'],
+  },
   output: {
-    filename: 'app.[hash].js',
+    filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
   },
@@ -72,5 +74,16 @@ module.exports = (env = {}) => ({
     open: false,
     port: 9000,
     public: process.env.SELECT_URL,
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /node_modules/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
 });
