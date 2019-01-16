@@ -8,14 +8,21 @@ const {
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotenvPlugin = require('dotenv-webpack');
 
 require('dotenv').config();
 
-module.exports = (env = {}) => ({
-  entry: './src/app/index.tsx',
+module.exports = (env, argv) => ({
+  entry: {
+    app: [
+      '@babel/polyfill',
+      './src/app/index.tsx',
+      './src/css/main.css',
+    ],
+  },
   output: {
-    filename: 'app.[hash].js',
+    filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
   },
@@ -26,16 +33,28 @@ module.exports = (env = {}) => ({
         enforce: 'pre',
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'tslint-loader',
-        },
+        loader: 'tslint-loader',
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          argv.mode !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                ctx: { ...argv },
+              },
+            },
+          },
+        ],
       },
     ],
   },
@@ -53,6 +72,9 @@ module.exports = (env = {}) => ({
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: 'src/index.hbs',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'main.[hash].css',
     }),
     new DotenvPlugin({
       systemvars: true,
@@ -72,5 +94,16 @@ module.exports = (env = {}) => ({
     open: false,
     port: 9000,
     public: process.env.SELECT_URL,
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /node_modules/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
 });
