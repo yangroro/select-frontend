@@ -48,3 +48,5 @@ render(
   <App />,
   document.getElementById('app'),
 );
+
+import 'app/config/fonts';
