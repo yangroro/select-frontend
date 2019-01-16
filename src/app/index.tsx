@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRoutes } from 'app/routes';
 import { store } from 'app/store';
 
+import { loadFonts } from 'app/config/fonts';
 import { fetchUserInfo } from "app/services/user/helper";
 
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
@@ -26,13 +27,13 @@ import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeH
 // ]);
 
 class App extends React.Component<{}, {}> {
-  async componentDidMount() {
-    try {
-      const user = await fetchUserInfo();
+  componentDidMount() {
+    fetchUserInfo().then(user => {
       store.dispatch(Actions.initializeUser({ userDTO: user }));
-    } finally {
+    }).finally(() => {
       store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
-    }
+    });
+    loadFonts();
   }
 
   render () {
@@ -48,5 +49,3 @@ render(
   <App />,
   document.getElementById('app'),
 );
-
-import 'app/config/fonts';
