@@ -7,24 +7,24 @@ import { store } from 'app/store';
 
 import { loadFonts } from 'app/config/fonts';
 import { fetchUserInfo } from "app/services/user/helper";
+import { Actions } from 'app/services/user';
 
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
-import { Actions } from 'app/services/user';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeHorizontalScroll';
 
 // Show browser input focused outline when tab key is pressed
-// setTabKeyFocus();
+setTabKeyFocus();
 
 // initialize ScrollEnd Event listener for imperssion tracking
-// initializeScrollEnd();
+initializeScrollEnd();
 
 // Set horizontal scroll handler
-// controlAndroidAppNativeHorizontalScroll([
-//   'InlineHorizontalBookList',
-//   'BigBanner',
-//   'HomeSection-horizontal-pad',
-// ]);
+controlAndroidAppNativeHorizontalScroll([
+  'InlineHorizontalBookList',
+  'BigBanner',
+  'HomeSection-horizontal-pad',
+]);
 
 class App extends React.Component<{}, {}> {
   componentDidMount() {
