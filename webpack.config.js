@@ -71,7 +71,10 @@ module.exports = (env, argv) => ({
     new HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      template: 'src/index.hbs',
+      template: 'src/index.html',
+      templateParameters: {
+        host: process.env.SELECT_URL,
+      },
     }),
     new MiniCssExtractPlugin({
       filename: 'main.[hash].css',
