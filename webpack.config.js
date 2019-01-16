@@ -8,13 +8,18 @@ const {
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotenvPlugin = require('dotenv-webpack');
 
 require('dotenv').config();
 
-module.exports = (env = {}) => ({
+module.exports = (env, argv) => ({
   entry: {
-    app: ['./src/app/index.tsx'],
+    app: [
+      '@babel/polyfill',
+      './src/app/index.tsx',
+      './src/css/main.css',
+    ],
   },
   output: {
     filename: '[name].[hash].js',
@@ -28,16 +33,28 @@ module.exports = (env = {}) => ({
         enforce: 'pre',
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'tslint-loader',
-        },
+        loader: 'tslint-loader',
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          argv.mode !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                ctx: { ...argv },
+              },
+            },
+          },
+        ],
       },
     ],
   },
@@ -55,6 +72,9 @@ module.exports = (env = {}) => ({
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: 'src/index.hbs',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'main.[hash].css',
     }),
     new DotenvPlugin({
       systemvars: true,

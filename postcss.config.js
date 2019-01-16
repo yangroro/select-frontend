@@ -1,13 +1,13 @@
 /* eslint-disable */
 const path = require('path');
 
-module.exports = (ctx) => {
-  const production = ctx.env === 'production';
+module.exports = ({ file, options }) => {
+  const production = options.mode === 'production';
   return {
     map: !production && 'inline',
     plugins: [
       require('postcss-import')({
-        root: ctx.file.dirname,
+        root: file.dirname,
       }),
       require('postcss-nesting')(),
       require('postcss-base64')({
