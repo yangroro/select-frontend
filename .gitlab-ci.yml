@@ -1,3 +1,5 @@
+image: node:carbon-alpine
+
 before_script:
   - yarn install --frozen-lockfile
 
