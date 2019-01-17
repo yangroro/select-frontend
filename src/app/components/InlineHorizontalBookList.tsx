@@ -1,15 +1,15 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import * as classNames from 'classnames';
 import MediaQuery from 'react-responsive';
+import { Link } from 'react-router-dom';
 
-import { Book } from 'app/services/book';
-import { stringifyAuthors } from 'app/utils/utils';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { Book } from 'app/services/book';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { stringifyAuthors } from 'app/utils/utils';
 
 interface Props {
   pageTitleForTracking?: string;
@@ -76,18 +76,20 @@ export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDi
                     <span
                       className="InlineHorizontalBookList_Title"
                       style={{
-                        width: `${isSmallerThumbnail ? 110 : 120}px`
+                        width: `${isSmallerThumbnail ? 110 : 120}px`,
                       }}
-                    >{book.title.main}</span>
+                    >
+                      {book.title.main}
+                    </span>
                     {renderAuthor && (
                         <span
                           className="InlineHorizontalBookList_Author"
                           style={{
-                            width: `${isSmallerThumbnail ? 110 : 120}px`
+                            width: `${isSmallerThumbnail ? 110 : 120}px`,
                           }}
                         >
-                        {stringifyAuthors(book.authors, 2)}
-                      </span>
+                          {stringifyAuthors(book.authors, 2)}
+                        </span>
                     )}
                   </Link>
                 </>

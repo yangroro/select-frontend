@@ -1,6 +1,6 @@
-import { createReducer, createAction } from 'redux-act';
+import { createAction, createReducer } from 'redux-act';
 
-import { BookId } from "app/types";
+import { BookId } from 'app/types';
 export interface DefaultTrackingParams {
   section: string;
   index: number; // index in section

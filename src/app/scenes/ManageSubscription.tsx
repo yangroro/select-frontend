@@ -2,17 +2,17 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 
-import { Icon, Button } from '@ridi/rsg';
+import { Button, Icon } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
 import { Actions, SubscriptionState, UserState } from 'app/services/user';
 
+import { UnsubscribeWarningPopup } from 'app/components/UnsubscribeWarningPopup';
 import history from 'app/config/history';
-import { RidiSelectState } from 'app/store';
-import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import { FetchStatusFlag } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
-import { UnsubscribeWarningPopup } from 'app/components/UnsubscribeWarningPopup';
 import { EnvironmentState } from 'app/services/environment';
+import { RidiSelectState } from 'app/store';
+import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 
 interface ManageSubscriptionStateProps {
   userState: UserState;
@@ -30,13 +30,7 @@ type ManageSubscriptionProps = ManageSubscriptionStateProps & ReturnType<typeof 
 export class ManageSubscription extends React.PureComponent<ManageSubscriptionProps, ManageSubscriptionState> {
   public state: ManageSubscriptionState = {
     isUnsubscribeWarningPopupActive: false,
-  }
-
-  public toggleUnsubscribeWarningPopup = (activeState: boolean) => {
-    this.setState({
-      isUnsubscribeWarningPopupActive: activeState,
-    });
-  }
+  };
 
   private moveToNewRelease = () => {
     this.toggleUnsubscribeWarningPopup(false);
@@ -57,6 +51,12 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
       return;
     }
     this.props.dispatchCancelUnsubscriptionRequest();
+  }
+
+  public toggleUnsubscribeWarningPopup = (activeState: boolean) => {
+    this.setState({
+      isUnsubscribeWarningPopupActive: activeState,
+    });
   }
 
   public componentDidMount() {
@@ -193,7 +193,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
     dispatchUnsubscribeRequest: () => dispatch(Actions.unsubscribeRequest()),
-    dispatchCancelUnsubscriptionRequest: () => dispatch(Actions.cancelUnsubscriptionRequest())
+    dispatchCancelUnsubscriptionRequest: () => dispatch(Actions.cancelUnsubscriptionRequest()),
   };
 };
 

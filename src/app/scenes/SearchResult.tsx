@@ -5,14 +5,14 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
-import { GNBSearchActiveType, Actions as CommonUIActions } from 'app/services/commonUI';
+import { Actions as CommonUIActions, GNBSearchActiveType } from 'app/services/commonUI';
+import { EnvironmentState } from 'app/services/environment';
 import { SearchResultBook, SearchResultState } from 'app/services/searchResult';
 import { Actions as SearchResultActions } from 'app/services/searchResult';
 import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
 import { RidiSelectState } from 'app/store';
-import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { EnvironmentState } from 'app/services/environment';
 import { Helmet } from 'react-helmet';
 
 interface SearchResultStateProps {
@@ -109,7 +109,7 @@ export class SearchResult extends React.Component<Props, State> {
                   return {
                     ...books[item.bookId].book!,
                     highlight: item.highlight,
-                    publisher: item.publisher
+                    publisher: item.publisher,
                   };
                 })}
               />

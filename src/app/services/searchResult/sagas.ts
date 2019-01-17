@@ -3,7 +3,6 @@ import { Actions } from 'app/services/searchResult';
 import { requestSearchResult, SearchResultReponse } from 'app/services/searchResult/requests';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
-
 export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywordRequest>) {
   const { page, keyword } = payload;
   let response: SearchResultReponse;

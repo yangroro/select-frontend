@@ -27,9 +27,9 @@ export function updateQueryStringParam(key: string, value: string | number) {
     Object.assign(
       qs.parse(location.search, { ignoreQueryPrefix: true }),
       { [key]: value },
-    )
+    ),
   );
-};
+}
 
 export function callbackAfterFailedFetch(e: AxiosError, page = 1) {
   if (
@@ -44,7 +44,7 @@ export function callbackAfterFailedFetch(e: AxiosError, page = 1) {
     !e.response.config.params.page ||
     page === 1
   ) {
-    toast.fail(`${typeof e === 'string' ? e :'없는 페이지입니다.'} 이전 페이지로 돌아갑니다.`);
+    toast.fail(`${typeof e === 'string' ? e : '없는 페이지입니다.'} 이전 페이지로 돌아갑니다.`);
     window.requestAnimationFrame(history.goBack);
   }
 }

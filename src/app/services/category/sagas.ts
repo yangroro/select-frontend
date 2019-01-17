@@ -1,14 +1,14 @@
 import { replace } from 'connected-react-router';
-import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import * as qs from 'qs';
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import { Actions as BookActions } from 'app/services/book';
-import { Category, Actions } from 'app/services/category';
+import { Actions, Category } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
-import { RidiSelectState } from 'app/store';
 import { localStorageManager } from 'app/services/category/utils';
-import showMessageForRequestError from "app/utils/toastHelper";
+import { RidiSelectState } from 'app/store';
 import { callbackAfterFailedFetch } from 'app/utils/request';
+import showMessageForRequestError from 'app/utils/toastHelper';
 
 export async function loadCategoryList() {
   return await requestCategoryList();
@@ -64,7 +64,7 @@ export function* watchInitializeCategoryId() {
       search: qs.stringify({
         ...parsedQueryString,
         id: categoryId,
-      })
+      }),
     }));
 
     yield put(Actions.cacheCategoryId({ categoryId }));
@@ -82,7 +82,7 @@ export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCa
   const { page, categoryId } = payload;
   try {
     if (Number.isNaN(page)) {
-      throw '유효하지 않은 페이지입니다.';
+      throw new Error('유효하지 않은 페이지입니다.');
     }
     const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
     yield put(BookActions.updateBooks({ books: response.books }));

@@ -1,8 +1,8 @@
 
-import * as React from 'react';
-import { connect } from 'react-redux';
 import { Icon } from '@ridi/rsg';
 import { Actions } from 'app/services/customHistory';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
 export const UpButton: React.SFC< & ReturnType<typeof mapDispatchToProps>> = (props) => (
   <button
@@ -20,7 +20,7 @@ export const UpButton: React.SFC< & ReturnType<typeof mapDispatchToProps>> = (pr
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    goToUpperPath: () => dispatch(Actions.navigateUp())
+    goToUpperPath: () => dispatch(Actions.navigateUp()),
   };
 };
 

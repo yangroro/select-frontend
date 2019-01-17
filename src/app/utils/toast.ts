@@ -115,7 +115,7 @@ class Toast {
         },
         afterClose: callback,
       });
-    })
+    });
   }
 
   public init() {

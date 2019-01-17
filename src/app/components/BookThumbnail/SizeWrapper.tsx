@@ -1,13 +1,13 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
-import { ThumbnailSize, DEFAULT_THUMBNAIL_SIZE } from 'app/components/BookThumbnail/types';
 import { getThumbnailHeight } from 'app/components/BookThumbnail/helpers';
+import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize } from 'app/components/BookThumbnail/types';
 
 export interface SizeWrapperProps {
   className?: string;
   width?: ThumbnailSize;
-};
+}
 
 export const SizeWrapper: React.SFC<SizeWrapperProps> = (props) => {
   const {

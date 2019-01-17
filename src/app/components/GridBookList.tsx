@@ -1,17 +1,17 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
+import { Link } from 'react-router-dom';
 
+import { ThumbnailLinkType, ThumbnailSize } from 'app/components/BookThumbnail';
+import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Book } from 'app/services/book';
 import { StarRating } from 'app/services/review/components';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { ThumbnailLinkType, ThumbnailSize } from 'app/components/BookThumbnail';
-import { ConnectedTrackImpression } from 'app/components/TrackImpression';
-import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
-import { connect } from 'react-redux';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import { connect } from 'react-redux';
 
 interface Props {
   books: Book[];
@@ -24,8 +24,8 @@ interface Props {
   onLinkClick?: (event: React.SyntheticEvent<any>) => any;
 }
 
-export class GridBookList extends React.Component<Props & ReturnType<typeof mapDispatchToProps>>{
-  renderItem = (width: ThumbnailSize, book: Book, rank: number, index: number) => {
+export class GridBookList extends React.Component<Props & ReturnType<typeof mapDispatchToProps>> {
+  public renderItem = (width: ThumbnailSize, book: Book, rank: number, index: number) => {
     const {
       isChart = false,
       thumbnailLinkType = 'Link',
@@ -35,61 +35,67 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
 
     const section = this.getSection();
 
-    return <div style={{ width }}>
-      {isChart && <span className="GridBookList_ItemRanking">{rank}</span>}
-      <DTOBookThumbnail
-        book={book}
-        width={width}
-        linkUrl={`/book/${book.id}`}
-        linkType={thumbnailLinkType}
-        onLinkClick={(e: React.MouseEvent<any>) => {
-          onLinkClick(e);
-          section && trackClick({
-            section,
-            index,
-            id: book.id,
-          });
-        }}
-        sizeWrapperClassName="GridBookList_ItemThumbnail"
-      />
-      <Link
-        to={`/book/${book.id}`}
-        className="GridBookList_ItemLink"
-        onClick={(e: React.MouseEvent<any>) => {
-          onLinkClick(e);
-          section && trackClick({
-            section,
-            index,
-            id: book.id,
-          });
-        }}
-      >
-        <h3 className="GridBookList_ItemTitle">{book.title.main}</h3>
-        {isChart && (
-          <span className="HomeSection_ChartBookRating">
-            <StarRating rating={book.reviewSummary!.buyerRatingAverage} />
-            <span className="HomeSection_ChartBookRatingCount">
-              {thousandsSeperator(book.reviewSummary!.buyerRatingCount)}
+    return (
+      <div style={{ width }}>
+        {isChart && <span className="GridBookList_ItemRanking">{rank}</span>}
+        <DTOBookThumbnail
+          book={book}
+          width={width}
+          linkUrl={`/book/${book.id}`}
+          linkType={thumbnailLinkType}
+          onLinkClick={(e: React.MouseEvent<any>) => {
+            onLinkClick(e);
+            if (section) {
+              trackClick({
+                section,
+                index,
+                id: book.id,
+              });
+            }
+          }}
+          sizeWrapperClassName="GridBookList_ItemThumbnail"
+        />
+        <Link
+          to={`/book/${book.id}`}
+          className="GridBookList_ItemLink"
+          onClick={(e: React.MouseEvent<any>) => {
+            onLinkClick(e);
+            if (section) {
+              trackClick({
+                section,
+                index,
+                id: book.id,
+              });
+            }
+          }}
+        >
+          <h3 className="GridBookList_ItemTitle">{book.title.main}</h3>
+          {isChart && (
+            <span className="HomeSection_ChartBookRating">
+              <StarRating rating={book.reviewSummary!.buyerRatingAverage} />
+              <span className="HomeSection_ChartBookRatingCount">
+                {thousandsSeperator(book.reviewSummary!.buyerRatingCount)}
+              </span>
             </span>
-          </span>
-        )}
-      </Link>
-    </div>
+          )}
+        </Link>
+      </div>
+    );
   }
 
-  getSection = () => {
+  public getSection = () => {
     const { pageTitleForTracking, filterForTracking } = this.props;
     return !!pageTitleForTracking ?
       getSectionStringForTracking(pageTitleForTracking, 'books', filterForTracking) :
       undefined;
   }
 
-  getRank = (current: number) => {
+  public getRank = (current: number) => {
     const { page = 1, itemCountPerPage = 24 } = this.props;
     return (current + 1) + (page - 1) * itemCountPerPage;
   }
 
-  render() {
+  public render() {
     const {
       books,
       isChart = false,
@@ -127,14 +133,12 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
       </ul>
     );
   }
-};
+}
 
-
-const mapDispatchToProps = (dispatch: any) => {;
+const mapDispatchToProps = (dispatch: any) => {
   return {
     trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams } )),
   };
 };
 
 export const ConnectedGridBookList = connect(null, mapDispatchToProps)(GridBookList);
-

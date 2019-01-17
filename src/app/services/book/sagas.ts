@@ -1,12 +1,12 @@
 import { mapValues } from 'lodash-es';
 
-import toast from 'app/utils/toast';
 import history from 'app/config/history';
-import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/book';
+import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
+import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
+import { RidiSelectState } from 'app/store';
+import toast from 'app/utils/toast';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
-import { BookOwnershipStatus, BookState, LocalStorageStaticBookState, StaticBookState, LegacyStaticBookState } from 'app/services/book';
-import { BookDetailResponse, requestBookDetail, requestBookOwnership, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
 
 const KEY_LOCAL_STORAGE = 'rs.books';
 const booksLocalStorageManager = {
@@ -16,9 +16,9 @@ const booksLocalStorageManager = {
       return {};
     }
     return mapValues(JSON.parse(data), (book: LegacyStaticBookState) => {
-      if (book.bookDetail && (<BookDetailResponseV1>book.bookDetail).description) {
-        (<BookDetailResponseV2>book.bookDetail).introduction = (<BookDetailResponseV1>book.bookDetail).description;
-        delete (<BookDetailResponseV1>book.bookDetail).description;
+      if (book.bookDetail && (book.bookDetail as BookDetailResponseV1).description) {
+        (book.bookDetail as BookDetailResponseV2).introduction = (book.bookDetail as BookDetailResponseV1).description;
+        delete (book.bookDetail as BookDetailResponseV1).description;
       }
       return book as StaticBookState;
     });
@@ -39,7 +39,7 @@ const booksLocalStorageManager = {
       }, {});
     try {
       localStorage.setItem(KEY_LOCAL_STORAGE, JSON.stringify(staticBookState));
-    }  catch(e) {
+    }  catch (e) {
       localStorage.removeItem(KEY_LOCAL_STORAGE);
     }
   },
@@ -47,7 +47,7 @@ const booksLocalStorageManager = {
 
 function* initialSaga() {
   yield put(Actions.initializeBooks({
-    staticBookState: booksLocalStorageManager.load()
+    staticBookState: booksLocalStorageManager.load(),
   }));
 }
 
@@ -78,7 +78,7 @@ export function* watchLoadBookDetail() {
       }
       yield put(Actions.loadBookDetailSuccess({
         bookId: response.id,
-        bookDetail: response
+        bookDetail: response,
       }));
       if (String(bookId) !== String(response.id)) {
         history.replace(`/book/${response.id}`);
@@ -91,7 +91,7 @@ export function* watchLoadBookDetail() {
         toast.defaultErrorMessage();
       }
       yield put(Actions.loadBookDetailFailure({
-        bookId
+        bookId,
       }));
     }
   }
@@ -109,7 +109,7 @@ export function* watchLoadBookOwnership() {
       }));
     } catch (e) {
       yield put(Actions.loadBookOwnershipFailure({
-        bookId
+        bookId,
       }));
     }
   }

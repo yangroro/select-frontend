@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
+import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
+import { FetchStatusFlag } from 'app/constants';
+import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
 import { SelectionType } from 'app/services/home';
-import { ConnectedHomeHotReleaseSection } from './HomeHotReleaseSection';
-import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
 import { DefaultSelectionState, HotReleaseSelectionState } from 'app/services/selection';
-import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
-import { FetchStatusFlag } from 'app/constants';
 import { RidiSelectState } from 'app/store';
+import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
+import { ConnectedHomeHotReleaseSection } from './HomeHotReleaseSection';
 
 interface HomeSectionProps {
   selection: DefaultSelectionState | HotReleaseSelectionState;

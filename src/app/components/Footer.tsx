@@ -1,12 +1,12 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as classNames from 'classnames';
 
 import { Icon } from '@ridi/rsg';
-import { getPlatformDetail, IOS_APPSTORE_URL, ANDROID_APPSTORE_URL } from 'app/utils/downloadUserBook';
-import { RidiSelectState } from 'app/store';
 import { FooterTheme } from 'app/services/commonUI';
+import { RidiSelectState } from 'app/store';
+import { ANDROID_APPSTORE_URL, getPlatformDetail, IOS_APPSTORE_URL } from 'app/utils/downloadUserBook';
 
 const URL_APP_DOWNLOAD = 'https://ridibooks.com/support/app/download';
 
@@ -26,10 +26,12 @@ interface Props {
 export const Footer: React.SFC<Props> = (props) => {
   const { footerTheme } = props;
   return (
-    <footer className={classNames([
-      "Footer",
-      footerTheme === FooterTheme.dark ? `Footer-dark` : '',
-    ])}>
+    <footer
+      className={classNames(
+        'Footer',
+        { 'Footer-dark': footerTheme === FooterTheme.dark },
+      )}
+    >
       <ul className="Footer_Headline_List">
         <li className="Footer_Headline_Item">
           <a

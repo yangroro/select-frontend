@@ -1,9 +1,9 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { BookId } from 'app/types';
-import { RGB } from 'app/services/commonUI';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
+import { RGB } from 'app/services/commonUI';
+import { BookId } from 'app/types';
 
 export * from './utils';
 
@@ -42,7 +42,6 @@ export const Actions = {
     color: RGB,
   }>(),
 };
-
 
 export enum AuthorKeys {
   'author' = 'author',
@@ -141,7 +140,6 @@ export interface BookState {
 }
 
 export const INITIAL_BOOK_STATE: BookState = {};
-
 
 export const bookReducer = createReducer<typeof INITIAL_BOOK_STATE>({}, INITIAL_BOOK_STATE);
 

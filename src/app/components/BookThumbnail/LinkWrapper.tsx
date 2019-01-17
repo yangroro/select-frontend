@@ -1,14 +1,14 @@
+import { ThumbnailLinkType } from 'app/components/BookThumbnail/types';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { ThumbnailLinkType } from 'app/components/BookThumbnail/types';
 
 export interface LinkWrapperProps {
   className?: string;
   linkUrl?: string;
   linkType: ThumbnailLinkType;
   onClick: (event: React.SyntheticEvent<any>) => void;
-};
+}
 
 export const LinkWrapper: React.SFC<LinkWrapperProps> = (props) => {
   const {

@@ -1,15 +1,15 @@
 import * as React from 'react';
 
 import {
-  BookThumbnail,
-  BookThumbnailProps,
-} from './BookThumbnail';
-import {
-  BookThumbnailUrlMap,
   Book,
+  BookThumbnailUrlMap,
 } from 'app/services/book';
 import { Omit } from 'app/types';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
+import {
+  BookThumbnail,
+  BookThumbnailProps,
+} from './BookThumbnail';
 
 export interface DTOBookThumbnailProps extends Omit<BookThumbnailProps, 'bookTitle' | 'imageUrl'> {
   book: Book;
@@ -29,5 +29,5 @@ export const DTOBookThumbnail: React.SFC<DTOBookThumbnailProps> = (props) => {
       bookTitle={book.title.main}
       {...restProps}
     />
-  )
-}
+  );
+};

@@ -1,6 +1,6 @@
+import { Button } from '@ridi/rsg';
 import * as React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { Button } from '@ridi/rsg';
 
 export interface CommentFormProps {
   bookId: number;

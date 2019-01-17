@@ -1,15 +1,15 @@
-import * as React from "react";
-import { RidiSelectState } from "app/store";
-import { connect } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router";
-import { Helmet } from "react-helmet";
-import { throttle, sortedIndex } from "lodash-es";
-import MediaQuery from "react-responsive";
+import { RidiSelectState } from 'app/store';
+import { sortedIndex, throttle } from 'lodash-es';
+import * as React from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import { Icon } from "@ridi/rsg";
-import * as classNames from "classnames";
+import { Icon } from '@ridi/rsg';
+import * as classNames from 'classnames';
 
-import { GNBTransparentType, FooterTheme, Actions as CommonUIActions } from "app/services/commonUI";
+import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
 import { Actions as EnvironmentActions } from 'app/services/environment';
 import { Omit } from 'app/types';
 
@@ -43,6 +43,18 @@ type OwnProps = RouteProps;
 type Props = IntroStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Intro extends React.Component<Props, IntroPageState> {
+  private sections: Array<HTMLElement | null> = [];
+  private sectionMainButton: Array<HTMLElement | null> = [];
+  private sectionsOffsetTops: number[] = [];
+
+  private throttledResizeFunction: EventListener = throttle(
+    () => this.setWindowSize(),
+    100,
+  );
+  private throttledScrollFunction: EventListener = throttle(
+    () => this.manageSectionActivation(),
+    100,
+  );
   public state: IntroPageState = {
     isLoaded: false,
     currentSection: -1,
@@ -51,42 +63,30 @@ export class Intro extends React.Component<Props, IntroPageState> {
       scrollHeight: 0,
       initialScrollTop: 0,
       distanceToStartPointFromEdge: 0,
-      sectionMainButtonEndPoint: 0
+      sectionMainButtonEndPoint: 0,
     },
-    buttonFixed: false
+    buttonFixed: false,
   };
-  private sections: Array<HTMLElement | null> = [];
-  private sectionMainButton: Array<HTMLElement | null> = [];
-  private sectionsOffsetTops: Array<number> = [];
-
-  private throttledResizeFunction: EventListener = throttle(
-    () => this.setWindowSize(),
-    100
-  );
-  private throttledScrollFunction: EventListener = throttle(
-    () => this.manageSectionActivation(),
-    100
-  );
 
   private getWindowSize() {
     const windowSize = {
       height: window.innerHeight || document.documentElement!.clientHeight,
       scrollHeight: document.documentElement!.scrollHeight,
       initialScrollTop:
-        window.pageYOffset || document.documentElement!.scrollTop
+        window.pageYOffset || document.documentElement!.scrollTop,
     };
     return {
       ...windowSize,
       distanceToStartPointFromEdge: (windowSize.height / 5) * 3,
       sectionMainButtonEndPoint:
         this.sectionMainButton[0]!.offsetTop +
-        this.sectionMainButton[0]!.offsetHeight
+        this.sectionMainButton[0]!.offsetHeight,
     };
   }
 
   private setWindowSize() {
     this.setState({
-      windowInfo: this.getWindowSize()
+      windowInfo: this.getWindowSize(),
     });
   }
 
@@ -100,14 +100,14 @@ export class Intro extends React.Component<Props, IntroPageState> {
     }
     const updatedSectionIndex = sortedIndex(
       this.sectionsOffsetTops,
-      currentScrollTop + windowInfo.distanceToStartPointFromEdge
+      currentScrollTop + windowInfo.distanceToStartPointFromEdge,
     );
     const updatedState: { currentSection: number; buttonFixed: boolean } = {
       currentSection:
         currentSection < updatedSectionIndex
           ? updatedSectionIndex
           : currentSection,
-      buttonFixed: false
+      buttonFixed: false,
     };
 
     if (currentScrollTop >= windowInfo.sectionMainButtonEndPoint) {
@@ -121,39 +121,39 @@ export class Intro extends React.Component<Props, IntroPageState> {
     const {
       isLoggedIn,
       dispatchUpdateGNBTransparentType,
-      dispatchUpdateFooterTheme
+      dispatchUpdateFooterTheme,
     } = this.props;
 
     dispatchUpdateGNBTransparentType(GNBTransparentType.transparent);
     dispatchUpdateFooterTheme(FooterTheme.dark);
 
     this.sectionsOffsetTops = Array.from(this.sections).map(
-      (section: HTMLDivElement) => section.offsetTop
+      (section: HTMLDivElement) => section.offsetTop,
     );
 
     setTimeout(() => {
       this.setState({
         isLoaded: true,
         currentSection: 1,
-        windowInfo: this.getWindowSize()
+        windowInfo: this.getWindowSize(),
       });
       this.props.dispatchCompleteIntroImageLoad();
     }, 100);
 
-    window.addEventListener("resize", this.throttledResizeFunction);
-    window.addEventListener("scroll", this.throttledScrollFunction);
+    window.addEventListener('resize', this.throttledResizeFunction);
+    window.addEventListener('scroll', this.throttledScrollFunction);
   }
 
   public componentWillUnmount() {
     const {
       dispatchUpdateGNBTransparentType,
-      dispatchUpdateFooterTheme
+      dispatchUpdateFooterTheme,
     } = this.props;
     dispatchUpdateGNBTransparentType(GNBTransparentType.default);
     dispatchUpdateFooterTheme(FooterTheme.default);
 
-    window.removeEventListener("resize", this.throttledResizeFunction);
-    window.removeEventListener("scroll", this.throttledScrollFunction);
+    window.removeEventListener('resize', this.throttledResizeFunction);
+    window.removeEventListener('scroll', this.throttledScrollFunction);
   }
 
   public render() {
@@ -161,7 +161,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
       BASE_URL_STORE,
       FREE_PROMOTION_MONTHS,
       isLoggedIn,
-      hasSubscribedBefore
+      hasSubscribedBefore,
     } = this.props;
     const { isLoaded, currentSection, buttonFixed } = this.state;
     const INTRO_IMAGE_DIR = `/assets/images/intro`;
@@ -182,10 +182,10 @@ export class Intro extends React.Component<Props, IntroPageState> {
         <h1 className="a11y">리디셀렉트 인트로</h1>
         <section
           className={classNames({
-            Section: true,
-            SectionMain: true,
-            active: currentSection >= 1,
-            "Button-fixed": buttonFixed
+            'Section': true,
+            'SectionMain': true,
+            'active': currentSection >= 1,
+            'Button-fixed': buttonFixed,
           })}
           ref={(section: HTMLElement | null) => (this.sections[0] = section)}
         >
@@ -212,17 +212,17 @@ export class Intro extends React.Component<Props, IntroPageState> {
               }
             >
               {!hasSubscribedBefore
-                ? FREE_PROMOTION_MONTHS + "개월 무료로 읽어보기"
-                : "리디셀렉트 구독하기"}
+                ? FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기'
+                : '리디셀렉트 구독하기'}
               <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
             </a>
           </div>
         </section>
         <section
           className={classNames(
-            "Section",
-            "SectionFeatured",
-            currentSection >= 2 ? "active" : ""
+            'Section',
+            'SectionFeatured',
+            currentSection >= 2 ? 'active' : '',
           )}
           ref={(section: HTMLElement | null) => (this.sections[1] = section)}
         >
@@ -258,13 +258,13 @@ export class Intro extends React.Component<Props, IntroPageState> {
           </div>
         </section>
         <MediaQuery maxWidth={840}>
-          {isMobile => (
+          {(isMobile) => (
             <>
               <section
                 className={classNames(
-                  "Section",
-                  "SectionReasonable",
-                  currentSection >= 3 ? "active" : ""
+                  'Section',
+                  'SectionReasonable',
+                  currentSection >= 3 ? 'active' : '',
                 )}
                 ref={(section: HTMLElement | null) =>
                   (this.sections[2] = section)
@@ -315,9 +315,9 @@ export class Intro extends React.Component<Props, IntroPageState> {
               </section>
               <section
                 className={classNames(
-                  "Section",
-                  "SectionPromotion",
-                  (!isMobile || currentSection >= 4) ? "active" : ""
+                  'Section',
+                  'SectionPromotion',
+                  (!isMobile || currentSection >= 4) ? 'active' : '',
                 )}
                 ref={(section: HTMLElement | null) => (this.sections[3] = section)}
               >
@@ -386,8 +386,8 @@ const mapDispatchToProps = (dispatch: any) => {
 export const ConnectedIntro = withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(Intro)
+    mapDispatchToProps,
+  )(Intro),
 );
 
 export default ConnectedIntro;

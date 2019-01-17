@@ -5,10 +5,10 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { ConnectedPageHeader } from 'app/components';
 import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, ReservedSelectionState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
-import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Helmet } from 'react-helmet';
 
 interface SelectionStateProps {
@@ -40,7 +40,7 @@ export class AvailableBooks extends React.Component<Props> {
           fetch={(page) => dispatchLoadAvailableBooks(page)}
           itemCount={availableBooks ? availableBooks.itemCount : undefined}
           buildPaginationURL={(page: number) => `/books?page=${page}`}
-          renderPlaceholder={() => (<GridBookListSkeleton />) }
+          renderPlaceholder={() => (<GridBookListSkeleton />)}
           renderItems={(page) => (
             <ConnectedGridBookList
               pageTitleForTracking="available"

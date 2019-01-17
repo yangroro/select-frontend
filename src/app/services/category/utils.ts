@@ -19,13 +19,13 @@ export const localStorageManager = (() => ({
     newData.lastVisitedCategoryId = state.lastVisitedCategoryId;
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newData));
-    } catch(e) {
+    } catch (e) {
       this.clear();
     }
   },
   clear: (): void => {
     localStorage.removeItem(LOCAL_STORAGE_KEY);
-  }
+  },
 }))();
 
 export function getIdFromLocationSearch(search: string): string {

@@ -1,9 +1,9 @@
-import { createReducer, createAction } from 'redux-act';
+import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
-import { BookId, Paginated } from 'app/types';
 import { Book } from 'app/services/book';
 import { SearchResultReponse } from 'app/services/searchResult/requests';
+import { BookId, Paginated } from 'app/types';
 
 export const Actions = {
   queryKeywordRequest: createAction<{
@@ -34,14 +34,14 @@ export interface SearchResultItem {
   highlight: SearchResultHighlight;
   publisher: {
     name: string;
-  }
+  };
 }
 
 export interface SearchResultBook extends Book {
   highlight: SearchResultHighlight;
   publisher: {
     name: string;
-  }
+  };
 }
 
 export interface KeywordSearchResult extends Paginated<SearchResultItem> {}

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize} from 'app/components/BookThumbnail/types';
-import { LazyloadWrapper } from 'app/components/BookThumbnail/LazyloadWrapper';
-import { SizeWrapper } from 'app/components/BookThumbnail/SizeWrapper';
-import { LinkWrapper } from 'app/components/BookThumbnail/LinkWrapper';
 import { CoverImage } from 'app/components/BookThumbnail/CoverImage';
+import { LazyloadWrapper } from 'app/components/BookThumbnail/LazyloadWrapper';
+import { LinkWrapper } from 'app/components/BookThumbnail/LinkWrapper';
+import { SizeWrapper } from 'app/components/BookThumbnail/SizeWrapper';
+import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize} from 'app/components/BookThumbnail/types';
 
 export interface BookThumbnailProps {
   sizeWrapperClassName?: string;
@@ -20,7 +20,7 @@ export interface BookThumbnailProps {
   lazyload?: boolean;
   hasOverflowWrapper?: boolean;
   placeholder?: JSX.Element;
-};
+}
 
 export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
   const {
@@ -66,8 +66,8 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
         </LazyloadWrapper>
       </LinkWrapper>
     </SizeWrapper>
-  )
-}
+  );
+};
 
 export * from './CoverImage';
 export * from './DefaultLazyloadPlaceholder';

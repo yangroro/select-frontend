@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { Omit } from 'app/types';
 import { isInViewport } from 'app/utils/isInViewport';
 import { subscribeToScrollEnd, unsubscribeFromScrollEnd } from 'app/utils/onWindowScrollEnd';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
 export type TrackImpressionOwnProps = Omit<DefaultTrackingParams, 'section'> & {
   section?: string;
@@ -12,16 +12,16 @@ export type TrackImpressionOwnProps = Omit<DefaultTrackingParams, 'section'> & {
 export type TrackImpressionProps = TrackImpressionOwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class TrackImpression extends React.Component<TrackImpressionProps> {
-  private ref: React.RefObject<HTMLDivElement>;
-  private scrollEndHandlerIndex?: number;
-  private initialCheckTimeout?: number;
 
   constructor(props: TrackImpressionProps) {
     super(props);
     this.ref = React.createRef();
   }
+  private ref: React.RefObject<HTMLDivElement>;
+  private scrollEndHandlerIndex?: number;
+  private initialCheckTimeout?: number;
 
-  trackEmpression = () => {
+  public trackEmpression = () => {
     const { trackImpression, section, index, id  } = this.props;
     if (!section) {
       return;
@@ -31,7 +31,7 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
       trackImpression({
         section,
         index,
-        id
+        id,
       });
       if (this.scrollEndHandlerIndex) {
         unsubscribeFromScrollEnd(this.scrollEndHandlerIndex);
@@ -40,7 +40,7 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
     }
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     const { section } = this.props;
     if (!section || !this.ref.current) {
       return;
@@ -52,7 +52,7 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
     }, 300);
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     if (this.initialCheckTimeout) {
       window.clearTimeout(this.initialCheckTimeout);
     }
@@ -62,7 +62,7 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
     }
   }
 
-  render() {
+  public render() {
     return (
       <div
         className="pass-through"
@@ -72,9 +72,9 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
       </div>
     );
   }
-};
+}
 
-const mapDispatchToProps = (dispatch: any) => {;
+const mapDispatchToProps = (dispatch: any) => {
   return {
     trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
   };

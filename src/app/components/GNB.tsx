@@ -3,12 +3,12 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
-import { GNBColorLevel } from 'app/services/commonUI';
 import { ConnectedSearch } from 'app/components/search';
+import { GNBColorLevel } from 'app/services/commonUI';
+import { getBackgroundColorRGBString, getGNBType, getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
-import { getSolidBackgroundColorRGBString, getGNBType, getBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 
 interface Props {
   gnbType: GNBColorLevel;
@@ -37,16 +37,18 @@ export const GNB: React.SFC<Props> = (props) => {
     logoType,
   } = props;
 
-  const Logo = <>
-    <Icon
-      name="logo_ridiselect_1"
-      className={classNames(
-        'GNBLogo',
-        { 'GNBLogo-InAppIntro': logoType === 'inAppIntro' }
-      )}
-    />
-    <h1 className="a11y">리디셀렉트</h1>
-  </>;
+  const Logo = (
+    <>
+      <Icon
+        name="logo_ridiselect_1"
+        className={classNames(
+          'GNBLogo',
+          { 'GNBLogo-InAppIntro': logoType === 'inAppIntro' },
+        )}
+      />
+      <h1 className="a11y">리디셀렉트</h1>
+    </>
+  );
 
   return (
     <header
@@ -54,7 +56,7 @@ export const GNB: React.SFC<Props> = (props) => {
         'GNBWrapper',
         `GNBWrapper-${gnbType}`,
       )}
-      style={{ backgroundColor: backgroundColorRGBString, }}
+      style={{ backgroundColor: backgroundColorRGBString }}
     >
       <div className="GNBContentWrapper">
         <div className="GNBLeft">

@@ -1,15 +1,13 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { throttle } from "lodash-es";
+import { throttle } from 'lodash-es';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
-import { RidiSelectState } from "app/store";
-import { SelectionType } from "app/services/home";
-import { SelectionsState } from "app/services/selection";
-import { groupSelections } from "app/services/home/uitls";
-import { HomeSectionPlaceholder } from "app/placeholder/HomeSectionPlaceholder";
-import { ConnectedHomeSection } from "app/services/home/components/HomeSection";
-
-
+import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
+import { SelectionType } from 'app/services/home';
+import { ConnectedHomeSection } from 'app/services/home/components/HomeSection';
+import { groupSelections } from 'app/services/home/uitls';
+import { SelectionsState } from 'app/services/selection';
+import { RidiSelectState } from 'app/store';
 
 interface HomeSelectionListStateProps {
   fetchedAt: number | null;
@@ -22,37 +20,18 @@ interface HomeSelectionListState {
 }
 
 export class HomeSectionList extends React.Component<HomeSelectionListStateProps, HomeSelectionListState> {
-  private panels: Array<HTMLElement> = [];
+  private panels: HTMLElement[] = [];
   private scrollEvent: EventListener = throttle(
     () => this.checkSectionsOnViewport(),
-    500
+    500,
   );
   public state: HomeSelectionListState = {
     renderedLastGroupIdx: 0,
-  }
+  };
 
   private getIsOnViewport(target: HTMLElement) {
     const viewportEndPoint = window.innerHeight + window.pageYOffset;
     return viewportEndPoint > target.offsetTop;
-  }
-
-  public componentDidMount() {
-    window.addEventListener("scroll", this.scrollEvent);
-  }
-
-  public componentDidUpdate(prevProps: HomeSelectionListStateProps) {
-    const { fetchedAt } = this.props;
-    const { renderedLastGroupIdx } = this.state;
-
-    if (!fetchedAt) return;
-
-    if (this.panels.length > 0 && (renderedLastGroupIdx + 1) >= this.panels.length) {
-      window.removeEventListener("scroll", this.scrollEvent);
-    }
-  }
-
-  public componentWillUnmount() {
-    window.removeEventListener("scroll", this.scrollEvent);
   }
 
   private checkSectionsOnViewport() {
@@ -63,11 +42,30 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
       }
       if (idx > renderedLastGroupIdx) {
         this.setState({
-          renderedLastGroupIdx: idx
+          renderedLastGroupIdx: idx,
         });
       }
       return true;
     });
+  }
+
+  public componentDidMount() {
+    window.addEventListener('scroll', this.scrollEvent);
+  }
+
+  public componentDidUpdate(prevProps: HomeSelectionListStateProps) {
+    const { fetchedAt } = this.props;
+    const { renderedLastGroupIdx } = this.state;
+
+    if (!fetchedAt) { return; }
+
+    if (this.panels.length > 0 && (renderedLastGroupIdx + 1) >= this.panels.length) {
+      window.removeEventListener('scroll', this.scrollEvent);
+    }
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollEvent);
   }
 
   public render() {
@@ -121,7 +119,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                 />
               ))}
             </div>
-          )
+          ),
         )}
       </div>
     );

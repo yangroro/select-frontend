@@ -1,9 +1,9 @@
+import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { SearchResultBook } from 'app/services/searchResult';
+import { getSortedAuthorsHtmlString } from 'app/utils/search';
+import { getDTOAuthorsCount, stringifyAuthors } from 'app/utils/utils';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { getSortedAuthorsHtmlString } from 'app/utils/search';
-import { stringifyAuthors, getDTOAuthorsCount } from 'app/utils/utils';
 
 interface Props {
   keyword: string;
@@ -35,7 +35,7 @@ export const SearchResultBookList: React.SFC<Props> = (props) => {
                 dangerouslySetInnerHTML={{
                    __html: book.highlight.author
                     ? getSortedAuthorsHtmlString(book.highlight.author, getDTOAuthorsCount(book.authors), 2)
-                    : stringifyAuthors(book.authors, 2)
+                    : stringifyAuthors(book.authors, 2),
                 }}
               />
               <span

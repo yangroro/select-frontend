@@ -1,9 +1,9 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
-import { RidiSelectState, hasCompletedSubscription } from 'app/store';
-import { LOCATION_CHANGE, replace } from 'connected-react-router';
-import { all, select, take, put } from 'redux-saga/effects';
 import { Actions } from 'app/services/tracking';
+import { hasCompletedSubscription, RidiSelectState } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
+import { all, put, select, take } from 'redux-saga/effects';
 
 export const PIXEL_ID = '417351945420295';
 let tracker: Tracker;
@@ -31,11 +31,11 @@ const initializeTracker = (state: RidiSelectState) => {
 // **IMPORTANT NOTE**
 // You may also need to change `tracking_macro.twig` when you change this saga
 export function* watchLocationChange() {
-  let _referrer = document.referrer;
+  let { referrer } = document;
   while (true) {
     yield take(LOCATION_CHANGE);
     const state: RidiSelectState = yield select((s) => s);
-    const href = window.location.href
+    const href = window.location.href;
 
     if (!tracker) {
       initializeTracker(state);
@@ -43,16 +43,16 @@ export function* watchLocationChange() {
 
     clearScrollEndHandlers();
 
-    if (_referrer) {
-      tracker.sendPageView(href, _referrer);
+    if (referrer) {
+      tracker.sendPageView(href, referrer);
     } else {
       tracker.sendPageView(href);
     }
-    _referrer = href;
+    referrer = href;
 
     if (hasCompletedSubscription()) {
       tracker.sendEvent('New Subscription', {
-        monthlyFee: 6500 // FIXME: get monthlyFee from backend
+        monthlyFee: 6500, // FIXME: get monthlyFee from backend
       });
       // Remove new subscription search string for tracking and move to entry page if there is one
       yield put(replace({

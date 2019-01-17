@@ -1,12 +1,12 @@
-import { flatMap } from "lodash-es";
+import { flatMap } from 'lodash-es';
 
 import {
   authorKeys,
-  authorKoreanNames,
-  BookAuthors,
   AuthorKeys,
-  BookAuthor
-} from "app/services/book";
+  authorKoreanNames,
+  BookAuthor,
+  BookAuthors,
+} from 'app/services/book';
 
 export const setFixedScrollToTop = (isFixed: boolean) => {
   if (isFixed) {
@@ -14,7 +14,7 @@ export const setFixedScrollToTop = (isFixed: boolean) => {
   } else {
     document.body.classList.remove('scrollFixedToTop');
   }
-}
+};
 
 export const setDisableScroll = (isDisabled: boolean) => {
   if (isDisabled) {
@@ -22,7 +22,7 @@ export const setDisableScroll = (isDisabled: boolean) => {
   } else {
     document.body.classList.remove('App-disableScroll');
   }
-}
+};
 
 export const buildAuthorString = (authors: BookAuthor[], suffix: string, authorLimitCount?: number): string => {
   if (!authors) {
@@ -31,15 +31,15 @@ export const buildAuthorString = (authors: BookAuthor[], suffix: string, authorL
   if (authorLimitCount && authors.length > authorLimitCount) {
     const expandedAuthors = authors
       .slice(0, authorLimitCount)
-      .map(author => author.name)
+      .map((author) => author.name)
       .join(', ');
     return `${expandedAuthors} 외 ${authors.length - authorLimitCount}명 ${suffix}`;
   }
   return authors
-    .map(author => author.name)
+    .map((author) => author.name)
     .join(', ')
     .concat(` ${suffix}`);
-}
+};
 
 export const stringifyAuthors = (authors: BookAuthors, authorLimitCount?: number): string =>
   authorKeys

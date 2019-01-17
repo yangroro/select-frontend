@@ -1,8 +1,8 @@
 import {
   flow,
-  omit,
-  mapValues,
   keyBy,
+  mapValues,
+  omit,
 } from 'lodash-es';
 import Immutable from 'object-path-immutable';
 

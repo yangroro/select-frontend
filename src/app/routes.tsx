@@ -1,37 +1,37 @@
+import { ConnectedRouter } from 'connected-react-router';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router'
 
-import { ConnectedGNB, ConnectedFooter, ConnectedLNB } from 'app/components';
-import { ConnectedSplashScreen } from "app/components/SplashScreen";
+import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
+import { ConnectedSplashScreen } from 'app/components/SplashScreen';
 
 import history from 'app/config/history';
 import {
+  ConnectedAvailableBooks,
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
   ConnectedGuide,
   ConnectedHome,
+  ConnectedIntro,
   ConnectedManageSubscription,
   ConnectedMySelect,
   ConnectedMySelectHistory,
+  ConnectedNewReleases,
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSelection,
   ConnectedSetting,
-  ConnectedNewReleases,
-  ConnectedAvailableBooks,
-  ConnectedIntro,
-  InAppIntro,
   Error404,
+  InAppIntro,
 } from 'app/scenes';
 
 import {
-  PrivateRoute,
-  NonSubscriberOnlyRoute,
   ConnectedScrollManager,
+  NonSubscriberOnlyRoute,
+  PrivateRoute,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
 
@@ -62,12 +62,16 @@ export const Routes: React.SFC<Props> = (props) => (
     <ConnectedSplashScreen {...props} />
     <ConnectedRouter history={history}>
       <ConnectedScrollManager>
-        <Route render={({ location }) => (
-          (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname)) && <ConnectedGNB />
-        )} />
-        <Route render={({ location }) => (
-          (LNBRoutes.includes(location.pathname)) && <ConnectedLNB />
-        )} />
+        <Route
+          render={({ location }) => (
+            (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname)) && <ConnectedGNB />
+          )}
+        />
+        <Route
+          render={({ location }) => (
+            (LNBRoutes.includes(location.pathname)) && <ConnectedLNB />
+          )}
+        />
         <Switch>
           <PrivateRoute
             path="/home"

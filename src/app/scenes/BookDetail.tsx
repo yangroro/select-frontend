@@ -1,50 +1,55 @@
-import * as isWithinRange from 'date-fns/is_within_range';
 import * as classNames from 'classnames';
+import * as isWithinRange from 'date-fns/is_within_range';
 import { some } from 'lodash-es';
+import * as qs from 'qs';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import LazyLoad, { forceCheck } from 'react-lazyload';
 import { connect, MapDispatchToProps } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
-import * as qs from 'qs';
 // tslint:disable-next-line
 const Vibrant = require('node-vibrant');
 
 import { Button, Icon } from '@ridi/rsg';
+import { ConnectedPageHeader } from 'app/components';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
 import { FetchStatusFlag } from 'app/constants';
+import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
+import { Actions as BookActions } from 'app/services/book';
 import {
   Book,
+  BookAuthor,
   BookAuthors,
   BookOwnershipStatus,
   BookReviewSummary,
   BookThumbnailUrlMap,
   BookTitle,
-  BookAuthor,
   formatFileSize,
 } from 'app/services/book';
-import { Actions as BookActions } from 'app/services/book';
-import { TextTruncate } from 'app/services/book/components/TextTruncate';
+import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
 import { Expander } from 'app/services/book/components/Expander';
-import { Publisher, BookFile, BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
-import { GNB_DEFAULT_COLOR, RGB, GNBColorLevel, Actions as CommonUIActions } from 'app/services/commonUI';
+import { TextTruncate } from 'app/services/book/components/TextTruncate';
+import { BookDetailPublishingDate, BookFile, NoticeResponse, Publisher } from 'app/services/book/requests';
+import { Category } from 'app/services/category';
+import { Actions as CommonUIActions, GNB_DEFAULT_COLOR, GNBColorLevel, RGB } from 'app/services/commonUI';
+import {
+  getBackgroundColorGradientToLeft,
+  getBackgroundColorGradientToRight,
+  getSolidBackgroundColorRGBString,
+  getTransparentBackgroundColorRGBString,
+} from 'app/services/commonUI/selectors';
+import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect';
 import { ConnectedReviews } from 'app/services/review';
 import { StarRating } from 'app/services/review/components';
 import { RidiSelectState } from 'app/store';
 import { BookId, TextWithLF } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { EnvironmentState } from 'app/services/environment';
 import { stringifyAuthors } from 'app/utils/utils';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
-import { Category } from 'app/services/category';
-import { ConnectedPageHeader } from 'app/components';
-import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
-import { getSolidBackgroundColorRGBString, getTransparentBackgroundColorRGBString, getBackgroundColorGradientToLeft, getBackgroundColorGradientToRight } from 'app/services/commonUI/selectors';
 
 interface BookDetailStateProps {
   bookId: BookId;
@@ -72,7 +77,7 @@ interface BookDetailStateProps {
   introImageUrl?: string;
   introVideoUrl?: string;
   tableOfContents?: TextWithLF;
-  noticeList?: Array<NoticeResponse>;
+  noticeList?: NoticeResponse[];
   publisher?: Publisher;
   publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
@@ -83,7 +88,7 @@ interface BookDetailStateProps {
   solidBackgroundColorRGBString: string;
   transparentBackgroundColorRGBString: string;
   backgroundColorGradientToRight: string;
-  backgroundColorGradientToLeft : string;
+  backgroundColorGradientToLeft: string;
 
   ownershipFetchStatus?: FetchStatusFlag;
   ownershipStatus?: BookOwnershipStatus;
@@ -112,7 +117,7 @@ export class BookDetail extends React.Component<Props, State> {
   public state = {
     thumbnailExapnded: false,
     isAuthorsExpanded: false,
-    seriesListExpanded: false
+    seriesListExpanded: false,
   };
 
   private updateDominantColor = (props: Props) => {
@@ -121,7 +126,7 @@ export class BookDetail extends React.Component<Props, State> {
       thumbnail,
       dispatchUpdateDominantColor,
       dispatchUpdateGNBColor,
-      bookId
+      bookId,
     } = props;
     if (!thumbnail) {
       return;
@@ -145,7 +150,7 @@ export class BookDetail extends React.Component<Props, State> {
             r: tempRGB.r,
             g: tempRGB.g,
             b: tempRGB.b,
-          }
+          };
           dispatchUpdateGNBColor(rgb);
           dispatchUpdateDominantColor(bookId, rgb);
         });
@@ -155,7 +160,7 @@ export class BookDetail extends React.Component<Props, State> {
     } else {
       dispatchUpdateGNBColor(dominantColor);
     }
-  };
+  }
 
   private handleDownloadButtonClick = () => {
     const { env, bookId } = this.props;
@@ -174,19 +179,18 @@ export class BookDetail extends React.Component<Props, State> {
     } else {
       this.props.dispatchAddMySelect(bookId);
     }
-  };
+  }
 
   private canDownload = () =>
-    (!!this.props.ownershipStatus && this.props.ownershipStatus.isDownloadAvailable);
-
+    (!!this.props.ownershipStatus && this.props.ownershipStatus.isDownloadAvailable)
 
   private currentBookExistsInMySelect = () =>
-    (!!this.props.ownershipStatus && this.props.ownershipStatus.isCurrentlyUsedRidiSelectBook);
+    (!!this.props.ownershipStatus && this.props.ownershipStatus.isCurrentlyUsedRidiSelectBook)
 
   private shouldDisplaySpinnerOnDownload = () =>
     (this.props.isLoggedIn && !this.props.ownershipStatus) ||
     this.props.ownershipFetchStatus === FetchStatusFlag.FETCHING ||
-    this.props.mySelect.additionFetchStatus === FetchStatusFlag.FETCHING;
+    this.props.mySelect.additionFetchStatus === FetchStatusFlag.FETCHING
 
   private fetchBookDetailAndOwnership = (props: Props) => {
     if (!props.isFetched) {
@@ -195,37 +199,6 @@ export class BookDetail extends React.Component<Props, State> {
     if (!props.ownershipStatus && props.isLoggedIn) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
     }
-  };
-
-  public componentDidMount() {
-    this.fetchBookDetailAndOwnership(this.props);
-    this.updateDominantColor(this.props);
-    requestAnimationFrame(forceCheck);
-  }
-  public componentWillReceiveProps(nextProps: Props) {
-    if (this.props.bookId !== nextProps.bookId) {
-      this.updateDominantColor(nextProps);
-      this.fetchBookDetailAndOwnership(nextProps);
-    }
-    if (
-      (!this.props.thumbnail && nextProps.thumbnail) ||
-      (!this.props.isFetched && nextProps.isFetched)
-    ) {
-      this.updateDominantColor(nextProps);
-    }
-  }
-  public componentWillUnmount() {
-    this.props.dispatchUpdateGNBColor(GNB_DEFAULT_COLOR);
-  }
-
-  public checkAuth() {
-    if (this.props.isLoggedIn) {
-      return true;
-    }
-    if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-      window.location.replace(`${ this.props.env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
-    }
-    return false;
   }
 
   private renderDownloadButton = () => {
@@ -243,7 +216,7 @@ export class BookDetail extends React.Component<Props, State> {
         >
           {env.platform.isRidibooks ? '읽기' : '다운로드'}
         </Button>
-      )
+      );
     } else if (isSubscribing) {
       return (
         <Button
@@ -256,12 +229,12 @@ export class BookDetail extends React.Component<Props, State> {
           {!shouldDisplaySpinnerOnDownload && <Icon name="check_6" />}
           마이 셀렉트에 추가
         </Button>
-      )
+      );
     } else {
       // TODO: refactor to external utility function
       const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
         filter: (prefix, value) => {
-          if(~prefix.indexOf('utm_')) {
+          if (prefix.includes('utm_')) {
             return;
           }
           return value;
@@ -282,7 +255,7 @@ export class BookDetail extends React.Component<Props, State> {
         >
           {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
         </Button>
-      )
+      );
     }
   }
 
@@ -332,7 +305,7 @@ export class BookDetail extends React.Component<Props, State> {
           <meta name="theme-color" content={solidBackgroundColorRGBString} />
         </Helmet>
         <MediaQuery maxWidth={840}>
-          {isMobile => (
+          {(isMobile) => (
             <div className="PageBookDetail_Meta">
               <ul className="PageBookDetail_Categories">
                 {categories &&
@@ -359,10 +332,12 @@ export class BookDetail extends React.Component<Props, State> {
                 )}
                 {file && file.format && file.format !== 'bom' && <span className="PageBookDetail_FileType">{`${file.format.toUpperCase()}`}</span>}
                 {file && file.size &&
-                  <span className={classNames(
-                    'PageBookDetail_FileSize',
-                    { 'PageBookDetail_FileSize-noFileType': file.format && file.format === 'bom' }
-                  )}>
+                  <span
+                    className={classNames(
+                      'PageBookDetail_FileSize',
+                      { 'PageBookDetail_FileSize-noFileType': file.format && file.format === 'bom' },
+                    )}
+                  >
                     {`${file.format && file.format !== 'bom' ? ' · ' : ''}${formatFileSize(file.size)}`}
                   </span>
                 }
@@ -385,16 +360,16 @@ export class BookDetail extends React.Component<Props, State> {
               <div className="PageBookDetail_DownloadWrapper">
                 {isSubscribing && previewAvailable && hasPreview ? (
                   <Button
-                  color={isMobile ? 'blue' : undefined}
-                  outline={true}
-                  size="large"
-                  className="PageBookDetail_PreviewButton"
-                  component="a"
-                  href={`https://preview.ridibooks.com/books/${previewBId}?s=ridi_select`}
-                >
-                  <Icon name="book_1" />
-                  <span className="PageBookDetail_PreviewButtonLabel">미리보기</span>
-                </Button>
+                    color={isMobile ? 'blue' : undefined}
+                    outline={true}
+                    size="large"
+                    className="PageBookDetail_PreviewButton"
+                    component="a"
+                    href={`https://preview.ridibooks.com/books/${previewBId}?s=ridi_select`}
+                  >
+                    <Icon name="book_1" />
+                    <span className="PageBookDetail_PreviewButtonLabel">미리보기</span>
+                  </Button>
                 ) : null}
                 {this.renderDownloadButton()}
               </div>
@@ -452,10 +427,12 @@ export class BookDetail extends React.Component<Props, State> {
   private renderMovieTrailer = (videoUrl: string, isMobile: boolean) => {
     const videoSrc = this.getVideoSrc(videoUrl);
     return videoSrc ? (
-      <section className={classNames(
-        'PageBookDetail_Panel',
-        { 'PageBookDetail_Panel-inMeta': isMobile },
-      )}>
+      <section
+        className={classNames(
+          'PageBookDetail_Panel',
+          { 'PageBookDetail_Panel-inMeta': isMobile },
+        )}
+      >
         <h2 className={isMobile ? 'a11y' : 'PageBookDetail_PanelTitle'}>북 트레일러</h2>
         <div className="PageBookDetail_PanelContent PageBookDetail_PanelContent-trailer">
           <iframe
@@ -463,14 +440,14 @@ export class BookDetail extends React.Component<Props, State> {
             width={isMobile ? 300 : 800}
             height={isMobile ? 225 : 450}
             frameBorder="0"
-            allowFullScreen
+            allowFullScreen={true}
           />
         </div>
       </section>
     ) : null;
   }
 
-  private renderNoticeList = (noticeList?: Array<NoticeResponse>) => {
+  private renderNoticeList = (noticeList?: NoticeResponse[]) => {
     if (!noticeList || !noticeList.length) {
       return null;
     }
@@ -488,7 +465,7 @@ export class BookDetail extends React.Component<Props, State> {
           ))}
         </ul>
       </>
-    )
+    );
   }
 
   private renderPanelContent = (text: TextWithLF, isMobile: boolean) => {
@@ -507,7 +484,38 @@ export class BookDetail extends React.Component<Props, State> {
           </div>
         ))}
       />
-    )
+    );
+  }
+
+  public componentDidMount() {
+    this.fetchBookDetailAndOwnership(this.props);
+    this.updateDominantColor(this.props);
+    requestAnimationFrame(forceCheck);
+  }
+  public componentWillReceiveProps(nextProps: Props) {
+    if (this.props.bookId !== nextProps.bookId) {
+      this.updateDominantColor(nextProps);
+      this.fetchBookDetailAndOwnership(nextProps);
+    }
+    if (
+      (!this.props.thumbnail && nextProps.thumbnail) ||
+      (!this.props.isFetched && nextProps.isFetched)
+    ) {
+      this.updateDominantColor(nextProps);
+    }
+  }
+  public componentWillUnmount() {
+    this.props.dispatchUpdateGNBColor(GNB_DEFAULT_COLOR);
+  }
+
+  public checkAuth() {
+    if (this.props.isLoggedIn) {
+      return true;
+    }
+    if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+      window.location.replace(`${ this.props.env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+    }
+    return false;
   }
   public render() {
     const {
@@ -538,21 +546,21 @@ export class BookDetail extends React.Component<Props, State> {
     }
     return (
       <MediaQuery maxWidth={840}>
-        {isMobile => (
+        {(isMobile) => (
           <main className="SceneWrapper PageBookDetail">
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <div
               className={`PageBookDetail_Header PageBookDetail_Header-${gnbColorLevel}`}
-              style={{ background: solidBackgroundColorRGBString, }}
+              style={{ background: solidBackgroundColorRGBString }}
             >
               <span
                 className="PageBookDetail_HeaderBackground"
                 style={{ backgroundImage: `url(${thumbnail ? `${thumbnail.xxlarge}?dpi=xxhdpi` : ''})` }}
               >
-                <span className="Left_GradientOverlay" style={{ background: backgroundColorGradientToRight, }} />
-                <span className="Right_GradientOverlay" style={{ background: backgroundColorGradientToLeft, }} />
+                <span className="Left_GradientOverlay" style={{ background: backgroundColorGradientToRight }} />
+                <span className="Right_GradientOverlay" style={{ background: backgroundColorGradientToLeft }} />
               </span>
-              <div className="PageBookDetail_HeaderMask" style={{ backgroundColor: transparentBackgroundColorRGBString, }}>
+              <div className="PageBookDetail_HeaderMask" style={{ backgroundColor: transparentBackgroundColorRGBString }}>
                 <div className="PageBookDetail_HeaderContent">
                   <div className="PageBookDetail_ThumbnailWrapper">
                     <button
@@ -722,8 +730,8 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     publishingDate: !!bookDetail ? bookDetail.publishingDate : undefined,
     noticeList: !!bookDetail && !!bookDetail.notices && Array.isArray(bookDetail.notices) ?
       bookDetail.notices.filter((notice) =>
-        notice.isVisible && isWithinRange(new Date(), notice.beginDatetime, notice.endDatetime)
-      ): undefined,
+        notice.isVisible && isWithinRange(new Date(), notice.beginDatetime, notice.endDatetime),
+      ) : undefined,
     file: !!bookDetail ? bookDetail.file : undefined,
     mySelect: state.mySelect,
     env: state.environment,
@@ -748,5 +756,5 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export const ConnectedBookDetail = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BookDetail)
+  connect(mapStateToProps, mapDispatchToProps)(BookDetail),
 );

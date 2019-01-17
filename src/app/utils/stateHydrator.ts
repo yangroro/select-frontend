@@ -1,19 +1,20 @@
-import { RidiSelectState } from "app/store";
+import { RidiSelectState } from 'app/store';
+import { DeepPartial } from 'redux';
 
 const KEY_LOCALSTORAGE = 'rs.entireState';
 export const stateHydrator = {
-  load: (): RidiSelectState | null => {
+  load: (): DeepPartial<RidiSelectState> => {
     const data = localStorage.getItem(KEY_LOCALSTORAGE);
     localStorage.setItem(KEY_LOCALSTORAGE, '');
     if (!data) {
-      return null;
+      return {};
     }
     return JSON.parse(data);
   },
   save: (state: RidiSelectState) => {
     try {
       localStorage.setItem(KEY_LOCALSTORAGE, JSON.stringify(state));
-    } catch(e) {
+    } catch (e) {
       localStorage.removeItem(KEY_LOCALSTORAGE);
     }
   },

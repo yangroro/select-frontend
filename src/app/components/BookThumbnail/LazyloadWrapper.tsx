@@ -2,15 +2,15 @@ import * as React from 'react';
 import Lazyload from 'react-lazyload';
 
 import { DefaultLazyloadPlaceholder } from 'app/components/BookThumbnail/DefaultLazyloadPlaceholder';
-import { ThumbnailSize } from 'app/components/BookThumbnail/types';
 import { getThumbnailHeight } from 'app/components/BookThumbnail/helpers';
+import { ThumbnailSize } from 'app/components/BookThumbnail/types';
 
 export interface LazyloadWrapperProps {
   width: ThumbnailSize;
   lazyload: boolean;
   placeholder?: JSX.Element;
   hasOverflowWrapper?: boolean;
-};
+}
 
 export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
   public render() {
@@ -19,7 +19,7 @@ export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
       lazyload,
       placeholder,
       hasOverflowWrapper,
-      children
+      children,
     } = this.props;
 
     const sizeStyle = {

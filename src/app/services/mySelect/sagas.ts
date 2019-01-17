@@ -1,5 +1,8 @@
-import { Actions } from 'app/services/mySelect';
+import history from 'app/config/history';
+import { Book } from 'app/services/book';
 import { Actions as BookActions } from 'app/services/book';
+import { requestBooks } from 'app/services/book/requests';
+import { Actions } from 'app/services/mySelect';
 import {
   MySelectListResponse,
   requestAddMySelect,
@@ -7,26 +10,23 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
+import { RidiSelectState } from 'app/store';
+import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
+import { callbackAfterFailedFetch, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
-import { all, call, put, take, select, takeEvery } from 'redux-saga/effects';
-import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { RidiSelectState } from 'app/store';
-import { Book } from "app/services/book";
-import { requestBooks } from "app/services/book/requests";
-import { keyBy } from "lodash-es";
-import history from 'app/config/history';
-import { updateQueryStringParam, callbackAfterFailedFetch } from 'app/utils/request';
+import { keyBy } from 'lodash-es';
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
   const { page } = payload;
   try {
-    let response: MySelectListResponse = yield call(requestMySelectList, page);
+    const response: MySelectListResponse = yield call(requestMySelectList, page);
     if (response.userRidiSelectBooks.length > 0) {
-      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map(book => parseInt(book.bId)));
-      const books_map = keyBy(books, 'id');
+      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+      const booksMap = keyBy(books, 'id');
       response.userRidiSelectBooks.forEach((book, index) => {
-        response.userRidiSelectBooks[index].book = books_map[book.bId]
+        response.userRidiSelectBooks[index].book = booksMap[book.bId];
       });
       yield put(BookActions.updateBooks({ books }));
     } else if (response.totalCount < page) {
@@ -34,7 +34,7 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
     }
     yield put(Actions.loadMySelectSuccess({
       response,
-      page
+      page,
     }));
   } catch (e) {
     yield put(Actions.loadMySelectFailure({ page }));
@@ -43,7 +43,7 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
 }
 
 export function* watchLoadMySelectList() {
-  yield takeEvery(Actions.loadMySelectRequest.getType(), loadMySelectList)
+  yield takeEvery(Actions.loadMySelectRequest.getType(), loadMySelectList);
 }
 
 export function* watchDeleteMySelect() {
@@ -91,8 +91,8 @@ export function* watchAddMySelect() {
     const state: RidiSelectState = yield select((s) => s);
     const { bookId } = payload!;
     try {
-      let response: UserRidiSelectBookResponse = yield call(requestAddMySelect, bookId);
-      const books = yield call(requestBooks, [parseInt(response.bId)]);
+      const response: UserRidiSelectBookResponse = yield call(requestAddMySelect, bookId);
+      const books = yield call(requestBooks, [parseInt(response.bId, 10)]);
       response.book = books[0];
       yield put(Actions.addMySelectSuccess({ userRidiSelectResponse: response }));
       yield put(BookActions.loadBookOwnershipRequest({ bookId }));

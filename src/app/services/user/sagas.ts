@@ -1,5 +1,8 @@
-import { Actions } from 'app/services/user';
+import history from 'app/config/history';
+import { Book } from 'app/services/book';
+import { requestBooks } from 'app/services/book/requests';
 import { Actions as MySelectActions } from 'app/services/mySelect';
+import { Actions } from 'app/services/user';
 import {
   MySelectHistoryResponse,
   PurchasesResponse,
@@ -13,14 +16,11 @@ import {
   SubscriptionResponse,
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
-import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
-import history from 'app/config/history';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
-import { Book } from "app/services/book";
-import { requestBooks } from "app/services/book/requests";
-import { keyBy } from "lodash-es";
-import showMessageForRequestError from "app/utils/toastHelper";
+import showMessageForRequestError from 'app/utils/toastHelper';
+import { keyBy } from 'lodash-es';
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 export function* watchLoadSubscription() {
   while (true) {
@@ -39,7 +39,7 @@ export function* watchLoadPurchases() {
   while (true) {
     const { payload: { page } }: ReturnType<typeof Actions.loadPurchasesRequest> = yield take(Actions.loadPurchasesRequest.getType());
     try {
-      let response: PurchasesResponse = yield call(requestPurchases, page);
+      const response: PurchasesResponse = yield call(requestPurchases, page);
       yield put(Actions.loadPurchasesSuccess({ page, response }));
     } catch (e) {
       yield put(Actions.loadPurchasesFailure({ page }));
@@ -51,12 +51,12 @@ export function* watchLoadPurchases() {
 export function* loadMySelectHistory({ payload }: ReturnType<typeof Actions.loadMySelectHistoryRequest>) {
   const { page } = payload!;
   try {
-    let response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
+    const response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
     if (response.userRidiSelectBooks.length > 0) {
-      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map(book => parseInt(book.bId)));
-      const books_map = keyBy(books, 'id');
+      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+      const booksMap = keyBy(books, 'id');
       response.userRidiSelectBooks.forEach((book, index) => {
-        response.userRidiSelectBooks[index].book = books_map[book.bId];
+        response.userRidiSelectBooks[index].book = booksMap[book.bId];
       });
     }
 
@@ -79,12 +79,12 @@ export function* watchDeleteMySelectHistory() {
     const { mySelectBookIds, page } = payload!;
     try {
       yield call(reqeustDeleteMySelectHistory, mySelectBookIds);
-      let response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
+      const response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
       if (response.userRidiSelectBooks.length > 0) {
-        const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map(book => parseInt(book.bId)));
-        const books_map = keyBy(books, 'id');
+        const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+        const booksMap = keyBy(books, 'id');
         response.userRidiSelectBooks.forEach((book, index) => {
-          response.userRidiSelectBooks[index].book = books_map[book.bId];
+          response.userRidiSelectBooks[index].book = booksMap[book.bId];
         });
       }
 
@@ -145,7 +145,7 @@ export function* watchCancelUnsubscription() {
       alert('구독 해지 예약이 취소되었습니다.');
     } catch (e) {
       yield put(Actions.cancelUnsubscriptionFailure());
-      if (e.response && e.response.data.code === "DELETED_PAYMENT_METHOD") {
+      if (e.response && e.response.data.code === 'DELETED_PAYMENT_METHOD') {
         toast.fail(e.response.data.message);
       } else {
         showMessageForRequestError(e);
@@ -153,7 +153,6 @@ export function* watchCancelUnsubscription() {
     }
   }
 }
-
 
 export function* userRootSaga() {
   yield all([

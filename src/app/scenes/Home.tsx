@@ -1,16 +1,16 @@
+import * as differenceInHours from 'date-fns/difference_in_hours';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
 import { forceCheck } from 'react-lazyload';
-import * as differenceInHours from 'date-fns/difference_in_hours'
+import { connect } from 'react-redux';
 
 import { FetchStatusFlag } from 'app/constants';
 import { BookState } from 'app/services/book';
 import { Actions } from 'app/services/home';
 import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
+import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
 import { Actions as SelectionActions, SelectionId, SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
-import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
 
 interface HomeStateProps {
   fetchStatus: FetchStatusFlag;
@@ -34,7 +34,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
       const {
         fetchedAt,
         dispatchLoadHomeRequest,
-        dispatchLoadSelectionRequest
+        dispatchLoadSelectionRequest,
       } = this.props;
       if (
         !fetchedAt ||
@@ -59,7 +59,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
 
   public render() {
     return (
-      <main className='SceneWrapper PageHome'>
+      <main className="SceneWrapper PageHome">
         <Helmet>
           <title>리디셀렉트</title>
         </Helmet>

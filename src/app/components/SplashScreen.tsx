@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Icon } from "@ridi/rsg";
+import { Icon } from '@ridi/rsg';
 import { RidiSelectState } from 'app/store';
 
 interface Props {

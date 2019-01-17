@@ -6,12 +6,12 @@ import { ConnectedRoutes } from 'app/routes';
 import { store } from 'app/store';
 
 import { loadFonts } from 'app/config/fonts';
-import { fetchUserInfo } from "app/services/user/helper";
 import { Actions } from 'app/services/user';
+import { fetchUserInfo } from 'app/services/user/helper';
 
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
-import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 import { controlAndroidAppNativeHorizontalScroll } from 'app/utils/handleNativeHorizontalScroll';
+import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 
 // Show browser input focused outline when tab key is pressed
 setTabKeyFocus();
@@ -27,8 +27,8 @@ controlAndroidAppNativeHorizontalScroll([
 ]);
 
 class App extends React.Component<{}, {}> {
-  componentDidMount() {
-    fetchUserInfo().then(user => {
+  public componentDidMount() {
+    fetchUserInfo().then((user) => {
       store.dispatch(Actions.initializeUser({ userDTO: user }));
     }).finally(() => {
       store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
@@ -36,14 +36,14 @@ class App extends React.Component<{}, {}> {
     loadFonts();
   }
 
-  render () {
+  public render() {
     return (
       <Provider store={store}>
         <ConnectedRoutes />
       </Provider>
     );
   }
-};
+}
 
 render(
   <App />,

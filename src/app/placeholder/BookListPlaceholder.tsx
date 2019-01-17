@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { range } from 'lodash-es';
+import * as React from 'react';
 
 interface GridBookListSkeletonProps {
   displayRanking?: boolean;
@@ -17,7 +17,7 @@ export const BookSkeleton: React.SFC<BookSkeletonProps> = (props) => {
   const { hasCheckbox } = props;
 
   return (
-    <div className='Book_Skeleton'>
+    <div className="Book_Skeleton">
       {hasCheckbox ? (
         <div className="Checkbox_Skeleton_Wrapper">
           <span className="Checkbox_Skeleton Skeleton" />
@@ -78,13 +78,13 @@ export const ChartBookListSkeleton: React.SFC = () => {
                   <span className="HomeSection_ChartBookRating Skeleton" />
                 </div>
             </li>
-            )}
+            ); },
           )}
         </ol>
       ))}
     </div>
   );
-}
+};
 
 export const GridBookListSkeleton: React.SFC<GridBookListSkeletonProps> = (props) => {
   const { displayRanking } = props;

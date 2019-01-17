@@ -2,15 +2,15 @@ import { camelize, CamelizeOpts, decamelize } from '@ridi/object-case-converter'
 import { AxiosResponse } from 'axios';
 import { snakeCase } from 'lodash-es';
 
-import { Omit, TextWithLF } from 'app/types';
 import request from 'app/config/axios';
+import { Omit, TextWithLF } from 'app/types';
 
+import env from 'app/config/env';
 import {
   ReviewSortingCriteria,
   UserFilterType,
 } from './constants';
 import { Comment, Review, ReviewSummary } from './reducer.state';
-import env from 'app/config/env';
 
 export interface RequestReviewsParameters {
   userFilterType: UserFilterType;

@@ -4,8 +4,8 @@ import { Actions } from 'app/services/home';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
 import { Actions as SelectionActions } from 'app/services/selection';
 import { SelectionResponse } from 'app/services/selection/requests';
+import showMessageForRequestError from 'app/utils/toastHelper';
 import { all, call, put, take } from 'redux-saga/effects';
-import showMessageForRequestError from "app/utils/toastHelper";
 
 export function* watchLoadHome() {
   while (true) {
@@ -29,7 +29,7 @@ export function* watchLoadHome() {
       yield put(SelectionActions.updateSelections({ selections }));
       yield put(Actions.loadHomeSuccess({
         response,
-        fetchedAt: Date.now()
+        fetchedAt: Date.now(),
       }));
     } catch (e) {
       yield put(Actions.loadHomeFailure());

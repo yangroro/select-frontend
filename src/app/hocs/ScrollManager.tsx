@@ -1,6 +1,6 @@
+import { setFixedScrollToTop } from 'app/utils/utils';
 import * as React from 'react';
 import { withRouter } from 'react-router';
-import { setFixedScrollToTop } from 'app/utils/utils';
 
 interface ScrollManagerProps {
   location: Location;
@@ -8,7 +8,7 @@ interface ScrollManagerProps {
 
 interface ScrollManagerState {
   scrollPosition: {
-    [location: string]: number
+    [location: string]: number,
   };
 }
 
@@ -17,15 +17,15 @@ export class ScrollManager extends React.Component<ScrollManagerProps, ScrollMan
     super(props);
   }
 
+  public state: ScrollManagerState = {
+    scrollPosition: {},
+  };
+
   private scrollToTopSetter() {
     window.setTimeout(() => {
       setFixedScrollToTop(true);
       window.scrollTo(0, 0);
     });
-  }
-
-  public state: ScrollManagerState = {
-    scrollPosition: {},
   }
 
   public componentWillMount() {
@@ -46,7 +46,7 @@ export class ScrollManager extends React.Component<ScrollManagerProps, ScrollMan
         scrollPosition: {
           ...scrollPosition,
           [location.pathname]: window.scrollY,
-        }
+        },
       });
     }
     if (

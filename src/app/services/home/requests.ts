@@ -1,9 +1,9 @@
-import * as qs from 'qs';
 import { AxiosResponse } from 'axios';
+import * as qs from 'qs';
 
 import request from 'app/config/axios';
-import { BigBanner } from 'app/services/home';
 import { AuthorKeys, Book } from 'app/services/book';
+import { BigBanner } from 'app/services/home';
 import { SelectionResponse } from 'app/services/selection/requests';
 
 import { camelize } from '@ridi/object-case-converter';
@@ -62,4 +62,4 @@ export const requestHome = (): Promise<HomeResponse> => {
     params: queryString.test_group && queryString.test_group.length > 0 ? { test_group: queryString.test_group } : {},
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<HomeResponse>>(response, { recursive: true }).data);
-}
+};

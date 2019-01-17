@@ -1,4 +1,4 @@
-import { Button, Icon, Group } from '@ridi/rsg';
+import { Button, Group, Icon } from '@ridi/rsg';
 import * as React from 'react';
 
 export interface PaginationProps {
@@ -47,7 +47,7 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
             <Button
               component={el}
               color="gray"
-              outline
+              outline={true}
               className="Pagination_Button museoSans"
               aria-label="첫 페이지"
               {...getProps(1)}
@@ -63,7 +63,7 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
           <Button
             component={el}
             color="gray"
-            outline
+            outline={true}
             className="Pagination_Button museoSans"
             aria-label="이전 페이지"
             {...getProps(startPageNum - buttonRangeCount)}
@@ -92,7 +92,7 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
           <Button
             component={el}
             color="gray"
-            outline
+            outline={true}
             className="Pagination_Button museoSans"
             aria-label="다음 페이지"
             {...getProps(endPageNum + 1)}
@@ -108,7 +108,7 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
             <Button
               component={el}
               color="gray"
-              outline
+              outline={true}
               className="Pagination_Button museoSans"
               aria-label="마지막 페이지"
               {...getProps(totalPages)}

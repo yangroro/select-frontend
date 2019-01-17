@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { FetchStatusFlag } from 'app/constants';
 import { InstantSearchResultBook } from 'app/components/search';
-import { getSortedAuthorsHtmlString, getAuthorsCount } from 'app/utils/search';
+import { FetchStatusFlag } from 'app/constants';
+import { getAuthorsCount, getSortedAuthorsHtmlString } from 'app/utils/search';
 
 interface InstantSearchProps {
   keyword: string;
@@ -58,7 +58,7 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                       dangerouslySetInnerHTML={{__html: getSortedAuthorsHtmlString(
                         book.highlightAuthor ? book.highlightAuthor : book.author,
                         getAuthorsCount(book.author),
-                        2
+                        2,
                       )}}
                     />
                     <span

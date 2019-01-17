@@ -1,9 +1,9 @@
-import { createReducer, createAction } from 'redux-act';
+import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
 import { SelectionType } from 'app/services/home';
-import { BookId, Paginated } from 'app/types';
 import { SelectionResponse } from 'app/services/selection/requests';
+import { BookId, Paginated } from 'app/types';
 
 export type ReservedSelectionIds = 'popular' | 'recent' | 'hotRelease';
 export type SelectionId = number | ReservedSelectionIds;
@@ -47,7 +47,7 @@ export const Actions = {
   }>('updateSelections'),
 
   updateHotRelease: createAction<{
-    hotRelease: SelectionResponse
+    hotRelease: SelectionResponse,
   }>('updateHotRelease'),
 
   loadSelectionRequest: createAction<{
@@ -79,7 +79,7 @@ export const INITIAL_STATE: SelectionsState = {
   hotRelease: {
     id: 'hotRelease',
     itemListByPage: {},
-  }
+  },
 };
 
 export const selectionReducer = createReducer<SelectionsState>({}, INITIAL_STATE);
@@ -125,7 +125,7 @@ selectionReducer.on(Actions.updateHotRelease, (state = INITIAL_STATE, { hotRelea
     pageCount: 0,
     title: hotRelease.title,
     type: hotRelease.type,
-  }
+  },
 }));
 
 selectionReducer.on(Actions.loadSelectionRequest, (state = INITIAL_STATE, { page, selectionId }) => ({

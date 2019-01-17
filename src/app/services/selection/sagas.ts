@@ -1,8 +1,8 @@
 import { Actions as BookActions } from 'app/services/book';
 import { Actions } from 'app/services/selection';
 import { requestSelection, SelectionResponse } from 'app/services/selection/requests';
-import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { callbackAfterFailedFetch } from 'app/utils/request';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 export function* loadSelection({ payload }: ReturnType<typeof Actions.loadSelectionRequest>) {
   const { page, selectionId } = payload!;

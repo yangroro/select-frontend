@@ -1,32 +1,32 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import * as classNames from 'classnames';
-import { take, isString } from 'lodash-es';
+import { isString, take } from 'lodash-es';
+import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router';
-import { Subscription, Observable, Subject } from 'rxjs';
-import * as qs from 'qs';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Observable, Subject, Subscription } from 'rxjs';
 import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/throttleTime';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/throttleTime';
 
 import history from 'app/config/history';
 
 import { camelize } from '@ridi/object-case-converter';
 import { Icon } from '@ridi/rsg';
-import { FetchStatusFlag } from 'app/constants';
-import { GNBColorLevel, GNBSearchActiveType, RGB, toRGBString } from 'app/services/commonUI';
 import { InstantSearch } from 'app/components/InstantSearch';
 import { SearchHistory } from 'app/components/SearchHistory';
-import { localStorageManager } from 'app/utils/search';
-import { RidiSelectState } from 'app/store';
 import request from 'app/config/axios';
-import { setDisableScroll } from 'app/utils/utils';
+import { FetchStatusFlag } from 'app/constants';
+import { GNBColorLevel, GNBSearchActiveType, RGB, toRGBString } from 'app/services/commonUI';
+import { RidiSelectState } from 'app/store';
+import { localStorageManager } from 'app/utils/search';
 import toast from 'app/utils/toast';
+import { setDisableScroll } from 'app/utils/utils';
 
 export enum SearchHelperFlag {
   NONE,
@@ -80,7 +80,6 @@ interface SearchState {
   };
 }
 
-
 enum KeyboardCode {
   ArrowUp = 38,
   ArrowDown = 40,
@@ -93,11 +92,11 @@ export class Search extends React.Component<SearchProps, SearchState> {
   private onSearchKeydown$ = new Subject();
   private searchComponentWrapper: HTMLElement | null;
   private searchInput: HTMLInputElement | null;
-  private closeFunctionOnWindow = (event: MouseEvent): void => this.handleOutsideClick(event);
   private keydownSubscription: Subscription;
   private inputSubscription: Subscription;
 
   public state: SearchState = this.getInitialState();
+  private closeFunctionOnWindow = (event: MouseEvent): void => this.handleOutsideClick(event);
 
   // set initial private state
   private getInitialState(): SearchState {
@@ -123,7 +122,9 @@ export class Search extends React.Component<SearchProps, SearchState> {
       currentHelperType: SearchHelperFlag.NONE,
       isClearButtonVisible: false,
     }, () => {
-      this.searchInput && this.searchInput.blur();
+      if (this.searchInput) {
+        this.searchInput.blur();
+      }
     });
   }
 
@@ -253,7 +254,9 @@ export class Search extends React.Component<SearchProps, SearchState> {
       targetState.currentHelperType = SearchHelperFlag.INSTANT;
     }
     this.setState(targetState, () => {
-      this.searchInput && this.searchInput.focus();
+      if (this.searchInput) {
+        this.searchInput.focus();
+      }
     });
   }
 
@@ -362,16 +365,15 @@ export class Search extends React.Component<SearchProps, SearchState> {
         const {
           keyword,
           currentHelperType,
-          history,
           instantSearchResultsByKeyword,
           fetchStatus,
-          highlightIndex
+          highlightIndex,
         } = this.state;
         if (obj.keyType === KeyboardCode.Enter) {
           this.doSearchAction(obj.value);
           return;
         }
-        if (currentHelperType === SearchHelperFlag.HISTORY && !history.enabled) {
+        if (currentHelperType === SearchHelperFlag.HISTORY && !this.state.history.enabled) {
           this.setState({ highlightIndex: -1 });
           return;
         }
@@ -413,7 +415,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
             isActive: true,
             isClearButtonVisible: false,
-            currentHelperType: SearchHelperFlag.HISTORY
+            currentHelperType: SearchHelperFlag.HISTORY,
           });
           return;
         }
@@ -499,7 +501,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           'GNBSearchWrapper-colored': gnbColorLevel !== GNBColorLevel.DEFAULT,
           'GNBSearchWrapper-typeBlock': gnbSearchActiveType === GNBSearchActiveType.block,
         })}
-        style={{ background: toRGBString(gnbColor), }}
+        style={{ background: toRGBString(gnbColor) }}
         ref={(ref) => { this.searchComponentWrapper = ref; }}
       >
         <button
@@ -513,10 +515,12 @@ export class Search extends React.Component<SearchProps, SearchState> {
           />
           <h2 className="a11y">검색</h2>
         </button>
-        <div className={classNames(
-          'GNBSearchInputWrapper',
-          isClearButtonVisible ? null : 'GNBSearchInputWrapper-empty',
-        )}>
+        <div
+          className={classNames(
+            'GNBSearchInputWrapper',
+            { 'GNBSearchInputWrapper-empty': isClearButtonVisible },
+          )}
+        >
           <Icon name="search" className="GNBSearchIcon" />
           <input
             className="GNBSearchInput"

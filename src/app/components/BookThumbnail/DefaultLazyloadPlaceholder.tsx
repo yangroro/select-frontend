@@ -5,4 +5,4 @@ export const DefaultLazyloadPlaceholder: React.SFC<
 > = (props) => {
   const { size } = props;
   return <div className="RSGBookThumbnail_LazyloadPlaceholder" style={size}/>;
-}
+};

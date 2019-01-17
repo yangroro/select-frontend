@@ -1,6 +1,6 @@
+import { FetchStatusFlag } from 'app/constants';
 import { createAction, createReducer } from 'redux-act';
 import { HomeResponse } from './requests';
-import { FetchStatusFlag } from 'app/constants';
 
 export const Actions = {
   loadHomeRequest: createAction('loadHomeRequest'),
@@ -48,10 +48,10 @@ homeReducer.on(Actions.loadHomeRequest, (state, action) => {
 });
 
 homeReducer.on(Actions.loadHomeSuccess, (state, action) => {
-  const { response, fetchedAt } = action
+  const { response, fetchedAt } = action;
   return {
     ...state,
-    fetchedAt: fetchedAt,
+    fetchedAt,
     bigBannerList: response.bigBanners,
     selectionIdList: response.collections.map((collection) => collection.collectionId),
     fetchStatus: FetchStatusFlag.IDLE,
