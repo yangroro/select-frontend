@@ -1,6 +1,7 @@
 import { connectRouter } from 'connected-react-router';
 import { routerMiddleware, RouterState } from 'connected-react-router';
 import { History } from 'history';
+import { isEmpty } from 'lodash-es';
 import * as qs from 'qs';
 import { Dispatch } from 'redux';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
@@ -9,7 +10,7 @@ import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
-import history from 'app/config/history';
+import browserHistory from 'app/config/history';
 import { bookReducer, BookState } from 'app/services/book';
 import { bookRootSaga } from 'app/services/book/sagas';
 import { commonUIReducer, CommonUIState } from 'app/services/commonUI';
@@ -104,18 +105,18 @@ const reducers = ((history: History) => combineReducers({
   tracking: trackingReducer,
   environment: environmentReducer,
   customHistory: customHistoryReducer,
-}))(history);
+}))(browserHistory);
 
 const enhancers = composeEnhancers(
   applyMiddleware(
-    routerMiddleware(history),
+    routerMiddleware(browserHistory),
     sagaMiddleware,
     logger,
   ),
 );
 
 const savedState = stateHydrator.load();
-export const store = hasRefreshedForAppDownload() && savedState
+export const store = hasRefreshedForAppDownload() && !isEmpty(savedState)
   ? createStore(reducers, savedState, enhancers)
   : createStore(reducers, enhancers);
 

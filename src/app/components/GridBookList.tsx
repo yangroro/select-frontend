@@ -35,46 +35,52 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
 
     const section = this.getSection();
 
-    return <div style={{ width }}>
-      {isChart && <span className="GridBookList_ItemRanking">{rank}</span>}
-      <DTOBookThumbnail
-        book={book}
-        width={width}
-        linkUrl={`/book/${book.id}`}
-        linkType={thumbnailLinkType}
-        onLinkClick={(e: React.MouseEvent<any>) => {
-          onLinkClick(e);
-          section && trackClick({
-            section,
-            index,
-            id: book.id,
-          });
-        }}
-        sizeWrapperClassName="GridBookList_ItemThumbnail"
-      />
-      <Link
-        to={`/book/${book.id}`}
-        className="GridBookList_ItemLink"
-        onClick={(e: React.MouseEvent<any>) => {
-          onLinkClick(e);
-          section && trackClick({
-            section,
-            index,
-            id: book.id,
-          });
-        }}
-      >
-        <h3 className="GridBookList_ItemTitle">{book.title.main}</h3>
-        {isChart && (
-          <span className="HomeSection_ChartBookRating">
-            <StarRating rating={book.reviewSummary!.buyerRatingAverage} />
-            <span className="HomeSection_ChartBookRatingCount">
-              {thousandsSeperator(book.reviewSummary!.buyerRatingCount)}
+    return (
+      <div style={{ width }}>
+        {isChart && <span className="GridBookList_ItemRanking">{rank}</span>}
+        <DTOBookThumbnail
+          book={book}
+          width={width}
+          linkUrl={`/book/${book.id}`}
+          linkType={thumbnailLinkType}
+          onLinkClick={(e: React.MouseEvent<any>) => {
+            onLinkClick(e);
+            if (section) {
+              trackClick({
+                section,
+                index,
+                id: book.id,
+              });
+            }
+          }}
+          sizeWrapperClassName="GridBookList_ItemThumbnail"
+        />
+        <Link
+          to={`/book/${book.id}`}
+          className="GridBookList_ItemLink"
+          onClick={(e: React.MouseEvent<any>) => {
+            onLinkClick(e);
+            if (section) {
+              trackClick({
+                section,
+                index,
+                id: book.id,
+              });
+            }
+          }}
+        >
+          <h3 className="GridBookList_ItemTitle">{book.title.main}</h3>
+          {isChart && (
+            <span className="HomeSection_ChartBookRating">
+              <StarRating rating={book.reviewSummary!.buyerRatingAverage} />
+              <span className="HomeSection_ChartBookRatingCount">
+                {thousandsSeperator(book.reviewSummary!.buyerRatingCount)}
+              </span>
             </span>
-          </span>
-        )}
-      </Link>
-    </div>;
+          )}
+        </Link>
+      </div>
+    );
   }
 
   public getSection = () => {

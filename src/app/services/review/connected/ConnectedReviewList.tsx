@@ -101,10 +101,12 @@ export const ReviewList: React.SFC<ReviewListProps> = (props) => {
   return (
     <div className="ReviewsList_Wrapper">
       {reviewList.length ? (
-        <ul className={classNames([
-          'ReviewList',
-          { 'last-page': !nextPageCount },
-        ])}>
+        <ul
+          className={classNames(
+            'ReviewList',
+            { 'last-page': !nextPageCount },
+          )}
+        >
           {reviewList.map((review) => (
             <ConnectedReviewItem
               key={review.id}

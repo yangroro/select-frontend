@@ -20,9 +20,11 @@ export interface Ticket {
   title: string;
 }
 
-export interface SubscriptionResponse extends SubscriptionState {
-  // subscription: SubscriptionState;
-}
+// export interface SubscriptionResponse extends SubscriptionState {
+//   subscription: SubscriptionState;
+// }
+
+export type SubscriptionResponse = SubscriptionState;
 
 export interface PurchasesResponse {
   totalCount: number;

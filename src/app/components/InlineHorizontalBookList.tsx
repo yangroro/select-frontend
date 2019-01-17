@@ -78,7 +78,9 @@ export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDi
                       style={{
                         width: `${isSmallerThumbnail ? 110 : 120}px`,
                       }}
-                    >{book.title.main}</span>
+                    >
+                      {book.title.main}
+                    </span>
                     {renderAuthor && (
                         <span
                           className="InlineHorizontalBookList_Author"
@@ -86,8 +88,8 @@ export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDi
                             width: `${isSmallerThumbnail ? 110 : 120}px`,
                           }}
                         >
-                        {stringifyAuthors(book.authors, 2)}
-                      </span>
+                          {stringifyAuthors(book.authors, 2)}
+                        </span>
                     )}
                   </Link>
                 </>

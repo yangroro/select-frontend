@@ -122,7 +122,9 @@ export class Search extends React.Component<SearchProps, SearchState> {
       currentHelperType: SearchHelperFlag.NONE,
       isClearButtonVisible: false,
     }, () => {
-      this.searchInput && this.searchInput.blur();
+      if (this.searchInput) {
+        this.searchInput.blur();
+      }
     });
   }
 
@@ -252,7 +254,9 @@ export class Search extends React.Component<SearchProps, SearchState> {
       targetState.currentHelperType = SearchHelperFlag.INSTANT;
     }
     this.setState(targetState, () => {
-      this.searchInput && this.searchInput.focus();
+      if (this.searchInput) {
+        this.searchInput.focus();
+      }
     });
   }
 
@@ -361,7 +365,6 @@ export class Search extends React.Component<SearchProps, SearchState> {
         const {
           keyword,
           currentHelperType,
-          history,
           instantSearchResultsByKeyword,
           fetchStatus,
           highlightIndex,
@@ -370,7 +373,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           this.doSearchAction(obj.value);
           return;
         }
-        if (currentHelperType === SearchHelperFlag.HISTORY && !history.enabled) {
+        if (currentHelperType === SearchHelperFlag.HISTORY && !this.state.history.enabled) {
           this.setState({ highlightIndex: -1 });
           return;
         }
@@ -512,10 +515,12 @@ export class Search extends React.Component<SearchProps, SearchState> {
           />
           <h2 className="a11y">검색</h2>
         </button>
-        <div className={classNames(
-          'GNBSearchInputWrapper',
-          isClearButtonVisible ? null : 'GNBSearchInputWrapper-empty',
-        )}>
+        <div
+          className={classNames(
+            'GNBSearchInputWrapper',
+            { 'GNBSearchInputWrapper-empty': isClearButtonVisible },
+          )}
+        >
           <Icon name="search" className="GNBSearchIcon" />
           <input
             className="GNBSearchInput"

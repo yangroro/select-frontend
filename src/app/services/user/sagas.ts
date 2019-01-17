@@ -53,10 +53,10 @@ export function* loadMySelectHistory({ payload }: ReturnType<typeof Actions.load
   try {
     const response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
     if (response.userRidiSelectBooks.length > 0) {
-      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId)));
-      const books_map = keyBy(books, 'id');
+      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+      const booksMap = keyBy(books, 'id');
       response.userRidiSelectBooks.forEach((book, index) => {
-        response.userRidiSelectBooks[index].book = books_map[book.bId];
+        response.userRidiSelectBooks[index].book = booksMap[book.bId];
       });
     }
 
@@ -81,10 +81,10 @@ export function* watchDeleteMySelectHistory() {
       yield call(reqeustDeleteMySelectHistory, mySelectBookIds);
       const response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
       if (response.userRidiSelectBooks.length > 0) {
-        const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId)));
-        const books_map = keyBy(books, 'id');
+        const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+        const booksMap = keyBy(books, 'id');
         response.userRidiSelectBooks.forEach((book, index) => {
-          response.userRidiSelectBooks[index].book = books_map[book.bId];
+          response.userRidiSelectBooks[index].book = booksMap[book.bId];
         });
       }
 

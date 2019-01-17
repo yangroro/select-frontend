@@ -36,12 +36,13 @@ export class HomeHotReleaseSection extends React.Component<Props> {
       trackingStartIdx + 5 > books.length ? books.length : trackingStartIdx + 5;
 
     for (let idx = trackingStartIdx; idx < trackingEndIdx; idx += 1) {
-      books[idx] &&
+      if (books[idx]) {
         trackImpression({
           section,
           index: idx,
           id: books[idx].id,
         });
+      }
     }
   }
 

@@ -62,12 +62,16 @@ export const Routes: React.SFC<Props> = (props) => (
     <ConnectedSplashScreen {...props} />
     <ConnectedRouter history={history}>
       <ConnectedScrollManager>
-        <Route render={({ location }) => (
-          (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname)) && <ConnectedGNB />
-        )} />
-        <Route render={({ location }) => (
-          (LNBRoutes.includes(location.pathname)) && <ConnectedLNB />
-        )} />
+        <Route
+          render={({ location }) => (
+            (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname)) && <ConnectedGNB />
+          )}
+        />
+        <Route
+          render={({ location }) => (
+            (LNBRoutes.includes(location.pathname)) && <ConnectedLNB />
+          )}
+        />
         <Switch>
           <PrivateRoute
             path="/home"

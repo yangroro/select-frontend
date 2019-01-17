@@ -30,10 +30,12 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
   }
 
   if (isRidiApp && !inAppGnbRoutes.includes(location.pathname)) {
-    return <>
-      {pageTitle && <ConnectedWebActionBar>{pageTitle}</ConnectedWebActionBar>}
-      {!!children && <div className="PageHeader">{children}</div>}
-    </>;
+    return (
+      <>
+        {pageTitle && <ConnectedWebActionBar>{pageTitle}</ConnectedWebActionBar>}
+        {!!children && <div className="PageHeader">{children}</div>}
+      </>
+    );
   }
 
   return (

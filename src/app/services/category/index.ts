@@ -75,7 +75,7 @@ export const INITIAL_STATE: CategoryBooksState = {
 export const categoryListReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
 
 categoryListReducer.on(Actions.loadCategoryListRequest, (state) => ({
-	...state,
+  ...state,
   fetchStatus: FetchStatusFlag.FETCHING,
 }));
 

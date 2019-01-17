@@ -31,7 +31,7 @@ const initializeTracker = (state: RidiSelectState) => {
 // **IMPORTANT NOTE**
 // You may also need to change `tracking_macro.twig` when you change this saga
 export function* watchLocationChange() {
-  let _referrer = document.referrer;
+  let { referrer } = document;
   while (true) {
     yield take(LOCATION_CHANGE);
     const state: RidiSelectState = yield select((s) => s);
@@ -43,12 +43,12 @@ export function* watchLocationChange() {
 
     clearScrollEndHandlers();
 
-    if (_referrer) {
-      tracker.sendPageView(href, _referrer);
+    if (referrer) {
+      tracker.sendPageView(href, referrer);
     } else {
       tracker.sendPageView(href);
     }
-    _referrer = href;
+    referrer = href;
 
     if (hasCompletedSubscription()) {
       tracker.sendEvent('New Subscription', {

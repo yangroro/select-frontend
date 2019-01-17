@@ -81,7 +81,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       </Link>
                     </ConnectedTrackImpression>
                   </li>
-                );},
+                ); },
               )}
             </ol>
           ))}

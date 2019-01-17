@@ -37,16 +37,18 @@ export const GNB: React.SFC<Props> = (props) => {
     logoType,
   } = props;
 
-  const Logo = <>
-    <Icon
-      name="logo_ridiselect_1"
-      className={classNames(
-        'GNBLogo',
-        { 'GNBLogo-InAppIntro': logoType === 'inAppIntro' },
-      )}
-    />
-    <h1 className="a11y">리디셀렉트</h1>
-  </>;
+  const Logo = (
+    <>
+      <Icon
+        name="logo_ridiselect_1"
+        className={classNames(
+          'GNBLogo',
+          { 'GNBLogo-InAppIntro': logoType === 'inAppIntro' },
+        )}
+      />
+      <h1 className="a11y">리디셀렉트</h1>
+    </>
+  );
 
   return (
     <header

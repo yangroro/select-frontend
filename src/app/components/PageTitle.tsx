@@ -9,10 +9,12 @@ export const PageTitle: React.SFC<PageTitleProps> = ({
   underline,
   children,
 }) => (
-  <h1 className={classNames([
-    'PageTitle',
-    { underline },
-  ])}>
+  <h1
+    className={classNames([
+      'PageTitle',
+      { underline },
+    ])}
+  >
     {children}
   </h1>
 );

@@ -33,7 +33,12 @@ import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { BookDetailPublishingDate, BookFile, NoticeResponse, Publisher } from 'app/services/book/requests';
 import { Category } from 'app/services/category';
 import { Actions as CommonUIActions, GNB_DEFAULT_COLOR, GNBColorLevel, RGB } from 'app/services/commonUI';
-import { getBackgroundColorGradientToLeft, getBackgroundColorGradientToRight, getSolidBackgroundColorRGBString, getTransparentBackgroundColorRGBString } from 'app/services/commonUI/selectors';
+import {
+  getBackgroundColorGradientToLeft,
+  getBackgroundColorGradientToRight,
+  getSolidBackgroundColorRGBString,
+  getTransparentBackgroundColorRGBString,
+} from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect';
 import { ConnectedReviews } from 'app/services/review';
@@ -229,7 +234,7 @@ export class BookDetail extends React.Component<Props, State> {
       // TODO: refactor to external utility function
       const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
         filter: (prefix, value) => {
-          if (~prefix.indexOf('utm_')) {
+          if (prefix.includes('utm_')) {
             return;
           }
           return value;
@@ -327,10 +332,12 @@ export class BookDetail extends React.Component<Props, State> {
                 )}
                 {file && file.format && file.format !== 'bom' && <span className="PageBookDetail_FileType">{`${file.format.toUpperCase()}`}</span>}
                 {file && file.size &&
-                  <span className={classNames(
-                    'PageBookDetail_FileSize',
-                    { 'PageBookDetail_FileSize-noFileType': file.format && file.format === 'bom' },
-                  )}>
+                  <span
+                    className={classNames(
+                      'PageBookDetail_FileSize',
+                      { 'PageBookDetail_FileSize-noFileType': file.format && file.format === 'bom' },
+                    )}
+                  >
                     {`${file.format && file.format !== 'bom' ? ' · ' : ''}${formatFileSize(file.size)}`}
                   </span>
                 }
@@ -353,16 +360,16 @@ export class BookDetail extends React.Component<Props, State> {
               <div className="PageBookDetail_DownloadWrapper">
                 {isSubscribing && previewAvailable && hasPreview ? (
                   <Button
-                  color={isMobile ? 'blue' : undefined}
-                  outline={true}
-                  size="large"
-                  className="PageBookDetail_PreviewButton"
-                  component="a"
-                  href={`https://preview.ridibooks.com/books/${previewBId}?s=ridi_select`}
-                >
-                  <Icon name="book_1" />
-                  <span className="PageBookDetail_PreviewButtonLabel">미리보기</span>
-                </Button>
+                    color={isMobile ? 'blue' : undefined}
+                    outline={true}
+                    size="large"
+                    className="PageBookDetail_PreviewButton"
+                    component="a"
+                    href={`https://preview.ridibooks.com/books/${previewBId}?s=ridi_select`}
+                  >
+                    <Icon name="book_1" />
+                    <span className="PageBookDetail_PreviewButtonLabel">미리보기</span>
+                  </Button>
                 ) : null}
                 {this.renderDownloadButton()}
               </div>
@@ -420,10 +427,12 @@ export class BookDetail extends React.Component<Props, State> {
   private renderMovieTrailer = (videoUrl: string, isMobile: boolean) => {
     const videoSrc = this.getVideoSrc(videoUrl);
     return videoSrc ? (
-      <section className={classNames(
-        'PageBookDetail_Panel',
-        { 'PageBookDetail_Panel-inMeta': isMobile },
-      )}>
+      <section
+        className={classNames(
+          'PageBookDetail_Panel',
+          { 'PageBookDetail_Panel-inMeta': isMobile },
+        )}
+      >
         <h2 className={isMobile ? 'a11y' : 'PageBookDetail_PanelTitle'}>북 트레일러</h2>
         <div className="PageBookDetail_PanelContent PageBookDetail_PanelContent-trailer">
           <iframe

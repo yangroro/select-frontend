@@ -23,10 +23,10 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
   try {
     const response: MySelectListResponse = yield call(requestMySelectList, page);
     if (response.userRidiSelectBooks.length > 0) {
-      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId)));
-      const books_map = keyBy(books, 'id');
+      const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
+      const booksMap = keyBy(books, 'id');
       response.userRidiSelectBooks.forEach((book, index) => {
-        response.userRidiSelectBooks[index].book = books_map[book.bId];
+        response.userRidiSelectBooks[index].book = booksMap[book.bId];
       });
       yield put(BookActions.updateBooks({ books }));
     } else if (response.totalCount < page) {
@@ -92,7 +92,7 @@ export function* watchAddMySelect() {
     const { bookId } = payload!;
     try {
       const response: UserRidiSelectBookResponse = yield call(requestAddMySelect, bookId);
-      const books = yield call(requestBooks, [parseInt(response.bId)]);
+      const books = yield call(requestBooks, [parseInt(response.bId, 10)]);
       response.book = books[0];
       yield put(Actions.addMySelectSuccess({ userRidiSelectResponse: response }));
       yield put(BookActions.loadBookOwnershipRequest({ bookId }));

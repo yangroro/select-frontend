@@ -26,10 +26,12 @@ interface Props {
 export const Footer: React.SFC<Props> = (props) => {
   const { footerTheme } = props;
   return (
-    <footer className={classNames([
-      'Footer',
-      footerTheme === FooterTheme.dark ? `Footer-dark` : '',
-    ])}>
+    <footer
+      className={classNames(
+        'Footer',
+        { 'Footer-dark': footerTheme === FooterTheme.dark },
+      )}
+    >
       <ul className="Footer_Headline_List">
         <li className="Footer_Headline_Item">
           <a
