@@ -117,7 +117,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --mode production",
-    "lint": "tslint 'src/app/**/*.{ts,tsx}' -c ./tslint.js --fix & stylelint 'src/css/**/*.css' --fix",
+    "lint": "tslint 'src/app/**/*.{ts,tsx}' -c ./tslint.js --fix",
     "test": "jest --collectCoverage --no-cache"
   },
   "browserslist": [
