@@ -1,0 +1,140 @@
+variables:
+
+before_script:
+  - yarn install --frozen-lockfile
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+stages:
+  - trigger
+  - packages
+  - build
+
+# ------------------------------------------------------------
+# Variables: common
+# ------------------------------------------------------------
+variables:
+  YARN_CACHE_FOLDER: .cache/yarn
+
+  INTERACTIVE_DISABLE: 1
+  SSH_PRIVATE_KEY: "${SSH_PRIVATE_KEY}"
+  SSH_SERVER_HOSTKEYS: "${SSH_SERVER_HOSTKEYS}"
+  SLACK_WEBHOOK: "${SLACK_WEBHOOK}"
+  GITLAB_READ_TAGS_TOKEN: "${GITLAB_READ_TAGS_TOKEN}"
+
+
+
+# ------------------------------------------------------------
+# Variables: production
+# ------------------------------------------------------------
+.target-staging: &target-production
+  only:
+    - release
+  variables: &variable-production
+    <<: *variable-prod
+
+# ------------------------------------------------------------
+# Variables: staging
+# ------------------------------------------------------------
+.target-staging: &target-staging
+  only:
+    - master
+  variables: &variable-staging
+    <<: *variable-prod
+
+# ------------------------------------------------------------
+# Variables: development
+# ------------------------------------------------------------
+.target-dev: &target-dev
+  only:
+    - branches
+  except:
+    - master
+    - schedules
+    - triggers
+  variables: &variable-dev
+
+
+# ------------------------------------------------------------
+# Jobs: build
+# ------------------------------------------------------------
+.build-docker:
+  stage: build
+  script:
+    # Export build args
+    - export BASE_URL_STORE_API=$(aws ssm get-parameter --name "${AWS_SSM_PATH}/base_url_store_api" | jq -r '.Parameter.Value') && echo ${BASE_URL_STORE_API}
+    - export BASE_URL_ACCOUNT_API=$(aws ssm get-parameter --name "${AWS_SSM_PATH}/base_url_account_api" | jq -r '.Parameter.Value') && echo ${BASE_URL_ACCOUNT_API}
+    - export BASE_URL_RIDI_PAY_API=$(aws ssm get-parameter --name "${AWS_SSM_PATH}/base_url_ridi_pay_api" | jq -r '.Parameter.Value') && echo ${BASE_URL_RIDI_PAY_API}
+    - export SENTRY_DSN_FRONTEND=$(aws ssm get-parameter --name "${AWS_SSM_PATH}/sentry_dsn_frontend" | jq -r '.Parameter.Value') && echo ${SENTRY_DSN_FRONTEND}
+
+# ------------------------------------------------------------
+# Jobs: push
+# ------------------------------------------------------------
+.push-ecr:
+  stage: push
+  script:
+    - bin/aws.sh push
+
+push-ecr-prod:
+  extends: .push-ecr
+  <<: *target-prod
+
+push-ecr-staging:
+  extends: .push-ecr
+  <<: *target-staging
+
+
+# ------------------------------------------------------------
+# Jobs: deploy
+# ------------------------------------------------------------
+.deploy-service: # ridiselect, admin
+  stage: deploy
+  script:
+    - bin/aws.sh deploy-service
+
+.deploy-task: # command
+  stage: deploy
+  script:
+    - bin/aws.sh deploy-task
+
+# ridiselect (prod, staging)
+deploy-ridiselect-prod:
+  extends: .deploy-service
+  <<: *target-prod
+
+deploy-ridiselect-staging:
+  extends: .deploy-service
+  <<: *target-staging
+
+
+# ------------------------------------------------------------
+# Jobs: notify
+# ------------------------------------------------------------
+.notify-success:
+  stage: notify
+  when: on_success
+  script:
+    - '[[ ! -z "${CI_COMMIT_TAG}" ]] && export SLACK_DESCRIPTION="$(curl -H "PRIVATE-TOKEN: ${GITLAB_READ_TAGS_TOKEN}" -k https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/repository/tags/${CI_COMMIT_TAG} | jq -r ".release.description")"'
+    - bin/notify_slack.sh success
+
+notify-success-prod:
+  extends: .notify-success
+  <<: *target-prod
+
+
+.notify-fail:
+  stage: notify
+  when: on_failure
+  script:
+    - bin/notify_slack.sh fail
+
+notify-fail-prod:
+  extends: .notify-fail
+  <<: *target-prod
+
+notify-fail-staging:
+  extends: .notify-fail
+  <<: *target-staging
