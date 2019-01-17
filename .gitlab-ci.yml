@@ -9,17 +9,8 @@ cache: &cache
     - node_modules/
 
 stages:
-  - test
   - build
   - push
-
-test:
-  stage: test
-  script:
-    - yarn run test
-  cache:
-    <<: *cache
-    policy: pull
 
 build:
   stage: build
