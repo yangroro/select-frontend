@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { InstantSearchResultBook } from 'app/components/search';
 import { FetchStatusFlag } from 'app/constants';
+import { InstantSearchResultBook } from 'app/components/Search';
 import { getAuthorsCount, getSortedAuthorsHtmlString } from 'app/utils/search';
 
 interface InstantSearchProps {
