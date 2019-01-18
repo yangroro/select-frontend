@@ -53,7 +53,9 @@ develop:
   only:
     - develop
   variables:
-    BUCKET_NAME: select-dev
+    BUCKET_NAME: $S3_BUCKET_DEV
+    AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
   environment:
     name: develop
     url: https://select.ridi.io
@@ -61,7 +63,9 @@ develop:
 staging:
   <<: *deploy
   variables:
-    BUCKET_NAME: select-staging
+    BUCKET_NAME: $S3_BUCKET_STAGING
+    AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   environment:
     name: staging
     url: https://staging.select.ridibooks.com
@@ -69,7 +73,9 @@ staging:
 production:
   <<: *deploy
   variables:
-    BUCKET_NAME: select-prod
+    BUCKET_NAME: $S3_BUCKET_PROD
+    AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   when: manual
   environment:
     name: production
