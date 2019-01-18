@@ -3,21 +3,33 @@ image: node:carbon-alpine
 before_script:
   - yarn install --frozen-lockfile
 
+cache: &cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
 stages:
+  - test
   - build
   - push
+
+test:
+  stage: test
+  script:
+    - yarn run test
+  cache:
+    <<: *cache
+    policy: pull
+
 
 build:
   stage: build
   script:
     - yarn run build
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
+    <<: *cache
     policy: pull
 
 push-to-aws:
+  image: ridibooks/gitlab-ci-docker-aws
   stage: push
-  script:
-    - echo "push to aws"
