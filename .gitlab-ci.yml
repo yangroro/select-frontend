@@ -31,5 +31,6 @@ build:
     policy: pull
 
 push-to-aws:
-  image: ridibooks/gitlab-ci-docker-aws
   stage: push
+  script:
+    - echo "push to aws"
