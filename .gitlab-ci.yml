@@ -3,11 +3,6 @@ image: node:carbon-alpine
 before_script:
   - yarn install --frozen-lockfile
 
-cache: &cache
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
-
 stages:
   - build
   - push
@@ -17,7 +12,9 @@ build:
   script:
     - yarn run build
   cache:
-    <<: *cache
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
     policy: pull
 
 push-to-aws:
