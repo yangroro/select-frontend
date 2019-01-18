@@ -9,14 +9,8 @@ cache:
     - node_modules/
 
 stages:
-  - test
   - build
   - deploy
-
-test:
-  stage: test
-  script:
-    - yarn test
 
 build:prod: &build
   stage: build
