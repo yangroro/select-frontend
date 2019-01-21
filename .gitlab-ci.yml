@@ -1,0 +1,82 @@
+image: node:carbon-alpine
+
+before_script:
+  - yarn install --frozen-lockfile
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+build:prod: &build
+  stage: build
+  only:
+    - master
+  script:
+    - yarn build
+  artifacts:
+    paths:
+      - dist/
+
+build:dev:
+  <<: *build
+  only:
+    - develop
+  variables:
+    SELECT_URL: https://select.ridi.io
+    SELECT_API: https://select-api.ridi.io
+    STORE_URL: https://master.test.ridi.io
+    STORE_API: https://master.test.ridi.io
+    PAY_URL: https://pay.ridi.io
+    ACCOUNT_API: https://account.dev.ridi.io
+    OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
+    SENTRY_DSN: ""
+
+.deploy: &deploy
+  image: ridibooks/gitlab-ci-docker-aws
+  stage: deploy
+  cache: {}
+  before_script: []
+  script:
+    - aws s3 sync dist s3://${BUCKET_NAME}/dist
+    - aws s3 sync assets s3://${BUCKET_NAME}/assets
+    - aws s3 sync public s3://${BUCKET_NAME}/public
+  only:
+    - master
+
+develop:
+  <<: *deploy
+  only:
+    - develop
+  variables:
+    BUCKET_NAME: $S3_BUCKET_DEV
+    AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
+  environment:
+    name: develop
+    url: https://select.ridi.io
+
+staging:
+  <<: *deploy
+  variables:
+    BUCKET_NAME: $S3_BUCKET_STAGING
+    AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
+  environment:
+    name: staging
+    url: https://staging.select.ridibooks.com
+
+production:
+  <<: *deploy
+  variables:
+    BUCKET_NAME: $S3_BUCKET_PROD
+    AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
+  when: manual
+  environment:
+    name: production
+    url: https://select.ridibooks.com

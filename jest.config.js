@@ -27,7 +27,6 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!lodash-es/)',
   ],
-  mapCoverage: true,
   collectCoverageFrom: [
     '**/*.{ts,tsx}',
   ],
