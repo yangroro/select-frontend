@@ -28,7 +28,7 @@ build:dev:
     - develop
   variables:
     SELECT_URL: https://select.ridi.io
-    SELECT_API: https://api.select.ridi.io
+    SELECT_API: https://select-api.ridi.io
     STORE_URL: https://master.test.ridi.io
     STORE_API: https://master.test.ridi.io
     PAY_URL: https://pay.ridi.io
@@ -64,8 +64,8 @@ staging:
   <<: *deploy
   variables:
     BUCKET_NAME: $S3_BUCKET_STAGING
-    AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
+    AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
   environment:
     name: staging
     url: https://staging.select.ridibooks.com
