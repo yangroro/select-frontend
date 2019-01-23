@@ -6,13 +6,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Observable, Subject, Subscription } from 'rxjs';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/throttleTime';
+import { debounceTime, distinctUntilChanged, filter, map, tap, throttleTime } from 'rxjs/operators';
 
 import history from 'app/config/history';
 
@@ -345,8 +339,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
     // functional key event observable
     this.keydownSubscription = this.onSearchKeydown$
-      .filter((e: any) => (e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40))
-      .map((e: any) => {
+      .pipe(filter((e: any) => (e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40)))
+      .pipe(map((e: any) => {
         e.preventDefault();
         return {
           keyType: e.keyCode,
@@ -355,8 +349,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
             this.state.history.keywordList :
             this.state.instantSearchResultsByKeyword[this.state.keyword],
         };
-      })
-      .throttleTime(100)
+      }))
+      .pipe(throttleTime(100))
       .subscribe((obj: {
         keyType: KeyboardCode;
         value: string;
@@ -401,14 +395,14 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
     // input value change event observable
     this.inputSubscription = this.onSearchChange$
-      .do((value: string): void => this.setState({
+      .pipe(tap((value: string): void => this.setState({
         keyword: value,
         highlightIndex: -1,
         isClearButtonVisible: true,
         currentHelperType: value.length > 0 ? this.state.currentHelperType : SearchHelperFlag.HISTORY,
-      }))
-      .distinctUntilChanged()
-      .debounceTime(150)
+      })))
+      .pipe(distinctUntilChanged())
+      .pipe(debounceTime(150))
       .subscribe((value: string): void => {
         if (value.length === 0) {
           this.setState({
