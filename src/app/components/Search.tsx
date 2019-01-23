@@ -339,18 +339,20 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
     // functional key event observable
     this.keydownSubscription = this.onSearchKeydown$
-      .pipe(filter((e: any) => (e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40)))
-      .pipe(map((e: any) => {
-        e.preventDefault();
-        return {
-          keyType: e.keyCode,
-          value: e.target.value,
-          currentHelperList: (this.state.currentHelperType === SearchHelperFlag.HISTORY) ?
-            this.state.history.keywordList :
-            this.state.instantSearchResultsByKeyword[this.state.keyword],
-        };
-      }))
-      .pipe(throttleTime(100))
+      .pipe(
+        filter((e: any) => (e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40)),
+        map((e: any) => {
+          e.preventDefault();
+          return {
+            keyType: e.keyCode,
+            value: e.target.value,
+            currentHelperList: (this.state.currentHelperType === SearchHelperFlag.HISTORY) ?
+              this.state.history.keywordList :
+              this.state.instantSearchResultsByKeyword[this.state.keyword],
+          };
+        }),
+        throttleTime(100),
+      )
       .subscribe((obj: {
         keyType: KeyboardCode;
         value: string;
@@ -395,14 +397,16 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
     // input value change event observable
     this.inputSubscription = this.onSearchChange$
-      .pipe(tap((value: string): void => this.setState({
-        keyword: value,
-        highlightIndex: -1,
-        isClearButtonVisible: true,
-        currentHelperType: value.length > 0 ? this.state.currentHelperType : SearchHelperFlag.HISTORY,
-      })))
-      .pipe(distinctUntilChanged())
-      .pipe(debounceTime(150))
+      .pipe(
+        tap((value: string): void => this.setState({
+          keyword: value,
+          highlightIndex: -1,
+          isClearButtonVisible: true,
+          currentHelperType: value.length > 0 ? this.state.currentHelperType : SearchHelperFlag.HISTORY,
+        })),
+        distinctUntilChanged(),
+        debounceTime(150),
+      )
       .subscribe((value: string): void => {
         if (value.length === 0) {
           this.setState({
