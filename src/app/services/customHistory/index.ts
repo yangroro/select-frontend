@@ -10,8 +10,8 @@ export const Actions = {
   syncHistoryStack: createAction<{
     location: Location,
     stack?: HistoryStack,
-  }>(),
-  navigateUp: createAction(),
+  }>('syncHistoryStack'),
+  navigateUp: createAction('navigateUp'),
 };
 
 export interface CustomHistoryState {
