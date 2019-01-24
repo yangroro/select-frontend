@@ -10,37 +10,37 @@ export * from './utils';
 export const Actions = {
   initializeBooks: createAction<{
     staticBookState: LocalStorageStaticBookState,
-  }>(),
+  }>('initializeBooks'),
   updateBooks: createAction<{
     books: Book[],
-  }>(),
+  }>('updateBooks'),
   loadBookDetailRequest: createAction<{
     bookId: BookId,
-  }>(),
+  }>('loadBookDetailRequest'),
   loadBookDetailSuccess: createAction<{
     bookId: BookId,
     bookDetail: BookDetailResponse,
-  }>(),
+  }>('loadBookDetailSuccess'),
   loadBookDetailFailure: createAction<{
     bookId: BookId,
-  }>(),
+  }>('loadBookDetailFailure'),
   loadBookOwnershipRequest: createAction<{
     bookId: BookId,
-  }>(),
+  }>('loadBookOwnershipRequest'),
   loadBookOwnershipSuccess: createAction<{
     bookId: BookId,
     ownershipStatus: BookOwnershipStatus,
-  }>(),
+  }>('loadBookOwnershipSuccess'),
   loadBookOwnershipFailure: createAction<{
     bookId: BookId,
-  }>(),
+  }>('loadBookOwnershipFailure'),
   clearBookOwnership: createAction<{
     bookIds: BookId[],
-  }>(),
+  }>('clearBookOwnership'),
   updateDominantColor: createAction<{
     bookId: BookId,
     color: RGB,
-  }>(),
+  }>('updateDominantColor'),
 };
 
 export enum AuthorKeys {
