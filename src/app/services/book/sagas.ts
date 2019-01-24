@@ -65,10 +65,7 @@ function* watchActionsToCache() {
 
 export function* watchLoadBookDetail() {
   while (true) {
-    // Destructuring not working: https://github.com/Microsoft/TypeScript/issues/6784
-    const { action } = yield take(Actions.loadBookDetailRequest.getType());
-    const bookId = action;
-
+    const { payload: { bookId } }: ReturnType<typeof Actions.loadBookDetailRequest> = yield take(Actions.loadBookDetailRequest.getType());
     try {
       const response: BookDetailResponse = yield call(requestBookDetail, bookId);
       if (response.seriesBooks && response.seriesBooks.length > 0) {
@@ -99,8 +96,7 @@ export function* watchLoadBookDetail() {
 
 export function* watchLoadBookOwnership() {
   while (true) {
-    const { action } = yield take(Actions.loadBookOwnershipRequest.getType());
-    const bookId = action;
+    const { payload: { bookId } }: ReturnType<typeof Actions.loadBookOwnershipRequest> = yield take(Actions.loadBookOwnershipRequest.getType());
     try {
       const response: BookOwnershipStatus  = yield call(requestBookOwnership, bookId);
       yield put(Actions.loadBookOwnershipSuccess({
