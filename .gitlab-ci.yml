@@ -45,6 +45,10 @@ build:dev:
     - aws s3 sync dist s3://${BUCKET_NAME}/dist
     - aws s3 sync assets s3://${BUCKET_NAME}/assets
     - aws s3 sync public s3://${BUCKET_NAME}/public
+  after_script:
+    - &cloudfront-invalidation |
+      export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
+      aws cloudfront wait invalidation-completed --distribution-id ${DISTRIBUTION_ID} --id ${INVALIDATION_ID}
   only:
     - master
 
@@ -54,6 +58,7 @@ develop:
     - develop
   variables:
     BUCKET_NAME: $S3_BUCKET_DEV
+    DISTRIBUTION_ID: $DISTRIBUTION_ID_DEV
     AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
   environment:
@@ -64,6 +69,7 @@ staging:
   <<: *deploy
   variables:
     BUCKET_NAME: $S3_BUCKET_STAGING
+    DISTRIBUTION_ID: $DISTRIBUTION_ID_STAGING
     AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
   environment:
@@ -74,6 +80,7 @@ production:
   <<: *deploy
   variables:
     BUCKET_NAME: $S3_BUCKET_PROD
+    DISTRIBUTION_ID: $DISTRIBUTION_ID_PROD
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   when: manual
