@@ -63,7 +63,7 @@
   position: relative;
   flex-direction: column;
   height: 100vh;
-  background: url(/assets/images/intro/hero_bg_20181213.jpg) center center no-repeat;
+  background: url(../images/intro/hero_bg.jpg) center center no-repeat;
   background-size: cover;
   & .Section_MainCopy,
   & .Section_Description,
@@ -91,7 +91,7 @@
   .SectionMain {
     height: 100vh;
     max-height: 640px;
-    background: url(/assets/images/intro/m.hero_bg_20181213.jpg) center center no-repeat;
+    background: url(../images/intro/hero_bg.m.jpg) center center no-repeat;
     background-size: cover;
     &.Button-fixed {
       & .Section_Description {

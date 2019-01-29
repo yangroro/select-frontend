@@ -164,14 +164,13 @@ export class Intro extends React.Component<Props, IntroPageState> {
       hasSubscribedBefore,
     } = this.props;
     const { isLoaded, currentSection, buttonFixed } = this.state;
-    const INTRO_IMAGE_DIR = `/assets/images/intro`;
     return (
       <main className="SceneWrapper">
         <Helmet title="리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이" />
         {isLoaded ? null : (
         <img
           className="Load_Trigger_Image"
-          src={`${INTRO_IMAGE_DIR}/hero_bg_20181213.jpg`}
+          src={require('images/intro/hero_bg.jpg')}
           onLoad={() => this.afterLoadingComplete()}
         />
         )}
@@ -236,17 +235,17 @@ export class Intro extends React.Component<Props, IntroPageState> {
             </div>
             <div className="SectionFeatured_ImageWrapper">
               <img
-                src={`${INTRO_IMAGE_DIR}/life_bg_1_20181213.png`}
+                src={require('images/intro/life_bg_1.png')}
                 className="SectionFeatured_Image_1"
                 data-transformed="100"
               />
               <img
-                src={`${INTRO_IMAGE_DIR}/life_bg_2_20181213.png`}
+                src={require('images/intro/life_bg_2.png')}
                 className="SectionFeatured_Image_2"
                 data-transformed="30"
               />
               <img
-                src={`${INTRO_IMAGE_DIR}/life_mobile_20181213.png`}
+                src={require('images/intro/life.m.png')}
                 className="SectionFeatured_Image_3"
                 data-transformed="50"
               />
@@ -269,30 +268,23 @@ export class Intro extends React.Component<Props, IntroPageState> {
                 <div className="SectionReasonable_RotateWrapper">
                   <div className="SectionReasonable_BgImageWrapper">
                     <img
-                      src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_1_20181213.jpg`}
+                      src={require('images/intro/books_bg_1.jpg')}
                       className="SectionFeatured_Reasonable_1"
                     />
                     <img
-                      src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_2_20181213.jpg`}
+                      src={require('images/intro/books_bg_2.jpg')}
                       className="SectionFeatured_Reasonable_2"
                     />
-                    {isMobile ? (
-                      <img
-                        src={`${INTRO_IMAGE_DIR}/m.unlimited_books_bg_3_20181213.jpg`}
-                        className="SectionFeatured_Reasonable_3"
-                      />
-                    ) : (
-                      <img
-                        src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_3_20181213.jpg`}
-                        className="SectionFeatured_Reasonable_3"
-                      />
-                    )}
                     <img
-                      src={`${INTRO_IMAGE_DIR}/unlimited_books_bg_4_20181213.jpg`}
+                      src={isMobile ? require('images/intro/books_bg_3.m.jpg') : require('images/intro/books_bg_3.jpg')}
+                      className="SectionFeatured_Reasonable_3"
+                    />
+                    <img
+                      src={require('images/intro/books_bg_4.jpg')}
                       className="SectionFeatured_Reasonable_4"
                     />
                     <img
-                      src={`${INTRO_IMAGE_DIR}/unlimited_books_mobile_20181213.png`}
+                      src={require('images/intro/book.m.png')}
                       className="SectionFeatured_Reasonable_5"
                     />
                   </div>
@@ -344,7 +336,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
                   </div>
                   <div className="SectionPromotion_ImageWrapper">
                     <img
-                      src={`${INTRO_IMAGE_DIR}/free_month_mobile_20181213.png`}
+                      src={require('images/intro/free_month_mobile.png')}
                       className="SectionPromotion_Image"
                     />
                   </div>
