@@ -24,6 +24,7 @@ module.exports = (env, argv) => ({
   output: {
     filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
+    publicPath: '/',
   },
   mode: 'development',
   module: {
@@ -56,7 +57,7 @@ module.exports = (env, argv) => ({
         ],
       },
       {
-        test: /\.(jpg|png|ttf|otf|woff2?|eot)$/,
+        test: /\.(jpg|png|svg|ico|ttf|otf|woff2?|eot)$/,
         use: [
           {
             loader: 'file-loader',
@@ -86,6 +87,10 @@ module.exports = (env, argv) => ({
       templateParameters: {
         host: process.env.SELECT_URL,
       },
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/open-search-description.xml',
+      filename: 'open-search-description.xml',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
