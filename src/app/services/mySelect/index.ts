@@ -1,3 +1,4 @@
+import produce from 'immer';
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
@@ -75,91 +76,50 @@ export const userRidiSelectBookToMySelectBook = (userRidiSelectbook: UserRidiSel
 
 export const mySelectReducer = createReducer<MySelectState>({}, INITIAL_MYSELECT_STATE);
 
-mySelectReducer.on(Actions.loadMySelectRequest, (state, { page }) => ({
-  ...state,
-  mySelectBooks: {
-    ...state.mySelectBooks,
-    itemListByPage: {
-      ...state.mySelectBooks.itemListByPage,
-      [page]: {
-        ...state.mySelectBooks.itemListByPage[page],
-        fetchStatus: FetchStatusFlag.FETCHING,
-        isFetched: false,
-      },
-    },
-  },
+mySelectReducer.on(Actions.loadMySelectRequest, (state, { page }) => produce(state, (draftState) => {
+  draftState.mySelectBooks.itemListByPage[page] = {
+    ...draftState.mySelectBooks.itemListByPage[page],
+    fetchStatus: FetchStatusFlag.FETCHING,
+    isFetched: false,
+  };
 }));
 
-mySelectReducer.on(Actions.loadMySelectSuccess, (state, { response, page }) => ({
-  ...state,
-  mySelectBooks: {
-    itemCount: response.totalCount,
-    size: response.size,
-    itemListByPage: {
-      ...state.mySelectBooks.itemListByPage,
-      [page]: {
-        fetchStatus: FetchStatusFlag.IDLE,
-        itemList: response.userRidiSelectBooks.map(userRidiSelectBookToMySelectBook),
-        isFetched: true,
-      },
-    },
-  },
+mySelectReducer.on(Actions.loadMySelectSuccess, (state, { response, page }) => produce(state, (draftState) => {
+  draftState.mySelectBooks.itemCount = response.totalCount;
+  draftState.mySelectBooks.size = response.size;
+  draftState.mySelectBooks.itemListByPage[page].fetchStatus = FetchStatusFlag.IDLE;
+  draftState.mySelectBooks.itemListByPage[page].itemList = response.userRidiSelectBooks.map(userRidiSelectBookToMySelectBook);
+  draftState.mySelectBooks.itemListByPage[page].isFetched = true;
 }));
 
-mySelectReducer.on(Actions.loadMySelectFailure, (state, { page }) => ({
-  ...state,
-  mySelectBooks: {
-    ...state.mySelectBooks,
-    itemListByPage: {
-      ...state.mySelectBooks.itemListByPage,
-      [page]: {
-        ...state.mySelectBooks.itemListByPage[page],
-        fetchStatus: FetchStatusFlag.FETCH_ERROR,
-      },
-    },
-  },
+mySelectReducer.on(Actions.loadMySelectFailure, (state, { page }) => produce(state, (draftState) => {
+  draftState.mySelectBooks.itemListByPage[page].fetchStatus = FetchStatusFlag.FETCH_ERROR;
 }));
 
-mySelectReducer.on(Actions.deleteMySelectRequest, (state) => ({
-  ...state,
-  deletionFetchStatus: FetchStatusFlag.FETCHING,
+mySelectReducer.on(Actions.deleteMySelectRequest, (state) => produce(state, (draftState) => {
+  draftState.deletionFetchStatus = FetchStatusFlag.FETCHING;
 }));
 
-mySelectReducer.on(Actions.deleteMySelectSuccess, (state) => ({
-  ...state,
-  deletionFetchStatus: FetchStatusFlag.IDLE,
+mySelectReducer.on(Actions.deleteMySelectSuccess, (state) => produce(state, (draftState) => {
+  draftState.deletionFetchStatus = FetchStatusFlag.IDLE;
 }));
 
-mySelectReducer.on(Actions.deleteMySelectFailure, (state) => ({
-  ...state,
-  deletionFetchStatus: FetchStatusFlag.FETCH_ERROR,
+mySelectReducer.on(Actions.deleteMySelectFailure, (state) => produce(state, (draftState) => {
+  draftState.deletionFetchStatus = FetchStatusFlag.FETCH_ERROR;
 }));
 
-mySelectReducer.on(Actions.addMySelectRequest, (state) => ({
-  ...state,
-  additionFetchStatus: FetchStatusFlag.FETCHING,
+mySelectReducer.on(Actions.addMySelectRequest, (state) => produce(state, (draftState) => {
+  draftState.additionFetchStatus = FetchStatusFlag.FETCHING;
 }));
 
-mySelectReducer.on(Actions.addMySelectSuccess, (state) => ({
-  ...state,
-  additionFetchStatus: FetchStatusFlag.IDLE,
+mySelectReducer.on(Actions.addMySelectSuccess, (state) => produce(state, (draftState) => {
+  draftState.additionFetchStatus = FetchStatusFlag.IDLE;
 }));
 
-mySelectReducer.on(Actions.addMySelectFailure, (state) => ({
-  ...state,
-  additionFetchStatus: FetchStatusFlag.FETCH_ERROR,
+mySelectReducer.on(Actions.addMySelectFailure, (state) => produce(state, (draftState) => {
+  draftState.additionFetchStatus = FetchStatusFlag.FETCH_ERROR;
 }));
 
-mySelectReducer.on(Actions.resetMySelectPageFetchedStatus, (state, { page }) => ({
-  ...state,
-  mySelectBooks: {
-    ...state.mySelectBooks,
-    itemListByPage: {
-      ...state.mySelectBooks.itemListByPage,
-      [page]: {
-        ...state.mySelectBooks.itemListByPage[page],
-        isFetched: false,
-      },
-    },
-  },
+mySelectReducer.on(Actions.resetMySelectPageFetchedStatus, (state, { page }) => produce(state, (draftState) => {
+  draftState.mySelectBooks.itemListByPage[page].isFetched = false;
 }));
