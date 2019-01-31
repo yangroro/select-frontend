@@ -60,9 +60,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
   public render() {
     return (
       <main className="SceneWrapper PageHome">
-        <Helmet>
-          <title>리디셀렉트</title>
-        </Helmet>
+        <Helmet title="리디셀렉트" />
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
         <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />

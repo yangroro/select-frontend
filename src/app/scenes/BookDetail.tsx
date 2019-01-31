@@ -304,10 +304,15 @@ export class BookDetail extends React.Component<Props, State> {
 
     return (
       <>
-        <Helmet>
-          <title>{title && title.main ? `${title.main} - 리디셀렉트` : '리디셀렉트'}</title>
-          <meta name="theme-color" content={solidBackgroundColorRGBString} />
-        </Helmet>
+        <Helmet
+          title={title && title.main ? `${title.main} - 리디셀렉트` : '리디셀렉트'}
+          meta={[
+            {
+              name: 'theme-color',
+              content: solidBackgroundColorRGBString,
+            },
+          ]}
+        />
         <MediaQuery maxWidth={840}>
           {(isMobile) => (
             <div className="PageBookDetail_Meta">

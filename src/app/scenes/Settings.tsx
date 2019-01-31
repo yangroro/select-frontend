@@ -108,9 +108,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 
     return (
       <main className="SceneWrapper PageSetting">
-        <Helmet>
-          <title>셀렉트 관리 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="셀렉트 관리 - 리디셀렉트" />
         <ConnectedPageHeader pageTitle="셀렉트 관리" />
         {!!subscriptionState ?
           this.renderSubscriptionInfo() : (

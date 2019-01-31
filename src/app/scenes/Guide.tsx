@@ -18,9 +18,7 @@ interface GuideProps {
 export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, FREE_PROMOTION_MONTHS }) => {
   return (
     <main className="SceneWrapper Guide">
-      <Helmet>
-        <title>이용 방법 - 리디셀렉트</title>
-      </Helmet>
+      <Helmet title="이용 방법 - 리디셀렉트" />
       <ConnectedPageHeader underline={true} pageTitle="이용 방법" />
       <article className="Guide_Content">
         <ol className="Guide_List">

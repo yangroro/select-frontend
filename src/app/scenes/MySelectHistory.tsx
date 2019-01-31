@@ -154,9 +154,7 @@ class MySelectHistory extends React.Component<Props, State> {
 
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>도서 이용 내역 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="도서 이용 내역 - 리디셀렉트" />
         <ConnectedPageHeader pageTitle="도서 이용 내역" />
         {(itemListByPage[page] && itemListByPage[page].fetchStatus === FetchStatusFlag.FETCHING) ? (
           <div className="PageMySelectHistory Skeleton_Wrapper">

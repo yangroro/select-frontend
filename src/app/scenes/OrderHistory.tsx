@@ -117,9 +117,7 @@ export class OrderHistory extends React.PureComponent<Props> {
   public render() {
     return (
       <main className="SceneWrapper PageOrderHistory">
-        <Helmet>
-          <title>결제 내역 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="결제 내역 - 리디셀렉트" />
         <ConnectedPageHeader pageTitle="결제 내역" />
         <ConnectedListWithPagination
           fetch={(page) => this.props.dispatchLoadOrderHistory(page)}

@@ -25,9 +25,7 @@ export class Charts extends React.Component<Props> {
     const { dispatchLoadNewReleases, selection, books } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>인기 도서 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="인기 도서 - 리디셀렉트" />
         <ConnectedPageHeader pageTitle="인기 도서" />
         <ConnectedListWithPagination
           isFetched={(page) =>
