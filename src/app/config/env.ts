@@ -1,10 +1,16 @@
+const getEnv = (key: string, env?: string) => {
+  return process.env.NODE_ENV !== 'production'
+    ? localStorage.getItem(key) || env
+    : env;
+};
+
 export default {
-  SELECT_URL: process.env.SELECT_URL || 'https://select.ridibooks.com',
-  SELECT_API: process.env.SELECT_API || 'https://select-api.ridibooks.com',
-  STORE_URL: process.env.STORE_URL || 'https://ridibooks.com',
-  STORE_API: process.env.STORE_API || 'https://ridibooks.com',
-  PAY_URL: process.env.PAY_URL || 'https://pay.ridibooks.com',
-  ACCOUNT_API: process.env.ACCOUNT_API || 'https://account.ridibooks.com',
+  SELECT_URL: getEnv('SELECT_URL', process.env.SELECT_URL) || 'https://select.ridibooks.com',
+  SELECT_API: getEnv('SELECT_API', process.env.SELECT_API) || 'https://select-api.ridibooks.com',
+  STORE_URL: getEnv('STORE_URL', process.env.STORE_URL) || 'https://ridibooks.com',
+  STORE_API: getEnv('STORE_API', process.env.STORE_API) || 'https://ridibooks.com',
+  PAY_URL: getEnv('PAY_URL', process.env.PAY_URL) || 'https://pay.ridibooks.com',
+  ACCOUNT_API: getEnv('ACCOUNT_API', process.env.ACCOUNT_API) || 'https://account.ridibooks.com',
   OAUTH2_CLIENT_ID: process.env.OAUTH2_CLIENT_ID || '',
   FREE_PROMOTION_MONTHS: Number(process.env.FREE_PROMOTION_MONTHS) || 1,
 
