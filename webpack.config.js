@@ -9,6 +9,7 @@ const {
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
 
 require('dotenv').config();
@@ -100,7 +101,7 @@ module.exports = (env, argv) => ({
       silent: true,
     }),
   ],
-  devtool: 'inline-source-map',
+  devtool: argv.mode !== 'production' ?  'cheap-module-eval-source-map' : 'cheap-source-map',
   devServer: {
     compress: true,
     disableHostCheck: true,
@@ -112,6 +113,11 @@ module.exports = (env, argv) => ({
     public: process.env.SELECT_URL,
   },
   optimization: {
+    minimizer: [
+      new TerserPlugin({
+        sourceMap: true,
+      }),
+    ],
     splitChunks: {
       cacheGroups: {
         commons: {
