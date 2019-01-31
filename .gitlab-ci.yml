@@ -26,6 +26,8 @@ build:dev:
   <<: *build
   only:
     - develop
+  script:
+    - yarn webpack
   variables:
     SELECT_URL: https://select.ridi.io
     SELECT_API: https://select-api.ridi.io
