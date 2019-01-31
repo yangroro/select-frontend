@@ -32,9 +32,7 @@ export class Selection extends React.Component<Props> {
     const { books, selection, selectionId, dispatchLoadSelection } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>{!!selection ? `${selection.title} - 리디셀렉트` : '리디셀렉트'}</title>
-        </Helmet>
+        <Helmet title={!!selection ? `${selection.title} - 리디셀렉트` : '리디셀렉트'} />
         {!!selection && <ConnectedPageHeader pageTitle={selection.title} />}
         <ConnectedListWithPagination
           isFetched={(page) => selection && selection.itemListByPage[page] && selection.itemListByPage[page].isFetched}

@@ -27,9 +27,7 @@ export class AvailableBooks extends React.Component<Props> {
     const { dispatchLoadAvailableBooks, availableBooks, books, hidePageTitle = false } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>서비스 도서 목록 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="서비스 도서 목록 - 리디셀렉트" />
         {!hidePageTitle && <ConnectedPageHeader pageTitle="서비스 도서 목록" />}
         <ConnectedListWithPagination
           isFetched={(page) =>

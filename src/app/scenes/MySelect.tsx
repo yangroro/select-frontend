@@ -202,9 +202,7 @@ class MySelect extends React.Component<Props, State> {
     const { mySelectBooks, dispatchLoadMySelectRequest } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>마이 셀렉트 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="마이 셀렉트 - 리디셀렉트" />
         <div className="PageMySelect">
           {!this.state.isInitialized ? (
             <LandscapeBookListSkeleton hasCheckbox={true} />

@@ -102,9 +102,7 @@ export class Category extends React.Component<Props, State> {
     } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>카테고리 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="카테고리 - 리디셀렉트" />
         <PCPageHeader pageTitle="카테고리">
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>

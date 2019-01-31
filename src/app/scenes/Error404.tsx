@@ -6,9 +6,7 @@ import { Button } from '@ridi/rsg';
 export const Error404: React.SFC = () => {
   return (
     <main className="SceneWrapper">
-      <Helmet>
-        <title>404 Not Found - 리디셀렉트</title>
-      </Helmet>
+      <Helmet title="404 Not Found - 리디셀렉트" />
       <div className="ErrorPage">
         <h2 className="ErrorPage_Title">404 Not Found</h2>
         <p className="ErrorPage_Description">

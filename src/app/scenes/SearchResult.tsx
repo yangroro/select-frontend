@@ -84,9 +84,7 @@ export class SearchResult extends React.Component<Props, State> {
 
     return (
       <main className="SceneWrapper PageSearchResult">
-        <Helmet>
-          <title>{!!query ? `'${query}' 검색 결과 - 리디셀렉트` : '리디셀렉트'}</title>
-        </Helmet>
+        <Helmet title={!!query ? `'${query}' 검색 결과 - 리디셀렉트` : '리디셀렉트'} />
         <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
         <ConnectedListWithPagination
           _key={query}

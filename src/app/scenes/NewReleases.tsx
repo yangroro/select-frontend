@@ -51,9 +51,7 @@ export class NewReleases extends React.Component<Props> {
     const { dispatchLoadNewReleases, newReleases, books } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>최신 업데이트 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="최신 업데이트 - 리디셀렉트" />
         <PCPageHeader pageTitle="최신 업데이트" />
         {(
           !this.state.isInitialized

@@ -167,11 +167,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
     const INTRO_IMAGE_DIR = `/assets/images/intro`;
     return (
       <main className="SceneWrapper">
-        <Helmet>
-          <title>
-            리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이
-          </title>
-        </Helmet>
+        <Helmet title="리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이" />
         {isLoaded ? null : (
         <img
           className="Load_Trigger_Image"

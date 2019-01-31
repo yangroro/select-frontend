@@ -71,9 +71,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     const { PAY_URL: BASE_URL_RIDI_PAY_API } = environment;
     return (
       <main className="SceneWrapper PageManageSubscription">
-        <Helmet>
-          <title>구독 관리 - 리디셀렉트</title>
-        </Helmet>
+        <Helmet title="구독 관리 - 리디셀렉트" />
         <ConnectedPageHeader pageTitle="구독 관리" />
         {!!subscriptionState
           ? (
