@@ -12,7 +12,7 @@ module.exports = ({ file, options }) => {
       require('postcss-nesting')(),
       require('postcss-base64')({
         extensions: ['.png', '.gif'],
-        root: 'assets/images',
+        root: 'src/images',
       }),
       require('postcss-cssnext')({ features: { nesting: false } }),
       require('postcss-reporter')({

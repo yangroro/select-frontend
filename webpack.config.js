@@ -24,7 +24,7 @@ module.exports = (env, argv) => ({
   output: {
     filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
-    publicPath: '/dist/',
+    publicPath: '/',
   },
   mode: 'development',
   module: {
@@ -56,6 +56,18 @@ module.exports = (env, argv) => ({
           },
         ],
       },
+      {
+        test: /\.(jpg|png|svg|ico|ttf|otf|woff2?|eot)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[contenthash].[ext]',
+              outputPath: 'assets',
+            },
+          },
+        ],
+      }
     ],
   },
   resolve: {
@@ -76,8 +88,12 @@ module.exports = (env, argv) => ({
         host: process.env.SELECT_URL,
       },
     }),
+    new HtmlWebpackPlugin({
+      template: 'src/open-search-description.xml',
+      filename: 'open-search-description.xml',
+    }),
     new MiniCssExtractPlugin({
-      filename: 'main.[hash].css',
+      filename: '[name].[hash].css',
     }),
     new DotenvPlugin({
       systemvars: true,
@@ -87,11 +103,8 @@ module.exports = (env, argv) => ({
   devtool: 'inline-source-map',
   devServer: {
     compress: true,
-    contentBase: __dirname,
     disableHostCheck: true,
-    historyApiFallback: {
-      index: '/dist/index.html',
-    },
+    historyApiFallback: true,
     host: '0.0.0.0',
     hot: true,
     open: false,

@@ -84,7 +84,7 @@
 .HomeSection_HotRelease_Contents {
   position: relative;
   box-sizing: border-box;
-  background: url(/assets/images/hot_release_bg@2x.jpg) center center no-repeat;
+  background: url(../images/hot_release_bg@2x.jpg) center center no-repeat;
   background-size: 870px 473px;
   @media (--mobile-screen) {
     height: var(--inline-110-hotRelease-section-height);

@@ -42,9 +42,7 @@ build:dev:
   cache: {}
   before_script: []
   script:
-    - aws s3 sync dist s3://${BUCKET_NAME}/dist
-    - aws s3 sync assets s3://${BUCKET_NAME}/assets
-    - aws s3 sync public s3://${BUCKET_NAME}/public
+    - aws s3 sync dist s3://${BUCKET_NAME}
   after_script:
     - &cloudfront-invalidation |
       export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
