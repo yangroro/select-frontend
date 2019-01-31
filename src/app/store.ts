@@ -79,9 +79,6 @@ export interface RidiSelectState {
   customHistory: CustomHistoryState;
 }
 
-const composeEnhancers = !env.production
-  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-  : compose;
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger({
   ...loggers.reduxLogger,
@@ -107,13 +104,19 @@ const reducers = ((history: History) => combineReducers({
   customHistory: customHistoryReducer,
 }))(browserHistory);
 
-const enhancers = composeEnhancers(
-  applyMiddleware(
-    routerMiddleware(browserHistory),
-    sagaMiddleware,
-    logger,
-  ),
-);
+const middleware = [
+  routerMiddleware(browserHistory),
+  sagaMiddleware,
+];
+
+if (!env.production) {
+  middleware.push(logger);
+}
+
+const enhancers = (!env.production
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  : compose
+)(applyMiddleware(...middleware));
 
 const savedState = stateHydrator.load();
 export const store = hasRefreshedForAppDownload() && !isEmpty(savedState)
