@@ -28,15 +28,13 @@ const booksLocalStorageManager = {
       .keys(state)
       .reduce((prev, bookId): LocalStorageStaticBookState => {
         const id = Number(bookId);
-        return {
-          ...prev,
-          [id]: {
-            dominantColor: state[id].dominantColor,
-            book: state[id].book,
-            bookDetail: state[id].bookDetail,
-          },
+        prev[id] = {
+          dominantColor: state[id].dominantColor,
+          book: state[id].book,
+          bookDetail: state[id].bookDetail,
         };
-      }, {});
+        return prev;
+      }, {} as LocalStorageStaticBookState);
     try {
       localStorage.setItem(KEY_LOCAL_STORAGE, JSON.stringify(staticBookState));
     }  catch (e) {
