@@ -23,7 +23,7 @@ module.exports = (env, argv) => ({
     ],
   },
   output: {
-    filename: '[name].[hash].js',
+    filename: argv.mode !== 'production' ? '[name].[hash].js' : '[name].[chunkhash].js',
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -31,15 +31,12 @@ module.exports = (env, argv) => ({
   module: {
     rules: [
       {
-        enforce: 'pre',
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'tslint-loader',
-      },
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
+        use: [
+          'babel-loader',
+          'tslint-loader',
+        ],
       },
       {
         test: /\.css$/,
@@ -58,7 +55,7 @@ module.exports = (env, argv) => ({
         ],
       },
       {
-        test: /\.(jpg|png|svg|ico|ttf|otf|woff2?|eot)$/,
+        include: /(fonts|images)\//,
         use: [
           {
             loader: 'file-loader',
@@ -94,7 +91,7 @@ module.exports = (env, argv) => ({
       filename: 'open-search-description.xml',
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
+      filename: '[name].[contenthash].css',
     }),
     new DotenvPlugin({
       systemvars: true,
