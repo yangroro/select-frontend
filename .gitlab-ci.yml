@@ -70,11 +70,11 @@ staging:
   variables:
     BUCKET_NAME: $S3_BUCKET_STAGING
     DISTRIBUTION_ID: $DISTRIBUTION_ID_STAGING
-    AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
+    AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   environment:
     name: staging
-    url: https://staging.select.ridibooks.com
+    url: https://select.ridibooks.com
 
 production:
   <<: *deploy
