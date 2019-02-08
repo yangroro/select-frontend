@@ -23,7 +23,7 @@ module.exports = (env, argv) => ({
     ],
   },
   output: {
-    filename: argv.mode !== 'production' ? '[name].[hash].js' : '[name].[chunkhash].js',
+    filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -60,7 +60,7 @@ module.exports = (env, argv) => ({
           {
             loader: 'file-loader',
             options: {
-              name: '[contenthash].[ext]',
+              name: argv.mode !== 'production' ? '[name].[ext]' : '[contenthash].[ext]',
               outputPath: 'assets',
             },
           },
@@ -118,7 +118,7 @@ module.exports = (env, argv) => ({
     splitChunks: {
       cacheGroups: {
         commons: {
-          test: /node_modules/,
+          test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all',
         },
