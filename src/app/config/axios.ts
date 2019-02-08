@@ -19,8 +19,8 @@ axiosRetry(instance, {
 instance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    try {
-      const { status, config } = error.response!;
+    if (error.response) {
+      const { status, data, config } = error.response;
       if (status === 401) {
         if (config.url !== `${env.ACCOUNT_API}/ridi/token/`) {
           return instance
@@ -39,11 +39,13 @@ instance.interceptors.response.use(
           })
           .then(() => instance(config));
       } else if (Math.floor(status / 100) === 5) {
-        store.dispatch(ServiceStatusActions.setState({ status }));
+        store.dispatch(ServiceStatusActions.setState({
+          status,
+          data,
+        }));
       }
-    } finally {
-      return Promise.reject(error);
     }
+    return Promise.reject(error);
   },
 );
 

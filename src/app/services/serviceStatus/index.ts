@@ -1,24 +1,32 @@
 import produce from 'immer';
 import { createAction, createReducer } from 'redux-act';
 
-export type errorResponseStatus = number | null;
+export type errorResponseStatus = number;
+export type errorResponseData = 'maintenance';
 
 export const Actions = {
   setState: createAction<{
     status: errorResponseStatus,
+    data?: {
+      status: errorResponseData,
+    },
   }>('setState'),
+  resetState: createAction('resetState'),
 };
 
 export interface ServiceStatusState {
-  errorResponseState: errorResponseStatus;
+  errorResponseState?: errorResponseStatus;
+  errorResponseData?: errorResponseData;
 }
 
-const INITIAL_SERVICE_STATUS: ServiceStatusState = {
-  errorResponseState: null,
-};
+export const serviceStatusReducer = createReducer<ServiceStatusState>({}, {});
 
-export const serviceStatusReducer = createReducer<ServiceStatusState>({}, INITIAL_SERVICE_STATUS);
-
-serviceStatusReducer.on(Actions.setState, (state, { status }) => produce(state, (draftState) => {
+serviceStatusReducer.on(Actions.setState, (state, { status, data }) => produce(state, (draftState) => {
   draftState.errorResponseState = status;
+  draftState.errorResponseData = (data && data.status) || undefined;
+}));
+
+serviceStatusReducer.on(Actions.resetState, (state) => produce(state, (draftState) => {
+  draftState.errorResponseState = undefined;
+  draftState.errorResponseData = undefined;
 }));

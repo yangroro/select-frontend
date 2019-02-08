@@ -142,9 +142,11 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
           <Route path="/books" render={() => <ConnectedAvailableBooks />} />
           <NonSubscriberOnlyRoute
             path="/"
+            exact={true}
             component={props.isRidiApp ? InAppIntro : ConnectedIntro}
             {...props}
           />
+          <Route render={() => <ConnectedErrorPage />} />
         </Switch>
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedScrollManager>
