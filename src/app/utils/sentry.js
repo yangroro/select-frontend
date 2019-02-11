@@ -2,7 +2,7 @@ import Raven from 'raven-js';
 import env from 'app/config/env';
 
 const RAVEN_OPTIONS = {
-  release: process.env.REVISION || 'latest',
+  release: process.env.CI_COMMIT_SHA || 'latest',
   sampleRate: 0.1,
   ignoreErrors: [
     // Random plugins/extensions
