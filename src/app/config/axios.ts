@@ -1,7 +1,9 @@
-import axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { store } from 'app/store';
+import axios, { AxiosError } from 'axios';
 import axiosRetry from 'axios-retry';
 
 import env from 'app/config/env';
+import { Actions as ServiceStatusActions } from 'app/services/serviceStatus';
 
 const instance = axios.create({
   baseURL: env.SELECT_API,
@@ -16,24 +18,32 @@ axiosRetry(instance, {
 
 instance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response.status === 401) {
-      if (error.response.config.url !== `${env.ACCOUNT_API}/ridi/token/`) {
-        return instance
-          .post(`${env.ACCOUNT_API}/ridi/token/`)
-          .then(() => instance(error.response.config))
-          .catch((e) => Promise.reject(e));
+  (error: AxiosError) => {
+    if (error.response) {
+      const { status, data, config } = error.response;
+      if (status === 401) {
+        if (config.url !== `${env.ACCOUNT_API}/ridi/token/`) {
+          return instance
+            .post(`${env.ACCOUNT_API}/ridi/token/`)
+            .then(() => instance(config))
+            .catch((e) => Promise.reject(e));
+        }
+        return axios
+          .get(`${env.ACCOUNT_API}/ridi/authorize/`, {
+            withCredentials: true,
+            params: {
+              client_id: env.OAUTH2_CLIENT_ID,
+              response_type: 'code',
+              redirect_uri: `${env.ACCOUNT_API}/ridi/complete`,
+            },
+          })
+          .then(() => instance(config));
+      } else if (Math.floor(status / 100) === 5) {
+        store.dispatch(ServiceStatusActions.setState({
+          status,
+          data,
+        }));
       }
-      return axios
-        .get(`${env.ACCOUNT_API}/ridi/authorize/`, {
-          withCredentials: true,
-          params: {
-            client_id: env.OAUTH2_CLIENT_ID,
-            response_type: 'code',
-            redirect_uri: `${env.ACCOUNT_API}/ridi/complete`,
-          },
-        })
-        .then(() => instance(error.response.config));
     }
     return Promise.reject(error);
   },

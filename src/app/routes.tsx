@@ -6,6 +6,7 @@ import { Route } from 'react-router-dom';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
 import { ConnectedSplashScreen } from 'app/components/SplashScreen';
+import { errorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
 import {
@@ -13,6 +14,7 @@ import {
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
+  ConnectedErrorPage,
   ConnectedGuide,
   ConnectedHome,
   ConnectedIntro,
@@ -24,7 +26,6 @@ import {
   ConnectedSearchResult,
   ConnectedSelection,
   ConnectedSetting,
-  Error404,
   InAppIntro,
 } from 'app/scenes';
 
@@ -39,6 +40,7 @@ export interface Props {
   isRidiApp: boolean;
   isFetching: boolean;
   isSubscribing: boolean;
+  errorResponseState: errorResponseStatus;
 }
 
 export const inAppGnbRoutes = [
@@ -57,7 +59,9 @@ export const LNBRoutes = [
   '/my-select',
 ];
 
-export const Routes: React.SFC<Props> = (props) => (
+export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
+  <ConnectedErrorPage />
+) : (
   <>
     <ConnectedSplashScreen {...props} />
     <ConnectedRouter history={history}>
@@ -138,10 +142,11 @@ export const Routes: React.SFC<Props> = (props) => (
           <Route path="/books" render={() => <ConnectedAvailableBooks />} />
           <NonSubscriberOnlyRoute
             path="/"
+            exact={true}
             component={props.isRidiApp ? InAppIntro : ConnectedIntro}
             {...props}
           />
-          <Route render={() => <Error404 />} />
+          <Route render={() => <ConnectedErrorPage />} />
         </Switch>
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedScrollManager>
@@ -153,6 +158,7 @@ const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isRidiApp: rootState.environment.platform.isRidibooks,
   isFetching: rootState.user.isFetching,
   isSubscribing: rootState.user.isSubscribing,
+  errorResponseState: rootState.serviceStatus.errorResponseState,
 });
 export const ConnectedRoutes = connect(mapStateToProps)(Routes);
 

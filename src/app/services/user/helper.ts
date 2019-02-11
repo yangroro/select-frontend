@@ -62,12 +62,8 @@ export const fetchUserInfo = async (): Promise<UserDTO> => {
   const fetchedSubscriptionInfo = await fetchSubscriptionInfo();
   const { fetchError, ...subscriptionInfo } = fetchedSubscriptionInfo;
 
-  // 401 응답이 아닌 경우에만 계정 정보 fetch
-  return (fetchError === null || (fetchError.response && fetchError.response.status !== 401)) ? {
+  return {
     ...subscriptionInfo,
-    ...await fetchAccountInfo(),
-  } : {
-    ...subscriptionInfo,
-    ...NOT_LOGGED_IN_ACCOUNT_INFO,
+    ...subscriptionInfo.isSubscribing ? await fetchAccountInfo() : NOT_LOGGED_IN_ACCOUNT_INFO,
   };
 };

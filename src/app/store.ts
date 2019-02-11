@@ -31,6 +31,7 @@ import { searchResultReducer } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { selectionReducer, SelectionsState } from 'app/services/selection';
 import { selectionsRootSaga } from 'app/services/selection/sagas';
+import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { trackingSaga } from 'app/services/tracking/sagas';
 
 import env from 'app/config/env';
@@ -74,6 +75,7 @@ export interface RidiSelectState {
   categoriesById: CategoryBooksState;
   searchResult: SearchResultState;
   mySelect: MySelectState;
+  serviceStatus: ServiceStatusState;
   tracking: typeof TrackingState;
   environment: EnvironmentState;
   customHistory: CustomHistoryState;
@@ -99,6 +101,7 @@ const reducers = ((history: History) => combineReducers({
   categoriesById: categoryBooksReducer,
   searchResult: searchResultReducer,
   mySelect: mySelectReducer,
+  serviceStatus: serviceStatusReducer,
   tracking: trackingReducer,
   environment: environmentReducer,
   customHistory: customHistoryReducer,
