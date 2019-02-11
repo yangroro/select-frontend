@@ -8,7 +8,7 @@
 
 .HomeSection_HotRelease {
   box-sizing: border-box;
-  margin-top: 6px;
+  margin-top: 4px;
   background-color: var(--bluegray_90);
   & .Skeleton {
     background-color: #111a27;
@@ -22,7 +22,6 @@
   @media (--hotRelease-slider-view) {
     position: relative;
     height: var(--pc-hotRelease-section-height);
-    margin-top: 10px;
     width: 100%;
   }
   & .InlineHorizontalBookList {
