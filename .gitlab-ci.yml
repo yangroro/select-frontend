@@ -18,6 +18,8 @@ build:prod: &build
     - master
   script:
     - yarn build
+  variables:
+    ASSET_PATH: ${STAGING_ASSET_PATH}
   artifacts:
     paths:
       - dist/
@@ -30,13 +32,13 @@ build:dev:
     - yarn webpack
   variables:
     SELECT_URL: https://select.ridi.io
-    SELECT_API: https://select-api.ridi.io
+    SELECT_API: https://select-api.dev.ridi.io
     STORE_URL: https://master.test.ridi.io
     STORE_API: https://master.test.ridi.io
     PAY_URL: https://pay.ridi.io
     ACCOUNT_API: https://account.dev.ridi.io
     OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
-    SENTRY_DSN: ""
+    ASSET_PATH: ''
 
 .deploy: &deploy
   image: ridibooks/gitlab-ci-docker-aws
@@ -45,10 +47,6 @@ build:dev:
   before_script: []
   script:
     - aws s3 sync dist s3://${BUCKET_NAME}
-  after_script:
-    - &cloudfront-invalidation |
-      export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
-      aws cloudfront wait invalidation-completed --distribution-id ${DISTRIBUTION_ID} --id ${INVALIDATION_ID}
   only:
     - master
 
@@ -58,7 +56,6 @@ develop:
     - develop
   variables:
     BUCKET_NAME: $S3_BUCKET_DEV
-    DISTRIBUTION_ID: $DISTRIBUTION_ID_DEV
     AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
   environment:
@@ -69,7 +66,6 @@ staging:
   <<: *deploy
   variables:
     BUCKET_NAME: $S3_BUCKET_STAGING
-    DISTRIBUTION_ID: $DISTRIBUTION_ID_STAGING
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   environment:
@@ -79,11 +75,21 @@ staging:
 production:
   <<: *deploy
   variables:
+    ASSET_PATH: ${PROD_ASSET_PATH}
     BUCKET_NAME: $S3_BUCKET_PROD
-    DISTRIBUTION_ID: $DISTRIBUTION_ID_PROD
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
+    SENTRY_DSN: ${PROD_SENTRY_DSN}
   when: manual
+  script:
+    - yarn build
+    - aws s3 sync dist s3://${BUCKET_NAME} --exclude "*.map"
+  after_script:
+    - yarn sentry-cli releases new ${CI_COMMIT_SHA}
+    - yarn sentry-cli releases set-commits ${CI_COMMIT_SHA} --auto
+    - yarn sentry-cli releases files ${CI_COMMIT_SHA} upload ./dist '~/*.js'
+    - yarn sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ./dist/*.map
+    - yarn sentry-cli releases finalize ${CI_COMMIT_SHA}
   environment:
     name: production
     url: https://select.ridibooks.com

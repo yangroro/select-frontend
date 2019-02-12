@@ -25,7 +25,7 @@ module.exports = (env, argv) => ({
   output: {
     filename: '[name].[hash].js',
     path: path.join(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: process.env.ASSET_PATH || '/',
   },
   mode: 'development',
   module: {
