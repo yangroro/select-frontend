@@ -56,7 +56,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
             집 앞 서점에 방금 나온 신간!
             <img
               className="HomeSection_HotRelease_NewBadge"
-              src="/assets/images/new-badge@2x.png"
+              src={require('images/new-badge@2x.png')}
               alt="NEW"
             />
           </div>
