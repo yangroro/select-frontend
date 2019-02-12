@@ -6,7 +6,7 @@ import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
 import { GNBColorLevel } from 'app/services/commonUI';
 import { getBackgroundColorRGBString, getGNBType, getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
-import { getIsIosInApp } from 'app/services/environment/selectors';
+import { getIsInAppRoot, getIsIosInApp, getIsIosInAppHome, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
@@ -17,12 +17,12 @@ interface Props {
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
+  isInApp: boolean;
   isIosInApp: boolean;
   isLoggedIn: boolean;
+  isInAppRoot: boolean;
+  isIosInAppHome: boolean;
   isSubscribing: boolean;
-  showRidibooksLogo: boolean;
-  showGnbRightSection: boolean;
-  logoType: 'default' | 'inAppIntro';
 }
 
 export const GNB: React.SFC<Props> = (props) => {
@@ -30,15 +30,19 @@ export const GNB: React.SFC<Props> = (props) => {
     gnbType,
     solidBackgroundColorRGBString,
     backgroundColorRGBString,
+    isInApp,
     isIosInApp,
+    isInAppRoot,
+    isIosInAppHome,
     isLoggedIn,
     isSubscribing,
     BASE_URL_STORE,
     BASE_URL_RIDISELECT,
-    showRidibooksLogo,
-    showGnbRightSection,
-    logoType,
   } = props;
+
+  if (!isIosInAppHome) {
+    return null;
+  }
 
   const Logo = (
     <>
@@ -46,7 +50,7 @@ export const GNB: React.SFC<Props> = (props) => {
         name="logo_ridiselect_1"
         className={classNames(
           'GNBLogo',
-          { 'GNBLogo-InAppIntro': logoType === 'inAppIntro' },
+          isInAppRoot ? 'GNBLogo-InAppIntro' : null,
         )}
       />
       <h1 className="a11y">리디셀렉트</h1>
@@ -63,11 +67,11 @@ export const GNB: React.SFC<Props> = (props) => {
     >
       <div className="GNBContentWrapper">
         <div className="GNBLeft">
-          {logoType === 'default' ?
+          {!isInAppRoot ?
             <Link className="GNBLogoWrapper" to="/home">{Logo}</Link> :
             <div className="GNBLogoWrapper">{Logo}</div>
           }
-          {showRidibooksLogo &&
+          {!isInApp &&
             <ul className="GNBServiceList">
               <li className="GNBService">
                 <a
@@ -84,7 +88,7 @@ export const GNB: React.SFC<Props> = (props) => {
             </ul>
           }
         </div>
-        {showGnbRightSection && <div className="GNBRight">
+        {!isInAppRoot && <div className="GNBRight">
           {isLoggedIn && isSubscribing && (
             <>
               <MediaQuery maxWidth={840}>
@@ -156,10 +160,10 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
-  showRidibooksLogo: !rootState.environment.platform.isRidibooks,
-  showGnbRightSection: !(rootState.environment.platform.isRidibooks && rootState.router.location!.pathname === '/'),
-  logoType: (rootState.environment.platform.isRidibooks && rootState.router.location!.pathname === '/') ? 'inAppIntro' : 'default',
+  isInApp: selectIsInApp(rootState),
   isIosInApp: getIsIosInApp(rootState),
+  isInAppRoot: getIsInAppRoot(rootState),
+  isIosInAppHome: getIsIosInAppHome(rootState),
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);
