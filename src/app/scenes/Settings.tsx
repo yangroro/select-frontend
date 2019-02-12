@@ -125,7 +125,7 @@ export class Settings extends React.PureComponent<SettingProps> {
           </li>
           <li className="SettingMenu_Item">
             <Link className="SettingMenu_Link" to="/order-history">
-              {/* RIDI UI의 Coin_Bold Icon: 버젼 올리고 대응 필요. - svg 이슈로 업데이트 됨 */}
+              {/* TODO: RIDI UI의 Coin_Bold Icon: 버젼 올리고 대응 필요. - svg 이슈로 업데이트 됨 */}
               <svg x="0px" y="0px" width="48px" height="34px" viewBox="0 0 48 34" className="SettingMenu_Icon SettingMenu_Payment_Icon" >
                 <path d={svgPath}/>
               </svg>

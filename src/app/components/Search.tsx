@@ -17,6 +17,7 @@ import { SearchHistory } from 'app/components/SearchHistory';
 import request from 'app/config/axios';
 import { FetchStatusFlag } from 'app/constants';
 import { GNBColorLevel, GNBSearchActiveType, RGB, toRGBString } from 'app/services/commonUI';
+import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { localStorageManager } from 'app/utils/search';
 import toast from 'app/utils/toast';
@@ -42,8 +43,9 @@ interface SearchStoreProps {
   gnbColor: RGB;
   gnbColorLevel: GNBColorLevel;
   gnbSearchActiveType: GNBSearchActiveType;
-  isRidiApp: boolean;
   searchQuery: string;
+  isRidiApp: boolean;
+  isIosInApp: boolean;
 }
 
 interface SearchCascadedProps {
@@ -477,6 +479,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
       gnbColor,
       gnbColorLevel,
       gnbSearchActiveType,
+      isIosInApp,
     } = this.props;
     const instantSearchResultList = this.state.instantSearchResultsByKeyword[keyword];
     const { enabled, keywordList } = this.state.history;
@@ -507,10 +510,24 @@ export class Search extends React.Component<SearchProps, SearchState> {
           className="GNBSearchButton"
           onClick={() => this.toggleActivation(!isActive)}
         >
-          <Icon
-            name={isActive ? 'arrow_13_left' : 'search'}
-            className="GNBSearchButtonIcon"
-          />
+          {isIosInApp ? (
+            // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
+            <svg className="GNBSearchButtonIcon_IosInApp" width="24px" height="24px" viewBox="0 0 24 24">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g transform="translate(2.500000, 2.500000)" fill="#339CF2">
+                  {/* tslint:disable-next-line:max-line-length */}
+                  <path d="M8,1.5 C4.41014913,1.5 1.5,4.41014913 1.5,8 C1.5,11.5898509 4.41014913,14.5 8,14.5 C11.5898509,14.5 14.5,11.5898509 14.5,8 C14.5,4.41014913 11.5898509,1.5 8,1.5 Z M8,0 C12.418278,-7.77156117e-16 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 4.4408921e-16,12.418278 0,8 C-5.55111512e-16,3.581722 3.581722,8.8817842e-16 8,0 Z" id="Rectangle" fill-rule="nonzero" />
+                  {/* tslint:disable-next-line:max-line-length */}
+                  <polygon transform="translate(15.778175, 15.674621) rotate(-45.000000) translate(-15.778175, -15.674621)" points="15.0281746 11.4246212 16.5281746 11.4246212 16.5281746 19.9246212 15.0281746 19.9246212" />
+                </g>
+              </g>
+            </svg>
+          ) : (
+            <Icon
+              name={isActive ? 'arrow_13_left' : 'search'}
+              className="GNBSearchButtonIcon"
+            />
+          )}
           <h2 className="a11y">검색</h2>
         </button>
         <div
@@ -587,8 +604,9 @@ const mapStateToProps = (state: RidiSelectState): SearchStoreProps => {
     gnbColor: state.commonUI.gnbColor,
     gnbColorLevel: state.commonUI.gnbColorLevel,
     gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
-    isRidiApp: state.environment.platform.isRidibooks,
     searchQuery: state.router.location!.search,
+    isRidiApp: selectIsInApp(state),
+    isIosInApp: getIsIosInApp(state),
   };
 };
 

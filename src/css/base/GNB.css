@@ -4,6 +4,7 @@
   --gnb_mobile_height: 44px;
   --gnb_pc_height: 60px;
   --gnb_android_app_height: 48px;
+  --gnb_ios_app_height: 45px;
 }
 
 .GNBWrapper {
@@ -36,6 +37,9 @@
   height: var(--gnb_mobile_height);
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
+  }
+  @nest .iosApp & {
+    height: var(--gnb_ios_app_height);
   }
 }
 
@@ -79,6 +83,9 @@
     height: var(--gnb_android_app_height);
     padding-top: 17px;
   }
+  @nest .iosApp & {
+    height: var(--gnb_ios_app_height);
+  }
 }
 
 /* GNB Service Link List */
@@ -108,6 +115,9 @@
     @nest .androidApp & {
       top: calc((var(--gnb_android_app_height) - 10px) / 2);
     }
+    @nest .iosApp & {
+      top: calc((var(--gnb_ios_app_height) - 10px) / 2);
+    }
   }
 }
 
@@ -132,6 +142,9 @@
   }
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
+  }
+  @nest .iosApp & {
+    height: var(--gnb_ios_app_height);
   }
 }
 
@@ -171,6 +184,10 @@
     height: 18px;
     fill: #fff;
   }
+  & .SettingIcon_IosInApp {
+    width: 24px;
+    height: 24px;
+  }
   @media (hover: hover) {
     &:hover {
       opacity: .8;
@@ -184,6 +201,20 @@
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
     padding-top: 13.5px;
+  }
+  @nest .iosApp & {
+    height: var(--gnb_ios_app_height);
+    padding-top: 11px;
+    @media (hover: hover) {
+    &:hover {
+        opacity: .2;
+      }
+    }
+    @media (hover: none) {
+      &:active {
+        opacity: .2;
+      }
+    }
   }
 }
 

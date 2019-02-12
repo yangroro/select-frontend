@@ -38,18 +38,29 @@
       @nest .androidApp & {
         height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
       }
+      @nest .iosApp & {
+        height: calc(var(--gnb_ios_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
+      }
     }
     & .GNBSearchInput {
       @nest .androidApp & {
         height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
         line-height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
       }
+      @nest .iosApp & {
+        height: calc(var(--gnb_ios_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
+        line-height: calc(var(--gnb_ios_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
+      }
+
     }
     & .GNBSearchResetButton {
       display: block;
     }
     @nest .androidApp & {
       height: var(--gnb_android_app_height);
+    }
+    @nest .iosApp & {
+      height: var(--gnb_ios_app_height);
     }
   }
 }
@@ -109,7 +120,13 @@
   @nest .androidApp & {
     @media (--mobile-screen) {
       height: var(--gnb_android_app_height);
-      padding-top: calc((var(--gnb_mobile_height) - 18px) / 2);
+      padding-top: calc((var(--gnb_android_app_height) - 18px) / 2);
+    }
+  }
+  @nest .iosApp & {
+    @media (--mobile-screen) {
+      height: var(--gnb_ios_app_height);
+      padding-top: 11px;
     }
   }
 }
@@ -117,6 +134,10 @@
   width: 18px;
   height: 18px;
   fill: #fff;
+}
+.GNBSearchButtonIcon_IosInApp {
+  width: 24px;
+  height: 24px;
 }
 .GNBSearchInputWrapper {
   box-sizing: border-box;
