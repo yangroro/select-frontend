@@ -7,8 +7,8 @@
 @custom-media --hotRelease-inline-view (max-width: 900px);
 
 .HomeSection_HotRelease {
-  box-sizing: border-box;
   margin-top: 4px;
+  box-sizing: border-box;
   background-color: var(--bluegray_90);
   & .Skeleton {
     background-color: #111a27;
