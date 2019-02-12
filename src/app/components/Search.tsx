@@ -513,10 +513,10 @@ export class Search extends React.Component<SearchProps, SearchState> {
           {isIosInApp ? (
             // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
             <svg className="GNBSearchButtonIcon_IosInApp" width="24px" height="24px" viewBox="0 0 24 24">
-              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                 <g transform="translate(2.500000, 2.500000)" fill="#339CF2">
                   {/* tslint:disable-next-line:max-line-length */}
-                  <path d="M8,1.5 C4.41014913,1.5 1.5,4.41014913 1.5,8 C1.5,11.5898509 4.41014913,14.5 8,14.5 C11.5898509,14.5 14.5,11.5898509 14.5,8 C14.5,4.41014913 11.5898509,1.5 8,1.5 Z M8,0 C12.418278,-7.77156117e-16 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 4.4408921e-16,12.418278 0,8 C-5.55111512e-16,3.581722 3.581722,8.8817842e-16 8,0 Z" id="Rectangle" fill-rule="nonzero" />
+                  <path d="M8,1.5 C4.41014913,1.5 1.5,4.41014913 1.5,8 C1.5,11.5898509 4.41014913,14.5 8,14.5 C11.5898509,14.5 14.5,11.5898509 14.5,8 C14.5,4.41014913 11.5898509,1.5 8,1.5 Z M8,0 C12.418278,-7.77156117e-16 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 4.4408921e-16,12.418278 0,8 C-5.55111512e-16,3.581722 3.581722,8.8817842e-16 8,0 Z" id="Rectangle" fillRule="nonzero" />
                   {/* tslint:disable-next-line:max-line-length */}
                   <polygon transform="translate(15.778175, 15.674621) rotate(-45.000000) translate(-15.778175, -15.674621)" points="15.0281746 11.4246212 16.5281746 11.4246212 16.5281746 19.9246212 15.0281746 19.9246212" />
                 </g>

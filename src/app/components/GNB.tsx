@@ -89,32 +89,72 @@ export const GNB: React.SFC<Props> = (props) => {
             </ul>
           }
         </div>
-        {!isInAppRoot && <div className="GNBRight">
-          {isLoggedIn && isSubscribing && (
-            <>
-              <MediaQuery maxWidth={840}>
-                {(matches) => <ConnectedSearch isMobile={matches} />}
-              </MediaQuery>
+        {!isInAppRoot && (
+          <div className="GNBRight">
+            {isLoggedIn && isSubscribing && (
+              <>
+                <MediaQuery maxWidth={840}>
+                  {(matches) => <ConnectedSearch isMobile={matches} />}
+                </MediaQuery>
+                <div className="GNBRightButtonWrapper">
+                  <Link className="GNBSettingButton" to="/settings">
+                    <h2 className="a11y">셀렉트 관리</h2>
+                    {isIosInApp ? (
+                      // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
+                      <svg
+                        className="SettingIcon_IosInApp"
+                        width="24px"
+                        height="24px"
+                        viewBox="0 0 24 24"
+                      >
+                        <g
+                          transform="translate(2.000000, 2.000000)"
+                          stroke="#339CF2"
+                          strokeWidth="1.5"
+                          fill="none"
+                          fillRule="evenodd"
+                        >
+                          {/* tslint:disable-next-line:max-line-length */}
+                          <path d="M10,10.36125 C12.6597033,10.36125 14.8054167,8.21520292 14.8054167,5.55541667 C14.8054167,2.89572751 12.6598004,0.75 10,0.75 C7.34029668,0.75 5.19458333,2.89604708 5.19458333,5.55583333 C5.19458333,8.21552249 7.34019961,10.36125 10,10.36125 Z M0.75,19.25 L19.25,19.25 L19.25,18.5 C19.25,16.2421197 14.1100323,14.0833333 10,14.0833333 C5.88996766,14.0833333 0.75,16.2421197 0.75,18.5 L0.75,19.25 Z" />
+                        </g>
+                      </svg>
+                    ) : (
+                      <Icon className="SettingIcon" name="account_1" />
+                    )}
+                  </Link>
+                </div>
+              </>
+            )}
+            {isLoggedIn && !isSubscribing && (
               <div className="GNBRightButtonWrapper">
-                <Link className="GNBSettingButton" to="/settings">
-                  <h2 className="a11y">셀렉트 관리</h2>
-                  {isIosInApp ? (
-                    // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
-                    <svg className="SettingIcon_IosInApp" width="24px" height="24px" viewBox="0 0 24 24">
-                      <g transform="translate(2.000000, 2.000000)" stroke="#339CF2" stroke-width="1.5" fill="none" fill-rule="evenodd">
-                        {/* tslint:disable-next-line:max-line-length */}
-                        <path d="M10,10.36125 C12.6597033,10.36125 14.8054167,8.21520292 14.8054167,5.55541667 C14.8054167,2.89572751 12.6598004,0.75 10,0.75 C7.34029668,0.75 5.19458333,2.89604708 5.19458333,5.55583333 C5.19458333,8.21552249 7.34019961,10.36125 10,10.36125 Z M0.75,19.25 L19.25,19.25 L19.25,18.5 C19.25,16.2421197 14.1100323,14.0833333 10,14.0833333 C5.88996766,14.0833333 0.75,16.2421197 0.75,18.5 L0.75,19.25 Z" />
-                      </g>
-                    </svg>
-                  ) : (
-                    <Icon
-                      className="SettingIcon"
-                      name="account_1"
-                    />
-                  )}
-                </Link>
+                <a
+                  href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
+                  className="GNB_LinkButton"
+                >
+                  <h2 className="reset-heading">로그아웃</h2>
+                </a>
               </div>
-            </>
+            )}
+            {!isLoggedIn && (
+              <div className="GNBRightButtonWrapper">
+              <Link className="GNBSettingButton" to="/settings">
+                <h2 className="a11y">셀렉트 관리</h2>
+                {isIosInApp ? (
+                  // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
+                  <svg className="SettingIcon_IosInApp" width="24px" height="24px" viewBox="0 0 24 24">
+                    <g transform="translate(2.000000, 2.000000)" stroke="#339CF2" stroke-width="1.5" fill="none" fill-rule="evenodd">
+                      {/* tslint:disable-next-line:max-line-length */}
+                      <path d="M10,10.36125 C12.6597033,10.36125 14.8054167,8.21520292 14.8054167,5.55541667 C14.8054167,2.89572751 12.6598004,0.75 10,0.75 C7.34029668,0.75 5.19458333,2.89604708 5.19458333,5.55583333 C5.19458333,8.21552249 7.34019961,10.36125 10,10.36125 Z M0.75,19.25 L19.25,19.25 L19.25,18.5 C19.25,16.2421197 14.1100323,14.0833333 10,14.0833333 C5.88996766,14.0833333 0.75,16.2421197 0.75,18.5 L0.75,19.25 Z" />
+                    </g>
+                  </svg>
+                ) : (
+                  <Icon
+                    className="SettingIcon"
+                    name="account_1"
+                  />
+                )}
+              </Link>
+            </div>
           )}
           {isLoggedIn && !isSubscribing && (
             <div className="GNBRightButtonWrapper">
@@ -147,7 +187,7 @@ export const GNB: React.SFC<Props> = (props) => {
               </MediaQuery>
             </div>
           )}
-        </div>}
+        </div>)}
       </div>
     </header>
   );
