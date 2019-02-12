@@ -47,6 +47,10 @@ build:dev:
   before_script: []
   script:
     - aws s3 sync dist s3://${BUCKET_NAME}
+  after_script:
+    - &cloudfront-invalidation |
+      export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
+      aws cloudfront wait invalidation-completed --distribution-id ${DISTRIBUTION_ID} --id ${INVALIDATION_ID}
   only:
     - master
 
@@ -56,6 +60,7 @@ develop:
     - develop
   variables:
     BUCKET_NAME: $S3_BUCKET_DEV
+    DISTRIBUTION_ID: $DISTRIBUTION_ID_DEV
     AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
   environment:
@@ -66,6 +71,7 @@ staging:
   <<: *deploy
   variables:
     BUCKET_NAME: $S3_BUCKET_STAGING
+    DISTRIBUTION_ID: $DISTRIBUTION_ID_STAGING
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   environment:
@@ -77,6 +83,7 @@ production:
   variables:
     ASSET_PATH: ${PROD_ASSET_PATH}
     BUCKET_NAME: $S3_BUCKET_PROD
+    DISTRIBUTION_ID: $DISTRIBUTION_ID_PROD
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
     SENTRY_DSN: ${PROD_SENTRY_DSN}
@@ -90,6 +97,7 @@ production:
     - yarn sentry-cli releases files ${CI_COMMIT_SHA} upload ./dist '~/*.js'
     - yarn sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ./dist/*.map
     - yarn sentry-cli releases finalize ${CI_COMMIT_SHA}
+    - *cloudfront-invalidation
   environment:
     name: production
     url: https://select.ridibooks.com
