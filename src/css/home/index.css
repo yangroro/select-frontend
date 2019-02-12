@@ -6,7 +6,7 @@
 @import 'SliderControls.css';
 
 :root {
-  --panel-margin: 6px;
+  --panel-margin: 4px;
 }
 
 .PageHome {
