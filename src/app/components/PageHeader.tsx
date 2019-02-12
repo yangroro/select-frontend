@@ -1,5 +1,6 @@
 import { inAppGnbRoutes } from 'app/routes';
 import { ConnectedWebActionBar } from 'app/services/customHistory/components/WebActionBar';
+import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { Location } from 'history';
 import * as React from 'react';
@@ -8,6 +9,7 @@ import { PageTitle } from './PageTitle';
 
 export interface PageHeaderStateProps {
   isRidiApp: boolean;
+  isIosInApp: boolean;
   location: Location;
 }
 
@@ -20,12 +22,13 @@ export type PageHeaderProps = PageHeaderStateProps & PageHeaderOwnProps;
 
 export const PageHeader: React.SFC<PageHeaderProps> = ({
   isRidiApp,
+  isIosInApp,
   location,
   underline,
   pageTitle,
   children,
 }) => {
-  if (!pageTitle && !children) {
+  if (isIosInApp || (!pageTitle && !children)) {
     return null;
   }
 
@@ -47,7 +50,8 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  isRidiApp: rootState.environment.platform.isRidibooks,
+  isRidiApp: selectIsInApp(rootState),
+  isIosInApp: getIsIosInApp(rootState),
   location: rootState.router.location,
 });
 
