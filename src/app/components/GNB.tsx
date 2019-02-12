@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
 import { GNBColorLevel } from 'app/services/commonUI';
+
 import { getBackgroundColorRGBString, getGNBType, getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
-import { getIsInAppRoot, getIsIosInApp, getIsIosInAppHome, selectIsInApp } from 'app/services/environment/selectors';
+import { getIsInAppRoot, getIsIosInApp, getIsNotHomeIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
@@ -21,7 +22,7 @@ interface Props {
   isIosInApp: boolean;
   isLoggedIn: boolean;
   isInAppRoot: boolean;
-  isIosInAppHome: boolean;
+  isNotHomeIosInApp: boolean;
   isSubscribing: boolean;
 }
 
@@ -33,14 +34,14 @@ export const GNB: React.SFC<Props> = (props) => {
     isInApp,
     isIosInApp,
     isInAppRoot,
-    isIosInAppHome,
+    isNotHomeIosInApp,
     isLoggedIn,
     isSubscribing,
     BASE_URL_STORE,
     BASE_URL_RIDISELECT,
   } = props;
 
-  if (!isIosInAppHome) {
+  if (isNotHomeIosInApp) {
     return null;
   }
 
@@ -163,7 +164,7 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isInApp: selectIsInApp(rootState),
   isIosInApp: getIsIosInApp(rootState),
   isInAppRoot: getIsInAppRoot(rootState),
-  isIosInAppHome: getIsIosInAppHome(rootState),
+  isNotHomeIosInApp: getIsNotHomeIosInApp(rootState),
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);

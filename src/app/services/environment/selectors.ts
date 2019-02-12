@@ -15,7 +15,7 @@ export const getIsInAppRoot = createSelector(
   (isInApp: boolean, pathname: string): boolean => isInApp && (pathname === '/'),
 );
 
-export const getIsIosInAppHome = createSelector(
+export const getIsNotHomeIosInApp = createSelector(
   [getIsIosInApp, selectPathname],
-  (isIosInApp: boolean, pathname: string): boolean => isIosInApp && (pathname === '/home'),
+  (isIosInApp: boolean, pathname: string): boolean => isIosInApp && (pathname !== '/home'),
 );
