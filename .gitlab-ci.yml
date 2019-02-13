@@ -72,11 +72,11 @@ staging:
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   script:
     - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "index.html" --exclude "*.map"
-    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases new ${CI_COMMIT_SHA}
-    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases set-commits ${CI_COMMIT_SHA} --auto
-    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases files ${CI_COMMIT_SHA} upload ./dist '~/*.js'
-    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ./dist/*.map
-    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases finalize ${CI_COMMIT_SHA}
+    - docker run --rm -e SENTRY_AUTH_TOKEN -v $(pwd):/work getsentry/sentry-cli releases new ${CI_COMMIT_SHA}
+    - docker run --rm -e SENTRY_AUTH_TOKEN -v $(pwd):/work getsentry/sentry-cli releases set-commits ${CI_COMMIT_SHA} --auto
+    - docker run --rm -e SENTRY_AUTH_TOKEN -v $(pwd):/work getsentry/sentry-cli releases files ${CI_COMMIT_SHA} upload ./dist '~/*.js'
+    - docker run --rm -e SENTRY_AUTH_TOKEN -v $(pwd):/work getsentry/sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ./dist/*.map
+    - docker run --rm -e SENTRY_AUTH_TOKEN -v $(pwd):/work getsentry/sentry-cli releases finalize ${CI_COMMIT_SHA}
   environment:
     name: staging
     url: https://select.ridibooks.com
