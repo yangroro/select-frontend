@@ -88,7 +88,7 @@ production:
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   when: manual
   script:
-    - aws s3 sync dist/index.html s3://${PROD_S3_BUCKET}
+    - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "*" --include "index.html"
   environment:
     name: production
     url: https://select.ridibooks.com
