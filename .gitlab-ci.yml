@@ -18,8 +18,6 @@ build:prod: &build
     - master
   script:
     - yarn build
-  variables:
-    ASSET_PATH: ${STAGING_ASSET_PATH}
   artifacts:
     paths:
       - dist/
@@ -39,18 +37,13 @@ build:dev:
     ACCOUNT_API: https://account.dev.ridi.io
     OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
     ASSET_PATH: ''
+    SENTRY_DSN: ''
 
 .deploy: &deploy
   image: ridibooks/gitlab-ci-docker-aws
   stage: deploy
   cache: {}
   before_script: []
-  script:
-    - aws s3 sync dist s3://${BUCKET_NAME}
-  after_script:
-    - &cloudfront-invalidation |
-      export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
-      aws cloudfront wait invalidation-completed --distribution-id ${DISTRIBUTION_ID} --id ${INVALIDATION_ID}
   only:
     - master
 
@@ -59,10 +52,13 @@ develop:
   only:
     - develop
   variables:
-    BUCKET_NAME: $S3_BUCKET_DEV
-    DISTRIBUTION_ID: $DISTRIBUTION_ID_DEV
     AWS_ACCESS_KEY_ID: ${DEV_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
+  script:
+    - aws s3 sync dist s3://${DEV_S3_BUCKET}
+  after_script:
+    - export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
+    - aws cloudfront wait invalidation-completed --distribution-id ${DEV_DISTRIBUTION_ID} --id ${INVALIDATION_ID}
   environment:
     name: develop
     url: https://select.ridi.io
@@ -70,10 +66,15 @@ develop:
 staging:
   <<: *deploy
   variables:
-    BUCKET_NAME: $S3_BUCKET_STAGING
-    DISTRIBUTION_ID: $DISTRIBUTION_ID_STAGING
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
+  script:
+    - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "index.html" --exclude "*.map"
+    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases new ${CI_COMMIT_SHA}
+    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases set-commits ${CI_COMMIT_SHA} --auto
+    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases files ${CI_COMMIT_SHA} upload ./dist '~/*.js'
+    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ./dist/*.map
+    - docker run --rm -v $(pwd):/work getsentry/sentry-cli releases finalize ${CI_COMMIT_SHA}
   environment:
     name: staging
     url: https://select.ridibooks.com
@@ -81,23 +82,11 @@ staging:
 production:
   <<: *deploy
   variables:
-    ASSET_PATH: ${PROD_ASSET_PATH}
-    BUCKET_NAME: $S3_BUCKET_PROD
-    DISTRIBUTION_ID: $DISTRIBUTION_ID_PROD
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
-    SENTRY_DSN: ${PROD_SENTRY_DSN}
   when: manual
   script:
-    - yarn build
-    - aws s3 sync dist s3://${BUCKET_NAME} --exclude "*.map"
-  after_script:
-    - yarn sentry-cli releases new ${CI_COMMIT_SHA}
-    - yarn sentry-cli releases set-commits ${CI_COMMIT_SHA} --auto
-    - yarn sentry-cli releases files ${CI_COMMIT_SHA} upload ./dist '~/*.js'
-    - yarn sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ./dist/*.map
-    - yarn sentry-cli releases finalize ${CI_COMMIT_SHA}
-    - *cloudfront-invalidation
+    - aws s3 sync dist/index.html s3://${PROD_S3_BUCKET}
   environment:
     name: production
     url: https://select.ridibooks.com
