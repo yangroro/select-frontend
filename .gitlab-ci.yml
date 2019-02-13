@@ -27,6 +27,8 @@ build:dev:
   only:
     - develop
   script:
+    - unset ASSET_PATH
+    - unset SENTRY_DSN
     - yarn webpack
   variables:
     SELECT_URL: https://select.ridi.io
@@ -36,8 +38,6 @@ build:dev:
     PAY_URL: https://pay.ridi.io
     ACCOUNT_API: https://account.dev.ridi.io
     OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
-    ASSET_PATH: ''
-    SENTRY_DSN: ''
 
 .deploy: &deploy
   image: ridibooks/gitlab-ci-docker-aws
