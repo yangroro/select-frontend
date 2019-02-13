@@ -16,7 +16,8 @@ import { InstantSearch } from 'app/components/InstantSearch';
 import { SearchHistory } from 'app/components/SearchHistory';
 import request from 'app/config/axios';
 import { FetchStatusFlag } from 'app/constants';
-import { GNBColorLevel, GNBSearchActiveType, RGB, toRGBString } from 'app/services/commonUI';
+import { GNBColorLevel, GNBSearchActiveType } from 'app/services/commonUI';
+import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { localStorageManager } from 'app/utils/search';
@@ -40,8 +41,8 @@ export interface InstantSearchResultBook {
 }
 
 interface SearchStoreProps {
-  gnbColor: RGB;
   gnbColorLevel: GNBColorLevel;
+  solidBackgroundColorRGBString: string;
   gnbSearchActiveType: GNBSearchActiveType;
   searchQuery: string;
   isRidiApp: boolean;
@@ -476,8 +477,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
     } = this.state;
     const {
       isMobile,
-      gnbColor,
       gnbColorLevel,
+      solidBackgroundColorRGBString,
       gnbSearchActiveType,
       isIosInApp,
     } = this.props;
@@ -502,7 +503,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
           'GNBSearchWrapper-colored': gnbColorLevel !== GNBColorLevel.DEFAULT,
           'GNBSearchWrapper-typeBlock': gnbSearchActiveType === GNBSearchActiveType.block,
         })}
-        style={{ background: toRGBString(gnbColor) }}
+        style={{ background: solidBackgroundColorRGBString }}
         ref={(ref) => { this.searchComponentWrapper = ref; }}
       >
         <button
@@ -601,8 +602,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
 const mapStateToProps = (state: RidiSelectState): SearchStoreProps => {
   return {
-    gnbColor: state.commonUI.gnbColor,
     gnbColorLevel: state.commonUI.gnbColorLevel,
+    solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
     gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
     searchQuery: state.router.location!.search,
     isRidiApp: selectIsInApp(state),

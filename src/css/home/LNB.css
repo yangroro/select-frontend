@@ -8,6 +8,9 @@
   border-bottom: 1px solid var(--bluegray_100);
   background: var(--bluegray_90);
   z-index: 100;
+  @nest .iosApp & {
+    border-bottom: 1px solid var(--bluegray_70);
+  }
 }
 .LnbMenu_List {
   display: table;
