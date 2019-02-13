@@ -87,6 +87,13 @@ module.exports = (env, argv) => ({
       },
     }),
     new HtmlWebpackPlugin({
+      filename: 'staging.html',
+      template: 'src/index.html',
+      templateParameters: {
+        host: process.env.SELECT_URL,
+      },
+    }),
+    new HtmlWebpackPlugin({
       template: 'src/open-search-description.xml',
       filename: 'open-search-description.xml',
     }),
