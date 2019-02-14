@@ -65,7 +65,7 @@ module.exports = (env, argv) => ({
             },
           },
         ],
-      }
+      },
     ],
   },
   resolve: {
@@ -84,6 +84,7 @@ module.exports = (env, argv) => ({
       template: 'src/index.html',
       templateParameters: {
         host: process.env.SELECT_URL,
+        isStaging: false,
       },
     }),
     new HtmlWebpackPlugin({
@@ -91,6 +92,7 @@ module.exports = (env, argv) => ({
       template: 'src/index.html',
       templateParameters: {
         host: process.env.SELECT_URL,
+        isStaging: true,
       },
     }),
     new HtmlWebpackPlugin({
