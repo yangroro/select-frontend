@@ -89,6 +89,8 @@ production:
 sourcemaps:
   <<: *deploy
   image: getsentry/sentry-cli
+  variables:
+    SENTRY_LOG_LEVEL: debug
   script:
     - sentry-cli releases new ${CI_COMMIT_SHA}
     - sentry-cli releases set-commits --auto ${CI_COMMIT_SHA}
