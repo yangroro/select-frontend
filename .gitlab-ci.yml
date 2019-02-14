@@ -93,6 +93,5 @@ sourcemaps:
     SENTRY_LOG_LEVEL: debug
   script:
     - sentry-cli releases new ${CI_COMMIT_SHA}
-    - sentry-cli releases set-commits --auto ${CI_COMMIT_SHA}
     - sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ${CI_PROJECT_DIR}/dist/*.map
     - sentry-cli releases finalize ${CI_COMMIT_SHA}
