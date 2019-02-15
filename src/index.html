@@ -37,9 +37,13 @@
   <link rel="mask-icon" href="<%=require('images/public/select-safari-pinned-tab.svg')%>" color="#5bbad5">
 
   <% if (isStaging) { %>
-  <script>window.__RIDISELECT_STAGING__ = true;</script>
+  <script>
+    window.__RIDISELECT_STAGING__ = true;
+    window.__RIDISELECT_USE_PRODUCTION__ = function() {
+      location.href = '/prod';
+    }
+  </script>
   <% } %>
-
   <script>
     function isLoginRequired(url) {
       return false;

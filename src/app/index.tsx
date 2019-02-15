@@ -9,6 +9,7 @@ import { loadFonts } from 'app/config/fonts';
 import { Actions } from 'app/services/user';
 import { fetchUserInfo } from 'app/services/user/helper';
 
+import { ConnectedEnvBadge } from 'app/components/EnvBadge';
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 
@@ -31,6 +32,7 @@ class App extends React.Component<{}, {}> {
   public render() {
     return (
       <Provider store={store}>
+        <ConnectedEnvBadge />
         <ConnectedRoutes />
       </Provider>
     );
