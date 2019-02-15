@@ -44,9 +44,6 @@ build:dev:
   stage: deploy
   cache: {}
   before_script: []
-  variables:
-    NO_CACHE: --cache-control max-age=0,no-cache,no-store,must-revalidate
-    REPLACE: --metadata-directive REPLACE
   only:
     - master
 
@@ -59,7 +56,7 @@ develop:
     AWS_SECRET_ACCESS_KEY: ${DEV_AWS_SECRET_ACCESS_KEY}
   script:
     - aws s3 sync dist s3://${DEV_S3_BUCKET} --exclude "staging.html"
-    - aws s3 cp s3://${DEV_S3_BUCKET}/index.html s3://${DEV_S3_BUCKET}/index.html ${REPLACE} ${NO_CACHE}
+    - aws s3 cp s3://${DEV_S3_BUCKET}/index.html s3://${DEV_S3_BUCKET}/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate
   after_script:
     - export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
     - aws cloudfront wait invalidation-completed --distribution-id ${DEV_DISTRIBUTION_ID} --id ${INVALIDATION_ID}
@@ -74,7 +71,7 @@ staging:
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   script:
     - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "index.html" --exclude "*.map" --cache-control public,max-age=31536000
-    - aws s3 cp s3://${PROD_S3_BUCKET}/staging.html s3://${PROD_S3_BUCKET}/staging.html ${REPLACE} ${NO_CACHE}
+    - aws s3 cp s3://${PROD_S3_BUCKET}/staging.html s3://${PROD_S3_BUCKET}/staging.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate
     - aws s3 cp dist/index.html s3://${PROD_S3_BUCKET}/production.html
   environment:
     name: staging
@@ -87,7 +84,7 @@ production:
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   when: manual
   script:
-    - aws s3 cp s3://${PROD_S3_BUCKET}//production.html s3://${PROD_S3_BUCKET}/index.html ${REPLACE} ${NO_CACHE}
+    - aws s3 cp s3://${PROD_S3_BUCKET}//production.html s3://${PROD_S3_BUCKET}/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate
   environment:
     name: production
     url: https://select.ridibooks.com
