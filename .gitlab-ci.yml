@@ -84,7 +84,7 @@ production:
     AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
   when: manual
   script:
-    - aws s3 cp s3://${PROD_S3_BUCKET}//production.html s3://${PROD_S3_BUCKET}/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate
+    - aws s3 cp s3://${PROD_S3_BUCKET}/production.html s3://${PROD_S3_BUCKET}/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate
   environment:
     name: production
     url: https://select.ridibooks.com
