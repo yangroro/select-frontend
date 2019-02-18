@@ -40,7 +40,13 @@
   <script>
     window.__RIDISELECT_STAGING__ = true;
     window.__RIDISELECT_USE_PRODUCTION__ = function() {
-      location.href = '/prod';
+      try {
+        fetch('/prod').then(() => {
+          location.reload();
+        });
+      } catch (e) {
+        location.href = '/prod';
+      }
     }
   </script>
   <% } %>
