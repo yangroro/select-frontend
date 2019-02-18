@@ -50,14 +50,6 @@
     }
   </script>
   <% } %>
-  <script>
-    function isLoginRequired(url) {
-      return false;
-    };
-    function isExternalLink(url) {
-      return !new RegExp("<% print(host.replace('https://', '^((https?:)?\/\/)?').replace(/\./g, '\\\\.')) %>").test(url);
-    };
-  </script>
 </head>
 <body>
   <div id="app"></div>
