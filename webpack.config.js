@@ -86,6 +86,11 @@ module.exports = (env, argv) => ({
         host: process.env.SELECT_URL,
         isStaging: false,
       },
+      minify: {
+        collapseWhitespace: true,
+        processConditionalComments: true,
+        minifyJS: true,
+      },
     }),
     new HtmlWebpackPlugin({
       filename: 'staging.html',
