@@ -17,18 +17,15 @@ interface CollectionStateProps {
 }
 
 type RouteProps = RouteComponentProps<{}>;
-type OwnProps = RouteProps & {
-  hidePageTitle?: boolean;
-};
-type Props = CollectionStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
+type Props = CollectionStateProps & RouteProps & ReturnType<typeof mapDispatchToProps>;
 
 export class AvailableBooks extends React.Component<Props> {
   public render() {
-    const { dispatchLoadAvailableBooks, availableBooks, books, hidePageTitle = false } = this.props;
+    const { dispatchLoadAvailableBooks, availableBooks, books } = this.props;
     return (
       <main className="SceneWrapper">
         <Helmet title="서비스 도서 목록 - 리디셀렉트" />
-        {!hidePageTitle && <ConnectedPageHeader pageTitle="서비스 도서 목록" />}
+        <ConnectedPageHeader pageTitle="서비스 도서 목록" />
         <ConnectedListWithPagination
           isFetched={(page) =>
             availableBooks &&
