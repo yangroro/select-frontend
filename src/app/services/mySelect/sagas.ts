@@ -87,7 +87,7 @@ export function* watchDeleteMySelect() {
 
 export function* watchAddMySelect() {
   while (true) {
-    const { payload }: ReturnType<typeof Actions.addMySelectRequest> = yield take(Actions.addMySelectSuccess.getType());
+    const { payload }: ReturnType<typeof Actions.addMySelectRequest> = yield take(Actions.addMySelectRequest.getType());
     const state: RidiSelectState = yield select((s) => s);
     const { bookId } = payload!;
     try {
