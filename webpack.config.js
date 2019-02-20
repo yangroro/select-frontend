@@ -89,7 +89,7 @@ module.exports = (env, argv) => ({
       minify: {
         collapseWhitespace: true,
         processConditionalComments: true,
-        minifyJS: true,
+        minifyJS: argv.mode === 'production',
       },
     }),
     new HtmlWebpackPlugin({
