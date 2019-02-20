@@ -41,7 +41,7 @@
     window.__RIDISELECT_STAGING__ = true;
     window.__RIDISELECT_USE_PRODUCTION__ = function() {
       try {
-        fetch('/prod').then(() => {
+        fetch('/prod').then(function() {
           location.reload();
         });
       } catch (e) {
