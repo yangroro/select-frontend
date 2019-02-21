@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Icon } from '@ridi/rsg';
 import { ReviewInvisibilityType } from 'app/services/review';
 
 interface ReviewClosedProps {
@@ -10,10 +11,13 @@ export const ReviewClosed: React.SFC<ReviewClosedProps> = (props) => {
   const { type } = props;
 
   return (
-    <div className="rui_full_alert_4 Review_Alert">
-      <article className="alert_article">
-        <p className="alert_description">
-          <span className="alert_icon Review_Alert_Icon" />
+    <div className="Review_Alert">
+      <article className="Review_Alert_Article">
+        <p className="Review_Alert_Description">
+          <Icon
+            className="Review_Alert_Icon"
+            name="exclamation_2"
+          />
           {type === ReviewInvisibilityType.admin ? (
             '건전한 리뷰 문화를 위해 비공개 되었습니다.'
           ) : (
@@ -21,7 +25,7 @@ export const ReviewClosed: React.SFC<ReviewClosedProps> = (props) => {
           )}
           <br/>
           <a
-            className="alert_detail_link Review_Alert_Button"
+            className="Review_Alert_Button"
             type="button"
             href="https://ridibooks.com/support/notice/458"
             target="_blank"

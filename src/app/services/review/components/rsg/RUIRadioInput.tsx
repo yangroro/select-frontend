@@ -13,22 +13,23 @@ export const RUIRadioInput: React.SFC<RUIRadioInputProps> = (props) => {
   const { id, inputName, value, displayName, isChecked, onChange } = props;
 
   return (
-    <>
+    <label
+      htmlFor={id}
+      className="RUIRadio"
+    >
       <input
         id={id}
-        className="rui_radio_input"
         type="radio"
+        className="RUIRadio_Input"
         name={inputName}
         value={value}
         checked={isChecked}
         onChange={onChange}
       />
-      <label
-        htmlFor={id}
-        className="rui_radio_label"
-      >
+      <span className="RUIRadio_Label">
+        <span className="RUIRadio_Icon" />
         {displayName}
-      </label>
-    </>
+      </span>
+    </label>
   );
 };

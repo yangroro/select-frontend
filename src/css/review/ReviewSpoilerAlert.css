@@ -6,10 +6,42 @@
   }
 }
 
+.Review_Alert_Article {
+  background: var(--slategray_5);
+  border-radius: 3px;
+  padding: 27px 0; text-align: center;
+}
+
+.Review_Alert_Description {
+  font-size: 13px;
+  color: var(--slategray_50);
+  line-height: 1.5em;
+}
+
 .Review_Alert_Icon {
-  margin-right: 6px !important;
+  display: inline-block;
+  margin-right: 6px;
+  width: 15px;
+  height: 15px;
+  fill: var(--slategray_20);
+  vertical-align: -15%;
 }
 
 .Review_Alert_Button {
   @apply --reset-button;
+  text-decoration: none;
+  display: inline-block;
+  background: none;
+  font-size: 13px;
+  color: var(--slategray_50);
+  line-height: 1.5em;
+  font-weight: bold;
+}
+
+.Review_Alert_Button_Icon {
+  display: inline-block;
+  width: 7px;
+  height: 10px;
+  margin-left: 4px;
+  fill: var(--slategray_50);
 }

@@ -1,7 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
-import { Button, Icon } from '@ridi/rsg';
+import { Button, CheckBox, Icon } from '@ridi/rsg';
 
 interface ToggleNoticeButtonProps {
   isPressed: boolean;
@@ -36,14 +36,13 @@ export const SpoilerCheckbox: React.SFC<SpoilerCheckboxProps> = (props) => {
 
   return (
     <div className="ReviewForm_SpoilerCheckbox">
-      <input
-        id="ReviewForm_SpoilerCheckbox_Input"
-        type="checkbox"
-        className="rui_checkbox_input"
+      <CheckBox
+        className="ReviewForm_SpoilerCheckbox_Component"
         checked={isChecked}
         onChange={onChange}
-      />
-      <label htmlFor="ReviewForm_SpoilerCheckbox_Input" className="rui_checkbox_label">스포일러가 있습니다.</label>
+      >
+        스포일러가 있습니다.
+      </CheckBox>
     </div>
   );
 };

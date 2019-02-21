@@ -102,33 +102,9 @@ body {
       }
     }
   }
-
-  & .rui_checkbox_input {
-    @media (hover: hover) {
-      &:hover:not(:disabled) + label::before {
-        border-color: var(--slategray_50);
-      }
-    }
-    @media (hover: none) {
-      &:active(:disabled) + label::before {
-        border-color: var(--slategray_50);
-      }
-    }
-  }
-
-  & .rui_radio_label {
-    @media (hover: hover) {
-      &:hover:not(:disabled) {
-        color: var(--slategray_80);
-        &::before { border-color: var(--slategray_50); }
-      }
-    }
-    @media (hover: none) {
-      &:active:not(:disabled) {
-        color: var(--slategray_80);
-        &::before { border-color: var(--slategray_50); }
-      }
-    }
+  & .RUICheckBox_Label,
+  & .RUIRadio_Label {
+    line-height: 13px;
   }
 
   @media (--mobile-screen) {
