@@ -3,6 +3,7 @@
   text-align: center;
   margin: 0;
   padding: 100px 0;
+  position: relative;
   & .PageHeader {
     border-bottom: 1px solid #cddce5;
   }
@@ -13,6 +14,9 @@
   text-align: center;
   font-size: 13px;
   margin: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 .PageError_Header_Link {
   display: inline-block;

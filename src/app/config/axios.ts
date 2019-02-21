@@ -38,7 +38,7 @@ instance.interceptors.response.use(
             },
           })
           .then(() => instance(config));
-      } else if (Math.floor(status / 100) === 5) {
+      } else if (Math.floor(status / 100) === 5 && data.status === 'maintenance') { // TODO: 서비스 이용이 불가능한 엔드포인트만 에러페이지로 렌더링되도록 변경
         store.dispatch(ServiceStatusActions.setState({
           status,
           data,
