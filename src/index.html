@@ -50,14 +50,7 @@
     }
   </script>
   <% } %>
-  <script>
-    function isLoginRequired(url) {
-      return false;
-    };
-    function isExternalLink(url) {
-      return !new RegExp("<% print(host.replace('https://', '^((https?:)?\/\/)?').replace(/\./g, '\\\\.')) %>").test(url);
-    };
-  </script>
+  <script><%= require('raw-loader!inline/inApp.js') %></script>
 </head>
 <body>
   <div id="app"></div>
