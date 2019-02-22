@@ -1,7 +1,7 @@
 import { hasRefreshedForAppDownload, RidiSelectState } from 'app/store';
 import { IOS_APPSTORE_URL } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
-import { LOCATION_CHANGE, replace } from 'connected-react-router';
+import { LOCATION_CHANGE, replace } from 'react-router-redux';
 import { all, put, select, take } from 'redux-saga/effects';
 
 export function* watchLocationChange() {

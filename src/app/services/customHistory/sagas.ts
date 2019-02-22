@@ -1,6 +1,6 @@
 import { Actions } from 'app/services/customHistory';
 import { RidiSelectState } from 'app/store';
-import { go, LOCATION_CHANGE } from 'connected-react-router';
+import { go, LOCATION_CHANGE } from 'react-router-redux';
 import { all, call, put, select, take } from 'redux-saga/effects';
 import { findUpperPathDiff, historyStackSessionStorageHelper } from './historyStack.helpers';
 

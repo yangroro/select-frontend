@@ -1,8 +1,8 @@
-import { ConnectedRouter } from 'connected-react-router';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
 import { ConnectedSplashScreen } from 'app/components/SplashScreen';
@@ -40,7 +40,7 @@ export interface Props {
   isRidiApp: boolean;
   isFetching: boolean;
   isSubscribing: boolean;
-  errorResponseState: errorResponseStatus;
+  errorResponseState?: errorResponseStatus;
 }
 
 export const inAppGnbRoutes = [

@@ -2,7 +2,7 @@ import { DeviceType, Tracker } from '@ridi/event-tracker';
 import { Actions } from 'app/services/tracking';
 import { hasCompletedSubscription, RidiSelectState } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
-import { LOCATION_CHANGE, replace } from 'connected-react-router';
+import { LOCATION_CHANGE, replace } from 'react-router-redux';
 import { all, put, select, take } from 'redux-saga/effects';
 
 export const PIXEL_ID = '417351945420295';
