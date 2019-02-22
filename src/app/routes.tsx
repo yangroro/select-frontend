@@ -14,6 +14,7 @@ import {
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
+  ConnectedCollection,
   ConnectedErrorPage,
   ConnectedGuide,
   ConnectedHome,
@@ -24,7 +25,6 @@ import {
   ConnectedNewReleases,
   ConnectedOrderHistory,
   ConnectedSearchResult,
-  ConnectedSelection,
   ConnectedSetting,
   InAppIntro,
 } from 'app/scenes';
@@ -93,8 +93,8 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
             {...props}
           />
           <PrivateRoute
-            path="/selection/:selectionId"
-            component={ConnectedSelection}
+            path="/selection/:collectionId"
+            component={ConnectedCollection}
             {...props}
           />
           <PrivateRoute

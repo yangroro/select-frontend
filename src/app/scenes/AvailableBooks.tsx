@@ -7,12 +7,12 @@ import { ConnectedGridBookList } from 'app/components/GridBookList';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
-import { Actions, ReservedSelectionState } from 'app/services/selection';
+import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 import { Helmet } from 'react-helmet';
 
-interface SelectionStateProps {
-  availableBooks: ReservedSelectionState;
+interface CollectionStateProps {
+  availableBooks: ReservedCollectionState;
   books: BookState;
 }
 
@@ -20,7 +20,7 @@ type RouteProps = RouteComponentProps<{}>;
 type OwnProps = RouteProps & {
   hidePageTitle?: boolean;
 };
-type Props = SelectionStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
+type Props = CollectionStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class AvailableBooks extends React.Component<Props> {
   public render() {
@@ -51,15 +51,15 @@ export class AvailableBooks extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): SelectionStateProps => {
+const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
   return {
-    availableBooks: rootState.selectionsById.popular,
+    availableBooks: rootState.collectionsById.popular,
     books: rootState.booksById,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatchLoadAvailableBooks: (page: number) => dispatch(Actions.loadSelectionRequest({ selectionId: 'popular', page })),
+    dispatchLoadAvailableBooks: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
   };
 };
 export const ConnectedAvailableBooks = withRouter(

@@ -11,7 +11,7 @@ export const Actions = {
   loadHomeFailure: createAction('loadHomeFailure'),
 };
 
-export enum SelectionType {
+export enum CollectionType {
   'SELECTION' = 'SELECTION',
   'CHART' = 'CHART',
   'HOT_RELEASE' = 'HOT_RELEASE',
@@ -28,14 +28,14 @@ export interface HomeState {
   fetchedAt: number | null;
   fetchStatus: FetchStatusFlag;
   bigBannerList: BigBanner[];
-  selectionIdList: number[];
+  collectionIdList: number[];
 }
 
 export const INITIAL_HOME_STATE: HomeState = {
   fetchedAt: null,
   fetchStatus: FetchStatusFlag.IDLE,
   bigBannerList: [],
-  selectionIdList: [],
+  collectionIdList: [],
 };
 
 export const homeReducer = createReducer<typeof INITIAL_HOME_STATE>({}, INITIAL_HOME_STATE);
@@ -53,7 +53,7 @@ homeReducer.on(Actions.loadHomeSuccess, (state, action) => {
     ...state,
     fetchedAt,
     bigBannerList: response.bigBanners,
-    selectionIdList: response.collections.map((collection) => collection.collectionId),
+    collectionIdList: response.collections.map((collection) => collection.collectionId),
     fetchStatus: FetchStatusFlag.IDLE,
   };
 });

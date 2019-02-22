@@ -3,29 +3,29 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
-import { SelectionType } from 'app/services/home';
+import { CollectionsState } from 'app/services/collection';
+import { CollectionType } from 'app/services/home';
 import { ConnectedHomeSection } from 'app/services/home/components/HomeSection';
-import { groupSelections } from 'app/services/home/uitls';
-import { SelectionsState } from 'app/services/selection';
+import { groupCollections } from 'app/services/home/uitls';
 import { RidiSelectState } from 'app/store';
 
-interface HomeSelectionListStateProps {
+interface HomeCollectionListStateProps {
   fetchedAt: number | null;
-  selectionIdList: number[];
-  selections: SelectionsState;
+  collectionIdList: number[];
+  collections: CollectionsState;
 }
 
-interface HomeSelectionListState {
+interface HomeCollectionListState {
   renderedLastGroupIdx: number;
 }
 
-export class HomeSectionList extends React.Component<HomeSelectionListStateProps, HomeSelectionListState> {
+export class HomeSectionList extends React.Component<HomeCollectionListStateProps, HomeCollectionListState> {
   private panels: HTMLElement[] = [];
   private scrollEvent: EventListener = throttle(
     () => this.checkSectionsOnViewport(),
     500,
   );
-  public state: HomeSelectionListState = {
+  public state: HomeCollectionListState = {
     renderedLastGroupIdx: 0,
   };
 
@@ -53,7 +53,7 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
     window.addEventListener('scroll', this.scrollEvent);
   }
 
-  public componentDidUpdate(prevProps: HomeSelectionListStateProps) {
+  public componentDidUpdate(prevProps: HomeCollectionListStateProps) {
     const { fetchedAt } = this.props;
     const { renderedLastGroupIdx } = this.state;
 
@@ -69,16 +69,16 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
   }
 
   public render() {
-    const { fetchedAt, selectionIdList, selections } = this.props;
+    const { fetchedAt, collectionIdList, collections } = this.props;
     const { renderedLastGroupIdx } = this.state;
-    const { hotRelease } = selections;
+    const { hotRelease } = collections;
 
     if (!fetchedAt) {
       return (
         <div className="PageHome_Content Skeleton_Wrapper">
           <div className="PageHome_Panel">
             <HomeSectionPlaceholder
-              type={SelectionType.HOT_RELEASE}
+              type={CollectionType.HOT_RELEASE}
             />
           </div>
           <div className="PageHome_Panel">
@@ -93,14 +93,14 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
         <div className="PageHome_Panel">
           <ConnectedHomeSection
             key={hotRelease.id}
-            selection={hotRelease}
+            collection={hotRelease}
             onScreen={true}
           />
         </div>
-        {selectionIdList
-          .map((selectionId) => selections[selectionId])
-          .reduce(groupSelections, [])
-          .map((selectionGroup, idx) => (
+        {collectionIdList
+          .map((collectionId) => collections[collectionId])
+          .reduce(groupCollections, [])
+          .map((collectionGroup, idx) => (
             <div
               className="PageHome_Panel"
               key={idx}
@@ -111,10 +111,10 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
                 }
               }}
             >
-              {selectionGroup.map((selection) => (
+              {collectionGroup.map((collection) => (
                 <ConnectedHomeSection
-                  key={selection.id}
-                  selection={selection}
+                  key={collection.id}
+                  collection={collection}
                   onScreen={renderedLastGroupIdx >= idx}
                 />
               ))}
@@ -126,11 +126,11 @@ export class HomeSectionList extends React.Component<HomeSelectionListStateProps
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): HomeSelectionListStateProps => {
+const mapStateToProps = (state: RidiSelectState): HomeCollectionListStateProps => {
   return {
     fetchedAt: state.home.fetchedAt,
-    selectionIdList: state.home.selectionIdList,
-    selections: state.selectionsById,
+    collectionIdList: state.home.collectionIdList,
+    collections: state.collectionsById,
   };
 };
 

@@ -7,9 +7,9 @@ import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 
 import { DTOBookThumbnail } from 'app/components';
 import { Book } from 'app/services/book';
+import { CollectionId } from 'app/services/collection';
 import { groupChartBooks } from 'app/services/home/uitls';
 import { StarRating } from 'app/services/review';
-import { SelectionId } from 'app/services/selection';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import MediaQuery from 'react-responsive';
@@ -19,7 +19,7 @@ import { SectionHeader } from './HomeSection';
 interface HomeChartBooksSectionProps {
   books: Book[];
   title: string;
-  selectionId: SelectionId;
+  collectionId: CollectionId;
 }
 
 type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
