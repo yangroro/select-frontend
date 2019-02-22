@@ -1,21 +1,21 @@
 import { Book } from 'app/services/book';
-import { DefaultSelectionState } from 'app/services/selection';
+import { DefaultCollectionState } from 'app/services/collection';
 
-export const groupSelections = (groupedSelections: DefaultSelectionState[][], selection: DefaultSelectionState) => {
-  const latestGroup = groupedSelections[groupedSelections.length - 1];
-  // If current selection has a same type as the latest group,
-  // push the current selection into the group. If it doesn't, create
-  // a new group and put the current selection into it.
+export const groupCollections = (groupedCollections: DefaultCollectionState[][], collection: DefaultCollectionState) => {
+  const latestGroup = groupedCollections[groupedCollections.length - 1];
+  // If current collection has a same type as the latest group,
+  // push the current collection into the group. If it doesn't, create
+  // a new group and put the current collection into it.
   if (
     !!latestGroup &&
     !!latestGroup[latestGroup.length - 1] &&
-    latestGroup[latestGroup.length - 1].type === selection.type
+    latestGroup[latestGroup.length - 1].type === collection.type
   ) {
-    latestGroup.push(selection);
+    latestGroup.push(collection);
   } else {
-    groupedSelections.push([selection]);
+    groupedCollections.push([collection]);
   }
-  return groupedSelections;
+  return groupedCollections;
 };
 
 export const groupChartBooks = (groupingUnitCount: number) => (groupedBooks: Book[][], book: Book, idx: number) => {

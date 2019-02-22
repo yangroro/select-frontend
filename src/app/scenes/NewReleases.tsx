@@ -2,25 +2,25 @@ import { ConnectedGridBookList, PCPageHeader } from 'app/components';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
-import { Actions, ReservedSelectionState } from 'app/services/selection';
+import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-interface SelectionStateProps {
-  newReleases: ReservedSelectionState;
+interface CollectionStateProps {
+  newReleases: ReservedCollectionState;
   books: BookState;
 }
 
-interface SelectionDispatchProps {
-  dispatchLoadNewReleases: (page: number) => ReturnType<typeof Actions.loadSelectionRequest>;
+interface CollectionDispatchProps {
+  dispatchLoadNewReleases: (page: number) => ReturnType<typeof Actions.loadCollectionRequest>;
 }
 
 type RouteProps = RouteComponentProps<{}>;
 type OwnProps = RouteProps;
-type Props = SelectionStateProps & SelectionDispatchProps & OwnProps;
+type Props = CollectionStateProps & CollectionDispatchProps & OwnProps;
 
 interface State {
   isInitialized: boolean;
@@ -81,15 +81,15 @@ export class NewReleases extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): SelectionStateProps => {
+const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
   return {
-    newReleases: rootState.selectionsById.recent,
+    newReleases: rootState.collectionsById.recent,
     books: rootState.booksById,
   };
 };
-const mapDispatchToProps = (dispatch: any): SelectionDispatchProps => {
+const mapDispatchToProps = (dispatch: any): CollectionDispatchProps => {
   return {
-    dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadSelectionRequest({ selectionId: 'recent', page })),
+    dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
   };
 };
 export const ConnectedNewReleases = withRouter(
