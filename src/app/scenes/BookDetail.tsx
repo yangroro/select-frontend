@@ -40,6 +40,7 @@ import {
   getTransparentBackgroundColorRGBString,
 } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
+import { Actions as EnvironmentActions } from 'app/services/environment';
 import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect';
 import { ConnectedReviews } from 'app/services/review';
 import { StarRating } from 'app/services/review/components';
@@ -500,6 +501,7 @@ export class BookDetail extends React.Component<Props, State> {
     this.fetchBookDetailAndOwnership(this.props);
     this.updateDominantColor(this.props);
     requestAnimationFrame(forceCheck);
+    this.props.dispatchCompleteBookDetailLoad();
   }
   public componentWillReceiveProps(nextProps: Props) {
     if (this.props.bookId !== nextProps.bookId) {
@@ -761,6 +763,8 @@ const mapDispatchToProps = (dispatch: any) => {
     dispatchLoadBookOwnershipRequest: (bookId: number) =>
       dispatch(BookActions.loadBookOwnershipRequest({ bookId })),
     dispatchAddMySelect: (bookId: BookId) => dispatch(MySelectActions.addMySelectRequest({ bookId })),
+    dispatchCompleteBookDetailLoad: () =>
+      dispatch(EnvironmentActions.completeBookDetailLoad()),
   };
 };
 

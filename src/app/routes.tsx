@@ -107,7 +107,7 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
             component={ConnectedMySelect}
             {...props}
           />
-          <PrivateRoute
+          <Route
             path="/book/:bookId"
             component={ConnectedBookDetail}
             {...props}
