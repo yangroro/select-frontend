@@ -1,8 +1,7 @@
-import { connectRouter } from 'connected-react-router';
-import { routerMiddleware, RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { isEmpty } from 'lodash-es';
 import * as qs from 'qs';
+import { routerMiddleware, routerReducer, RouterState } from 'react-router-redux';
 import { Dispatch } from 'redux';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { loggers } from 'redux-act';
@@ -89,8 +88,8 @@ const logger = createLogger({
 export const hasRefreshedForAppDownload = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).to_app_store;
 export const hasCompletedSubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_subscription;
 
-const reducers = ((history: History) => combineReducers({
-  router: connectRouter(history),
+const reducers = combineReducers({
+  router: routerReducer,
   user: userReducer,
   home: homeReducer,
   booksById: bookReducer,
@@ -105,7 +104,7 @@ const reducers = ((history: History) => combineReducers({
   tracking: trackingReducer,
   environment: environmentReducer,
   customHistory: customHistoryReducer,
-}))(browserHistory);
+});
 
 const middleware = [
   routerMiddleware(browserHistory),
