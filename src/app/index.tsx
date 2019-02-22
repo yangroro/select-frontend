@@ -32,8 +32,10 @@ class App extends React.Component<{}, {}> {
   public render() {
     return (
       <Provider store={store}>
-        <ConnectedEnvBadge />
-        <ConnectedRoutes />
+        <>
+          <ConnectedEnvBadge />
+          <ConnectedRoutes />
+        </>
       </Provider>
     );
   }
