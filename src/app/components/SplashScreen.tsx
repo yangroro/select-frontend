@@ -9,6 +9,7 @@ interface Props {
   isFetching: boolean;
   isSubscribing: boolean;
   introImageLoaded: boolean;
+  bookDetailLoaded: boolean;
 }
 
 const WithLogo: React.SFC = () => (
@@ -32,15 +33,16 @@ const SplashScreen: React.SFC<Props> = (props) => {
   } else {
     if (props.isFetching) {
       return <WhiteScreen />;
-    } else if (!props.isSubscribing && !props.introImageLoaded) {
+    } else if (!props.isSubscribing && !(props.introImageLoaded || props.bookDetailLoaded)) {
       return <WithLogo />;
     }
   }
   return null;
 };
 
-const mapStateToProps = (rootState: RidiSelectState): Pick<Props, 'introImageLoaded'> => ({
+const mapStateToProps = (rootState: RidiSelectState): Pick<Props, 'introImageLoaded' | 'bookDetailLoaded'> => ({
   introImageLoaded: rootState.environment.introImageLoaded,
+  bookDetailLoaded: rootState.environment.bookDetailLoaded,
 });
 
 export const ConnectedSplashScreen = connect(mapStateToProps)(SplashScreen);
