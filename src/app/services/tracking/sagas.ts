@@ -5,11 +5,11 @@ import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 import { LOCATION_CHANGE, replace } from 'react-router-redux';
 import { all, put, select, take } from 'redux-saga/effects';
 
+import { Actions as UserActions } from 'app/services/user';
+
 export const PIXEL_ID = '417351945420295';
 let tracker: Tracker;
 
-// **IMPORTANT NOTE**
-// You may also need to change `tracking_macro.twig` when you change this function
 const initializeTracker = (state: RidiSelectState) => {
   let deviceType: DeviceType;
   if (document.body.clientWidth < 840) {
@@ -28,8 +28,6 @@ const initializeTracker = (state: RidiSelectState) => {
   tracker.initialize();
 };
 
-// **IMPORTANT NOTE**
-// You may also need to change `tracking_macro.twig` when you change this saga
 export function* watchLocationChange() {
   let { referrer } = document;
   while (true) {
@@ -65,7 +63,7 @@ export function* watchLocationChange() {
 
 export function* watchTrackClick() {
   while (true) {
-    const { payload: bookTrackingParams }: ReturnType<typeof Actions.trackClick> = yield take(Actions.trackClick.getType());
+    const { payload: { trackingParams: bookTrackingParams } }: ReturnType<typeof Actions.trackClick> = yield take(Actions.trackClick.getType());
 
     if (!tracker) {
       initializeTracker(yield select((s) => s));
@@ -77,7 +75,7 @@ export function* watchTrackClick() {
 
 export function* watchTrackImpressions() {
   while (true) {
-    const { payload: bookTrackingParams }: ReturnType<typeof Actions.trackImpression> = yield take(Actions.trackImpression.getType());
+    const { payload: { trackingParams: bookTrackingParams } }: ReturnType<typeof Actions.trackImpression> = yield take(Actions.trackImpression.getType());
 
     if (!tracker) {
       initializeTracker(yield select((s) => s));
@@ -87,10 +85,23 @@ export function* watchTrackImpressions() {
   }
 }
 
+function* watchInitializeUser() {
+  while (true) {
+    const { payload: { userDTO: user } }: ReturnType<typeof UserActions.initializeUser> = yield take(UserActions.initializeUser.getType());
+
+    if (!tracker) {
+      initializeTracker(yield select((s) => s));
+    }
+
+    tracker.set({ userId: user.uId });
+  }
+}
+
 export function* trackingSaga() {
   yield all([
     watchLocationChange(),
     watchTrackClick(),
     watchTrackImpressions(),
+    watchInitializeUser(),
   ]);
 }
