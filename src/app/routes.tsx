@@ -30,6 +30,7 @@ import {
 } from 'app/scenes';
 
 import {
+  ConnectedPublicRoute,
   ConnectedScrollManager,
   NonSubscriberOnlyRoute,
   PrivateRoute,
@@ -107,7 +108,7 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
             component={ConnectedMySelect}
             {...props}
           />
-          <Route
+          <ConnectedPublicRoute
             path="/book/:bookId"
             component={ConnectedBookDetail}
             {...props}
@@ -138,15 +139,26 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
             {...props}
 
           />
-          <Route path="/guide" render={() => <ConnectedGuide />} />
-          <Route path="/books" render={() => <ConnectedAvailableBooks />} />
+          <ConnectedPublicRoute
+            path="/guide"
+            component={ConnectedGuide}
+            {...props}
+          />
+          <ConnectedPublicRoute
+            path="/books"
+            component={ConnectedAvailableBooks}
+            {...props}
+          />
           <NonSubscriberOnlyRoute
             path="/"
             exact={true}
             component={props.isRidiApp ? InAppIntro : ConnectedIntro}
             {...props}
           />
-          <Route render={() => <ConnectedErrorPage />} />
+          <ConnectedPublicRoute
+            component={ConnectedErrorPage}
+            {...props}
+          />
         </Switch>
         {!props.isRidiApp && <ConnectedFooter />}
       </ConnectedScrollManager>
