@@ -4,13 +4,13 @@ import env from 'app/config/env';
 
 export const Actions = {
   completeIntroImageLoad: createAction('completeIntroImageLoad'),
-  completeBookDetailLoad: createAction('completeBookDetailLoad'),
+  completePublicRouteLoad: createAction('completePublicRouteLoad'),
 };
 
 const INITIAL_STATE = {
   ...env,
   introImageLoaded: false,
-  bookDetailLoaded: false,
+  publicRouteLoad: false,
 };
 
 export type EnvironmentState = typeof INITIAL_STATE;
@@ -22,7 +22,7 @@ environmentReducer.on(Actions.completeIntroImageLoad, (state): EnvironmentState 
   introImageLoaded: true,
 }));
 
-environmentReducer.on(Actions.completeBookDetailLoad, (state): EnvironmentState => ({
+environmentReducer.on(Actions.completePublicRouteLoad, (state): EnvironmentState => ({
   ...state,
-  bookDetailLoaded: true,
+  publicRouteLoad: true,
 }));
