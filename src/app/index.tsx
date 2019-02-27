@@ -20,6 +20,15 @@ setTabKeyFocus();
 initializeScrollEnd();
 
 class App extends React.Component<{}, {}> {
+  public componentDidMount() {
+    fetchUserInfo().then((user) => {
+      store.dispatch(Actions.initializeUser({ userDTO: user }));
+    }).finally(() => {
+      store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
+    });
+    loadFonts();
+  }
+
   public render() {
     return (
       <Provider store={store}>
@@ -32,15 +41,7 @@ class App extends React.Component<{}, {}> {
   }
 }
 
-fetchUserInfo().then((user) => {
-  store.dispatch(Actions.initializeUser({ userDTO: user }));
-}).finally(() => {
-  store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
-
-  render(
-    <App />,
-    document.getElementById('app'),
-  );
-});
-
-loadFonts();
+render(
+  <App />,
+  document.getElementById('app'),
+);
