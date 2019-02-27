@@ -12,6 +12,11 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+const refreshTokenInstance = createRefreshTokenInstance({
+  ...instance.defaults,
+  baseURL: env.ACCOUNT_API,
+});
+
 axiosRetry(instance, {
   retries: 3,
   retryDelay: (retryNumber = 0) => 200 * (2 ** retryNumber),
@@ -26,10 +31,6 @@ instance.interceptors.response.use(
     if (error.response) {
       const { status, data, config } = error.response;
       if (status === 401) {
-        const refreshTokenInstance = createRefreshTokenInstance({
-          ...instance.defaults,
-          baseURL: env.ACCOUNT_API,
-        });
         return refreshTokenInstance
           .post('/ridi/token/')
           .then(() => instance.request(config));
