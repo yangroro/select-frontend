@@ -2,30 +2,25 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import env from 'app/config/env';
 
-let refreshTokenInstance: AxiosInstance;
-let refreshTokenRequestCount = 0;
+let requestCount = 0;
 let lastRequestTime: number;
 
 const MAX_REQUEST_COUNT = 3;
 const MIN_REQUEST_DURATION = 1000;
 
 export default function(defaultConfig: AxiosRequestConfig) {
-  if (refreshTokenInstance) {
-    return refreshTokenInstance;
-  }
+  const instance = axios.create(defaultConfig);
 
-  refreshTokenInstance = axios.create(defaultConfig);
-
-  refreshTokenInstance.interceptors.request.use(
+  instance.interceptors.request.use(
     (config) => {
-      if (refreshTokenRequestCount > MAX_REQUEST_COUNT) {
+      if (requestCount > MAX_REQUEST_COUNT) {
         return Promise.reject();
       }
 
       if (lastRequestTime - Date.now() < MIN_REQUEST_DURATION) {
-        refreshTokenRequestCount += 1;
+        requestCount += 1;
       } else {
-        refreshTokenRequestCount = 1;
+        requestCount = 1;
       }
 
       lastRequestTime = Date.now();
@@ -33,7 +28,7 @@ export default function(defaultConfig: AxiosRequestConfig) {
     },
   );
 
-  refreshTokenInstance.interceptors.response.use(
+  instance.interceptors.response.use(
     undefined,
     (error: AxiosError) => {
       if (error.response) {
@@ -48,12 +43,12 @@ export default function(defaultConfig: AxiosRequestConfig) {
                 redirect_uri: `${env.ACCOUNT_API}/ridi/complete`,
               },
             })
-            .then(() => refreshTokenInstance.request(config));
+            .then(() => instance.request(config));
         }
       }
       return Promise.reject(error);
     },
   );
 
-  return refreshTokenInstance;
+  return instance;
 }
