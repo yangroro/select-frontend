@@ -1,6 +1,6 @@
 import { store } from 'app/store';
 import axios, { AxiosError } from 'axios';
-import axiosRetry from 'axios-retry';
+import axiosRetry, { isNetworkOrIdempotentRequestError } from 'axios-retry';
 
 import env from 'app/config/env';
 import { Actions as ServiceStatusActions } from 'app/services/serviceStatus';
@@ -17,11 +17,15 @@ const refreshTokenInstance = createRefreshTokenInstance({
   baseURL: env.ACCOUNT_API,
 });
 
+function isMaintenance({ response }: AxiosError) {
+  return response && response.data && response.data.status === 'maintenance';
+}
+
 axiosRetry(instance, {
   retries: 3,
   retryDelay: (retryNumber = 0) => 200 * (2 ** retryNumber),
-  retryCondition({ response }: AxiosError) {
-    return (response && response.data) ? response.data.status !== 'maintenance' : true;
+  retryCondition(error: AxiosError) {
+    return isNetworkOrIdempotentRequestError(error) && !isMaintenance(error);
   },
 });
 
