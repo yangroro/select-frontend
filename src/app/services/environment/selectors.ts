@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 export const selectIsIos = (state: RidiSelectState): boolean => state.environment.platform.isIos;
 export const selectIsInApp = (state: RidiSelectState): boolean => state.environment.platform.isRidibooks;
-export const selectPathname = (state: RidiSelectState): string => state.router.location.pathname;
+export const selectPathname = (state: RidiSelectState): string => state.router.location!.pathname;
 
 export const getIsIosInApp = createSelector(
   [selectIsIos, selectIsInApp],
