@@ -22,7 +22,7 @@ const WithLogo: React.SFC = () => (
 );
 
 const WhiteScreen: React.SFC = () => (
-  <div className="SplashScreen .SplashScreen-whiteScreen" />
+  <div className="SplashScreen SplashScreen-whiteScreen" />
 );
 
 const SplashScreen: React.SFC<Props> = (props) => {
