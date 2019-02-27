@@ -9,7 +9,7 @@ export * from './MySelectHistory';
 export * from './NewReleases';
 export * from './OrderHistory';
 export * from './SearchResult';
-export * from './Selection';
+export * from './Collection';
 export * from './Settings';
 export * from './AvailableBooks';
 export * from './Guide';

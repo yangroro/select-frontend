@@ -2,7 +2,7 @@ import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
 import { CategoryBooksResponse } from 'app/services/category/requests';
-import { DefaultSelectionState } from 'app/services/selection';
+import { DefaultCollectionState } from 'app/services/collection';
 
 export const Actions = {
   loadCategoryListRequest: createAction('loadCategoryListRequest'),
@@ -64,7 +64,7 @@ export const categoryListInitialState: CategoryListState = {
   isFetched: false,
 };
 
-export interface CategoryCollectionState extends DefaultSelectionState {
+export interface CategoryCollectionState extends DefaultCollectionState {
   name: string;
 }
 

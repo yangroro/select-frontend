@@ -9,22 +9,22 @@ import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizont
 import { FetchStatusFlag } from 'app/constants';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
-import { SelectionType } from 'app/services/home';
-import { DefaultSelectionState, HotReleaseSelectionState } from 'app/services/selection';
+import { DefaultCollectionState, HotReleaseCollectionState } from 'app/services/collection';
+import { CollectionType } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
 import { ConnectedHomeHotReleaseSection } from './HomeHotReleaseSection';
 
 interface HomeSectionProps {
-  selection: DefaultSelectionState | HotReleaseSelectionState;
+  collection: DefaultCollectionState | HotReleaseCollectionState;
   onScreen: boolean;
 }
 
-interface HomeSelectionStateProps {
+interface HomeCollectionStateProps {
   books: BookState;
 }
 
-type Props = HomeSectionProps & HomeSelectionStateProps;
+type Props = HomeSectionProps & HomeCollectionStateProps;
 
 export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => {
   return (
@@ -56,9 +56,9 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = (props)
 
 export class HomeSection extends React.Component<Props> {
   public render() {
-    const { selection, onScreen, books } = this.props;
-    const { type, title, id, itemListByPage } = selection;
-    const selectionBooks: Book[] = itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!);
+    const { collection, onScreen, books } = this.props;
+    const { type, title, id, itemListByPage } = collection;
+    const collectionBooks: Book[] = itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!);
 
     if (
       itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE && itemListByPage[1].itemList.length < 1 ||
@@ -73,36 +73,36 @@ export class HomeSection extends React.Component<Props> {
     ) {
       return (
         <HomeSectionPlaceholder
-          type={selection.type}
-          key={`${selection.id}_skeleton`}
+          type={collection.type}
+          key={`${collection.id}_skeleton`}
         />
       );
     }
 
-    if (type === SelectionType.HOT_RELEASE) {
+    if (type === CollectionType.HOT_RELEASE) {
       return (
         <ConnectedHomeHotReleaseSection
-          books={selectionBooks}
-          selectionId={selection.id}
+          books={collectionBooks}
+          collectionId={collection.id}
         />
       );
     }
 
-    if (type === SelectionType.CHART) {
+    if (type === CollectionType.CHART) {
       return (
         <ConnectedHomeChartBooksSection
-          books={selectionBooks}
+          books={collectionBooks}
           title={title!}
-          selectionId={id}
+          collectionId={id}
         />
       );
     }
 
     return (
       <section className="HomeSection">
-        <SectionHeader title={title!} link={`/selection/${id}`} />
+        <SectionHeader title={title!} link={`/collection/${id}`} />
         <ConnectedInlineHorizontalBookList
-          books={selectionBooks}
+          books={collectionBooks}
           pageTitleForTracking="home"
           uiPartTitleForTracking={id.toString()}
         />
@@ -111,7 +111,7 @@ export class HomeSection extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState, ownProps: HomeSectionProps): HomeSelectionStateProps => {
+const mapStateToProps = (state: RidiSelectState, ownProps: HomeSectionProps): HomeCollectionStateProps => {
   return {
     books: state.booksById,
   };

@@ -1,9 +1,9 @@
 import { Book } from 'app/services/book';
 import { Actions as BookActions } from 'app/services/book';
+import { Actions as CollectionActions } from 'app/services/collection';
+import { CollectionResponse } from 'app/services/collection/requests';
 import { Actions } from 'app/services/home';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
-import { Actions as SelectionActions } from 'app/services/selection';
-import { SelectionResponse } from 'app/services/selection/requests';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { all, call, put, take } from 'redux-saga/effects';
 
@@ -17,7 +17,7 @@ export function* watchLoadHome() {
         return concatedBooks.concat(section.books);
       }, []);
       yield put(BookActions.updateBooks({ books }));
-      const selections = response.collections.map((section): SelectionResponse => {
+      const collections = response.collections.map((section): CollectionResponse => {
         return {
           type: section.type,
           collectionId: section.collectionId,
@@ -26,7 +26,7 @@ export function* watchLoadHome() {
           totalCount: 0, // TODO: Ask @minQ
         };
       });
-      yield put(SelectionActions.updateSelections({ selections }));
+      yield put(CollectionActions.updateCollections({ collections }));
       yield put(Actions.loadHomeSuccess({
         response,
         fetchedAt: Date.now(),

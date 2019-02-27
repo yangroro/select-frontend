@@ -1,9 +1,10 @@
 import { store } from 'app/store';
 import axios, { AxiosError } from 'axios';
-import axiosRetry from 'axios-retry';
+import axiosRetry, { isNetworkOrIdempotentRequestError } from 'axios-retry';
 
 import env from 'app/config/env';
 import { Actions as ServiceStatusActions } from 'app/services/serviceStatus';
+import createRefreshTokenInstance from 'app/utils/refreshToken';
 
 const instance = axios.create({
   baseURL: env.SELECT_API,
@@ -11,33 +12,32 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+const refreshTokenInstance = createRefreshTokenInstance({
+  ...instance.defaults,
+  baseURL: env.ACCOUNT_API,
+});
+
+function isMaintenance({ response }: AxiosError) {
+  return response && response.data && response.data.status === 'maintenance';
+}
+
 axiosRetry(instance, {
   retries: 3,
   retryDelay: (retryNumber = 0) => 200 * (2 ** retryNumber),
+  retryCondition(error: AxiosError) {
+    return isNetworkOrIdempotentRequestError(error) && !isMaintenance(error);
+  },
 });
 
 instance.interceptors.response.use(
-  (response) => response,
+  undefined,
   (error: AxiosError) => {
     if (error.response) {
       const { status, data, config } = error.response;
       if (status === 401) {
-        if (config.url !== `${env.ACCOUNT_API}/ridi/token/`) {
-          return instance
-            .post(`${env.ACCOUNT_API}/ridi/token/`)
-            .then(() => instance(config))
-            .catch((e) => Promise.reject(e));
-        }
-        return axios
-          .get(`${env.ACCOUNT_API}/ridi/authorize/`, {
-            withCredentials: true,
-            params: {
-              client_id: env.OAUTH2_CLIENT_ID,
-              response_type: 'code',
-              redirect_uri: `${env.ACCOUNT_API}/ridi/complete`,
-            },
-          })
-          .then(() => instance(config));
+        return refreshTokenInstance
+          .post('/ridi/token/')
+          .then(() => instance.request(config));
       } else if (Math.floor(status / 100) === 5 && data.status === 'maintenance') { // TODO: 서비스 이용이 불가능한 엔드포인트만 에러페이지로 렌더링되도록 변경
         store.dispatch(ServiceStatusActions.setState({
           status,

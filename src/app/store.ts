@@ -19,17 +19,17 @@ import { userRootSaga } from 'app/services/user/sagas';
 
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
+import { collectionReducer, CollectionsState } from 'app/services/collection';
+import { collectionsRootSaga } from 'app/services/collection/sagas';
 import { environmentReducer, EnvironmentState } from 'app/services/environment';
 import { MySelectState } from 'app/services/mySelect';
 import { mySelectReducer } from 'app/services/mySelect';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
-import { SearchResultState } from 'app/services/searchResult';
 import { searchResultReducer } from 'app/services/searchResult';
+import { SearchResultState } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
-import { selectionReducer, SelectionsState } from 'app/services/selection';
-import { selectionsRootSaga } from 'app/services/selection/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { trackingSaga } from 'app/services/tracking/sagas';
 
@@ -52,7 +52,7 @@ function* rootSaga(dispatch: Dispatch) {
     bookRootSaga(),
     reviewRootSaga(dispatch),
     userRootSaga(),
-    selectionsRootSaga(),
+    collectionsRootSaga(),
     categoryRootSaga(),
     searchResultRootSaga(),
     mySelectRootSaga(),
@@ -67,7 +67,7 @@ export interface RidiSelectState {
   user: UserState;
   home: HomeState;
   booksById: BookState;
-  selectionsById: SelectionsState;
+  collectionsById: CollectionsState;
   commonUI: CommonUIState;
   reviewsByBookId: ReviewsState;
   categories: CategoryListState;
@@ -93,7 +93,7 @@ const reducers = combineReducers({
   user: userReducer,
   home: homeReducer,
   booksById: bookReducer,
-  selectionsById: selectionReducer,
+  collectionsById: collectionReducer,
   commonUI: commonUIReducer,
   reviewsByBookId: reviewsReducer,
   categories: categoryListReducer,

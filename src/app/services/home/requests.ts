@@ -2,14 +2,14 @@ import { AxiosResponse } from 'axios';
 import * as qs from 'qs';
 
 import request from 'app/config/axios';
+import { CollectionResponse } from 'app/services/collection/requests';
 import { BigBanner } from 'app/services/home';
-import { SelectionResponse } from 'app/services/selection/requests';
 
 import { camelize } from '@ridi/object-case-converter';
 
 export interface HomeResponse {
   bigBanners: BigBanner[];
-  collections: SelectionResponse[];
+  collections: CollectionResponse[];
 }
 
 export const requestHome = (): Promise<HomeResponse> => {

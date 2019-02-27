@@ -9,7 +9,7 @@ import {
   DTOBookThumbnail,
 } from 'app/components';
 import { Book } from 'app/services/book';
-import { SelectionId } from 'app/services/selection';
+import { CollectionId } from 'app/services/collection';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { stringifyAuthors } from 'app/utils/utils';
@@ -18,7 +18,7 @@ import { SliderControls } from './SliderControls';
 
 interface HomeHotReleaseSectionProps {
   books: Book[];
-  selectionId: SelectionId;
+  collectionId: CollectionId;
 }
 
 type Props = HomeHotReleaseSectionProps &
@@ -47,7 +47,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
   }
 
   public render() {
-    const { books, trackClick, selectionId } = this.props;
+    const { books, trackClick, collectionId } = this.props;
     const section = getSectionStringForTracking('home', 'hot-release');
     return (
       <div className="HomeSection_HotRelease">
@@ -66,7 +66,7 @@ export class HomeHotReleaseSection extends React.Component<Props> {
                 <ConnectedInlineHorizontalBookList
                   books={books}
                   pageTitleForTracking="home"
-                  uiPartTitleForTracking={selectionId.toString()}
+                  uiPartTitleForTracking={collectionId.toString()}
                   renderAuthor={true}
                 />
               ) : (

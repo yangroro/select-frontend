@@ -6,18 +6,18 @@ import { connect } from 'react-redux';
 
 import { FetchStatusFlag } from 'app/constants';
 import { BookState } from 'app/services/book';
+import { Actions as CollectionActions, CollectionId, CollectionsState } from 'app/services/collection';
 import { Actions } from 'app/services/home';
 import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
 import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
-import { Actions as SelectionActions, SelectionId, SelectionsState } from 'app/services/selection';
 import { RidiSelectState } from 'app/store';
 
 interface HomeStateProps {
   fetchStatus: FetchStatusFlag;
   fetchedAt: number | null;
-  selectionIdList: number[];
+  collectionIdList: number[];
   books: BookState;
-  selections: SelectionsState;
+  collections: CollectionsState;
 }
 interface State {
   isInitialized: boolean;
@@ -34,14 +34,14 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
       const {
         fetchedAt,
         dispatchLoadHomeRequest,
-        dispatchLoadSelectionRequest,
+        dispatchLoadCollectionRequest,
       } = this.props;
       if (
         !fetchedAt ||
         Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3
       ) {
         dispatchLoadHomeRequest();
-        dispatchLoadSelectionRequest('hotRelease');
+        dispatchLoadCollectionRequest('hotRelease');
       }
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
@@ -73,8 +73,8 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
   return {
     fetchStatus: state.home.fetchStatus,
     fetchedAt: state.home.fetchedAt,
-    selectionIdList: state.home.selectionIdList,
-    selections: state.selectionsById,
+    collectionIdList: state.home.collectionIdList,
+    collections: state.collectionsById,
     books: state.booksById,
   };
 };
@@ -82,7 +82,7 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
-    dispatchLoadSelectionRequest: (selectionId: SelectionId) => dispatch(SelectionActions.loadSelectionRequest({ selectionId, page: 1 })),
+    dispatchLoadCollectionRequest: (collectionId: CollectionId) => dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
   };
 };
 
