@@ -15,6 +15,9 @@ const instance = axios.create({
 axiosRetry(instance, {
   retries: 3,
   retryDelay: (retryNumber = 0) => 200 * (2 ** retryNumber),
+  retryCondition({ response }: AxiosError) {
+    return (response && response.data) ? response.data.status !== 'maintenance' : true;
+  },
 });
 
 instance.interceptors.response.use(
