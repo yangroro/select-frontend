@@ -5,6 +5,7 @@ import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 import { LOCATION_CHANGE, replace } from 'react-router-redux';
 import { all, put, select, take } from 'redux-saga/effects';
 
+import env from 'app/config/env';
 import { Actions as UserActions } from 'app/services/user';
 
 export const PIXEL_ID = '417351945420295';
@@ -19,6 +20,7 @@ const initializeTracker = (state: RidiSelectState) => {
   }
 
   tracker = new Tracker({
+    debug: !env.production,
     deviceType,
     userId: state.user.uId,
     tagManagerOptions: {
@@ -63,37 +65,25 @@ export function* watchLocationChange() {
 
 export function* watchTrackClick() {
   while (true) {
-    const { payload: { trackingParams: bookTrackingParams } }: ReturnType<typeof Actions.trackClick> = yield take(Actions.trackClick.getType());
+    const { payload }: ReturnType<typeof Actions.trackClick> = yield take(Actions.trackClick.getType());
 
     if (!tracker) {
       initializeTracker(yield select((s) => s));
     }
 
-    tracker.sendEvent('Click', bookTrackingParams);
+    tracker.sendEvent('Click', payload.trackingParams);
   }
 }
 
 export function* watchTrackImpressions() {
   while (true) {
-    const { payload: { trackingParams: bookTrackingParams } }: ReturnType<typeof Actions.trackImpression> = yield take(Actions.trackImpression.getType());
+    const { payload }: ReturnType<typeof Actions.trackImpression> = yield take(Actions.trackImpression.getType());
 
     if (!tracker) {
       initializeTracker(yield select((s) => s));
     }
 
-    tracker.sendEvent('Impression', bookTrackingParams);
-  }
-}
-
-function* watchInitializeUser() {
-  while (true) {
-    const { payload: { userDTO: user } }: ReturnType<typeof UserActions.initializeUser> = yield take(UserActions.initializeUser.getType());
-
-    if (!tracker) {
-      initializeTracker(yield select((s) => s));
-    }
-
-    tracker.set({ userId: user.uId });
+    tracker.sendEvent('Impression', payload.trackingParams);
   }
 }
 
@@ -102,6 +92,5 @@ export function* trackingSaga() {
     watchLocationChange(),
     watchTrackClick(),
     watchTrackImpressions(),
-    watchInitializeUser(),
   ]);
 }
