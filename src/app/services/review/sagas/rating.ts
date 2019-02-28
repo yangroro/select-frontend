@@ -59,7 +59,10 @@ export function deleteRating(dispatch: Dispatch<RidiSelectState>, bookId: number
     } else {
       dispatch(deleteRatingFailure(bookId));
     }
-  }).catch(() => dispatch(deleteRatingFailure(bookId)));
+  }).catch((e) => {
+    const message = e.response.status === 429 ? e.response.message : undefined;
+    dispatch(deleteRatingFailure(bookId, message));
+  });
 }
 
 export function* watchDeleteRating(dispatch: Dispatch<RidiSelectState>) {
@@ -71,8 +74,12 @@ export function* watchDeleteRating(dispatch: Dispatch<RidiSelectState>) {
 
 export function* watchRatingFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
-    const { payload }: ActionPostRatingFailure | ActionDeleteRatingFailure =
+    const { payload: { message } }: ActionPostRatingFailure | ActionDeleteRatingFailure =
       yield take([POST_RATING_FAILURE, DELETE_RATING_FAILURE]);
-    toast.defaultErrorMessage();
+    if (message) {
+      toast.fail(message);
+    } else {
+      toast.defaultErrorMessage();
+    }
   }
 }

@@ -32,13 +32,13 @@ import {
   postReviewFailure,
   postReviewSuccess,
   resetReviews,
-} from './../actions';
+} from 'app/services/review/actions';
 import {
   requestDeleteReview,
   requestGetReviews,
   requestPostReview,
   RequestReviewsParameters,
-} from './../requests';
+} from 'app/services/review/requests';
 
 import { ReviewSortingCriteria, ReviewsState } from 'app/services/review';
 import { UserFilterType } from 'app/services/review/constants';
@@ -92,7 +92,10 @@ export function postReview(
     } else {
       dispatch(postReviewFailure(bookId));
     }
-  }).catch(() => dispatch(postReviewFailure(bookId)));
+  }).catch((e) => {
+    const message = e.response.status === 429 ? e.response.message : undefined;
+    dispatch(postReviewFailure(bookId, message));
+  });
 }
 
 export function* watchPostReviewRequest(dispatch: Dispatch<RidiSelectState>) {
@@ -118,9 +121,13 @@ export function* watchPostReviewSuccess(dispatch: Dispatch<RidiSelectState>) {
 
 export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
-    const { payload }: ActionPostReviewFailure | ActionDeleteReviewFailure =
+    const { payload: { message } }: ActionPostReviewFailure | ActionDeleteReviewFailure =
       yield take([POST_REVIEW_FAILURE, DELETE_REVIEW_FAILURE]);
-    toast.defaultErrorMessage();
+    if (message) {
+      toast.fail(message);
+    } else {
+      toast.defaultErrorMessage();
+    }
   }
 }
 

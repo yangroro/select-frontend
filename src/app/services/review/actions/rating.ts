@@ -22,6 +22,7 @@ export interface ActionPostRatingSuccess extends Action<typeof POST_RATING_SUCCE
 }> {}
 export interface ActionPostRatingFailure extends Action<typeof POST_RATING_FAILURE, {
   bookId: number,
+  message?: string,
 }> {}
 
 export interface ActionDeleteRatingRequest extends Action<typeof DELETE_RATING_REQUEST, {
@@ -33,6 +34,7 @@ export interface ActionDeleteRatingSuccess extends Action<typeof DELETE_RATING_S
 }> {}
 export interface ActionDeleteRatingFailure extends Action<typeof DELETE_RATING_FAILURE, {
   bookId: number,
+  message?: string,
 }> {}
 
 export type RatingActionTypes =
@@ -60,8 +62,9 @@ export const postRatingSuccess = (
 
 export const postRatingFailure = (
   bookId: number,
+  message?: string,
 ): ActionPostRatingFailure => {
-  return { type: POST_RATING_FAILURE, payload: { bookId } };
+  return { type: POST_RATING_FAILURE, payload: { bookId, message } };
 };
 
 export const deleteRatingRequest = (
@@ -79,6 +82,7 @@ export const deleteRatingSuccess = (
 
 export const deleteRatingFailure = (
   bookId: number,
+  message?: string,
 ): ActionDeleteRatingFailure => {
-  return { type: DELETE_RATING_FAILURE, payload: { bookId } };
+  return { type: DELETE_RATING_FAILURE, payload: { bookId, message } };
 };
