@@ -93,7 +93,7 @@ export function postReview(
       dispatch(postReviewFailure(bookId));
     }
   }).catch((e) => {
-    const message = e.response.status === 429 ? e.response.message : undefined;
+    const message = e.response.status === 429 ? e.response.data.message : undefined;
     dispatch(postReviewFailure(bookId, message));
   });
 }

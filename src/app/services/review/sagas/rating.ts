@@ -39,7 +39,10 @@ export function postRating(dispatch: Dispatch<RidiSelectState>, bookId: number, 
     } else {
       dispatch(postRatingFailure(bookId));
     }
-  }).catch(() => dispatch(postRatingFailure(bookId)));
+  }).catch((e) => {
+    const message = e.response.status === 429 ? e.response.data.message : undefined;
+    dispatch(postRatingFailure(bookId, message));
+  });
 }
 
 export function* watchPostRating(dispatch: Dispatch<RidiSelectState>) {
@@ -60,8 +63,7 @@ export function deleteRating(dispatch: Dispatch<RidiSelectState>, bookId: number
       dispatch(deleteRatingFailure(bookId));
     }
   }).catch((e) => {
-    const message = e.response.status === 429 ? e.response.message : undefined;
-    dispatch(deleteRatingFailure(bookId, message));
+    dispatch(deleteRatingFailure(bookId));
   });
 }
 
