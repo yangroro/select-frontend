@@ -171,7 +171,7 @@ class Toast {
     );
   }
 
-  public fail(message: string, options: SimpleToastOptions = {}) {
+  public fail(message: string = TOAST_DEFAULT_ERROR_MESSAGE, options: SimpleToastOptions = {}) {
     this.show(
       message,
       {
@@ -179,10 +179,6 @@ class Toast {
         iconType: ToastStatusIcon.fail,
       },
     );
-  }
-
-  public defaultErrorMessage() {
-    this.fail(TOAST_DEFAULT_ERROR_MESSAGE);
   }
 
   public close() {

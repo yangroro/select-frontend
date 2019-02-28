@@ -36,7 +36,7 @@ export function callbackAfterFailedFetch(e: AxiosError, page = 1) {
     !e.response ||
     !e.response.config
   ) {
-    toast.defaultErrorMessage();
+    toast.fail();
     return;
   }
   if (

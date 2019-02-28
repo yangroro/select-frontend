@@ -71,7 +71,7 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
         toast.success('신고가 접수되었습니다.');
         this.props.close();
       } else {
-        toast.defaultErrorMessage();
+        toast.fail();
       }
     }).catch((e) => {
       showMessageForRequestError(e);

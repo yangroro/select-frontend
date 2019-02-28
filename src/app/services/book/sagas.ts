@@ -90,7 +90,7 @@ export function* watchLoadBookDetail() {
         toast.fail('도서가 존재하지 않습니다.');
         history.replace('/home');
       } else {
-        toast.defaultErrorMessage();
+        toast.fail();
       }
       yield put(Actions.loadBookDetailFailure({
         bookId,

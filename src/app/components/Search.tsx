@@ -270,7 +270,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
   private linkToBookDetail(book: InstantSearchResultBook): void {
     if (!book) {
-      toast.defaultErrorMessage();
+      toast.fail();
       return;
     }
     let targetKeyword = '';

@@ -123,11 +123,7 @@ export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload: { message } }: ActionPostReviewFailure | ActionDeleteReviewFailure =
       yield take([POST_REVIEW_FAILURE, DELETE_REVIEW_FAILURE]);
-    if (message) {
-      toast.fail(message);
-    } else {
-      toast.defaultErrorMessage();
-    }
+    toast.fail(message);
   }
 }
 

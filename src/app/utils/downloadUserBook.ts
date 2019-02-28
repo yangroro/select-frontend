@@ -78,7 +78,7 @@ export function requestDownloadUserBook(bookIds: number[], preprocess: boolean, 
       return Promise.reject(response.data.message);
     }
   }).catch(() => {
-    toast.defaultErrorMessage();
+    toast.fail();
   });
 }
 

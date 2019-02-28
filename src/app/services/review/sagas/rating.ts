@@ -78,10 +78,6 @@ export function* watchRatingFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload: { message } }: ActionPostRatingFailure | ActionDeleteRatingFailure =
       yield take([POST_RATING_FAILURE, DELETE_RATING_FAILURE]);
-    if (message) {
-      toast.fail(message);
-    } else {
-      toast.defaultErrorMessage();
-    }
+    toast.fail(message);
   }
 }
