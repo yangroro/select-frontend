@@ -72,7 +72,6 @@ export interface ActionPostReviewSuccess extends Action<typeof POST_REVIEW_SUCCE
 }> {}
 export interface ActionPostReviewFailure extends Action<typeof POST_REVIEW_FAILURE, {
   bookId: number,
-  message?: string,
 }> {}
 
 export interface ActionDeleteReviewRequest extends Action<typeof DELETE_REVIEW_REQUEST, {
@@ -85,7 +84,6 @@ export interface ActionDeleteReviewSuccess extends Action<typeof DELETE_REVIEW_S
 }> {}
 export interface ActionDeleteReviewFailure extends Action<typeof DELETE_REVIEW_FAILURE, {
   bookId: number,
-  message?: string,
 }> {}
 
 export interface ActionStartEditingReview extends Action<typeof START_EDITING_REVIEW, {
@@ -171,9 +169,8 @@ export const postReviewSuccess = (
 
 export const postReviewFailure = (
   bookId: number,
-  message?: string,
 ): ActionPostReviewFailure => {
-  return { type: POST_REVIEW_FAILURE, payload: { bookId, message } };
+  return { type: POST_REVIEW_FAILURE, payload: { bookId } };
 };
 
 export const deleteReviewRequest = (
@@ -192,9 +189,8 @@ export const deleteReviewSuccess = (
 
 export const deleteReviewFailure = (
   bookId: number,
-  message?: string,
 ): ActionDeleteReviewFailure => {
-  return { type: DELETE_REVIEW_FAILURE, payload: { bookId, message } };
+  return { type: DELETE_REVIEW_FAILURE, payload: { bookId } };
 };
 
 export const startEditingReview = (

@@ -2,21 +2,17 @@ import { Dispatch } from 'react-redux';
 import { call, put, select, take } from 'redux-saga/effects';
 
 import { TextWithLF } from 'app/types';
-import toast from 'app/utils/toast';
 
 import {
   ActionChangeSortBy,
   ActionChangeUserFilterTab,
-  ActionDeleteReviewFailure,
   ActionDeleteReviewRequest,
   ActionDeleteReviewSuccess,
   ActionGetReviewsRequest,
-  ActionPostReviewFailure,
   ActionPostReviewRequest,
   ActionPostReviewSuccess,
   CHANGE_SORT_BY,
   CHANGE_USER_FILTER_TAB,
-  DELETE_REVIEW_FAILURE,
   DELETE_REVIEW_REQUEST,
   DELETE_REVIEW_SUCCESS,
   deleteReviewFailure,
@@ -26,7 +22,6 @@ import {
   getReviewsFailure,
   getReviewsRequest,
   getReviewsSuccess,
-  POST_REVIEW_FAILURE,
   POST_REVIEW_REQUEST,
   POST_REVIEW_SUCCESS,
   postReviewFailure,
@@ -43,6 +38,7 @@ import {
 import { ReviewSortingCriteria, ReviewsState } from 'app/services/review';
 import { UserFilterType } from 'app/services/review/constants';
 import { RidiSelectState } from 'app/store';
+import { callbackTooManyRequest } from 'app/utils/request';
 
 export const selectors = {
   reviewsByBookId: (state: RidiSelectState) => state.reviewsByBookId,
@@ -93,8 +89,8 @@ export function postReview(
       dispatch(postReviewFailure(bookId));
     }
   }).catch((e) => {
-    const message = e.response.status === 429 ? e.response.data.message : undefined;
-    dispatch(postReviewFailure(bookId, message));
+    callbackTooManyRequest(e);
+    dispatch(postReviewFailure(bookId));
   });
 }
 
@@ -116,14 +112,6 @@ export function* watchPostReviewSuccess(dispatch: Dispatch<RidiSelectState>) {
       sortBy: ReviewSortingCriteria.latest,
       page: 1,
     }));
-  }
-}
-
-export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
-  while (true) {
-    const { payload: { message } }: ActionPostReviewFailure | ActionDeleteReviewFailure =
-      yield take([POST_REVIEW_FAILURE, DELETE_REVIEW_FAILURE]);
-    toast.fail(message);
   }
 }
 

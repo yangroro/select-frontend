@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
-import { GNBColorLevel } from 'app/services/commonUI';
 import { ConnectedSearch } from 'app/components/Search';
+import { GNBColorLevel } from 'app/services/commonUI';
 import { getBackgroundColorRGBString, getGNBType, getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
