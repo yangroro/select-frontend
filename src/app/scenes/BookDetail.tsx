@@ -419,7 +419,12 @@ export class BookDetail extends React.Component<Props, State> {
   }
 
   private getVideoSrc = (videoUrl: string): string | null => {
-    if (videoUrl.includes('vimeo')) {
+    if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+      const token = videoUrl.match(/[\w-_]{10,}/);
+      if (token) {
+        return `//www.youtube-nocookie.com/embed/${token[0]}?rel=0`;
+      }
+    } else if (videoUrl.includes('vimeo')) {
       const token = videoUrl.match(/\d[\w-_]{7,}/);
       if (token) {
         return `//player.vimeo.com/video/${token[0]}?byline=0&amp;portrait=0&amp;badge=0`;
