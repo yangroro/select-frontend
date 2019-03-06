@@ -104,7 +104,7 @@ export function* watchCategoryBooksFailure() {
       (error.response && error.response.config) &&
       (!error.response.config.params || !error.response.config.params.page || page === 1)
     ) {
-      message = `${typeof error === 'string' ? error : '없는 페이지입니다. 다시 시도해주세요.'}`;
+      message = '없는 페이지입니다. 다시 시도해주세요.';
     }
     toast.failureMessage(message);
   }
