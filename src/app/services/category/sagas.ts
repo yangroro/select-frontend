@@ -7,7 +7,7 @@ import { Actions, Category } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { localStorageManager } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
-import { callbackAfterFailedFetch } from 'app/utils/request';
+import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
 export async function loadCategoryList() {
@@ -87,14 +87,27 @@ export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCa
     const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
     yield put(BookActions.updateBooks({ books: response.books }));
     yield put(Actions.loadCategoryBooksSuccess({ categoryId, page, response }));
-  } catch (e) {
-    yield put(Actions.loadCategoryBooksFailure({ categoryId, page }));
-    callbackAfterFailedFetch(e, page);
+  } catch (error) {
+    yield put(Actions.loadCategoryBooksFailure({ categoryId, page, error }));
   }
 }
 
 export function* watchLoadCategoryBooks() {
   yield takeEvery(Actions.loadCategoryBooksRequest.getType(), loadCategoryBooks);
+}
+
+export function* watchCategoryBooksFailure() {
+  while (true) {
+    const { payload: { page, error } }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(Actions.loadCategoryBooksFailure.getType());
+    let message = TOAST_DEFAULT_ERROR_MESSAGE;
+    if (
+      (error.response && error.response.config) &&
+      (!error.response.config.params || !error.response.config.params.page || page === 1)
+    ) {
+      message = `${typeof error === 'string' ? error : '없는 페이지입니다. 다시 시도해주세요.'}`;
+    }
+    toast.failureMessage(message);
+  }
 }
 
 export function* categoryRootSaga() {

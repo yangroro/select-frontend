@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import produce from 'immer';
 import { createAction, createReducer } from 'redux-act';
 
@@ -16,6 +17,7 @@ export const Actions = {
   }>('loadMySelectSuccess'),
   loadMySelectFailure: createAction<{
     page: number,
+    error: AxiosError,
   }>('loadMySelectFailure'),
   deleteMySelectRequest: createAction<{
     page: number,

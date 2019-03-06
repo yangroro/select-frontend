@@ -12,8 +12,8 @@ import {
 } from 'app/services/mySelect/requests';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { callbackAfterFailedFetch, updateQueryStringParam } from 'app/utils/request';
-import toast from 'app/utils/toast';
+import { updateQueryStringParam } from 'app/utils/request';
+import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
@@ -36,9 +36,8 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
       response,
       page,
     }));
-  } catch (e) {
-    yield put(Actions.loadMySelectFailure({ page }));
-    callbackAfterFailedFetch(e, page);
+  } catch (error) {
+    yield put(Actions.loadMySelectFailure({ page, error }));
   }
 }
 
@@ -114,8 +113,22 @@ export function* watchAddMySelect() {
       }
     } catch (e) {
       yield put(Actions.addMySelectFailure());
-      toast.fail('오류가 발생했습니다. 잠시 후에 다시 시도해주세요.');
+      toast.failureMessage('오류가 발생했습니다. 잠시 후에 다시 시도해주세요.');
     }
+  }
+}
+
+export function* watchLoadMySelectFailure() {
+  while (true) {
+    const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
+    let message = TOAST_DEFAULT_ERROR_MESSAGE;
+    if (
+      (error.response && error.response.config) &&
+      (!error.response.config.params || !error.response.config.params.page || page === 1)
+    ) {
+      message = `${typeof error === 'string' ? error : '없는 페이지입니다. 다시 시도해주세요.'}`;
+    }
+    toast.failureMessage(message);
   }
 }
 
