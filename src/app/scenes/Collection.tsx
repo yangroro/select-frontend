@@ -38,7 +38,7 @@ export class Collection extends React.Component<Props> {
           isFetched={(page) => collection && collection.itemListByPage[page] && collection.itemListByPage[page].isFetched}
           fetch={(page) => dispatchLoadCollection(collectionId, page)}
           itemCount={collection ? collection.itemCount : undefined}
-          buildPaginationURL={(p: number) => `/selction/${collectionId}?page=${p}`}
+          buildPaginationURL={(p: number) => `/selection/${collectionId}?page=${p}`}
           renderPlaceholder={() => (<GridBookListSkeleton />)}
           renderItems={(page) => (
             <ConnectedGridBookList
