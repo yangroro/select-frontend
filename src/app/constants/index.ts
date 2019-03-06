@@ -5,5 +5,6 @@ export enum FetchStatusFlag {
 }
 
 export enum FetchErrorFlag {
+  UNEXPECTED_BOOK_ID,
   UNEXPECTED_PAGE_PARAMS,
 }

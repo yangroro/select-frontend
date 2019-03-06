@@ -1,16 +1,13 @@
 import { mapValues } from 'lodash-es';
 
 import history from 'app/config/history';
+import { FetchErrorFlag } from 'app/constants';
 import { Actions } from 'app/services/book';
 import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
-
-enum FetchErrorFlag {
-  UNEXPECTED_BOOK_ID,
-}
 
 const KEY_LOCAL_STORAGE = 'rs.books';
 const booksLocalStorageManager = {
