@@ -100,7 +100,7 @@ export class HomeSection extends React.Component<Props> {
 
     return (
       <section className="HomeSection">
-        <SectionHeader title={title!} link={`/collection/${id}`} />
+        <SectionHeader title={title!} link={`/selection/${id}`} />
         <ConnectedInlineHorizontalBookList
           books={collectionBooks}
           pageTitleForTracking="home"
