@@ -125,11 +125,7 @@ export function* watchAddMySelect() {
 export function* watchLoadMySelectFailure() {
   while (true) {
     const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
-    if (
-      error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS ||
-      (error.response && error.response.config) &&
-      (!error.response.config.params || !error.response.config.params.page || page === 1)
-    ) {
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS || page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       return;
     }
