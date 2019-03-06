@@ -34,7 +34,7 @@ export class ReviewMetadata extends React.Component<ReviewMetadataProps, ReviewM
       return;
     }
     if (this.props.isReportedByMe) {
-      toast.fail('이미 해당 리뷰를 신고했습니다.');
+      toast.failureMessage('이미 해당 리뷰를 신고했습니다.');
       return;
     }
     this.setState({

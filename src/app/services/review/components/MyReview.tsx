@@ -63,7 +63,7 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
 
   public submitReview(content: TextWithLF, hasSpoiler: boolean) {
     if (!this.props.selectedRating) {
-      toast.fail('별점을 먼저 입력해주세요.');
+      toast.failureMessage('별점을 먼저 입력해주세요.');
       return;
     }
     this.props.submitReview(this.props.bookId, content, hasSpoiler);

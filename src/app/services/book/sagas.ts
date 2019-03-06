@@ -87,10 +87,10 @@ export function* watchLoadBookDetail() {
       }
     } catch (e) {
       if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
-        toast.fail('도서가 존재하지 않습니다.');
+        toast.failureMessage('도서가 존재하지 않습니다.');
         history.replace('/home');
       } else {
-        toast.fail();
+        toast.failureMessage();
       }
       yield put(Actions.loadBookDetailFailure({
         bookId,

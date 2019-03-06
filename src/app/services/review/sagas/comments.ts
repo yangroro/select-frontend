@@ -83,6 +83,6 @@ export function* watchDeleteCommentRequest(dispatch: Dispatch<RidiSelectState>) 
 export function* watchCommentFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     yield take([POST_COMMENT_FAILURE, DELETE_COMMENT_FAILURE]);
-    toast.fail();
+    toast.failureMessage();
   }
 }

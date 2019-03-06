@@ -171,7 +171,7 @@ class Toast {
     );
   }
 
-  public fail(message: string = TOAST_DEFAULT_ERROR_MESSAGE, options: SimpleToastOptions = {}) {
+  public failureMessage(message: string = TOAST_DEFAULT_ERROR_MESSAGE, options: SimpleToastOptions = {}) {
     this.show(
       message,
       {
