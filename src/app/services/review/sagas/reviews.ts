@@ -43,6 +43,7 @@ import { ReviewSortingCriteria, ReviewsState } from 'app/services/review';
 import { UserFilterType } from 'app/services/review/constants';
 import { RidiSelectState } from 'app/store';
 import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
+import { AxiosError } from 'axios';
 
 export const selectors = {
   reviewsByBookId: (state: RidiSelectState) => state.reviewsByBookId,
@@ -120,18 +121,21 @@ export function* watchPostReviewSuccess(dispatch: Dispatch<RidiSelectState>) {
 
 export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
-    const { payload: { error } }: ActionPostReviewFailure | ActionDeleteReviewFailure =
-      yield take([POST_REVIEW_FAILURE, DELETE_REVIEW_FAILURE]);
-    let message = TOAST_DEFAULT_ERROR_MESSAGE;
-    if (
-      error &&
-      error.response &&
-      (error.response.status && error.response.status === 429) &&
-      (error.response.data && error.response.data.message)
-    ) {
-      message = error.response.data.message;
+    const { payload: { error } }: ActionPostReviewFailure | ActionDeleteReviewFailure = yield take([
+      POST_REVIEW_FAILURE,
+      DELETE_REVIEW_FAILURE,
+    ]);
+
+    const { response } = error || { response: {} } as AxiosError;
+
+    if (!response) {
+      return;
     }
-    toast.failureMessage(message);
+
+    if (response.status === 429) {
+      toast.failureMessage(response.data ? response.data.message : undefined);
+    }
+    toast.failureMessage();
   }
 }
 

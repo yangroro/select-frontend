@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Dispatch } from 'react-redux';
 import { call, take } from 'redux-saga/effects';
 
@@ -17,7 +18,7 @@ import {
 } from 'app/services/review/actions';
 import { requestDeleteRating, requestPostRating } from 'app/services/review/requests';
 import { RidiSelectState } from 'app/store';
-import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
+import toast from 'app/utils/toast';
 
 export function postRating(dispatch: Dispatch<RidiSelectState>, bookId: number, rating: number) {
   requestPostRating(
@@ -69,18 +70,22 @@ export function* watchDeleteRating(dispatch: Dispatch<RidiSelectState>) {
 
 export function* watchRatingFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
-    const { payload: { error } }: ActionPostRatingFailure | ActionDeleteRatingFailure =
-      yield take([POST_RATING_FAILURE, DELETE_RATING_FAILURE]);
+    const { payload: { error } }: ActionPostRatingFailure | ActionDeleteRatingFailure = yield take([
+      POST_RATING_FAILURE,
+      DELETE_RATING_FAILURE,
+    ]);
 
-    let message = TOAST_DEFAULT_ERROR_MESSAGE;
-    if (
-      error &&
-      error.response &&
-      (error.response.status && error.response.status === 429) &&
-      (error.response.data && error.response.data.message)
-    ) {
-      message = error.response.data.message;
+    const { response } = error || { response: {} } as AxiosError;
+
+    if (!response) {
+      return;
     }
-    toast.failureMessage(message);
+
+    if (response.status === 429) {
+      toast.failureMessage(response.data ? response.data.message : undefined);
+      return;
+    }
+
+    toast.failureMessage();
   }
 }
