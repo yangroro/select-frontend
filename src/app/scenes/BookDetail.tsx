@@ -192,9 +192,6 @@ export class BookDetail extends React.Component<Props, State> {
     this.props.mySelect.additionFetchStatus === FetchStatusFlag.FETCHING
 
   private fetchBookDetailAndOwnership = (props: Props) => {
-    if (!props.bookId || Number.isNaN(props.bookId)) {
-      toast.fail('없는 페이지입니다. 다시 시도해주세요.');
-    }
     if (!props.isFetched) {
       props.dispatchLoadBookRequest(props.bookId);
     }
