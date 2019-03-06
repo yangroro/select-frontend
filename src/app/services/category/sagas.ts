@@ -1,3 +1,4 @@
+import { FetchErrorFlag } from 'app/constants';
 import * as qs from 'qs';
 import { replace } from 'react-router-redux';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
@@ -82,7 +83,7 @@ export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCa
   const { page, categoryId } = payload;
   try {
     if (Number.isNaN(page)) {
-      throw new Error('유효하지 않은 페이지입니다.');
+      throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
     const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
     yield put(BookActions.updateBooks({ books: response.books }));
@@ -100,7 +101,9 @@ export function* watchCategoryBooksFailure() {
   while (true) {
     const { payload: { page, error } }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(Actions.loadCategoryBooksFailure.getType());
     let message = TOAST_DEFAULT_ERROR_MESSAGE;
-    if (
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+      message = '유효하지 않은 페이지입니다.';
+    } else if (
       (error.response && error.response.config) &&
       (!error.response.config.params || !error.response.config.params.page || page === 1)
     ) {

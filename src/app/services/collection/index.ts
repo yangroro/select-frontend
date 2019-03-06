@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { CollectionResponse } from 'app/services/collection/requests';
 import { CollectionType } from 'app/services/home';
 import { BookId, Paginated } from 'app/types';
@@ -65,7 +65,7 @@ export const Actions = {
   loadCollectionFailure: createAction<{
     collectionId: CollectionId,
     page: number,
-    error: AxiosError,
+    error: AxiosError | FetchErrorFlag,
   }>('loadCollectionSuccess'),
 };
 

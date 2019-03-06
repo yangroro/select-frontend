@@ -1,6 +1,7 @@
 import history from 'app/config/history';
-import { Book } from 'app/services/book';
+import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions } from 'app/services/book';
+import { Book } from 'app/services/book';
 import { requestBooks } from 'app/services/book/requests';
 import { Actions } from 'app/services/mySelect';
 import {
@@ -21,6 +22,9 @@ import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
   const { page } = payload;
   try {
+    if (Number.isNaN(page)) {
+      throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
+    }
     const response: MySelectListResponse = yield call(requestMySelectList, page);
     if (response.userRidiSelectBooks.length > 0) {
       const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
@@ -122,7 +126,9 @@ export function* watchLoadMySelectFailure() {
   while (true) {
     const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
     let message = TOAST_DEFAULT_ERROR_MESSAGE;
-    if (
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+      message = '유효하지 않은 페이지입니다.';
+    } else if (
       (error.response && error.response.config) &&
       (!error.response.config.params || !error.response.config.params.page || page === 1)
     ) {

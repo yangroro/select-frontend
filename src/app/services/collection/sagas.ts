@@ -1,3 +1,4 @@
+import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions } from 'app/services/collection';
 import { CollectionResponse, requestCollection } from 'app/services/collection/requests';
@@ -7,6 +8,9 @@ import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 export function* loadCollection({ payload }: ReturnType<typeof Actions.loadCollectionRequest>) {
   const { page, collectionId } = payload!;
   try {
+    if (Number.isNaN(page)) {
+      throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
+    }
     const response: CollectionResponse = yield call(requestCollection, collectionId, page);
     yield put(BookActions.updateBooks({ books: response.books }));
     if (collectionId === 'hotRelease') {
@@ -32,7 +36,9 @@ export function* watchCollectionFailure() {
       return;
     }
     let message = TOAST_DEFAULT_ERROR_MESSAGE;
-    if (
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+      message = '유효하지 않은 페이지입니다.';
+    } else if (
       (error.response && error.response.config) &&
       (!error.response.config.params || !error.response.config.params.page || page === 1)
     ) {

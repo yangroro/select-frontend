@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { CategoryBooksResponse } from 'app/services/category/requests';
 import { DefaultCollectionState } from 'app/services/collection';
 import { AxiosError } from 'axios';
@@ -39,7 +39,7 @@ export const Actions = {
   loadCategoryBooksFailure: createAction<{
     categoryId: number,
     page: number,
-    error: AxiosError,
+    error: AxiosError | FetchErrorFlag,
   }>('loadCategoryBooksFailure'),
 };
 
