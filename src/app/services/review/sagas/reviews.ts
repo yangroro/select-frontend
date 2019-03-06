@@ -6,13 +6,16 @@ import { TextWithLF } from 'app/types';
 import {
   ActionChangeSortBy,
   ActionChangeUserFilterTab,
+  ActionDeleteReviewFailure,
   ActionDeleteReviewRequest,
   ActionDeleteReviewSuccess,
   ActionGetReviewsRequest,
+  ActionPostReviewFailure,
   ActionPostReviewRequest,
   ActionPostReviewSuccess,
   CHANGE_SORT_BY,
   CHANGE_USER_FILTER_TAB,
+  DELETE_REVIEW_FAILURE,
   DELETE_REVIEW_REQUEST,
   DELETE_REVIEW_SUCCESS,
   deleteReviewFailure,
@@ -22,6 +25,7 @@ import {
   getReviewsFailure,
   getReviewsRequest,
   getReviewsSuccess,
+  POST_REVIEW_FAILURE,
   POST_REVIEW_REQUEST,
   POST_REVIEW_SUCCESS,
   postReviewFailure,
@@ -38,7 +42,7 @@ import {
 import { ReviewSortingCriteria, ReviewsState } from 'app/services/review';
 import { UserFilterType } from 'app/services/review/constants';
 import { RidiSelectState } from 'app/store';
-import { callbackTooManyRequest } from 'app/utils/request';
+import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 export const selectors = {
   reviewsByBookId: (state: RidiSelectState) => state.reviewsByBookId,
@@ -88,9 +92,8 @@ export function postReview(
     } else {
       dispatch(postReviewFailure(bookId));
     }
-  }).catch((e) => {
-    callbackTooManyRequest(e);
-    dispatch(postReviewFailure(bookId));
+  }).catch((error) => {
+    dispatch(postReviewFailure(bookId, error));
   });
 }
 
@@ -112,6 +115,23 @@ export function* watchPostReviewSuccess(dispatch: Dispatch<RidiSelectState>) {
       sortBy: ReviewSortingCriteria.latest,
       page: 1,
     }));
+  }
+}
+
+export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
+  while (true) {
+    const { payload: { error } }: ActionPostReviewFailure | ActionDeleteReviewFailure =
+      yield take([POST_REVIEW_FAILURE, DELETE_REVIEW_FAILURE]);
+    let message = TOAST_DEFAULT_ERROR_MESSAGE;
+    if (
+      error &&
+      error.response &&
+      (error.response.status && error.response.status === 429) &&
+      (error.response.data && error.response.data.message)
+    ) {
+      message = error.response.data.message;
+    }
+    toast.failureMessage(message);
   }
 }
 

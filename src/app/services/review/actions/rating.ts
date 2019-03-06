@@ -1,5 +1,6 @@
 import { Action } from 'app/services/review/types';
 
+import { AxiosError } from 'axios';
 import { ReviewSummary } from '../reducer.state';
 import { ResponseReview } from '../requests';
 
@@ -22,6 +23,7 @@ export interface ActionPostRatingSuccess extends Action<typeof POST_RATING_SUCCE
 }> {}
 export interface ActionPostRatingFailure extends Action<typeof POST_RATING_FAILURE, {
   bookId: number,
+  error?: AxiosError,
 }> {}
 
 export interface ActionDeleteRatingRequest extends Action<typeof DELETE_RATING_REQUEST, {
@@ -33,6 +35,7 @@ export interface ActionDeleteRatingSuccess extends Action<typeof DELETE_RATING_S
 }> {}
 export interface ActionDeleteRatingFailure extends Action<typeof DELETE_RATING_FAILURE, {
   bookId: number,
+  error?: AxiosError,
 }> {}
 
 export type RatingActionTypes =
@@ -60,8 +63,9 @@ export const postRatingSuccess = (
 
 export const postRatingFailure = (
   bookId: number,
+  error?: AxiosError,
 ): ActionPostRatingFailure => {
-  return { type: POST_RATING_FAILURE, payload: { bookId } };
+  return { type: POST_RATING_FAILURE, payload: { bookId, error } };
 };
 
 export const deleteRatingRequest = (
@@ -79,6 +83,7 @@ export const deleteRatingSuccess = (
 
 export const deleteRatingFailure = (
   bookId: number,
+  error?: AxiosError,
 ): ActionDeleteRatingFailure => {
-  return { type: DELETE_RATING_FAILURE, payload: { bookId } };
+  return { type: DELETE_RATING_FAILURE, payload: { bookId, error } };
 };
