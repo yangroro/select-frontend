@@ -31,29 +31,6 @@ export function updateQueryStringParam(key: string, value: string | number) {
   );
 }
 
-export function callbackTooManyRequest(error: AxiosError) {
-  let message = TOAST_DEFAULT_ERROR_MESSAGE;
-  if (
-    error.response &&
-    (error.response.status && error.response.status === 429) &&
-    (error.response.data && error.response.data.message)
-  ) {
-    message = error.response.data.message;
-  }
-  toast.fail(message);
-}
-
-export function callbackAfterFailedFetch(e: AxiosError, page = 1) {
-  let message = TOAST_DEFAULT_ERROR_MESSAGE;
-  if (
-    (e.response && e.response.config) &&
-    (!e.response.config.params || !e.response.config.params.page || page === 1)
-  ) {
-    message = `${typeof e === 'string' ? e : '없는 페이지입니다. 다시 시도해주세요.'}`;
-  }
-  toast.fail(message);
-}
-
 // function requestWithDefaultHandling(config: RequestConfig): AxiosPromise {
 //   const instance = axios.create();
 
