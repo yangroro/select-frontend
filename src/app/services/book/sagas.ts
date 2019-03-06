@@ -8,6 +8,10 @@ import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 
+enum FetchErrorFlag {
+  UNEXPECTED_BOOK_ID,
+}
+
 const KEY_LOCAL_STORAGE = 'rs.books';
 const booksLocalStorageManager = {
   load: (): LocalStorageStaticBookState => {
@@ -65,6 +69,9 @@ export function* watchLoadBookDetail() {
   while (true) {
     const { payload: { bookId } }: ReturnType<typeof Actions.loadBookDetailRequest> = yield take(Actions.loadBookDetailRequest.getType());
     try {
+      if (isNaN(bookId)) {
+        throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
+      }
       const response: BookDetailResponse = yield call(requestBookDetail, bookId);
       if (response.seriesBooks && response.seriesBooks.length > 0) {
         yield put(Actions.updateBooks({
@@ -79,7 +86,7 @@ export function* watchLoadBookDetail() {
         history.replace(`/book/${response.id}`);
       }
     } catch (e) {
-      if (e.response.status === 404) {
+      if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
         toast.fail('도서가 존재하지 않습니다.');
         history.replace('/home');
       } else {
