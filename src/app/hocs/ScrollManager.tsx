@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 
 interface ScrollManagerProps {
   location: Location;
+  history: History & { action: string };
 }
 
 interface ScrollManagerState {
@@ -51,10 +52,12 @@ export class ScrollManager extends React.Component<ScrollManagerProps, ScrollMan
     }
     if (
       !scrollPosition[nextProps.location.pathname] ||
-      scrollPosition[nextProps.location.pathname] === 0
+      scrollPosition[nextProps.location.pathname] === 0 ||
+      nextProps.history.action === 'PUSH'
     ) {
       this.scrollToTopSetter();
     }
+
     return true;
   }
 
@@ -63,15 +66,8 @@ export class ScrollManager extends React.Component<ScrollManagerProps, ScrollMan
   }
 
   public componentDidUpdate() {
-    const { location } = this.props;
-    const { scrollPosition } = this.state;
-
     window.setTimeout(() => {
-      if (scrollPosition[location.pathname]) {
-        window.scrollTo(0, scrollPosition[location.pathname]);
-      } else {
-        setFixedScrollToTop(false);
-      }
+      setFixedScrollToTop(false);
     }, 300);
   }
   public componentWillUnmount() {
