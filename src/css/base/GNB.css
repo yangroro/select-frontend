@@ -13,6 +13,9 @@
   background: var(--bluegray_90);
   z-index: 900;
   @nest .iosApp & {
+    position: fixed;
+    top: 0;
+    width: 100%;
     border-bottom: 1px solid var(--bluegray_70);
   }
 }

@@ -100,7 +100,7 @@ export class Category extends React.Component<Props, State> {
       isCategoryListFetched,
     } = this.props;
     return (
-      <main className="SceneWrapper">
+      <main className="SceneWrapper SceneWrapper_WithLNB">
         <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}

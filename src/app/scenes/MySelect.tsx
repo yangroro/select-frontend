@@ -201,7 +201,7 @@ class MySelect extends React.Component<Props, State> {
   public render() {
     const { mySelectBooks, dispatchLoadMySelectRequest } = this.props;
     return (
-      <main className="SceneWrapper">
+      <main className="SceneWrapper SceneWrapper_WithLNB">
         <HelmetWithTitle titleName={PageTitleText.MY_SELECT} />
         <div className="PageMySelect">
           {!this.state.isInitialized ? (

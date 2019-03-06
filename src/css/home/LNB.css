@@ -7,9 +7,16 @@
   position: relative;
   border-bottom: 1px solid var(--bluegray_100);
   background: var(--bluegray_90);
-  z-index: 100;
+  z-index: 800;
+
   @nest .iosApp & {
+    position: fixed;
+    width: 100%;
+    top: 0;
     border-bottom: 1px solid var(--bluegray_70);
+  }
+  @nest .iosApp .GNBWrapper + & {
+    top: var(--gnb_ios_app_height);
   }
 }
 .LnbMenu_List {
