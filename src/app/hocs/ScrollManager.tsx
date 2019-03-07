@@ -7,20 +7,10 @@ interface ScrollManagerProps {
   history: History & { action: string };
 }
 
-interface ScrollManagerState {
-  scrollPosition: {
-    [location: string]: number,
-  };
-}
-
-export class ScrollManager extends React.Component<ScrollManagerProps, ScrollManagerState> {
+export class ScrollManager extends React.Component<ScrollManagerProps> {
   constructor(props: any) {
     super(props);
   }
-
-  public state: ScrollManagerState = {
-    scrollPosition: {},
-  };
 
   private scrollToTopSetter() {
     window.setTimeout(() => {
@@ -34,27 +24,11 @@ export class ScrollManager extends React.Component<ScrollManagerProps, ScrollMan
   }
 
   public shouldComponentUpdate(nextProps: ScrollManagerProps) {
-    const { location } = this.props;
-    const { scrollPosition } = this.state;
     if (this.props.location === nextProps.location) {
       return true;
     }
-    if (
-      !scrollPosition[location.pathname] ||
-      scrollPosition[location.pathname] !== window.scrollY
-    ) {
-      this.setState({
-        scrollPosition: {
-          ...scrollPosition,
-          [location.pathname]: window.scrollY,
-        },
-      });
-    }
-    if (
-      !scrollPosition[nextProps.location.pathname] ||
-      scrollPosition[nextProps.location.pathname] === 0 ||
-      nextProps.history.action === 'PUSH'
-    ) {
+
+    if (nextProps.history.action === 'PUSH') {
       this.scrollToTopSetter();
     }
 
