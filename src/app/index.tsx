@@ -12,7 +12,6 @@ import { fetchUserInfo } from 'app/services/user/helper';
 import { ConnectedEnvBadge } from 'app/components/EnvBadge';
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
-import { getIsIosInApp } from './services/environment/selectors';
 
 // Show browser input focused outline when tab key is pressed
 setTabKeyFocus();
