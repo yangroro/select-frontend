@@ -136,62 +136,71 @@ export class Settings extends React.PureComponent<SettingProps> {
             </Link>
           </li>
         </ul>
-        <ul className="SettingMenu">
-          <li className="SettingMenu_Item">
-            <Link to="/my-select-history" className="SettingMenu_Link">
-              <Icon name="history_1" className="SettingMenu_Icon SettingMenu_History_Icon" />
-              <h2 className="reset-heading">도서 이용 내역</h2>
-            </Link>
-          </li>
-          {!isIosInApp ? (
-            <li className="SettingMenu_Item">
-              <a
-                className="SettingMenu_Link"
-                href={`${BASE_URL_STORE}/review/`}
-                target="_self"
-              >
-                <Icon name="pencil_2" className="SettingMenu_Icon SettingMenu_Review_Icon" />
-                <h2 className="reset-heading">내 리뷰 관리</h2>
-              </a>
-            </li>
-          ) : null}
-        </ul>
-        {!isIosInApp ? (
+        {isIosInApp ? (
           <ul className="SettingMenu">
             <li className="SettingMenu_Item">
-              <a
-                className="SettingMenu_Link"
-                href="https://ridihelp.zendesk.com/hc/ko/requests/new"
-                target="_blank"
-              >
-                <Icon name="speechbubble_5" className="SettingMenu_Icon SettingMenu_FAQ_Icon" />
-                <h2 className="reset-heading">1:1 문의하기</h2>
-              </a>
+              <Link to="/my-select-history" className="SettingMenu_Link">
+                <Icon name="history_1" className="SettingMenu_Icon SettingMenu_History_Icon" />
+                <h2 className="reset-heading">도서 이용 내역</h2>
+              </Link>
             </li>
-            <li className="SettingMenu_Item">
-              <a
-                className="SettingMenu_Link"
-                href={`${BASE_URL_STORE}/account/modify`}
-                target="_self"
-              >
-                <Icon name="identity_1" className="SettingMenu_Icon SettingMenu_ModifyInfo_Icon" />
-                <h2 className="reset-heading">정보 변경</h2>
-              </a>
-            </li>
-            {!isInApp && (
+          </ul>
+        ) : (
+          <>
+            <ul className="SettingMenu">
+              <li className="SettingMenu_Item">
+                <Link to="/my-select-history" className="SettingMenu_Link">
+                  <Icon name="history_1" className="SettingMenu_Icon SettingMenu_History_Icon" />
+                  <h2 className="reset-heading">도서 이용 내역</h2>
+                </Link>
+              </li>
               <li className="SettingMenu_Item">
                 <a
                   className="SettingMenu_Link"
-                  href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}/`}
+                  href={`${BASE_URL_STORE}/review/`}
                   target="_self"
                 >
-                  <Icon name="exit_1" className="SettingMenu_Icon SettingMenu_Logout_Icon" />
-                  <h2 className="reset-heading">로그아웃</h2>
+                  <Icon name="pencil_2" className="SettingMenu_Icon SettingMenu_Review_Icon" />
+                  <h2 className="reset-heading">내 리뷰 관리</h2>
                 </a>
               </li>
-            )}
-          </ul>
-        ) : null}
+            </ul>
+            <ul className="SettingMenu">
+            <li className="SettingMenu_Item">
+                <a
+                  className="SettingMenu_Link"
+                  href="https://ridihelp.zendesk.com/hc/ko/requests/new"
+                  target="_blank"
+                >
+                  <Icon name="speechbubble_5" className="SettingMenu_Icon SettingMenu_FAQ_Icon" />
+                  <h2 className="reset-heading">1:1 문의하기</h2>
+                </a>
+              </li>
+              <li className="SettingMenu_Item">
+                <a
+                  className="SettingMenu_Link"
+                  href={`${BASE_URL_STORE}/account/modify`}
+                  target="_self"
+                >
+                  <Icon name="identity_1" className="SettingMenu_Icon SettingMenu_ModifyInfo_Icon" />
+                  <h2 className="reset-heading">정보 변경</h2>
+                </a>
+              </li>
+              {!isInApp && (
+                <li className="SettingMenu_Item">
+                  <a
+                    className="SettingMenu_Link"
+                    href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}/`}
+                    target="_self"
+                  >
+                    <Icon name="exit_1" className="SettingMenu_Icon SettingMenu_Logout_Icon" />
+                    <h2 className="reset-heading">로그아웃</h2>
+                  </a>
+                </li>
+              )}
+            </ul>
+          </>
+        )}
       </main>
     );
   }
