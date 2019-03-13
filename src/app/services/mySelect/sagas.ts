@@ -67,7 +67,10 @@ export function* watchDeleteMySelect() {
       if (response.status !== 200) {
         throw new Error();
       }
-      if (window.android && window.android.mySelectBookDeleted) {
+      if (window.inApp && window.inApp.mySelectBookDeleted) {
+        window.inApp.mySelectBookDeleted(JSON.stringify(deleteBookIds));
+      } else if (window.android && window.android.mySelectBookDeleted) {
+        // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.
         window.android.mySelectBookDeleted(JSON.stringify(deleteBookIds));
       }
       if (isEveryBookChecked && page > 1) {
@@ -113,7 +116,10 @@ export function* watchAddMySelect() {
           ...toastButton,
         },
       });
-      if (window.android && window.android.mySelectBookInserted) {
+      if (window.inApp && window.inApp.mySelectBookInserted) {
+        window.inApp.mySelectBookInserted(bookId);
+      } else if (window.android && window.android.mySelectBookInserted) {
+        // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.
         window.android.mySelectBookInserted(bookId);
       }
     } catch (e) {

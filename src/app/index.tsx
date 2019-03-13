@@ -26,14 +26,6 @@ class App extends React.Component<{}, {}> {
     }).finally(() => {
       store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
     });
-
-    const { environment: { platform } } = store.getState();
-    if (platform.isIos && platform.isRidibooks) {
-      document.body.classList.add('iosApp');
-    } else if (platform.isRidibooks) {
-      document.body.classList.add('androidApp');
-    }
-
     loadFonts();
   }
 
