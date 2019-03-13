@@ -1,7 +1,7 @@
 @import '@ridi/rsg/colors/colors.css';
 
 .DEV_environment_ribbon,
-.STAGING_environment_ribbon {
+.PRE_RELEASE_environment_ribbon {
   position: absolute;
   top: 0;
   left: 50%;
@@ -28,9 +28,9 @@
 }
 
 .DEV_environment_ribbon {
-  background: var(--green_40);
+  background: var(--orange_30);
 }
-.STAGING_environment_ribbon {
-  background: var(--red_50);
+.PRE_RELEASE_environment_ribbon {
+  background: var(--lightSteelBlue_60);
   font-size: 11px;
 }
