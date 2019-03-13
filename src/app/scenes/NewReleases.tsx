@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 
 import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader, Pagination } from 'app/components';
 import { PageTitleText } from 'app/constants';
@@ -120,7 +121,7 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
     page: getPageQuery(rootState),
   };
 };
-const mapDispatchToProps = (dispatch: any): CollectionDispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch): CollectionDispatchProps => {
   return {
     dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
   };

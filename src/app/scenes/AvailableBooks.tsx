@@ -13,6 +13,7 @@ import { RidiSelectState } from 'app/store';
 interface CollectionStateProps {
   availableBooks: ReservedCollectionState;
   books: BookState;
+  page: number;
 }
 
 type RouteProps = RouteComponentProps<{}>;
