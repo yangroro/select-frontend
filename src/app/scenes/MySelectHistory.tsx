@@ -45,7 +45,7 @@ class MySelectHistory extends React.Component<Props, State> {
       selectedCurrentPageUbhIds.length === 0 ||
       deletionFetchingStatus === FetchStatusFlag.FETCHING
     ) {
-      toast.fail('삭제할 책을 선택해주세요.');
+      toast.failureMessage('삭제할 책을 선택해주세요.');
       return;
     }
     if (!confirm('삭제하시겠습니까?')) {

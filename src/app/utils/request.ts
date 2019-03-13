@@ -3,7 +3,7 @@ import * as qs from 'qs';
 
 // import env from 'app/config/env';
 import history from 'app/config/history';
-import toast from './toast';
+import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 // const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
 
@@ -29,23 +29,6 @@ export function updateQueryStringParam(key: string, value: string | number) {
       { [key]: value },
     ),
   );
-}
-
-export function callbackAfterFailedFetch(e: AxiosError, page = 1) {
-  if (
-    !e.response ||
-    !e.response.config
-  ) {
-    toast.defaultErrorMessage();
-    return;
-  }
-  if (
-    !e.response.config.params ||
-    !e.response.config.params.page ||
-    page === 1
-  ) {
-    toast.fail(`${typeof e === 'string' ? e : '없는 페이지입니다. 다시 시도해주세요.'}`);
-  }
 }
 
 // function requestWithDefaultHandling(config: RequestConfig): AxiosPromise {

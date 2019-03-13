@@ -1,7 +1,8 @@
+import { AxiosError } from 'axios';
 import produce from 'immer';
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { Book } from 'app/services/book';
 import { BookIdsPair, MySelectListResponse, UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
 import { BookId, Paginated } from 'app/types';
@@ -16,6 +17,7 @@ export const Actions = {
   }>('loadMySelectSuccess'),
   loadMySelectFailure: createAction<{
     page: number,
+    error: AxiosError | FetchErrorFlag,
   }>('loadMySelectFailure'),
   deleteMySelectRequest: createAction<{
     page: number,

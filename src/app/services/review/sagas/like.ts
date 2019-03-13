@@ -74,6 +74,6 @@ export function* watchLikeFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
     const { payload }: ActionPostReviewLikeFailure | ActionDeleteReviewLikeFailure =
       yield take([POST_REVIEW_LIKE_FAILURE, DELETE_REVIEW_LIKE_FAILURE]);
-    toast.defaultErrorMessage();
+    toast.failureMessage();
   }
 }
