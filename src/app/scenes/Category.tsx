@@ -87,7 +87,7 @@ export class Category extends React.Component<Props, State> {
         !isValidNumber(categoryId),
       );
 
-      if (!this.isFetched(page)) {
+      if (!this.isFetched(page) && isValidNumber(categoryId)) {
         dispatchLoadCategoryBooks(categoryId, page);
       }
 

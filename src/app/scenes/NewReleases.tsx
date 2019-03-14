@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader, Pagination } from 'app/components';
@@ -12,8 +14,6 @@ import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 
 import { getPageQuery } from 'app/services/routing/selectors';
-import MediaQuery from 'react-responsive';
-import { Link, LinkProps } from 'react-router-dom';
 
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
@@ -56,14 +56,15 @@ export class NewReleases extends React.Component<Props> {
     });
   }
 
-  public componentDidUpdate(prevProps: Props) {
-    if (prevProps.page !== this.props.page) {
-      const { dispatchLoadNewReleases, page } = this.props;
+  public shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.page !== this.props.page) {
+      const { dispatchLoadNewReleases, page } = nextProps;
 
       if (!this.isFetched(page)) {
         dispatchLoadNewReleases(page);
       }
     }
+    return true;
   }
 
   public componentWillUnmount() {
@@ -76,14 +77,14 @@ export class NewReleases extends React.Component<Props> {
 
   public render() {
     const { newReleases, books, page } = this.props;
-    const itemCount: number = newReleases.itemCount === undefined ? 0 : newReleases.itemCount;
+    const itemCount: number = newReleases.itemCount ? newReleases.itemCount : 0;
     const itemCountPerPage: number = 24;
     return (
       <main className="SceneWrapper SceneWrapper_WithLNB">
         <HelmetWithTitle titleName={PageTitleText.NEW_RELEASE} />
         <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
         {(
-          !this.state.isInitialized || !this.isFetched(page) || Number.isNaN(page)
+          !this.state.isInitialized || !this.isFetched(page) || isNaN(page)
         ) ? (
           <GridBookListSkeleton />
         ) : (
