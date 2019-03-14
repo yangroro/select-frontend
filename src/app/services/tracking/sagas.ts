@@ -6,7 +6,6 @@ import { LOCATION_CHANGE, replace } from 'react-router-redux';
 import { all, put, select, take } from 'redux-saga/effects';
 
 import env from 'app/config/env';
-import { Actions as UserActions } from 'app/services/user';
 
 export const PIXEL_ID = '417351945420295';
 let tracker: Tracker;
@@ -87,10 +86,23 @@ export function* watchTrackImpressions() {
   }
 }
 
+export function* watchTrackMySelectAdded() {
+  while (true) {
+    const { payload: { trackingParams } }: ReturnType<typeof Actions.trackMySelectAdded> = yield take(Actions.trackMySelectAdded.getType());
+
+    if (!tracker) {
+      initializeTracker(yield select((s) => s));
+    }
+
+    tracker.sendEvent(trackingParams.eventName, { b_id: trackingParams.b_id });
+  }
+}
+
 export function* trackingSaga() {
   yield all([
     watchLocationChange(),
     watchTrackClick(),
     watchTrackImpressions(),
+    watchTrackMySelectAdded(),
   ]);
 }
