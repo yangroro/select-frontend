@@ -1,6 +1,7 @@
 import { Action } from 'app/services/review/types';
 import { TextWithLF } from 'app/types';
 
+import { AxiosError } from 'axios';
 import { ReviewSortingCriteria, UserFilterType } from '../constants';
 import { ReviewSummary } from '../reducer.state';
 import {
@@ -72,6 +73,7 @@ export interface ActionPostReviewSuccess extends Action<typeof POST_REVIEW_SUCCE
 }> {}
 export interface ActionPostReviewFailure extends Action<typeof POST_REVIEW_FAILURE, {
   bookId: number,
+  error?: AxiosError,
 }> {}
 
 export interface ActionDeleteReviewRequest extends Action<typeof DELETE_REVIEW_REQUEST, {
@@ -84,6 +86,7 @@ export interface ActionDeleteReviewSuccess extends Action<typeof DELETE_REVIEW_S
 }> {}
 export interface ActionDeleteReviewFailure extends Action<typeof DELETE_REVIEW_FAILURE, {
   bookId: number,
+  error?: AxiosError,
 }> {}
 
 export interface ActionStartEditingReview extends Action<typeof START_EDITING_REVIEW, {
@@ -169,8 +172,9 @@ export const postReviewSuccess = (
 
 export const postReviewFailure = (
   bookId: number,
+  error?: AxiosError,
 ): ActionPostReviewFailure => {
-  return { type: POST_REVIEW_FAILURE, payload: { bookId } };
+  return { type: POST_REVIEW_FAILURE, payload: { bookId, error } };
 };
 
 export const deleteReviewRequest = (
@@ -189,8 +193,9 @@ export const deleteReviewSuccess = (
 
 export const deleteReviewFailure = (
   bookId: number,
+  error?: AxiosError,
 ): ActionDeleteReviewFailure => {
-  return { type: DELETE_REVIEW_FAILURE, payload: { bookId } };
+  return { type: DELETE_REVIEW_FAILURE, payload: { bookId, error } };
 };
 
 export const startEditingReview = (

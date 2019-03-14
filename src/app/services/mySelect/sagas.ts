@@ -1,6 +1,7 @@
 import history from 'app/config/history';
-import { Book } from 'app/services/book';
+import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions } from 'app/services/book';
+import { Book } from 'app/services/book';
 import { requestBooks } from 'app/services/book/requests';
 import { Actions } from 'app/services/mySelect';
 import {
@@ -10,9 +11,10 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
+import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { callbackAfterFailedFetch, updateQueryStringParam } from 'app/utils/request';
+import { updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
@@ -21,6 +23,9 @@ import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
   const { page } = payload;
   try {
+    if (Number.isNaN(page)) {
+      throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
+    }
     const response: MySelectListResponse = yield call(requestMySelectList, page);
     if (response.userRidiSelectBooks.length > 0) {
       const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
@@ -36,9 +41,8 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
       response,
       page,
     }));
-  } catch (e) {
-    yield put(Actions.loadMySelectFailure({ page }));
-    callbackAfterFailedFetch(e, page);
+  } catch (error) {
+    yield put(Actions.loadMySelectFailure({ page, error }));
   }
 }
 
@@ -114,11 +118,33 @@ export function* watchAddMySelect() {
       }
     } catch (e) {
       yield put(Actions.addMySelectFailure());
-      toast.fail('오류가 발생했습니다. 잠시 후에 다시 시도해주세요.');
+      toast.failureMessage('오류가 발생했습니다. 잠시 후에 다시 시도해주세요.');
     }
   }
 }
 
+export function* watchLoadMySelectFailure() {
+  while (true) {
+    const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS || page === 1) {
+      toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
+      return;
+    }
+    toast.failureMessage();
+  }
+}
+
+export function* watchAddMySelectSuccess() {
+  while (true) {
+    const { payload: { userRidiSelectResponse } }: ReturnType<typeof Actions.addMySelectSuccess> = yield take(Actions.addMySelectSuccess.getType());
+    const trackingParams = {
+      eventName: 'Add To My Select',
+      b_id: Number(userRidiSelectResponse.bId),
+    };
+    yield put(TrackingActions.trackMySelectAdded({ trackingParams }));
+  }
+}
+
 export function* mySelectRootSaga() {
-  yield all([watchLoadMySelectList(), watchDeleteMySelect(), watchAddMySelect()]);
+  yield all([watchLoadMySelectList(), watchDeleteMySelect(), watchAddMySelect(), watchAddMySelectSuccess()]);
 }

@@ -2,7 +2,6 @@ import { Dispatch } from 'react-redux';
 import { call, put, select, take } from 'redux-saga/effects';
 
 import { TextWithLF } from 'app/types';
-import toast from 'app/utils/toast';
 
 import {
   ActionChangeSortBy,
@@ -32,17 +31,19 @@ import {
   postReviewFailure,
   postReviewSuccess,
   resetReviews,
-} from './../actions';
+} from 'app/services/review/actions';
 import {
   requestDeleteReview,
   requestGetReviews,
   requestPostReview,
   RequestReviewsParameters,
-} from './../requests';
+} from 'app/services/review/requests';
 
 import { ReviewSortingCriteria, ReviewsState } from 'app/services/review';
 import { UserFilterType } from 'app/services/review/constants';
 import { RidiSelectState } from 'app/store';
+import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
+import { AxiosError } from 'axios';
 
 export const selectors = {
   reviewsByBookId: (state: RidiSelectState) => state.reviewsByBookId,
@@ -92,7 +93,9 @@ export function postReview(
     } else {
       dispatch(postReviewFailure(bookId));
     }
-  }).catch(() => dispatch(postReviewFailure(bookId)));
+  }).catch((error) => {
+    dispatch(postReviewFailure(bookId, error));
+  });
 }
 
 export function* watchPostReviewRequest(dispatch: Dispatch<RidiSelectState>) {
@@ -118,9 +121,21 @@ export function* watchPostReviewSuccess(dispatch: Dispatch<RidiSelectState>) {
 
 export function* watchReviewFailure(dispatch: Dispatch<RidiSelectState>) {
   while (true) {
-    const { payload }: ActionPostReviewFailure | ActionDeleteReviewFailure =
-      yield take([POST_REVIEW_FAILURE, DELETE_REVIEW_FAILURE]);
-    toast.defaultErrorMessage();
+    const { payload: { error } }: ActionPostReviewFailure | ActionDeleteReviewFailure = yield take([
+      POST_REVIEW_FAILURE,
+      DELETE_REVIEW_FAILURE,
+    ]);
+
+    const { response } = error || { response: {} } as AxiosError;
+
+    if (!response) {
+      return;
+    }
+
+    if (response.status === 429) {
+      toast.failureMessage(response.data ? response.data.message : undefined);
+    }
+    toast.failureMessage();
   }
 }
 

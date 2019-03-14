@@ -111,7 +111,7 @@ export function* watchCancelPurchase() {
       alert('결제가 취소되었습니다.');
       window.location.href = '/';
     } catch (e) {
-      toast.fail(e.data.message);
+      toast.failureMessage(e.data.message);
       yield put(Actions.cancelPurchaseFailure({ purchaseId }));
     }
   }
@@ -146,7 +146,7 @@ export function* watchCancelUnsubscription() {
     } catch (e) {
       yield put(Actions.cancelUnsubscriptionFailure());
       if (e.response && e.response.data.code === 'DELETED_PAYMENT_METHOD') {
-        toast.fail(e.response.data.message);
+        toast.failureMessage(e.response.data.message);
       } else {
         showMessageForRequestError(e);
       }

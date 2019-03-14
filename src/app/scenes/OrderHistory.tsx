@@ -22,7 +22,7 @@ type Props = PurchaseHistory & ReturnType<typeof mapDispatchToProps>;
 export class OrderHistory extends React.PureComponent<Props> {
   private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
     if (this.props.isCancelFetching) {
-      toast.fail('취소 진행중입니다. 잠시 후에 다시 시도해주세요.');
+      toast.failureMessage('취소 진행중입니다. 잠시 후에 다시 시도해주세요.');
       return;
     }
     if (confirm(`결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`)) {

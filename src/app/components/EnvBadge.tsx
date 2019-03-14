@@ -22,10 +22,10 @@ export const EnvBadge: React.SFC<EnvBadgeState> = (props) => {
   } else if (window.__RIDISELECT_STAGING__) {
     return (
       <p
-        className="STAGING_environment_ribbon"
+        className="PRE_RELEASE_environment_ribbon"
         onClick={useProduction}
       >
-        STAGING
+        PRE-RELEASE
       </p>
     );
   }

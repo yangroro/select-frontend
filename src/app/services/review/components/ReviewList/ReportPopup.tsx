@@ -54,7 +54,7 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
     });
 
     if (!this.state.selectedReasonValue) {
-      toast.fail('신고하는 이유를 선택해주세요.');
+      toast.failureMessage('신고하는 이유를 선택해주세요.');
       this.setState({
         isSubmitting: false,
       });
@@ -71,7 +71,7 @@ export class ReportPopup extends React.Component<ReviewPopupProps, ReportPopupSt
         toast.success('신고가 접수되었습니다.');
         this.props.close();
       } else {
-        toast.defaultErrorMessage();
+        toast.failureMessage();
       }
     }).catch((e) => {
       showMessageForRequestError(e);

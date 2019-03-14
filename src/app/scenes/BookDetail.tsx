@@ -10,6 +10,7 @@ import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 // tslint:disable-next-line
 const Vibrant = require('node-vibrant');
+import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
@@ -48,7 +49,6 @@ import { BookId, TextWithLF } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 
@@ -129,37 +129,34 @@ export class BookDetail extends React.Component<Props, State> {
       dispatchUpdateGNBColor,
       bookId,
     } = props;
-    if (!thumbnail) {
+
+    if (dominantColor && dominantColor.r && dominantColor.g && dominantColor.b) {
+      dispatchUpdateGNBColor(dominantColor);
       return;
     }
-    if (!dominantColor || dominantColor.r === undefined) {
+
+    if (thumbnail) {
       try {
-        Vibrant.from(withThumbnailQuery(thumbnail.large!)).getPalette((err: any, palette: any) => {
-          if (!palette) {
-            return;
-          }
-          const tempRGB: any =
-            /*
-             * actually it is Swatch type class instance and uses get r() for r, g, b properties
-             * needs to be transformed since it is going to be stored after JSON.stringify()
-            */
-            palette.DarkVibrant ||
-            palette.Vibrant ||
-            palette.LightMuted ||
-            GNB_DEFAULT_COLOR;
-          const rgb = {
-            r: tempRGB.r,
-            g: tempRGB.g,
-            b: tempRGB.b,
-          };
-          dispatchUpdateGNBColor(rgb);
-          dispatchUpdateDominantColor(bookId, rgb);
-        });
+        const image = new Image();
+        image.crossOrigin = 'anonymous';
+        image.src = withThumbnailQuery(thumbnail.large!);
+        Vibrant
+          .from(image)
+          .getPalette()
+          .then((palette: VibrantPalette) => {
+            const rgb =
+              palette.DarkVibrant ||
+              palette.Vibrant ||
+              palette.LightMuted ||
+              GNB_DEFAULT_COLOR;
+            dispatchUpdateGNBColor(rgb);
+            dispatchUpdateDominantColor(bookId, rgb);
+          });
       } catch (e) {
         dispatchUpdateGNBColor(GNB_DEFAULT_COLOR);
       }
     } else {
-      dispatchUpdateGNBColor(dominantColor);
+      dispatchUpdateGNBColor(GNB_DEFAULT_COLOR);
     }
   }
 
@@ -194,9 +191,6 @@ export class BookDetail extends React.Component<Props, State> {
     this.props.mySelect.additionFetchStatus === FetchStatusFlag.FETCHING
 
   private fetchBookDetailAndOwnership = (props: Props) => {
-    if (!props.bookId || Number.isNaN(props.bookId)) {
-      toast.fail('없는 페이지입니다. 다시 시도해주세요.');
-    }
     if (!props.isFetched) {
       props.dispatchLoadBookRequest(props.bookId);
     }

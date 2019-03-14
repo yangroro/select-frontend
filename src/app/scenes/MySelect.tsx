@@ -45,7 +45,7 @@ class MySelect extends React.Component<Props, State> {
     const isEveryBookChecked = this.areEveryBookChecked();
     const bookEntries: Array<[string, boolean]> = Object.entries(bookInputs);
     if (!bookEntries.some((entry) => entry[1]) || deletionFetchStatus !== FetchStatusFlag.IDLE) {
-      toast.fail('삭제할 책을 선택해주세요.');
+      toast.failureMessage('삭제할 책을 선택해주세요.');
       return;
     }
     if (!confirm('삭제하시겠습니까?')) {
@@ -65,7 +65,7 @@ class MySelect extends React.Component<Props, State> {
     const { mySelectBooks, page } = this.props;
     const bookEntries: Array<[string, boolean]> = Object.entries(bookInputs);
     if (bookEntries.filter(([_, selected]) => selected).length === 0) {
-      toast.fail('다운로드할 책을 선택해주세요.');
+      toast.failureMessage('다운로드할 책을 선택해주세요.');
       return;
     }
     const bookIds = mySelectBooks.itemListByPage[page].itemList

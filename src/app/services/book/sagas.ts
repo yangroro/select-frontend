@@ -1,6 +1,7 @@
 import { mapValues } from 'lodash-es';
 
 import history from 'app/config/history';
+import { FetchErrorFlag } from 'app/constants';
 import { Actions } from 'app/services/book';
 import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
@@ -65,6 +66,9 @@ export function* watchLoadBookDetail() {
   while (true) {
     const { payload: { bookId } }: ReturnType<typeof Actions.loadBookDetailRequest> = yield take(Actions.loadBookDetailRequest.getType());
     try {
+      if (isNaN(bookId)) {
+        throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
+      }
       const response: BookDetailResponse = yield call(requestBookDetail, bookId);
       if (response.seriesBooks && response.seriesBooks.length > 0) {
         yield put(Actions.updateBooks({
@@ -79,11 +83,11 @@ export function* watchLoadBookDetail() {
         history.replace(`/book/${response.id}`);
       }
     } catch (e) {
-      if (e.response.status === 404) {
-        toast.fail('도서가 존재하지 않습니다.');
+      if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
+        toast.failureMessage('도서가 존재하지 않습니다.');
         history.replace('/home');
       } else {
-        toast.defaultErrorMessage();
+        toast.failureMessage();
       }
       yield put(Actions.loadBookDetailFailure({
         bookId,
