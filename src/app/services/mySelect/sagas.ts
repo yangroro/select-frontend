@@ -11,10 +11,11 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
+import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { updateQueryStringParam } from 'app/utils/request';
-import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
+import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
@@ -133,6 +134,17 @@ export function* watchLoadMySelectFailure() {
   }
 }
 
+export function* watchAddMySelectSuccess() {
+  while (true) {
+    const { payload: { userRidiSelectResponse } }: ReturnType<typeof Actions.addMySelectSuccess> = yield take(Actions.addMySelectSuccess.getType());
+    const trackingParams = {
+      eventName: 'Add To My Select',
+      b_id: Number(userRidiSelectResponse.bId),
+    };
+    yield put(TrackingActions.trackMySelectAdded({ trackingParams }));
+  }
+}
+
 export function* mySelectRootSaga() {
-  yield all([watchLoadMySelectList(), watchDeleteMySelect(), watchAddMySelect()]);
+  yield all([watchLoadMySelectList(), watchDeleteMySelect(), watchAddMySelect(), watchAddMySelectSuccess()]);
 }

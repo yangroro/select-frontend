@@ -7,6 +7,11 @@ export interface DefaultTrackingParams {
   id: BookId;
 }
 
+export interface TrakcingCustomEventParams {
+  b_id: BookId;
+  eventName: string;
+}
+
 export const Actions = {
   trackClick: createAction<{
     trackingParams: DefaultTrackingParams,
@@ -15,6 +20,10 @@ export const Actions = {
   trackImpression: createAction<{
     trackingParams: DefaultTrackingParams,
   }>('trackImpression'),
+
+  trackMySelectAdded: createAction<{
+    trackingParams: TrakcingCustomEventParams,
+  }>('trackMySelectAdded'),
 };
 
 export const INITIAL_STATE = {};
