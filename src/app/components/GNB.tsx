@@ -12,10 +12,10 @@ import {
   getSolidBackgroundColorRGBString,
 } from 'app/services/commonUI/selectors';
 import {
+  getIsAndroidInApp,
   getIsInAppRoot,
   getIsIosInApp,
   getIsNotHomeIosInApp,
-  selectIsInApp,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
@@ -27,8 +27,8 @@ interface Props {
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
-  isInApp: boolean;
   isIosInApp: boolean;
+  isAndroidInApp: boolean;
   isLoggedIn: boolean;
   isInAppRoot: boolean;
   isNotHomeIosInApp: boolean;
@@ -36,37 +36,42 @@ interface Props {
 }
 
 export class GNB extends React.Component<Props> {
-  private renderGNBLogo() {
-    const { isInApp, isInAppRoot, BASE_URL_STORE } = this.props;
+  private renderServiceLink() {
+    const { isIosInApp, isAndroidInApp, BASE_URL_STORE } = this.props;
+    if (isIosInApp || isAndroidInApp) {
+      return;
+    }
     return (
-      <>
-        <Link className="GNBLogoWrapper" to={isInAppRoot ? '/' : '/home'}>
-          <Icon
-            name="logo_ridiselect_1"
-            className={classNames(
-              'GNBLogo',
-              isInAppRoot ? 'GNBLogo-InAppIntro' : null,
-            )}
-          />
-          <h1 className="a11y">리디셀렉트</h1>
-        </Link>
-        {!isInApp && (
-          <ul className="GNBServiceList">
-            <li className="GNBService">
-              <a
-                className="GNBServiceLink Ridibooks_Link"
-                href={`${BASE_URL_STORE}`}
-              >
-                <Icon
-                  name="logo_ridibooks_1"
-                  className="GNBServiceLogo RidibooksLogo"
-                />
-                <h2 className="a11y">리디북스</h2>
-              </a>
-            </li>
-          </ul>
-        )}
-      </>
+      <ul className="GNBServiceList">
+        <li className="GNBService">
+          <a
+            className="GNBServiceLink Ridibooks_Link"
+            href={`${BASE_URL_STORE}`}
+          >
+            <Icon
+              name="logo_ridibooks_1"
+              className="GNBServiceLogo RidibooksLogo"
+            />
+            <h2 className="a11y">리디북스</h2>
+          </a>
+        </li>
+      </ul>
+    );
+  }
+
+  private renderGNBLogo() {
+    const { isInAppRoot } = this.props;
+    return (
+      <Link className="GNBLogoWrapper" to={isInAppRoot ? '/' : '/home'}>
+        <Icon
+          name="logo_ridiselect_1"
+          className={classNames(
+            'GNBLogo',
+            isInAppRoot ? 'GNBLogo-InAppIntro' : null,
+          )}
+        />
+        <h1 className="a11y">리디셀렉트</h1>
+      </Link>
     );
   }
 
@@ -186,7 +191,10 @@ export class GNB extends React.Component<Props> {
         style={{ backgroundColor: backgroundColorRGBString }}
       >
         <div className="GNBContentWrapper">
-          <div className="GNBLeft">{this.renderGNBLogo()}</div>
+          <div className="GNBLeft">
+            {this.renderGNBLogo()}
+            {this.renderServiceLink()}
+          </div>
           <div className="GNBRight">{this.renderGNBRight()}</div>
         </div>
       </header>
@@ -202,8 +210,8 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
-  isInApp: selectIsInApp(rootState),
   isIosInApp: getIsIosInApp(rootState),
+  isAndroidInApp: getIsAndroidInApp(rootState),
   isInAppRoot: getIsInAppRoot(rootState),
   isNotHomeIosInApp: getIsNotHomeIosInApp(rootState),
 });

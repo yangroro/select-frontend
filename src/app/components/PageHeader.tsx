@@ -1,6 +1,6 @@
 import { inAppGnbRoutes } from 'app/routes';
 import { ConnectedWebActionBar } from 'app/services/customHistory/components/WebActionBar';
-import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
+import { getIsAndroidInApp, getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { Location } from 'history';
 import * as React from 'react';
@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import { PageTitle } from './PageTitle';
 
 export interface PageHeaderStateProps {
-  isRidiApp: boolean;
   isIosInApp: boolean;
+  isAndroidInApp: boolean;
   location: Location;
 }
 
@@ -21,8 +21,8 @@ export interface PageHeaderOwnProps {
 export type PageHeaderProps = PageHeaderStateProps & PageHeaderOwnProps;
 
 export const PageHeader: React.SFC<PageHeaderProps> = ({
-  isRidiApp,
   isIosInApp,
+  isAndroidInApp,
   location,
   underline,
   pageTitle,
@@ -32,7 +32,7 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
     return null;
   }
 
-  if (isRidiApp && !inAppGnbRoutes.includes(location.pathname)) {
+  if (isAndroidInApp && !inAppGnbRoutes.includes(location.pathname)) {
     return (
       <>
         {pageTitle && <ConnectedWebActionBar>{pageTitle}</ConnectedWebActionBar>}
@@ -50,8 +50,8 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  isRidiApp: selectIsInApp(rootState),
   isIosInApp: getIsIosInApp(rootState),
+  isAndroidInApp: getIsAndroidInApp(rootState),
   location: rootState.router.location,
 });
 

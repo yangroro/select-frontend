@@ -18,7 +18,7 @@ import request from 'app/config/axios';
 import { FetchStatusFlag } from 'app/constants';
 import { GNBColorLevel, GNBSearchActiveType } from 'app/services/commonUI';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
-import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
+import { getIsAndroidInApp, getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { localStorageManager } from 'app/utils/search';
 import toast from 'app/utils/toast';
@@ -45,8 +45,8 @@ interface SearchStoreProps {
   solidBackgroundColorRGBString: string;
   gnbSearchActiveType: GNBSearchActiveType;
   searchQuery: string;
-  isRidiApp: boolean;
   isIosInApp: boolean;
+  isAndroidInApp: boolean;
 }
 
 interface SearchCascadedProps {
@@ -182,8 +182,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 
   private manageScrollDisable(isDisable: boolean): void {
-    const { isMobile, isRidiApp } = this.props;
-    if (isMobile || isRidiApp) {
+    const { isMobile, isAndroidInApp, isIosInApp } = this.props;
+    if (isMobile || isIosInApp || isAndroidInApp) {
       setDisableScroll(isDisable);
     }
   }
@@ -621,8 +621,8 @@ const mapStateToProps = (state: RidiSelectState): SearchStoreProps => {
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
     gnbSearchActiveType: state.commonUI.gnbSearchActiveType,
     searchQuery: state.router.location!.search,
-    isRidiApp: selectIsInApp(state),
     isIosInApp: getIsIosInApp(state),
+    isAndroidInApp: getIsAndroidInApp(state),
   };
 };
 
