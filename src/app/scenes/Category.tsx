@@ -5,7 +5,6 @@ import MediaQuery from 'react-responsive';
 import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import history from 'app/config/history';
 import { PageTitleText } from 'app/constants';
-import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Category as CategoryState, CategoryCollectionState } from 'app/services/category';

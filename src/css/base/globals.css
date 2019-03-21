@@ -341,6 +341,14 @@ main.SceneWrapper {
   }
 }
 
+.PaginationWrapper {
+  padding-bottom: 40px;
+
+  @media (--pc-screen) {
+    padding-bottom: 60px;
+  }
+}
+
 .reset-heading {
   @apply --reset-heading;
 }
