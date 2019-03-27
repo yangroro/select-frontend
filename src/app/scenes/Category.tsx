@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
-import { PCPageHeader } from 'app/components';
-import { ConnectedGridBookList } from 'app/components/GridBookList';
+import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import history from 'app/config/history';
+import { PageTitleText } from 'app/constants';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
@@ -102,8 +101,8 @@ export class Category extends React.Component<Props, State> {
     } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet title="카테고리 - 리디셀렉트" />
-        <PCPageHeader pageTitle="카테고리">
+        <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
+        <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>
         <MediaQuery maxWidth={840}>

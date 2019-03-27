@@ -3,7 +3,6 @@ import * as isWithinRange from 'date-fns/is_within_range';
 import { some } from 'lodash-es';
 import * as qs from 'qs';
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import LazyLoad, { forceCheck } from 'react-lazyload';
 import { connect, MapDispatchToProps } from 'react-redux';
 import MediaQuery from 'react-responsive';
@@ -13,8 +12,7 @@ const Vibrant = require('node-vibrant');
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
-import { ConnectedPageHeader } from 'app/components';
-import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
+import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { Actions as BookActions } from 'app/services/book';
@@ -293,93 +291,81 @@ export class BookDetail extends React.Component<Props, State> {
       hasPreview,
       previewBId,
       isSubscribing,
-      solidBackgroundColorRGBString,
     } = this.props;
 
     return (
-      <>
-        <Helmet
-          title={title && title.main ? `${title.main} - 리디셀렉트` : '리디셀렉트'}
-          meta={[
-            {
-              name: 'theme-color',
-              content: solidBackgroundColorRGBString,
-            },
-          ]}
-        />
-        <MediaQuery maxWidth={840}>
-          {(isMobile) => (
-            <div className="PageBookDetail_Meta">
-              <ul className="PageBookDetail_Categories">
-                {categories &&
-                  categories.map((categoryGroup, key) => {
-                    return (
-                      <li className="PageBookDetail_CategoryItem" key={key}>
-                        {categoryGroup
-                          .map((category, idx) => <span key={`${category.name}${idx}`}>
-                            {category.name}
-                            {idx !== categoryGroup.length - 1 && <Icon name="arrow_5_right" className="PageBookDetail_CategoryArrow" />}
-                          </span>)
-                        }
-                      </li>
-                    );
-                  })}
-              </ul>
-              <h1 className="PageBookDetail_BookTitle">{title ? title.main : ''}</h1>
-              <p className="PageBookDetail_BookElements">
-                <span className="PageBookDetail_Authors">
-                  {this.renderAuthor()}
+      <MediaQuery maxWidth={840}>
+        {(isMobile) => (
+          <div className="PageBookDetail_Meta">
+            <ul className="PageBookDetail_Categories">
+              {categories &&
+                categories.map((categoryGroup, key) => {
+                  return (
+                    <li className="PageBookDetail_CategoryItem" key={key}>
+                      {categoryGroup
+                        .map((category, idx) => <span key={`${category.name}${idx}`}>
+                          {category.name}
+                          {idx !== categoryGroup.length - 1 && <Icon name="arrow_5_right" className="PageBookDetail_CategoryArrow" />}
+                        </span>)
+                      }
+                    </li>
+                  );
+                })}
+            </ul>
+            <h1 className="PageBookDetail_BookTitle">{title ? title.main : ''}</h1>
+            <p className="PageBookDetail_BookElements">
+              <span className="PageBookDetail_Authors">
+                {this.renderAuthor()}
+              </span>
+              {publisher && (
+                <span className="PageBookDetail_Publisher">{` · ${publisher.name} 출판`}</span>
+              )}
+              {file && file.format && file.format !== 'bom' && <span className="PageBookDetail_FileType">{`${file.format.toUpperCase()}`}</span>}
+              {file && file.size &&
+                <span
+                  className={classNames(
+                    'PageBookDetail_FileSize',
+                    { 'PageBookDetail_FileSize-noFileType': file.format && file.format === 'bom' },
+                  )}
+                >
+                  {`${file.format && file.format !== 'bom' ? ' · ' : ''}${formatFileSize(file.size)}`}
                 </span>
-                {publisher && (
-                  <span className="PageBookDetail_Publisher">{` · ${publisher.name} 출판`}</span>
-                )}
-                {file && file.format && file.format !== 'bom' && <span className="PageBookDetail_FileType">{`${file.format.toUpperCase()}`}</span>}
-                {file && file.size &&
-                  <span
-                    className={classNames(
-                      'PageBookDetail_FileSize',
-                      { 'PageBookDetail_FileSize-noFileType': file.format && file.format === 'bom' },
-                    )}
-                  >
-                    {`${file.format && file.format !== 'bom' ? ' · ' : ''}${formatFileSize(file.size)}`}
-                  </span>
-                }
-              </p>
-              <p className="PageBookDetail_RatingSummary">
-                {reviewSummary && <>
-                  <StarRating
-                    rating={reviewSummary.buyerRatingAverage}
-                    width={74}
-                    darkBackground={!isMobile && gnbColorLevel !== GNBColorLevel.BRIGHT}
-                  />
-                  <span className="PageBookDetail_RatingSummaryAverage">{`${
-                    reviewSummary.buyerRatingAverage
-                    }점`}</span>
-                  <span className="PageBookDetail_RatingSummaryCount">{`(${
-                    thousandsSeperator(reviewSummary.buyerRatingCount)
-                    }명)`}</span>
-                </>}
-              </p>
-              <div className="PageBookDetail_DownloadWrapper">
-                {isSubscribing && previewAvailable && hasPreview ? (
-                  <Button
-                    color={isMobile ? 'blue' : undefined}
-                    outline={true}
-                    size="large"
-                    className="PageBookDetail_PreviewButton"
-                    component="a"
-                    href={`https://preview.ridibooks.com/books/${previewBId}?s=ridi_select`}
-                  >
-                    <Icon name="book_1" />
-                    <span className="PageBookDetail_PreviewButtonLabel">미리보기</span>
-                  </Button>
-                ) : null}
-                {this.renderDownloadButton()}
-              </div>
+              }
+            </p>
+            <p className="PageBookDetail_RatingSummary">
+              {reviewSummary && <>
+                <StarRating
+                  rating={reviewSummary.buyerRatingAverage}
+                  width={74}
+                  darkBackground={!isMobile && gnbColorLevel !== GNBColorLevel.BRIGHT}
+                />
+                <span className="PageBookDetail_RatingSummaryAverage">{`${
+                  reviewSummary.buyerRatingAverage
+                  }점`}</span>
+                <span className="PageBookDetail_RatingSummaryCount">{`(${
+                  thousandsSeperator(reviewSummary.buyerRatingCount)
+                  }명)`}</span>
+              </>}
+            </p>
+            <div className="PageBookDetail_DownloadWrapper">
+              {isSubscribing && previewAvailable && hasPreview ? (
+                <Button
+                  color={isMobile ? 'blue' : undefined}
+                  outline={true}
+                  size="large"
+                  className="PageBookDetail_PreviewButton"
+                  component="a"
+                  href={`https://preview.ridibooks.com/books/${previewBId}?s=ridi_select`}
+                >
+                  <Icon name="book_1" />
+                  <span className="PageBookDetail_PreviewButtonLabel">미리보기</span>
+                </Button>
+              ) : null}
+              {this.renderDownloadButton()}
             </div>
-          )}
-        </MediaQuery>
-      </>
+          </div>
+        )}
+      </MediaQuery>
     );
   }
   private renderOverlays() {
@@ -550,7 +536,16 @@ export class BookDetail extends React.Component<Props, State> {
     return (
       <MediaQuery maxWidth={840}>
         {(isMobile) => (
-          <main className="SceneWrapper PageBookDetail">
+           <main className="SceneWrapper PageBookDetail">
+            <HelmetWithTitle
+              titleName={title && title.main ? title.main : null}
+              meta={[
+                {
+                  name: 'theme-color',
+                  content: solidBackgroundColorRGBString,
+                },
+              ]}
+            />
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <div
               className={`PageBookDetail_Header PageBookDetail_Header-${gnbColorLevel}`}
@@ -683,7 +678,7 @@ export class BookDetail extends React.Component<Props, State> {
               </LazyLoad>
             </section>
             {isFetched && this.renderOverlays()}
-          </main>
+           </main>
         )}
       </MediaQuery>
     );

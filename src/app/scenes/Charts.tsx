@@ -1,13 +1,12 @@
 import * as React from 'react';
 
-import { ConnectedPageHeader } from 'app/components';
-import { ConnectedGridBookList } from 'app/components/GridBookList';
+import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { PageTitleText } from 'app/constants';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, ChartCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
@@ -25,8 +24,8 @@ export class Charts extends React.Component<Props> {
     const { dispatchLoadNewReleases, collection, books } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet title="인기 도서 - 리디셀렉트" />
-        <ConnectedPageHeader pageTitle="인기 도서" />
+        <HelmetWithTitle titleName={PageTitleText.CHARTS} />
+        <ConnectedPageHeader pageTitle={PageTitleText.CHARTS} />
         <ConnectedListWithPagination
           isFetched={(page) =>
             collection &&

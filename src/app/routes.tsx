@@ -29,6 +29,7 @@ import {
   InAppIntro,
 } from 'app/scenes';
 
+import { RoutePaths } from 'app/constants';
 import {
   ConnectedPublicRoute,
   ConnectedScrollManager,
@@ -45,19 +46,19 @@ export interface Props {
 }
 
 export const inAppGnbRoutes = [
-  '/home',
-  '/new-releases',
-  '/categories',
-  '/my-select',
-  '/search',
-  '/',
+  RoutePaths.HOME,
+  RoutePaths.NEW_RELEASE,
+  RoutePaths.CATEGORY,
+  RoutePaths.MY_SELECT,
+  RoutePaths.SEARCH_RESULT,
+  RoutePaths.INTRO,
 ];
 
 export const LNBRoutes = [
-  '/home',
-  '/new-releases',
-  '/categories',
-  '/my-select',
+  RoutePaths.HOME,
+  RoutePaths.NEW_RELEASE,
+  RoutePaths.CATEGORY,
+  RoutePaths.MY_SELECT,
 ];
 
 export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
@@ -80,77 +81,77 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
           />
           <Switch>
             <PrivateRoute
-              path="/home"
+              path={RoutePaths.HOME}
               component={ConnectedHome}
               {...props}
             />
             <PrivateRoute
-              path="/new-releases"
+              path={RoutePaths.NEW_RELEASE}
               component={ConnectedNewReleases}
               {...props}
             />
             <PrivateRoute
-              path="/charts"
+              path={RoutePaths.CHARTS}
               component={ConnectedCharts}
               {...props}
             />
             <PrivateRoute
-              path="/selection/:collectionId"
+              path={RoutePaths.COLLECTION}
               component={ConnectedCollection}
               {...props}
             />
             <PrivateRoute
-              path="/categories"
+              path={RoutePaths.CATEGORY}
               component={ConnectedCategory}
               {...props}
             />
             <PrivateRoute
-              path="/my-select"
+              path={RoutePaths.MY_SELECT}
               component={ConnectedMySelect}
               {...props}
             />
             <ConnectedPublicRoute
-              path="/book/:bookId"
+              path={RoutePaths.BOOK_DETAIL}
               component={ConnectedBookDetail}
               {...props}
             />
             <PrivateRoute
-              path="/settings"
+              path={RoutePaths.SETTING}
               component={ConnectedSetting}
               {...props}
             />
             <PrivateRoute
-              path="/manage-subscription"
+              path={RoutePaths.MANAGE_SUBSCRIPTION}
               component={ConnectedManageSubscription}
               {...props}
             />
             <PrivateRoute
-              path="/order-history"
+              path={RoutePaths.ORDER_HISTORY}
               component={ConnectedOrderHistory}
               {...props}
             />
             <PrivateRoute
-              path="/my-select-history"
+              path={RoutePaths.MY_SELECT_HISTORY}
               component={ConnectedMySelectHistory}
               {...props}
             />
             <PrivateRoute
-              path="/search"
+              path={RoutePaths.SEARCH_RESULT}
               component={ConnectedSearchResult}
               {...props}
             />
             <ConnectedPublicRoute
-              path="/guide"
+              path={RoutePaths.GUIDE}
               component={ConnectedGuide}
               {...props}
             />
             <ConnectedPublicRoute
-              path="/books"
+              path={RoutePaths.AVAILABLE_BOOKS}
               component={ConnectedAvailableBooks}
               {...props}
             />
             <NonSubscriberOnlyRoute
-              path="/"
+              path={RoutePaths.INTRO}
               exact={true}
               component={props.isRidiApp ? InAppIntro : ConnectedIntro}
               {...props}

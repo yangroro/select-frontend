@@ -1,16 +1,14 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
-import { ConnectedPageHeader } from 'app/components';
-import { Actions, SubscriptionState, UserState } from 'app/services/user';
 
-import { UnsubscribeWarningPopup } from 'app/components/UnsubscribeWarningPopup';
+import { ConnectedPageHeader, HelmetWithTitle, UnsubscribeWarningPopup } from 'app/components';
 import history from 'app/config/history';
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
+import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 
@@ -71,8 +69,8 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     const { PAY_URL: BASE_URL_RIDI_PAY_API } = environment;
     return (
       <main className="SceneWrapper PageManageSubscription">
-        <Helmet title="구독 관리 - 리디셀렉트" />
-        <ConnectedPageHeader pageTitle="구독 관리" />
+        <HelmetWithTitle titleName={PageTitleText.MANAGE_SUBSCRIPTION} />
+        <ConnectedPageHeader pageTitle={PageTitleText.MANAGE_SUBSCRIPTION} />
         {!!subscriptionState
           ? (
             <>
