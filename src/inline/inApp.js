@@ -9,6 +9,7 @@ function getPrimaryRoutes() {
   // Front에서 추후 url이 변경되거나 구조가 변경되는 경우 수정하기 용이하도록 프론트에서 관리.
   return [
     '/book',
+    '/charts',
     '/selection',
     '/settings',
     '/manage-subscription',
