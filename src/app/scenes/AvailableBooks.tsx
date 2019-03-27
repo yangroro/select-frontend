@@ -2,14 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { ConnectedPageHeader } from 'app/components';
-import { ConnectedGridBookList } from 'app/components/GridBookList';
+import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { PageTitleText } from 'app/constants';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
-import { Helmet } from 'react-helmet';
 
 interface CollectionStateProps {
   availableBooks: ReservedCollectionState;
@@ -24,8 +23,8 @@ export class AvailableBooks extends React.Component<Props> {
     const { dispatchLoadAvailableBooks, availableBooks, books } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet title="서비스 도서 목록 - 리디셀렉트" />
-        <ConnectedPageHeader pageTitle="서비스 도서 목록" />
+        <HelmetWithTitle titleName={PageTitleText.AVAILABLE_BOOKS} />
+        <ConnectedPageHeader pageTitle={PageTitleText.AVAILABLE_BOOKS} />
         <ConnectedListWithPagination
           isFetched={(page) =>
             availableBooks &&

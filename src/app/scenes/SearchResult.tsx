@@ -4,16 +4,17 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Button, Icon } from '@ridi/rsg';
+
+import { HelmetWithTitle } from 'app/components';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions as CommonUIActions, GNBSearchActiveType } from 'app/services/commonUI';
 import { EnvironmentState } from 'app/services/environment';
-import { SearchResultBook, SearchResultState } from 'app/services/searchResult';
 import { Actions as SearchResultActions } from 'app/services/searchResult';
+import { SearchResultBook, SearchResultState } from 'app/services/searchResult';
 import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
 import { RidiSelectState } from 'app/store';
-import { Helmet } from 'react-helmet';
 
 interface SearchResultStateProps {
   books: BookState;
@@ -84,7 +85,7 @@ export class SearchResult extends React.Component<Props, State> {
 
     return (
       <main className="SceneWrapper PageSearchResult">
-        <Helmet title={!!query ? `'${query}' 검색 결과 - 리디셀렉트` : '리디셀렉트'} />
+        <HelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
         <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
         <ConnectedListWithPagination
           _key={query}

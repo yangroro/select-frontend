@@ -1,13 +1,14 @@
-import { ConnectedGridBookList, PCPageHeader } from 'app/components';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
+
+import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
+import { PageTitleText } from 'app/constants';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
-import * as React from 'react';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
@@ -51,8 +52,8 @@ export class NewReleases extends React.Component<Props> {
     const { dispatchLoadNewReleases, newReleases, books } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet title="최신 업데이트 - 리디셀렉트" />
-        <PCPageHeader pageTitle="최신 업데이트" />
+        <HelmetWithTitle titleName={PageTitleText.NEW_RELEASE} />
+        <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
         {(
           !this.state.isInitialized
         ) ? (

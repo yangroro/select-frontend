@@ -1,21 +1,21 @@
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { Button, CheckBox, Empty } from '@ridi/rsg';
-import { PCPageHeader } from 'app/components';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { FetchStatusFlag } from 'app/constants';
+
+import { DTOBookThumbnail, HelmetWithTitle, PCPageHeader } from 'app/components';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 import { Actions } from 'app/services/mySelect';
+import { MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 import { BookIdsPair } from 'app/services/mySelect/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
-import * as React from 'react';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 interface StateProps {
   mySelectBooks: PaginatedMySelectBooks;
@@ -202,7 +202,7 @@ class MySelect extends React.Component<Props, State> {
     const { mySelectBooks, dispatchLoadMySelectRequest } = this.props;
     return (
       <main className="SceneWrapper">
-        <Helmet title="마이 셀렉트 - 리디셀렉트" />
+        <HelmetWithTitle titleName={PageTitleText.MY_SELECT} />
         <div className="PageMySelect">
           {!this.state.isInitialized ? (
             <LandscapeBookListSkeleton hasCheckbox={true} />

@@ -1,13 +1,13 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
 import { Button, Empty } from '@ridi/rsg';
-import { ConnectedPageHeader } from 'app/components';
-import { FetchStatusFlag } from 'app/constants';
-import {
-  ConnectedListWithPagination,
-} from 'app/hocs/ListWithPaginationPage';
+
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { Actions, PurchaseHistory } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
@@ -15,8 +15,7 @@ import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import toast from 'app/utils/toast';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
+
 type Props = PurchaseHistory & ReturnType<typeof mapDispatchToProps>;
 
 export class OrderHistory extends React.PureComponent<Props> {
@@ -117,8 +116,8 @@ export class OrderHistory extends React.PureComponent<Props> {
   public render() {
     return (
       <main className="SceneWrapper PageOrderHistory">
-        <Helmet title="결제 내역 - 리디셀렉트" />
-        <ConnectedPageHeader pageTitle="결제 내역" />
+        <HelmetWithTitle titleName={PageTitleText.ORDER_HISTORY} />
+        <ConnectedPageHeader pageTitle={PageTitleText.ORDER_HISTORY} />
         <ConnectedListWithPagination
           fetch={(page) => this.props.dispatchLoadOrderHistory(page)}
           isFetched={(page) =>

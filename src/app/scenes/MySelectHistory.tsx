@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Button, CheckBox, Empty } from '@ridi/rsg';
-import { ConnectedPageHeader } from 'app/components';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { Pagination } from 'app/components/Pagination';
-import { FetchStatusFlag } from 'app/constants';
+
+import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { MySelectBook } from 'app/services/mySelect';
 import { getPageQuery } from 'app/services/routing/selectors';
@@ -154,8 +152,8 @@ class MySelectHistory extends React.Component<Props, State> {
 
     return (
       <main className="SceneWrapper">
-        <Helmet title="도서 이용 내역 - 리디셀렉트" />
-        <ConnectedPageHeader pageTitle="도서 이용 내역" />
+        <HelmetWithTitle titleName={PageTitleText.MY_SELECT_HISTORY} />
+        <ConnectedPageHeader pageTitle={PageTitleText.MY_SELECT_HISTORY} />
         {(itemListByPage[page] && itemListByPage[page].fetchStatus === FetchStatusFlag.FETCHING) ? (
           <div className="PageMySelectHistory Skeleton_Wrapper">
             <LandscapeBookListSkeleton

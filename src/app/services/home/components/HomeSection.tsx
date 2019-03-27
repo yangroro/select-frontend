@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@ridi/rsg';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
 import { DefaultCollectionState, HotReleaseCollectionState } from 'app/services/collection';
 import { CollectionType } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
+import { collectionToPath } from 'app/utils/toPath';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
 import { ConnectedHomeHotReleaseSection } from './HomeHotReleaseSection';
 
@@ -100,7 +101,7 @@ export class HomeSection extends React.Component<Props> {
 
     return (
       <section className="HomeSection">
-        <SectionHeader title={title!} link={`/selection/${id}`} />
+        <SectionHeader title={title!} link={collectionToPath({ collectionId: id })} />
         <ConnectedInlineHorizontalBookList
           books={collectionBooks}
           pageTitleForTracking="home"

@@ -1,10 +1,11 @@
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedPageHeader } from 'app/components';
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { HelmetWithTitle } from 'app/components';
+import { PageTitleText } from 'app/constants';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions, SubscriptionState } from 'app/services/user';
@@ -108,8 +109,8 @@ export class Settings extends React.PureComponent<SettingProps> {
 
     return (
       <main className="SceneWrapper PageSetting">
-        <Helmet title="셀렉트 관리 - 리디셀렉트" />
-        <ConnectedPageHeader pageTitle="셀렉트 관리" />
+        <HelmetWithTitle titleName={PageTitleText.SETTING} />
+        <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
         {!!subscriptionState ?
           this.renderSubscriptionInfo() : (
             <SettingPlaceholder />
