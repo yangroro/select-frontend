@@ -105,7 +105,6 @@
   flex: 1;
   & .RSGBookThumbnail {
     align-items: center !important;
-    height: auto !important;
     min-height: 130px;
   }
 }

@@ -86,8 +86,16 @@ class MySelectHistory extends React.Component<Props, State> {
     });
   }
 
+  private isFetched = () => {
+    const { page } = this.props;
+    const { itemListByPage } = this.props.mySelectHistory;
+    return (itemListByPage[page] && itemListByPage[page].isFetched);
+  }
+
   public componentDidMount() {
-    this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
+    if (!this.isFetched()) {
+      this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
+    }
   }
   public componentDidUpdate(prevProps: Props) {
     if (prevProps.page !== this.props.page) {
@@ -155,7 +163,7 @@ class MySelectHistory extends React.Component<Props, State> {
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.MY_SELECT_HISTORY} />
         <ConnectedPageHeader pageTitle={PageTitleText.MY_SELECT_HISTORY} />
-        {(itemListByPage[page] && itemListByPage[page].fetchStatus === FetchStatusFlag.FETCHING) ? (
+        {!this.isFetched() ? (
           <div className="PageMySelectHistory Skeleton_Wrapper">
             <LandscapeBookListSkeleton
               hasCheckbox={true}
