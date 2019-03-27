@@ -2,14 +2,15 @@ import { RidiSelectState } from 'app/store';
 import { createSelector } from 'reselect';
 
 import { GNBColorLevel, GNBTransparentType, RGB } from 'app/services/commonUI';
+import { getIsIosInApp } from 'app/services/environment/selectors';
 
 export const selectGnbColor = (state: RidiSelectState): RGB => state.commonUI.gnbColor;
 export const selectGnbColorLevel = (state: RidiSelectState): GNBColorLevel => state.commonUI.gnbColorLevel;
 export const selectTransparentType = (state: RidiSelectState): GNBTransparentType => state.commonUI.gnbTransparentType;
 
 export const getSolidBackgroundColorRGBString = createSelector(
-  [selectGnbColor],
-  (gnbColor: RGB): string => `rgba(${gnbColor.r}, ${gnbColor.g}, ${gnbColor.b}, 1)`,
+  [selectGnbColor, getIsIosInApp],
+  (gnbColor: RGB, isIosInApp: boolean): string => isIosInApp ? 'rgba(33, 43, 59, 1)' : `rgba(${gnbColor.r}, ${gnbColor.g}, ${gnbColor.b}, 1)`,
 );
 
 export const getTransparentBackgroundColorRGBString = createSelector(

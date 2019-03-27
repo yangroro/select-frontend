@@ -2,7 +2,7 @@
 
 .DEV_environment_ribbon,
 .PRE_RELEASE_environment_ribbon {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   width: 300px;
@@ -21,7 +21,7 @@
 
 @media (--mobile-screen) {
   .DEV_environment_ribbon,
-  .STAGING_environment_ribbon {
+  .PRE_RELEASE_environment_ribbon {
     width: 150px;
     margin-left: -75px;
   }

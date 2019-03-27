@@ -51,7 +51,7 @@ export class NewReleases extends React.Component<Props> {
   public render() {
     const { dispatchLoadNewReleases, newReleases, books } = this.props;
     return (
-      <main className="SceneWrapper">
+      <main className="SceneWrapper SceneWrapper_WithLNB">
         <HelmetWithTitle titleName={PageTitleText.NEW_RELEASE} />
         <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
         {(
