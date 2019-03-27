@@ -41,6 +41,7 @@ import {
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
 import { getIsAndroidInApp, selectIsInApp } from './services/environment/selectors';
+import { MaintenacePage } from './scenes/MaintenancePage';
 
 export interface Props {
   isRidiApp: boolean;
@@ -71,9 +72,14 @@ export const PrimaryRoutes = [
   pathToRegexp.parse(RoutePaths.COLLECTION)[0],
 ];
 
-export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
-  <ConnectedErrorPage />
-) : (
+export const Routes: React.SFC<Props> = (props) => {
+  const { errorResponseState } = props;
+
+  if (errorResponseState) {
+    return errorResponseState === 503 ? <MaintenacePage /> : <ConnectedErrorPage />;
+  }
+
+  return (
   <>
     <ConnectedSplashScreen {...props} />
     {!props.isFetching ? (
@@ -185,8 +191,10 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
         </ConnectedScrollManager>
       </ConnectedRouter>
     ) : null}
-  </>
-);
+    </>
+  );
+}
+
 
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isRidiApp: selectIsInApp(rootState),
