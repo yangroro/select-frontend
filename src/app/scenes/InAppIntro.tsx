@@ -1,20 +1,29 @@
 import * as React from 'react';
 
 import { Button, Icon } from '@ridi/rsg';
+import { ConnectedBookListPreview } from 'app/components/BookListPreview';
 import { setDisableScroll } from 'app/utils/utils';
-import { ConnectedAvailableBooks } from './AvailableBooks';
 
 export class InAppIntro extends React.Component {
+  private onClickSubscribeButton() {
+    if (window.inApp && window.inApp.openBrowser) {
+      window.inApp.openBrowser('//select.ridibooks.com');
+    } else if (window.android && window.android.openBrowser) {
+      // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.
+      window.android.openBrowser('//select.ridibooks.com');
+    }
+  }
   public componentDidMount() {
     setDisableScroll(true);
   }
   public componentWillUnmount() {
     setDisableScroll(false);
   }
+
   public render() {
     return (
       <>
-        <ConnectedAvailableBooks hidePageTitle={true} />
+        <ConnectedBookListPreview />
         <div className="InAppIntro_Overlay">
           <div className="InAppIntro_Overlay_BG" />
           <div className="InAppIntro_Overlay_Main">
@@ -33,7 +42,7 @@ export class InAppIntro extends React.Component {
               className="InAppIntro_Overlay_Button"
               color="blue"
               size="large"
-              onClick={() => window.android && window.android.openBrowser && window.android.openBrowser('//select.ridibooks.com')}
+              onClick={() => this.onClickSubscribeButton()}
             >
               리디셀렉트 구독하러 가기
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="InAppIntro_Overlay_Button_Icon">

@@ -141,6 +141,24 @@ main.SceneWrapper {
   }
 }
 
+.SceneWrapper_WithLNB {
+  @nest .iosApp & {
+    padding-top: var(--lnb_pc_height);
+  }
+  @media (--mobile-screen) {
+    @nest .iosApp & {
+      padding-top: var(--lnb_mobile_height);
+    }
+  }
+}
+
+.SceneWrapper_WithGNB {
+  @nest .iosApp & {
+    margin-top: var(--gnb_ios_app_height);
+  }
+}
+
+
 .PageHeader {
   @apply --reset-layout;
 
@@ -316,6 +334,14 @@ main.SceneWrapper {
 
 
 .ListWithPaginationPage {
+  padding-bottom: 40px;
+
+  @media (--pc-screen) {
+    padding-bottom: 60px;
+  }
+}
+
+.PaginationWrapper {
   padding-bottom: 40px;
 
   @media (--pc-screen) {

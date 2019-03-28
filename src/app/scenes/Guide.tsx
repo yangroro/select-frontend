@@ -1,12 +1,12 @@
 // tslint:disable:max-line-length
 
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
 import { Button, Icon } from '@ridi/rsg';
-import { ConnectedPageHeader } from 'app/components';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { PageTitleText } from 'app/constants';
 import { RidiSelectState } from 'app/store';
 
 interface GuideProps {
@@ -18,8 +18,8 @@ interface GuideProps {
 export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, FREE_PROMOTION_MONTHS }) => {
   return (
     <main className="SceneWrapper Guide">
-      <Helmet title="이용 방법 - 리디셀렉트" />
-      <ConnectedPageHeader underline={true} pageTitle="이용 방법" />
+      <HelmetWithTitle titleName={PageTitleText.GUIDE} />
+      <ConnectedPageHeader underline={true} pageTitle={PageTitleText.GUIDE} />
       <article className="Guide_Content">
         <ol className="Guide_List">
           <li className="Guide_Item">

@@ -1,17 +1,24 @@
-import { ConnectedGridBookList, PCPageHeader } from 'app/components';
-import { ConnectedListWithPagination } from 'app/hocs/ListWithPaginationPage';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Link, LinkProps } from 'react-router-dom';
+import { Dispatch } from 'redux';
+
+import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader, Pagination } from 'app/components';
+import { PageTitleText } from 'app/constants';
+
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
-import * as React from 'react';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+
+import { getPageQuery } from 'app/services/routing/selectors';
 
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
   books: BookState;
+  page: number;
 }
 
 interface CollectionDispatchProps {
@@ -32,11 +39,32 @@ export class NewReleases extends React.Component<Props> {
     isInitialized: false,
   };
 
+  private isFetched = (page: number) => {
+    const { newReleases } = this.props;
+    return (newReleases && newReleases.itemListByPage[page] && newReleases.itemListByPage[page].isFetched);
+  }
+
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
+      const { dispatchLoadNewReleases, page } = this.props;
+      if (!this.isFetched(page)) {
+        dispatchLoadNewReleases(page);
+      }
+
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
     });
+  }
+
+  public shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.page !== this.props.page) {
+      const { dispatchLoadNewReleases, page } = nextProps;
+
+      if (!this.isFetched(page)) {
+        dispatchLoadNewReleases(page);
+      }
+    }
+    return true;
   }
 
   public componentWillUnmount() {
@@ -48,33 +76,39 @@ export class NewReleases extends React.Component<Props> {
   }
 
   public render() {
-    const { dispatchLoadNewReleases, newReleases, books } = this.props;
+    const { newReleases, books, page } = this.props;
+    const itemCount: number = newReleases.itemCount ? newReleases.itemCount : 0;
+    const itemCountPerPage: number = 24;
     return (
-      <main className="SceneWrapper">
-        <Helmet title="최신 업데이트 - 리디셀렉트" />
-        <PCPageHeader pageTitle="최신 업데이트" />
+      <main className="SceneWrapper SceneWrapper_WithLNB">
+        <HelmetWithTitle titleName={PageTitleText.NEW_RELEASE} />
+        <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
         {(
-          !this.state.isInitialized
+          !this.state.isInitialized || !this.isFetched(page) || isNaN(page)
         ) ? (
           <GridBookListSkeleton />
         ) : (
-          <ConnectedListWithPagination
-            isFetched={(page) =>
-              newReleases &&
-              newReleases.itemListByPage[page] &&
-              newReleases.itemListByPage[page].isFetched
-            }
-            fetch={(page) => dispatchLoadNewReleases(page)}
-            itemCount={newReleases ? newReleases.itemCount : undefined}
-            buildPaginationURL={(page: number) => `/new-releases?page=${page}`}
-            renderPlaceholder={() => (<GridBookListSkeleton />)}
-            renderItems={(page) => (
-              <ConnectedGridBookList
-                pageTitleForTracking="recent"
-                books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
-              />
-            )}
-          />
+          <>
+            <ConnectedGridBookList
+              pageTitleForTracking="recent"
+              books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
+            />
+            {itemCount > 0 && <MediaQuery maxWidth={840}>
+              {
+                (isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/new-releases?page=${p}`,
+                    }),
+                  }}
+                />
+              }
+            </MediaQuery>}
+          </>
         )}
       </main>
     );
@@ -85,9 +119,10 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
   return {
     newReleases: rootState.collectionsById.recent,
     books: rootState.booksById,
+    page: getPageQuery(rootState),
   };
 };
-const mapDispatchToProps = (dispatch: any): CollectionDispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch): CollectionDispatchProps => {
   return {
     dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'recent', page })),
   };

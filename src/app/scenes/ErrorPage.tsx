@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 
 import { Button } from '@ridi/rsg';
 
+import { HelmetWithTitle } from 'app/components';
 import history from 'app/config/history';
+import { PageTitleText } from 'app/constants';
 import { Actions as ServiceStatusActions, errorResponseData, errorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 
@@ -114,7 +115,7 @@ export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<
 
     return (
       <main className="SceneWrapper">
-        <Helmet title="리디셀렉트" />
+        <HelmetWithTitle titleName={PageTitleText.ERROR} />
         <section className="PageError">
           {responseState !== 404 && this.renderErrorHeader()}
           {this.renderErrorIcon()}

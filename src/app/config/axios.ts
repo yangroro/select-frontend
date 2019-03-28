@@ -23,7 +23,7 @@ function isMaintenance({ response }: AxiosError) {
 
 axiosRetry(instance, {
   retries: 3,
-  retryDelay: (retryNumber = 0) => 200 * (2 ** retryNumber),
+  retryDelay: (retryNumber = 0) => 1000 * (3 ** retryNumber) + Math.floor(1000 * Math.random()),
   retryCondition(error: AxiosError) {
     return isNetworkOrIdempotentRequestError(error) && !isMaintenance(error);
   },

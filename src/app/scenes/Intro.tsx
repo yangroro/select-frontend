@@ -1,7 +1,6 @@
 import { RidiSelectState } from 'app/store';
 import { sortedIndex, throttle } from 'lodash-es';
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -9,6 +8,8 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Icon } from '@ridi/rsg';
 import * as classNames from 'classnames';
 
+import { HelmetWithTitle, TitleType } from 'app/components';
+import { PageTitleText } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
 import { Actions as EnvironmentActions } from 'app/services/environment';
 import { Omit } from 'app/types';
@@ -119,7 +120,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
 
   private afterLoadingComplete() {
     const {
-      isLoggedIn,
       dispatchUpdateGNBTransparentType,
       dispatchUpdateFooterTheme,
     } = this.props;
@@ -166,7 +166,10 @@ export class Intro extends React.Component<Props, IntroPageState> {
     const { isLoaded, currentSection, buttonFixed } = this.state;
     return (
       <main className="SceneWrapper">
-        <Helmet title="리디셀렉트 - 신간도 베스트셀러도 월정액으로 제한없이" />
+        <HelmetWithTitle
+          titleName={PageTitleText.INTRO}
+          titleType={TitleType.PREFIXED}
+        />
         {isLoaded ? null : (
         <img
           className="Load_Trigger_Image"

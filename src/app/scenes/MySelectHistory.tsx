@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
-import { Link, LinkProps, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
 import { Button, CheckBox, Empty } from '@ridi/rsg';
-import { ConnectedPageHeader } from 'app/components';
-import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
-import { Pagination } from 'app/components/Pagination';
-import { FetchStatusFlag } from 'app/constants';
+
+import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+
 import { MySelectBook } from 'app/services/mySelect';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, MySelectHistroyState } from 'app/services/user';
@@ -87,8 +86,16 @@ class MySelectHistory extends React.Component<Props, State> {
     });
   }
 
+  private isFetched = () => {
+    const { page } = this.props;
+    const { itemListByPage } = this.props.mySelectHistory;
+    return (itemListByPage[page] && itemListByPage[page].isFetched);
+  }
+
   public componentDidMount() {
-    this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
+    if (!this.isFetched()) {
+      this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
+    }
   }
   public componentDidUpdate(prevProps: Props) {
     if (prevProps.page !== this.props.page) {
@@ -154,9 +161,9 @@ class MySelectHistory extends React.Component<Props, State> {
 
     return (
       <main className="SceneWrapper">
-        <Helmet title="도서 이용 내역 - 리디셀렉트" />
-        <ConnectedPageHeader pageTitle="도서 이용 내역" />
-        {(itemListByPage[page] && itemListByPage[page].fetchStatus === FetchStatusFlag.FETCHING) ? (
+        <HelmetWithTitle titleName={PageTitleText.MY_SELECT_HISTORY} />
+        <ConnectedPageHeader pageTitle={PageTitleText.MY_SELECT_HISTORY} />
+        {!this.isFetched() ? (
           <div className="PageMySelectHistory Skeleton_Wrapper">
             <LandscapeBookListSkeleton
               hasCheckbox={true}
@@ -210,10 +217,10 @@ class MySelectHistory extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RidiSelectState, props: {}): StateProps => {
+const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
     mySelectHistory: state.user.mySelectHistory,
-    page: getPageQuery(state, props),
+    page: getPageQuery(state),
   };
 };
 

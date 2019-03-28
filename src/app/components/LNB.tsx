@@ -1,4 +1,4 @@
-import { RGB, toRGBString } from 'app/services/commonUI';
+import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
 import { assignIn, flow, omit } from 'lodash-es';
@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface MenuStateProps {
-  color: RGB;
+  solidBackgroundColorRGBString: string;
   currentPathname: string;
   currentSearch: string;
   lastSelectedCategoryId?: number;
@@ -71,11 +71,11 @@ function getLNBMenuSearch(menu: Menu, props: MenuStateProps) {
 }
 
 export const LNB: React.SFC<MenuStateProps> = (props) => {
-  const { currentPathname, color } = props;
+  const { currentPathname, solidBackgroundColorRGBString } = props;
   return (
     <nav
       className="LnbMenu_Wrapper"
-      style={{ backgroundColor: toRGBString(color) }}
+      style={{ backgroundColor: solidBackgroundColorRGBString }}
     >
       <h2 className="a11y">메인 메뉴</h2>
       <ul className="LnbMenu_List">
@@ -99,7 +99,7 @@ export const LNB: React.SFC<MenuStateProps> = (props) => {
 
 const mapStateToProps = (state: RidiSelectState): MenuStateProps => {
   return {
-    color: state.commonUI.gnbColor,
+    solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
     currentPathname: state.router.location!.pathname,
     currentSearch: state.router.location!.search,
     lastSelectedCategoryId: state.categories.lastSelectedCategoryId,
