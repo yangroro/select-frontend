@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
 import * as classNames from 'classnames';
-import { forceCheck } from 'react-lazyload';
 import * as differenceInHours from 'date-fns/difference_in_hours';
+import * as React from 'react';
+import { forceCheck } from 'react-lazyload';
+import { connect } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
@@ -60,12 +60,14 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
 
   public render() {
     return (
-      <main className={classNames(
-        'PageHome',
-        'SceneWrapper',
-        'SceneWrapper_WithGNB',
-        'SceneWrapper_WithLNB',
-      )}>
+      <main
+        className={classNames(
+          'PageHome',
+          'SceneWrapper',
+          'SceneWrapper_WithGNB',
+          'SceneWrapper_WithLNB',
+        )}
+      >
         <HelmetWithTitle titleName={PageTitleText.HOME} />
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
         <ConnectedBigBannerCarousel />

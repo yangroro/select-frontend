@@ -6,7 +6,7 @@ import { Dispatch } from 'redux';
 
 import { Button, CheckBox, Empty } from '@ridi/rsg';
 
-import { DTOBookThumbnail, HelmetWithTitle, PCPageHeader, Pagination } from 'app/components';
+import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
@@ -17,6 +17,7 @@ import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
+import * as classNames from 'classnames';
 
 interface StateProps {
   mySelectBooks: PaginatedMySelectBooks;
@@ -229,7 +230,13 @@ class MySelect extends React.Component<Props, State> {
     const itemCountPerPage: number = mySelectBooks.size;
 
     return (
-      <main className="SceneWrapper SceneWrapper_WithLNB">
+      <main
+        className={classNames(
+          'SceneWrapper',
+          'SceneWrapper_WithGNB',
+          'SceneWrapper_WithLNB',
+        )}
+      >
         <HelmetWithTitle titleName={PageTitleText.MY_SELECT} />
         <div className="PageMySelect">
           {!this.state.isInitialized || !this.isFetched(page) || isNaN(page) ? (

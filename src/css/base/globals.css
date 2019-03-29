@@ -155,6 +155,9 @@ main.SceneWrapper {
 .SceneWrapper_WithGNB {
   @nest .iosApp & {
     margin-top: var(--gnb_ios_app_height);
+    @media (--pc-screen) {
+      margin-top: var(--gnb_pc_height);
+    }
   }
 }
 

@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader, Pagination } from 'app/components';
+import { ConnectedGridBookList, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
 import { PageTitleText } from 'app/constants';
 
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
@@ -14,6 +14,7 @@ import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 
 import { getPageQuery } from 'app/services/routing/selectors';
+import * as classNames from 'classnames';
 
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
@@ -80,7 +81,13 @@ export class NewReleases extends React.Component<Props> {
     const itemCount: number = newReleases.itemCount ? newReleases.itemCount : 0;
     const itemCountPerPage: number = 24;
     return (
-      <main className="SceneWrapper SceneWrapper_WithLNB">
+      <main
+        className={classNames(
+          'SceneWrapper',
+          'SceneWrapper_WithGNB',
+          'SceneWrapper_WithLNB',
+        )}
+      >
         <HelmetWithTitle titleName={PageTitleText.NEW_RELEASE} />
         <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
         {(
