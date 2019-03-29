@@ -99,8 +99,6 @@ export function* watchAddMySelect() {
     const { bookId } = payload!;
     try {
       const response: UserRidiSelectBookResponse = yield call(requestAddMySelect, bookId);
-      const books = yield call(requestBooks, [parseInt(response.bId, 10)]);
-      response.book = books[0];
       yield put(Actions.addMySelectSuccess({ userRidiSelectResponse: response }));
       yield put(BookActions.loadBookOwnershipRequest({ bookId }));
       const toastButton = state.environment.platform.isRidibooks ? {
