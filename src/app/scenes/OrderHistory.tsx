@@ -11,13 +11,13 @@ import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 
+import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, PurchaseHistory } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import toast from 'app/utils/toast';
-import { getPageQuery } from 'app/services/routing/selectors';
 
 interface OrderStateProps {
   orderHistory: PurchaseHistory;

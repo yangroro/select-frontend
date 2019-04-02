@@ -130,14 +130,17 @@ export function launchAppOrMoveToAppStore(appUri: string, hooks?: DownloaBooksHo
   }, 1500);
 
   if (platformDetail.isIos) {
-    if (hooks && hooks.beforeLaunchApp) {
-      hooks.beforeLaunchApp(platformDetail);
-    }
-    try {
-      window.location.assign(appUri);
-    } catch (e) {
-      // TODO: Handle error.
-    }
+    setTimeout(() => {
+      if (hooks && hooks.beforeLaunchApp) {
+        hooks.beforeLaunchApp(platformDetail);
+      }
+      try {
+        window.location.assign(appUri);
+      } catch (e) {
+        // TODO: Handle error.
+      }
+      clearTimeout(appStoreTimer);
+    }, 300);
     // launchAppFromIos(appUri);
   } else if (platformDetail.isAndroid) {
     const androidUri = platformDetail.isFirefox ? appUri : convertUriToAndroidIntentUri(appUri, 'com.initialcoms.ridi');

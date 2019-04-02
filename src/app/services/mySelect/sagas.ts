@@ -19,6 +19,7 @@ import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
+import { getIsIosInApp, selectIsInApp } from '../environment/selectors';
 
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
   const { page } = payload;
@@ -101,24 +102,27 @@ export function* watchAddMySelect() {
       const response: UserRidiSelectBookResponse = yield call(requestAddMySelect, bookId);
       yield put(Actions.addMySelectSuccess({ userRidiSelectResponse: response }));
       yield put(BookActions.loadBookOwnershipRequest({ bookId }));
-      const toastButton = state.environment.platform.isRidibooks ? {
-        callback: () => { readBooksInRidiselect(bookId); },
-        label: '읽기',
-      } : {
-        callback: () => { downloadBooksInRidiselect([bookId]); },
-        label: '다운로드',
-      };
-      toast.success('마이 셀렉트에 추가되었습니다.', {
-        button: {
-          showArrowIcon: true,
-          ...toastButton,
-        },
-      });
+      if (!getIsIosInApp(state)) {
+        const toastButton = selectIsInApp(state) ? {
+          callback: () => { readBooksInRidiselect(bookId); },
+          label: '읽기',
+        } : {
+          callback: () => { downloadBooksInRidiselect([bookId]); },
+          label: '다운로드',
+        };
+        toast.success('마이 셀렉트에 추가되었습니다.', {
+          button: {
+            showArrowIcon: true,
+            ...toastButton,
+          },
+        });
+      }
+      // TODO: bookId 를 string 으로 넘겨야 하는 것으로 약속 되어있는데 reducer 내부에서 모두 number로 처리하고 있어서 인앱 관련된 부분만 일단 수정.
       if (window.inApp && window.inApp.mySelectBookInserted) {
-        window.inApp.mySelectBookInserted(bookId);
+        window.inApp.mySelectBookInserted(`${bookId}`);
       } else if (window.android && window.android.mySelectBookInserted) {
         // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.
-        window.android.mySelectBookInserted(bookId);
+        window.android.mySelectBookInserted(`${bookId}`);
       }
     } catch (e) {
       yield put(Actions.addMySelectFailure());

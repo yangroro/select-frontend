@@ -17,6 +17,9 @@
   }
   @nest .iosApp .GNBWrapper + & {
     top: var(--gnb_ios_app_height);
+    @media (--pc-screen) {
+      top: var(--gnb_pc_height);
+    }
   }
 }
 .LnbMenu_List {

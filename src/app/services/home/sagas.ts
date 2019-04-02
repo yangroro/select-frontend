@@ -4,14 +4,18 @@ import { Actions as CollectionActions } from 'app/services/collection';
 import { CollectionResponse } from 'app/services/collection/requests';
 import { Actions } from 'app/services/home';
 import { HomeResponse, requestHome } from 'app/services/home/requests';
+import { RidiSelectState } from 'app/store';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, take } from 'redux-saga/effects';
+import { all, call, put, select, take } from 'redux-saga/effects';
+import { getIsIosInApp } from '../environment/selectors';
 
 export function* watchLoadHome() {
   while (true) {
     yield take(Actions.loadHomeRequest.getType());
     try {
       const response: HomeResponse = yield call(requestHome);
+      const state: RidiSelectState = yield select((s) => s);
+
       // This array might have duplicated book item
       const books = response.collections.reduce((concatedBooks: Book[], section) => {
         return concatedBooks.concat(section.books);
@@ -30,6 +34,7 @@ export function* watchLoadHome() {
       yield put(Actions.loadHomeSuccess({
         response,
         fetchedAt: Date.now(),
+        isIosInApp: getIsIosInApp(state),
       }));
     } catch (e) {
       yield put(Actions.loadHomeFailure());
