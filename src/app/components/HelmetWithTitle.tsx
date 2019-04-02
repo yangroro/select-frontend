@@ -23,6 +23,9 @@ export const HelmetWithTitle: React.SFC<HelmetWithTitleProps> = ({
   } else if (titleName && titleType === TitleType.PREFIXED) {
     title = `${title} - ${titleName}`;
   }
+  if (window.inApp && window.inApp.updateTitle) {
+    window.inApp.updateTitle(title);
+  }
   return (
     <Helmet
       title={title}
