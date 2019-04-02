@@ -1,4 +1,3 @@
-import { Icon } from '@ridi/rsg';
 import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
 import { BigBanner } from 'app/services/home';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
@@ -10,7 +9,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';
-import { ConnectedBigBannerItem } from './BigBannerItem';
+import { BigBannerItem } from './BigBannerItem';
 import { SliderControls } from './SliderControls';
 
 const PC_BANNER_WIDTH = 432;
@@ -127,7 +126,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               dotsClass="BigBanner_Dots"
             >
               {bigBannerList.map((item, index) => (
-                <ConnectedBigBannerItem
+                <BigBannerItem
                   linkUrl={item.linkUrl}
                   onClick={() => trackClick({
                     section,
@@ -145,7 +144,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
                     }}
                   />
                   <span className="a11y">배너 링크</span>
-                </ConnectedBigBannerItem>
+                </BigBannerItem>
               ))}
             </Slider>
             <SliderControls

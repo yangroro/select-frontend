@@ -15,7 +15,6 @@ import {
   getIsAndroidInApp,
   getIsInAppRoot,
   getIsIosInApp,
-  getIsNotHomeIosInApp,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
@@ -31,7 +30,6 @@ interface Props {
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
   isInAppRoot: boolean;
-  isNotHomeIosInApp: boolean;
   isSubscribing: boolean;
 }
 
@@ -178,12 +176,7 @@ export class GNB extends React.Component<Props> {
     const {
       gnbType,
       backgroundColorRGBString,
-      isNotHomeIosInApp,
     } = this.props;
-
-    if (isNotHomeIosInApp) {
-      return null;
-    }
 
     return (
       <header
@@ -213,7 +206,6 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
   isInAppRoot: getIsInAppRoot(rootState),
-  isNotHomeIosInApp: getIsNotHomeIosInApp(rootState),
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);

@@ -14,6 +14,7 @@ import { RidiSelectState } from 'app/store';
 
 import { Pagination } from 'app/components/Pagination';
 import { getPageQuery } from 'app/services/routing/selectors';
+import * as classNames from 'classnames';
 import { Link, LinkProps } from 'react-router-dom';
 
 interface CategoryStateProps {
@@ -140,7 +141,13 @@ export class Category extends React.Component<Props, State> {
 
     const selectBoxTemplate = (isValidNumber(categoryId) && this.renderSelectBox());
     return (
-      <main className="SceneWrapper SceneWrapper_WithLNB">
+      <main
+        className={classNames(
+          'SceneWrapper',
+          'SceneWrapper_WithGNB',
+          'SceneWrapper_WithLNB',
+        )}
+      >
         <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}

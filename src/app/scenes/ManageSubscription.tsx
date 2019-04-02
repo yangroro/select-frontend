@@ -8,6 +8,7 @@ import history from 'app/config/history';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
+import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
@@ -17,6 +18,7 @@ interface ManageSubscriptionStateProps {
   environment: EnvironmentState;
   subscriptionState?: SubscriptionState;
   subscriptionFetchStatus: FetchStatusFlag;
+  isIosInApp: boolean;
 }
 
 interface ManageSubscriptionState {
@@ -64,7 +66,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   }
 
   public render() {
-    const { subscriptionState, environment } = this.props;
+    const { subscriptionState, environment, isIosInApp } = this.props;
     const { isUnsubscribeWarningPopupActive } = this.state;
     const { PAY_URL: BASE_URL_RIDI_PAY_API } = environment;
     return (
@@ -105,7 +107,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                       <p className="SubscriptionInfo_Title">결제 수단</p>
                       <div className="SubscriptionInfo_Data">
                         {subscriptionState.paymentMethod}
-                        {subscriptionState.isUsingRidipay ? (
+                        {subscriptionState.isUsingRidipay && !isIosInApp ? (
                           <a className="SubscriptionInfo_Link" href={`${BASE_URL_RIDI_PAY_API}/settings`}>
                             카드 관리
                             <Icon
@@ -182,6 +184,7 @@ const mapStateToProps = (state: RidiSelectState): ManageSubscriptionStateProps =
     environment: state.environment,
     subscriptionState: state.user.subscription,
     subscriptionFetchStatus: state.user.subscriptionFetchStatus,
+    isIosInApp: getIsIosInApp(state),
   };
 };
 

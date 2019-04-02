@@ -37,9 +37,11 @@ import {
   PrivateRoute,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
+import { getIsAndroidInApp, selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
   isRidiApp: boolean;
+  IsAndroidInApp: boolean;
   isFetching: boolean;
   isSubscribing: boolean;
   errorResponseState?: errorResponseStatus;
@@ -71,12 +73,16 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
         <ConnectedScrollManager>
           <Route
             render={({ location }) => (
-              (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname)) && <ConnectedGNB />
+              (
+                !props.isRidiApp ||
+                (props.IsAndroidInApp && inAppGnbRoutes.includes(location.pathname as RoutePaths)) ||
+                LNBRoutes.includes(location.pathname as RoutePaths)
+              ) && <ConnectedGNB />
             )}
           />
           <Route
             render={({ location }) => (
-              (LNBRoutes.includes(location.pathname)) && <ConnectedLNB />
+              (LNBRoutes.includes(location.pathname as RoutePaths)) && <ConnectedLNB />
             )}
           />
           <Switch>
@@ -169,7 +175,8 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
 );
 
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
-  isRidiApp: rootState.environment.platform.isRidibooks,
+  isRidiApp: selectIsInApp(rootState),
+  IsAndroidInApp: getIsAndroidInApp(rootState),
   isFetching: rootState.user.isFetching,
   isSubscribing: rootState.user.isSubscribing,
   errorResponseState: rootState.serviceStatus.errorResponseState,

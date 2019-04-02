@@ -39,7 +39,7 @@ import {
   getTransparentBackgroundColorRGBString,
 } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
-import { getIsIosInApp } from 'app/services/environment/selectors';
+import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect';
 import { ConnectedReviews } from 'app/services/review';
 import { StarRating } from 'app/services/review/components';
@@ -59,6 +59,7 @@ interface BookDetailStateProps {
   isFetched: boolean;
   isLoggedIn: boolean;
   isIosInApp: boolean;
+  isInApp: boolean;
 
   title?: BookTitle;
   authors?: BookAuthors;
@@ -161,12 +162,12 @@ export class BookDetail extends React.Component<Props, State> {
   }
 
   private handleDownloadButtonClick = () => {
-    const { env, bookId } = this.props;
+    const { bookId, isInApp } = this.props;
     if (this.shouldDisplaySpinnerOnDownload()) {
       return;
     }
     if (this.canDownload()) {
-      if (env.platform.isRidibooks) {
+      if (isInApp) {
         readBooksInRidiselect(bookId);
         return;
       }
@@ -200,8 +201,8 @@ export class BookDetail extends React.Component<Props, State> {
   }
 
   private renderDownloadButton = () => {
-    const { isLoggedIn, isSubscribing, hasSubscribedBefore, env } = this.props;
-    const { STORE_URL: BASE_URL_STORE } = this.props.env;
+    const { isLoggedIn, isSubscribing, hasSubscribedBefore, env, isInApp } = this.props;
+    const { STORE_URL: BASE_URL_STORE } = env;
     const shouldDisplaySpinnerOnDownload = this.shouldDisplaySpinnerOnDownload();
     if (this.canDownload()) {
       return (
@@ -212,7 +213,7 @@ export class BookDetail extends React.Component<Props, State> {
           className="PageBookDetail_DownloadButton"
           onClick={this.handleDownloadButtonClick}
         >
-          {env.platform.isRidibooks ? '읽기' : '다운로드'}
+          {isInApp ? '읽기' : '다운로드'}
         </Button>
       );
     } else if (isSubscribing) {
@@ -749,6 +750,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     backgroundColorGradientToLeft: getBackgroundColorGradientToLeft(state),
     backgroundColorGradientToRight: getBackgroundColorGradientToRight(state),
     isIosInApp: getIsIosInApp(state),
+    isInApp: selectIsInApp(state),
   };
 };
 
