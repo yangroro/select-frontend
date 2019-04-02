@@ -108,3 +108,18 @@ sourcemaps:
     - sentry-cli releases new ${CI_COMMIT_SHA}
     - sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ${CI_PROJECT_DIR}/dist/*.map
     - sentry-cli releases finalize ${CI_COMMIT_SHA}
+
+serverless:
+  stage: deploy
+  when: manual
+  variables:
+    AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
+  cache: {}
+  before_script:
+    - cd serverless
+    - yarn install --frozen-lockfile
+  script:
+    - yarn serverless deploy --stage production -v
+  only:
+    - master

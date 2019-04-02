@@ -1,0 +1,38 @@
+{
+  "name": "serverless",
+  "version": "1.0.0",
+  "description": "Serverless webpack example using Typescript",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-promise-router": "^3.0.3",
+    "html-entities": "^1.2.1",
+    "node-fetch": "^2.3.0",
+    "node-html-parser": "^1.1.13",
+    "pug": "^2.0.3",
+    "serverless-http": "^1.9.1",
+    "source-map-support": "^0.5.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/aws-lambda": "^8.10.17",
+    "@types/express": "^4.16.1",
+    "@types/html-entities": "^1.2.16",
+    "@types/node": "^10.12.18",
+    "@types/node-fetch": "^2.1.7",
+    "babel-loader": "^8.0.5",
+    "copy-webpack-plugin": "^5.0.2",
+    "serverless": "^1.40.0",
+    "serverless-offline": "^4.9.3",
+    "serverless-webpack": "^5.2.0",
+    "typescript": "^3.2.4",
+    "webpack": "^4.29.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT"
+}
