@@ -24,7 +24,7 @@ export const HelmetWithTitle: React.SFC<HelmetWithTitleProps> = ({
     title = `${title} - ${titleName}`;
   }
   if (window.inApp && window.inApp.updateTitle) {
-    window.inApp.updateTitle(title);
+    window.inApp.updateTitle(titleName ? titleName : '리디셀렉트');
   }
   return (
     <Helmet
