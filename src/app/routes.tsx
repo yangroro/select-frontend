@@ -73,11 +73,8 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
         <ConnectedScrollManager>
           <Route
             render={({ location }) => (
-              (
-                !props.isRidiApp ||
-                (props.IsAndroidInApp && inAppGnbRoutes.includes(location.pathname as RoutePaths)) ||
-                LNBRoutes.includes(location.pathname as RoutePaths)
-              ) && <ConnectedGNB />
+              (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths)))
+              && <ConnectedGNB />
             )}
           />
           <Route
