@@ -20,6 +20,7 @@ import { SearchResultBookList } from 'app/services/searchResult/components/Searc
 import { Button, Icon } from '@ridi/rsg';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
+import * as classNames from 'classnames';
 
 interface SearchResultStateProps {
   books: BookState;
@@ -124,7 +125,14 @@ export class SearchResult extends React.Component<Props, State> {
     const itemCountPerPage: number = 24;
 
     return (
-      <main className="SceneWrapper PageSearchResult">
+      <main
+        className={classNames(
+          'SceneWrapper',
+          'PageSearchResult',
+          'SceneWrapper_WithGNB',
+          'SceneWrapper_WithSearchBar',
+        )}
+      >
         <HelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
         <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
         {(

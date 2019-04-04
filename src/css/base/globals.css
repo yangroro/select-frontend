@@ -161,6 +161,16 @@ main.SceneWrapper {
   }
 }
 
+.SceneWrapper_WithSearchBar {
+  @nest .iosApp & {
+    padding-top: 0;
+  }
+  @media (--mobile-screen) {
+    @nest .iosApp & {
+      padding-top: 38px;
+    }
+  }
+}
 
 .PageHeader {
   @apply --reset-layout;

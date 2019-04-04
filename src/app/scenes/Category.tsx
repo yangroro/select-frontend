@@ -13,11 +13,13 @@ import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/ut
 import { RidiSelectState } from 'app/store';
 
 import { Pagination } from 'app/components/Pagination';
+import { getIsIosInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
 import * as classNames from 'classnames';
 import { Link, LinkProps } from 'react-router-dom';
 
 interface CategoryStateProps {
+  isIosInApp: boolean;
   isCategoryListFetched: boolean;
   categoryList: CategoryState[];
   categoryId: number;
@@ -132,6 +134,7 @@ export class Category extends React.Component<Props, State> {
     const {
       books,
       category,
+      isIosInApp,
       categoryId,
       isCategoryListFetched,
       page,
@@ -153,7 +156,7 @@ export class Category extends React.Component<Props, State> {
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>
         <MediaQuery maxWidth={840}>
-          {(isMobile) => isMobile
+          {(isMobile) => (isMobile || isIosInApp)
             && (
             <div className="Category_Header GridBookList">
               {selectBoxTemplate}
@@ -195,6 +198,7 @@ export class Category extends React.Component<Props, State> {
 
 const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => {
   return {
+    isIosInApp: getIsIosInApp(rootState),
     isCategoryListFetched: rootState.categories.isFetched,
     categoryList: rootState.categories.itemList,
     categoryId: Number(getIdFromLocationSearch(rootState.router.location!.search)),
