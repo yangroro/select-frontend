@@ -109,6 +109,10 @@
   }
 }
 
+.Empty_HasButton {
+  margin-bottom: 0px !important ;
+}
+
 .MySelectBookList_Link {
   display: flex;
   align-items: start;

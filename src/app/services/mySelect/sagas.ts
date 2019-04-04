@@ -11,6 +11,10 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
+import { Actions as MySelectHistoryActions } from 'app/services/user';
+
+import { reqeustMySelectHistory } from 'app/services/user/requests';
+
 import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
@@ -36,6 +40,10 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
       });
       yield put(BookActions.updateBooks({ books }));
     } else if (response.totalCount < page) {
+      const res = yield call(reqeustMySelectHistory, 1);
+      if (res.totalCount > 0) {
+        response.reSubscribed = true;
+      }
       history.replace(`?${updateQueryStringParam('page', 1)}`);
     }
     yield put(Actions.loadMySelectSuccess({
