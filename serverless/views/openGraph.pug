@@ -1,0 +1,53 @@
+html
+  head
+    title= title
+    meta(
+      name='keywords'
+      content='리디셀렉트, 리디북스 셀렉트, 셀렉트, 월정액 전자책, 무제한 전자책, 전자책, e-book, e북, 이북, 전자도서, 전자책어플, 인터넷책, 도서어플, 전자서점, 인터넷서점, 온라인서점'
+    )
+    meta(
+      name='description'
+      content=description
+    )
+    meta(
+      property='og:type'
+      content=type
+    )
+    meta(
+      property='og:url'
+      content=url
+    )
+    meta(
+      property='og:title'
+      content=title
+    )
+    meta(
+      property='og:description'
+      content=description
+    )
+    if image
+      meta(
+        property='og:image'
+        content=image
+      )
+    if imageWidth
+      meta(
+        property='og:image:witdh'
+        content=imageWidth
+      )
+    if imageHeight
+      meta(
+        property='og:image:height'
+        content=imageHeight
+      )
+    meta(
+      name='twitter:site'
+      content='@ridibooks'
+    )
+    meta(
+      name='twitter:card'
+      content='summary_large_image'
+    )
+  body
+    h1= title
+    main= description
