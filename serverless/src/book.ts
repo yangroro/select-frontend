@@ -33,7 +33,7 @@ router.get('/:id', async (req, res) => {
     const openGraph: OpenGraph = {
       title: `${data.title.main} - 리디셀렉트`,
       description: description.length > MAX_DESCRIPTION_LENGTH ? `${description.slice(0, MAX_DESCRIPTION_LENGTH)}...` : description,
-      type: 'book',
+      type: 'books.book',
       url: `https://select.ridibooks.com/book/${bookId}`,
       image: getThumbnailUrl(data.thumbnail),
     };
