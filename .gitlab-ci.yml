@@ -123,3 +123,4 @@ serverless:
     - yarn serverless deploy --stage production -v
   only:
     - master
+    - develop
