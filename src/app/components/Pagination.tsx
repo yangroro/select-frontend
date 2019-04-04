@@ -37,7 +37,7 @@ export const Pagination: React.SFC<PaginationProps> = (props) => {
   const isDisplayGoPrev = startPageNum > buttonRangeCount;
   const isDisplayGoNext = totalPages > endPageNum;
 
-  if (totalPages === 1) { return null; }
+  if (totalPages === 1) { return <div className={'ListPage_BottomPadding'} />; }
   return (
     <div className="PaginationWrapper">
       <nav aria-label="페이지 내비게이션">
