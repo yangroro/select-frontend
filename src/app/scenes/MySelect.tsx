@@ -259,6 +259,9 @@ class MySelect extends React.Component<Props, State> {
                         outline={true}
                         className="PageSearchResult_RidibooksResult"
                         size="large"
+                        style={{
+                          marginTop: '10px',
+                        }}
                       >
                         도서 이용 내역 확인하기
                         <Icon
