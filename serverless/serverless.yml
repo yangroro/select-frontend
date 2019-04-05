@@ -6,10 +6,6 @@ provider:
   runtime: nodejs8.10
   region: ap-northeast-2
 
-package:
-  include:
-    - views/**
-
 functions:
   server:
     handler: handler.server
@@ -27,7 +23,5 @@ plugins:
 
 custom:
   webpack:
-    includeModules:
-      forceInclude:
-        - pug
+    includeModules: true
     packager: yarn

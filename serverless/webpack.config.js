@@ -1,7 +1,6 @@
 const path = require('path');
 const slsw = require('serverless-webpack');
 const nodeExternals = require('webpack-node-externals');
-const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
@@ -23,11 +22,6 @@ module.exports = {
   },
   externals: [
     nodeExternals(),
-  ],
-  plugins: [
-    new CopyPlugin([
-      { from: 'views', to: 'views' },
-    ]),
   ],
   optimization: {
     minimize: false,

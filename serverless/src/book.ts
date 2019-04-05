@@ -3,8 +3,7 @@ import Router from 'express-promise-router';
 import fetch from 'node-fetch';
 import { XmlEntities } from 'html-entities';
 
-import { OpenGraph } from './types';
-import { getTagsByUrl } from './utils/getTagsByUrl';
+import { override, OpenGraph } from './utils/override';
 
 const { decode } = new XmlEntities();
 
@@ -30,16 +29,20 @@ router.get('/:id', async (req, res) => {
     const data = await (await fetch(getBookApiUrl(bookId))).json();
     const { descriptions } = await (await fetch(getBookApiUrl(bookId, '/descriptions'))).json();
     const description = decode(descriptions.intro);
-    const openGraph: OpenGraph = {
+    const openGraph: Partial<OpenGraph> = {
       title: `${data.title.main} - 리디셀렉트`,
       description: description.length > MAX_DESCRIPTION_LENGTH ? `${description.slice(0, MAX_DESCRIPTION_LENGTH)}...` : description,
       type: 'books.book',
       url: `https://select.ridibooks.com/book/${bookId}`,
       image: getThumbnailUrl(data.thumbnail),
+      imageHeight: false,
+      imageWidth: false,
     };
-    res.render('openGraph', openGraph);
+    res.set('Content-Type', 'text/html');
+    res.send(await override(openGraph));
   } catch (e) {
-    res.render('openGraph', await getTagsByUrl(req));
+    res.set('Content-Type', 'text/html');
+    res.send(await override());
   }
 });
 
