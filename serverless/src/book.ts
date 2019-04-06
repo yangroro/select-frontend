@@ -1,13 +1,12 @@
 import Router from 'express-promise-router';
 
 import fetch from 'node-fetch';
-import { XmlEntities } from 'html-entities';
+import * as htmlToText from 'html-to-text';
+import ellipsis from 'text-ellipsis';
 
 import { override, OpenGraph } from './utils/override';
 
-const { decode } = new XmlEntities();
-
-const MAX_DESCRIPTION_LENGTH = 165;
+const MAX_DESCRIPTION_LENGTH = 175;
 
 const getThumbnailUrl = (thumbnails: {
   small?: string,
@@ -28,11 +27,11 @@ router.get('/:id', async (req, res) => {
   try {
     const data = await (await fetch(getBookApiUrl(bookId))).json();
     const { descriptions } = await (await fetch(getBookApiUrl(bookId, '/descriptions'))).json();
-    const description = decode(descriptions.intro);
+    const description = htmlToText.fromString(descriptions.intro, { wordwrap: null });
     const openGraph: Partial<OpenGraph> = {
       title: `${data.title.main} - 리디셀렉트`,
-      description: description.length > MAX_DESCRIPTION_LENGTH ? `${description.slice(0, MAX_DESCRIPTION_LENGTH)}...` : description,
-      type: 'books.book',
+      description: ellipsis(description, MAX_DESCRIPTION_LENGTH),
+      type: 'book',
       url: `https://select.ridibooks.com/book/${bookId}`,
       image: getThumbnailUrl(data.thumbnail),
       imageHeight: false,

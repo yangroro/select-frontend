@@ -19,7 +19,9 @@ export const override = async (og?: Partial<OpenGraph>): Promise<string> => {
     return root;
   }
 
-  const $ = cheerio.load(root);
+  const $ = cheerio.load(root, {
+    decodeEntities: false,
+  });
 
   if (og.title) {
     $('title').text(og.title);
