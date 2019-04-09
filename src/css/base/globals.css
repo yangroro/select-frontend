@@ -346,15 +346,7 @@ main.SceneWrapper {
 }
 
 
-.ListWithPaginationPage {
-  padding-bottom: 40px;
-
-  @media (--pc-screen) {
-    padding-bottom: 60px;
-  }
-}
-
-.ListPage_BottomPadding, .PaginationWrapper {
+.ListPageBottom {
   padding-bottom: 40px;
 
   @media (--pc-screen) {
