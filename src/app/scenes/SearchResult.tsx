@@ -69,10 +69,8 @@ export class SearchResult extends React.Component<Props, State> {
     );
   }
 
-  private isFetched = (page: number) => {
+  private isFetched = (query: string, page: number) => {
     const { searchResult } = this.props;
-    const { query } = this.state;
-
     return (
       searchResult[query] &&
       searchResult[query].itemListByPage[page] &&
@@ -95,18 +93,20 @@ export class SearchResult extends React.Component<Props, State> {
   public componentDidMount() {
     const { dispatchRequestSearchResult, page } = this.props;
     const { query } = this.state;
-    if (!this.isFetched(page)) {
+    if (!this.isFetched(query, page)) {
       dispatchRequestSearchResult(query, page);
     }
   }
 
-  public shouldComponentUpdate(nextProps: Props) {
-    if (nextProps.page !== this.props.page) {
-      const { dispatchRequestSearchResult, page } = nextProps;
-      const { query } = this.state;
+  public shouldComponentUpdate(nextProps: Props, nextState: State) {
+    const { query } = this.state;
+    const { query: nextQuery } = nextState;
 
-      if (!this.isFetched(page)) {
-        dispatchRequestSearchResult(query, page);
+    if ((query !== nextQuery) || (nextProps.page !== this.props.page)) {
+      const { dispatchRequestSearchResult, page } = nextProps;
+
+      if (!this.isFetched(nextQuery, page)) {
+        dispatchRequestSearchResult(nextQuery, page);
       }
     }
     return true;
@@ -136,7 +136,7 @@ export class SearchResult extends React.Component<Props, State> {
         <ConnectedHelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
         <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
         {(
-            !this.isFetched(page) || isNaN(page)
+            !this.isFetched(query, page) || isNaN(page)
         ) ? (
           <LandscapeBookListSkeleton />
         ) : (
