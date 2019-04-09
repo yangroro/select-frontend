@@ -346,7 +346,7 @@ main.SceneWrapper {
 }
 
 
-.ListPageBottom {
+.Pagination {
   padding-bottom: 40px;
 
   @media (--pc-screen) {
