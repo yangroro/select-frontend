@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 import * as qs from 'qs';
 import MediaQuery from 'react-responsive';
 
-import { HelmetWithTitle, Pagination } from 'app/components';
+import { ConnectedHelmetWithTitle, Pagination } from 'app/components';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { BookState } from 'app/services/book';
@@ -133,7 +133,7 @@ export class SearchResult extends React.Component<Props, State> {
           'SceneWrapper_WithSearchBar',
         )}
       >
-        <HelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
+        <ConnectedHelmetWithTitle titleName={!!query ? `'${query}' 검색 결과` : null} />
         <h1 className="a11y">{`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}</h1>
         {(
             !this.isFetched(page) || isNaN(page)

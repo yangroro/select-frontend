@@ -12,7 +12,7 @@ const Vibrant = require('node-vibrant');
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
-import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { ConnectedHelmetWithTitle, ConnectedInlineHorizontalBookList, ConnectedPageHeader } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { Actions as BookActions } from 'app/services/book';
@@ -547,8 +547,14 @@ export class BookDetail extends React.Component<Props, State> {
     return (
       <MediaQuery maxWidth={840}>
         {(isMobile) => (
-           <main className="SceneWrapper PageBookDetail">
-            <HelmetWithTitle
+          <main
+            className={classNames(
+              'SceneWrapper',
+              'PageBookDetail',
+              'SceneWrapper_WithGNB',
+            )}
+          >
+            <ConnectedHelmetWithTitle
               titleName={title && title.main ? title.main : null}
               meta={[
                 {
@@ -689,7 +695,7 @@ export class BookDetail extends React.Component<Props, State> {
               </LazyLoad>
             </section>
             {isFetched && this.renderOverlays()}
-           </main>
+          </main>
         )}
       </MediaQuery>
     );
