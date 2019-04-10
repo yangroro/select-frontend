@@ -213,9 +213,6 @@
     left: 0;
     height: 44px;
     padding: var(--mobile-search-vertical-inner-padding) 10px;
-    @nest .androidApp & {
-      top: 41px;
-    }
     & .GNBSearchButton {
       display: none;
     }
@@ -234,6 +231,15 @@
       padding-top: var(--gnb_mobile_height);
       @nest .androidApp & {
         padding-top: var(--gnb_android_app_height);
+      }
+    }
+    @nest .androidApp & {
+      top: 41px;
+    }
+    @nest .iosApp & {
+      padding: var(--mobile-search-vertical-inner-padding) 10px var(--mobile-search-vertical-inner-padding) 38px;
+      & .GNBSearchButton {
+        display: inline-block;
       }
     }
   }
