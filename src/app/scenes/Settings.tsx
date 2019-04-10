@@ -18,6 +18,9 @@ import * as classNames from 'classnames';
 
 interface SettingStateProps {
   uId: string;
+  isFetching: boolean;
+  isAccountMeRetried: boolean;
+  isLoggedIn: boolean;
   subscriptionState?: SubscriptionState;
   environment: EnvironmentState;
   latestPurchaseTicket: Ticket;
@@ -39,8 +42,21 @@ export class Settings extends React.PureComponent<SettingProps> {
       this.props.dispatchCancelPurchase(purchaseId);
     }
   }
+
   public componentDidMount() {
-    const { dispatchLoadSubscriptionRequest, dispatchLoadOrderHistory } = this.props;
+    const {
+      isAccountMeRetried,
+      isLoggedIn,
+      isFetching,
+      dispatchLoadAccountMeRequest,
+      dispatchLoadOrderHistory,
+      dispatchLoadSubscriptionRequest,
+    } = this.props;
+
+    if (!isLoggedIn && !isFetching && !isAccountMeRetried) {
+      dispatchLoadAccountMeRequest();
+    }
+
     dispatchLoadSubscriptionRequest();
     dispatchLoadOrderHistory(1);
   }
@@ -214,8 +230,11 @@ export class Settings extends React.PureComponent<SettingProps> {
 }
 
 const mapStateToProps = (state: RidiSelectState): SettingStateProps => {
-return {
+  return {
     uId: state.user.uId,
+    isFetching: state.user.isFetching,
+    isAccountMeRetried: state.user.isAccountMeRetried,
+    isLoggedIn: state.user.isLoggedIn,
     subscriptionState: state.user.subscription,
     environment: state.environment,
     latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],
@@ -226,6 +245,7 @@ return {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
+  dispatchLoadAccountMeRequest: () => dispatch(Actions.loadAccountsMeRequest()),
   dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
   dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
   dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
