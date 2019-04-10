@@ -1,10 +1,11 @@
+import * as pathToRegexp from 'path-to-regexp';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 
-import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
+import { ConnectedCompactGNB, ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
 import { ConnectedSplashScreen } from 'app/components/SplashScreen';
 import { errorResponseStatus } from 'app/services/serviceStatus';
 
@@ -63,6 +64,12 @@ export const LNBRoutes = [
   RoutePaths.MY_SELECT,
 ];
 
+export const PrimaryRoutes = [
+  RoutePaths.CHARTS,
+  pathToRegexp.parse(RoutePaths.COLLECTION)[0],
+  RoutePaths.SETTING,
+];
+
 export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
   <ConnectedErrorPage />
 ) : (
@@ -73,8 +80,9 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
         <ConnectedScrollManager>
           <Route
             render={({ location }) => (
-              (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths)))
-              && <ConnectedGNB />
+              (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths))) ?
+                <ConnectedGNB /> :
+                <ConnectedCompactGNB />
             )}
           />
           <Route
