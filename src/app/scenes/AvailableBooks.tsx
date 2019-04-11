@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { ConnectedGridBookList, ConnectedHelmetWithTitle, ConnectedPageHeader, Pagination } from 'app/components';
+import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
@@ -83,7 +83,7 @@ export class AvailableBooks extends React.Component<Props> {
 
     return (
       <main className="SceneWrapper">
-        <ConnectedHelmetWithTitle titleName={PageTitleText.AVAILABLE_BOOKS} />
+        <HelmetWithTitle titleName={PageTitleText.AVAILABLE_BOOKS} />
         <ConnectedPageHeader pageTitle={PageTitleText.AVAILABLE_BOOKS} />
         {(
           !this.state.isInitialized || !this.isFetched(page) || isNaN(page)

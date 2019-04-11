@@ -13,24 +13,18 @@ interface HelmetWithTitleProps {
   titleName?: string | null;
   titleType?: TitleType;
   meta?: object[];
-  currentTitle: string;
 }
 
-export const HelmetWithTitle: React.SFC<HelmetWithTitleProps & ReturnType<typeof mapDispatchToProps>> = ({
+export const HelmetWithTitle: React.SFC<HelmetWithTitleProps> = ({
   titleName = null,
   titleType = TitleType.POSTFIXED,
   meta = [],
-  currentTitle,
-  updateCurrentTitle,
 }) => {
   let title = '리디셀렉트';
   if (titleName && titleType === TitleType.POSTFIXED) {
     title = `${titleName} - ${title}`;
   } else if (titleName && titleType === TitleType.PREFIXED) {
     title = `${title} - ${titleName}`;
-  }
-  if (currentTitle !== titleName) {
-    updateCurrentTitle(titleName ? titleName : '리디셀렉트');
   }
   return (
     <Helmet
@@ -39,15 +33,3 @@ export const HelmetWithTitle: React.SFC<HelmetWithTitleProps & ReturnType<typeof
     />
   );
 };
-
-const mapStateToProps = (rootState: RidiSelectState) => ({
-  currentTitle: rootState.commonUI.currentTitle,
-});
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    updateCurrentTitle: (title: string) => dispatch(Actions.updateCurrentTitle({ title })),
-  };
-};
-
-export const ConnectedHelmetWithTitle = connect(mapStateToProps, mapDispatchToProps)(HelmetWithTitle);

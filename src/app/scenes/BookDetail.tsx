@@ -12,7 +12,7 @@ const Vibrant = require('node-vibrant');
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
-import { ConnectedHelmetWithTitle, ConnectedInlineHorizontalBookList, ConnectedPageHeader } from 'app/components';
+import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { Actions as BookActions } from 'app/services/book';
@@ -551,10 +551,9 @@ export class BookDetail extends React.Component<Props, State> {
             className={classNames(
               'SceneWrapper',
               'PageBookDetail',
-              'SceneWrapper_WithGNB',
             )}
           >
-            <ConnectedHelmetWithTitle
+            <HelmetWithTitle
               titleName={title && title.main ? title.main : null}
               meta={[
                 {

@@ -31,6 +31,7 @@
   line-height: 1.5em;
   resize: none;
   appearance: none;
+  -webkit-transform: translate3d(0,0,0);
 
   @media (--pc-screen) {
     min-height: 20px;
@@ -44,6 +45,7 @@
 }
 
 .CommentForm_SubmitButton {
+  display: inline-block;
   box-sizing: border-box;
   width: 66px;
   height: 30px;
