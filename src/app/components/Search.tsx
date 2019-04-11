@@ -449,8 +449,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
 
   private renderSearchButtonIcon() {
     const { isActive } = this.state;
-    const { isIosInApp } = this.props;
-    if (isActive) {
+    const { isIosInApp, gnbSearchActiveType } = this.props;
+    if (isActive || gnbSearchActiveType === GNBSearchActiveType.block) {
       return (
         <Icon
           name="arrow_13_left"
@@ -541,7 +541,14 @@ export class Search extends React.Component<SearchProps, SearchState> {
         <button
           type="button"
           className="GNBSearchButton"
-          onClick={() => this.toggleActivation(!isActive)}
+          onClick={() => {
+            if (gnbSearchActiveType === GNBSearchActiveType.block) {
+              history.goBack();
+              this.toggleActivation(false);
+              return;
+            }
+            this.toggleActivation(!isActive);
+          }}
         >
           {this.renderSearchButtonIcon()}
           <h2 className="a11y">검색</h2>

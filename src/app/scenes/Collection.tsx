@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
+import { ConnectedGridBookList, ConnectedHelmetWithTitle, ConnectedPageHeader, Pagination } from 'app/components';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { BookState } from 'app/services/book';
@@ -13,6 +13,7 @@ import { Actions, DefaultCollectionState } from 'app/services/collection';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
+import * as classNames from 'classnames';
 
 interface CollectionStateProps {
   books: BookState;
@@ -87,8 +88,13 @@ export class Collection extends React.Component<Props> {
     const itemCountPerPage: number = 24;
 
     return (
-      <main className="SceneWrapper">
-        <HelmetWithTitle
+      <main
+        className={classNames(
+          'SceneWrapper',
+          'SceneWrapper_WithGNB',
+        )}
+      >
+        <ConnectedHelmetWithTitle
           titleName={!!collection ? collection.title : null}
         />
         {!!collection && <ConnectedPageHeader pageTitle={collection.title} />}

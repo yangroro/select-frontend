@@ -1,5 +1,8 @@
+import { Actions } from 'app/services/commonUI';
+import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 
 export enum TitleType {
   PREFIXED,
@@ -10,12 +13,15 @@ interface HelmetWithTitleProps {
   titleName?: string | null;
   titleType?: TitleType;
   meta?: object[];
+  currentTitle: string;
 }
 
-export const HelmetWithTitle: React.SFC<HelmetWithTitleProps> = ({
+export const HelmetWithTitle: React.SFC<HelmetWithTitleProps & ReturnType<typeof mapDispatchToProps>> = ({
   titleName = null,
   titleType = TitleType.POSTFIXED,
   meta = [],
+  currentTitle,
+  updateCurrentTitle,
 }) => {
   let title = '리디셀렉트';
   if (titleName && titleType === TitleType.POSTFIXED) {
@@ -23,8 +29,8 @@ export const HelmetWithTitle: React.SFC<HelmetWithTitleProps> = ({
   } else if (titleName && titleType === TitleType.PREFIXED) {
     title = `${title} - ${titleName}`;
   }
-  if (window.inApp && window.inApp.updateTitle) {
-    window.inApp.updateTitle(titleName ? titleName : '리디셀렉트');
+  if (currentTitle !== titleName) {
+    updateCurrentTitle(titleName ? titleName : '리디셀렉트');
   }
   return (
     <Helmet
@@ -33,3 +39,15 @@ export const HelmetWithTitle: React.SFC<HelmetWithTitleProps> = ({
     />
   );
 };
+
+const mapStateToProps = (rootState: RidiSelectState) => ({
+  currentTitle: rootState.commonUI.currentTitle,
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateCurrentTitle: (title: string) => dispatch(Actions.updateCurrentTitle({ title })),
+  };
+};
+
+export const ConnectedHelmetWithTitle = connect(mapStateToProps, mapDispatchToProps)(HelmetWithTitle);

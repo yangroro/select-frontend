@@ -119,35 +119,20 @@ export class GNB extends React.Component<Props> {
       return null;
     }
 
-    if (!isLoggedIn) {
+    if (isSubscribing) {
       return (
-        <div className="GNBRightButtonWrapper">
-          <a
-            href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${
-              window.location.href
-            }`}
-            className="GNB_LinkButton"
-          >
-            <h2 className="reset-heading">회원가입</h2>
-          </a>
+        <>
           <MediaQuery maxWidth={840}>
-            {(matches) => (
-              <a
-                href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-                  window.location.href
-                }`}
-                className="GNB_LinkButton GNB_LinkButton-fill"
-                style={matches ? { color: solidBackgroundColorRGBString } : {}}
-              >
-                로그인
-              </a>
-            )}
+            {(matches) => <ConnectedSearch isMobile={matches} />}
           </MediaQuery>
-        </div>
+          <div className="GNBRightButtonWrapper">
+            {this.renderSettingButton()}
+          </div>
+        </>
       );
     }
 
-    if (!isSubscribing) {
+    if (isLoggedIn) {
       return (
         <div className="GNBRightButtonWrapper">
           <a
@@ -161,14 +146,29 @@ export class GNB extends React.Component<Props> {
     }
 
     return (
-      <>
+      <div className="GNBRightButtonWrapper">
+        <a
+          href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${
+            window.location.href
+          }`}
+          className="GNB_LinkButton"
+        >
+          <h2 className="reset-heading">회원가입</h2>
+        </a>
         <MediaQuery maxWidth={840}>
-          {(matches) => <ConnectedSearch isMobile={matches} />}
+          {(matches) => (
+            <a
+              href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
+                window.location.href
+              }`}
+              className="GNB_LinkButton GNB_LinkButton-fill"
+              style={matches ? { color: solidBackgroundColorRGBString } : {}}
+            >
+              로그인
+            </a>
+          )}
         </MediaQuery>
-        <div className="GNBRightButtonWrapper">
-          {this.renderSettingButton()}
-        </div>
-      </>
+      </div>
     );
   }
 

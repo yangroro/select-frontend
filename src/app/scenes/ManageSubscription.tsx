@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { ConnectedPageHeader, HelmetWithTitle, UnsubscribeWarningPopup } from 'app/components';
+import { ConnectedHelmetWithTitle, ConnectedPageHeader, UnsubscribeWarningPopup } from 'app/components';
 import history from 'app/config/history';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
@@ -12,6 +12,7 @@ import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
+import * as classNames from 'classnames';
 
 interface ManageSubscriptionStateProps {
   userState: UserState;
@@ -70,8 +71,14 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     const { isUnsubscribeWarningPopupActive } = this.state;
     const { PAY_URL: BASE_URL_RIDI_PAY_API } = environment;
     return (
-      <main className="SceneWrapper PageManageSubscription">
-        <HelmetWithTitle titleName={PageTitleText.MANAGE_SUBSCRIPTION} />
+      <main
+        className={classNames(
+          'SceneWrapper',
+          'PageManageSubscription',
+          'SceneWrapper_WithGNB',
+        )}
+      >
+        <ConnectedHelmetWithTitle titleName={PageTitleText.MANAGE_SUBSCRIPTION} />
         <ConnectedPageHeader pageTitle={PageTitleText.MANAGE_SUBSCRIPTION} />
         {!!subscriptionState
           ? (

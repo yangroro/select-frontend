@@ -99,6 +99,11 @@
       }
     }
   }
+  @nest .iosApp & {
+    & .reset-heading {
+      font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
+    }
+  }
 }
 
 @media (--pc-screen) {

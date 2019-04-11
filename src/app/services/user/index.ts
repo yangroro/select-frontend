@@ -85,6 +85,13 @@ export const Actions = {
   cancelUnsubscriptionRequest: createAction('cancelUnsubscriptionRequest'),
   cancelUnsubscriptionSuccess: createAction('cancelUnsubscriptionSuccess'),
   cancelUnsubscriptionFailure: createAction('cancelUnsubscriptionFailure'),
+
+  loadAccountsMeRequest: createAction('loadAccountsMeRequest'),
+  loadAccountsMeSuccess: createAction<{
+    uId: string,
+    email: string,
+  }>('loadAccountsMeSuccess'),
+  loadAccountsMeFailure: createAction('loadAccountsMeFailure'),
 };
 
 // TODO: 서버에서 내려주는 방식이 string 으로 내려주고 있어서 확인 후 수정 필요.
@@ -138,6 +145,7 @@ export interface PurchaseHistory extends Paginated<Ticket> {
 export interface UserState {
   isFetching: boolean;
   isLoggedIn: boolean;
+  isAccountMeRetried: boolean;
   uId: string;
   email: string;
   isSubscribing: boolean;
@@ -153,6 +161,7 @@ export interface UserState {
 export const INITIAL_STATE: UserState = {
   isFetching: true,
   isLoggedIn: false,
+  isAccountMeRetried: false,
   uId: '',
   email: '',
   isSubscribing: false,
@@ -193,6 +202,27 @@ userReducer.on(Actions.loadSubscriptionSuccess, (state = INITIAL_STATE, payload)
     ...state.subscription,
     ...payload.response,
   },
+}));
+
+userReducer.on(Actions.loadAccountsMeRequest, (state = INITIAL_STATE, payload) => ({
+  ...state,
+  isFetching: true,
+}));
+
+userReducer.on(Actions.loadAccountsMeSuccess, (state = INITIAL_STATE, payload) => ({
+  ...state,
+  isFetching: false,
+  isAccountMeRetried: true,
+  isLoggedIn: true,
+  uId: payload.uId,
+  email: payload.email,
+}));
+
+userReducer.on(Actions.loadAccountsMeFailure, (state = INITIAL_STATE, payload) => ({
+  ...state,
+  isFetching: false,
+  isLoggedIn: false,
+  isAccountMeRetried: true,
 }));
 
 userReducer.on(Actions.loadMySelectHistoryRequest, (state = INITIAL_STATE, payload) => ({

@@ -8,7 +8,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Icon } from '@ridi/rsg';
 import * as classNames from 'classnames';
 
-import { HelmetWithTitle, TitleType } from 'app/components';
+import { ConnectedHelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
 import { Actions as EnvironmentActions } from 'app/services/environment';
@@ -166,7 +166,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
     const { isLoaded, currentSection, buttonFixed } = this.state;
     return (
       <main className="SceneWrapper">
-        <HelmetWithTitle
+        <ConnectedHelmetWithTitle
           titleName={PageTitleText.INTRO}
           titleType={TitleType.PREFIXED}
         />
