@@ -30,14 +30,14 @@
 
 .CompactGNB_Left {
   display: table-cell;
-  width: 60px;
+  width: 80px;
 }
 .CompactGNB_Center {
   display: table-cell;
 }
 .CompactGNB_Right {
   display: table-cell;
-  width: 60px;
+  width: 80px;
 }
 
 .CompactGNB_Title {
@@ -63,6 +63,7 @@
   vertical-align: middle;
   color: var(--dodgerblue_40);
   font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
+  white-space: nowrap;
   @nest .iosApp & {
     padding: 0 3px;
   }
