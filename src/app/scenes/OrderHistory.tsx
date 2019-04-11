@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 import { Button, Empty } from '@ridi/rsg';
 import * as classNames from 'classnames';
 
-import { ConnectedHelmetWithTitle, ConnectedPageHeader, Pagination } from 'app/components';
+import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 
@@ -146,10 +146,9 @@ export class OrderHistory extends React.PureComponent<Props> {
         className={classNames(
           'SceneWrapper',
           'PageOrderHistory',
-          'SceneWrapper_WithGNB',
         )}
       >
-        <ConnectedHelmetWithTitle titleName={PageTitleText.ORDER_HISTORY} />
+        <HelmetWithTitle titleName={PageTitleText.ORDER_HISTORY} />
         <ConnectedPageHeader pageTitle={PageTitleText.ORDER_HISTORY} />
         {(
           !this.isFetched(page) || isNaN(page)

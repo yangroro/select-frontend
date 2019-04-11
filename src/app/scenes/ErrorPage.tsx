@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Button } from '@ridi/rsg';
 
-import { ConnectedHelmetWithTitle } from 'app/components';
+import { HelmetWithTitle } from 'app/components';
 import history from 'app/config/history';
 import { PageTitleText } from 'app/constants';
 import { Actions as ServiceStatusActions, errorResponseData, errorResponseStatus } from 'app/services/serviceStatus';
@@ -115,7 +115,7 @@ export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<
 
     return (
       <main className="SceneWrapper">
-        <ConnectedHelmetWithTitle titleName={PageTitleText.ERROR} />
+        <HelmetWithTitle titleName={PageTitleText.ERROR} />
         <section className="PageError">
           {responseState !== 404 && this.renderErrorHeader()}
           {this.renderErrorIcon()}

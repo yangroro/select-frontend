@@ -1,3 +1,4 @@
+import { RoutePaths } from 'app/constants';
 import { inAppGnbRoutes } from 'app/routes';
 import { ConnectedWebActionBar } from 'app/services/customHistory/components/WebActionBar';
 import { getIsAndroidInApp, getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
@@ -8,8 +9,7 @@ import { connect } from 'react-redux';
 import { PageTitle } from './PageTitle';
 
 export interface PageHeaderStateProps {
-  isIosInApp: boolean;
-  isAndroidInApp: boolean;
+  isInApp: boolean;
   location: Location;
 }
 
@@ -21,18 +21,20 @@ export interface PageHeaderOwnProps {
 export type PageHeaderProps = PageHeaderStateProps & PageHeaderOwnProps;
 
 export const PageHeader: React.SFC<PageHeaderProps> = ({
-  isIosInApp,
-  isAndroidInApp,
+  isInApp,
   location,
   underline,
   pageTitle,
   children,
 }) => {
-  if (isIosInApp || (!pageTitle && !children)) {
+  if ((!pageTitle && !children)) {
     return null;
   }
 
-  if (isAndroidInApp && !inAppGnbRoutes.includes(location.pathname)) {
+  if (
+    isInApp &&
+    !inAppGnbRoutes.includes(location.pathname as RoutePaths)
+  ) {
     return (
       <>
         {pageTitle && <ConnectedWebActionBar>{pageTitle}</ConnectedWebActionBar>}
@@ -50,8 +52,7 @@ export const PageHeader: React.SFC<PageHeaderProps> = ({
 };
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
-  isIosInApp: getIsIosInApp(rootState),
-  isAndroidInApp: getIsAndroidInApp(rootState),
+  isInApp: selectIsInApp(rootState),
   location: rootState.router.location,
 });
 

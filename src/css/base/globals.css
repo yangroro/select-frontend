@@ -7,6 +7,9 @@ body {
 
   &.hasWebActionBar {
     margin-top: 56px;
+    &.iosApp {
+      margin-top: var(--gnb_ios_app_height);
+    }
   }
 
   &.scrollFixedToTop {
@@ -251,11 +254,18 @@ main.SceneWrapper {
   @nest .LnbMenu_Wrapper + & {
     display: none;
   }
+
+  @nest .iosApp & {
+    height: var(--gnb_ios_app_height);
+    background: var(--bluegray_80);
+    border-bottom: 1px solid var(--bluegray_70);
+    vertical-align: middle;
+  }
 }
 
 .WebActionBar_Text {
   overflow: hidden;
-  color: white;
+  color: #fff;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -265,18 +275,57 @@ main.SceneWrapper {
   @media (--pc-screen) {
     display: inline-block;
   }
+  @nest .iosApp & {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 0 70px;
+    box-sizing: border-box;
+    z-index: 901;
+
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 24px;
+    font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
+  }
 }
 
 .UpButton {
   @apply --reset-button;
 
   padding: 18px 20px;
+  @nest .iosApp & {
+    position: relative;
+    height: 100%;
+    width: 70px;
+    line-height: 100%;
+    padding: 0 0 0 8px;
+    text-align: left;
+    font-size: 17px;
+    line-height: 24px;
+    vertical-align: middle;
+    color: var(--dodgerblue_40);
+    font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
+    white-space: nowrap;
+    z-index: 902;
+    box-sizing: border-box;
+  }
 }
 
 .UpButton_Icon {
   width: 16px;
   height: 16px;
   fill: white;
+
+  @nest .iosApp & {
+    width: 13px;
+    height: 21px;
+    margin-right: 5px;
+    vertical-align: top;
+    fill: var(--dodgerblue_40);
+  }
 }
 
 .RSGBookThumbnail_LazyloadPlaceholder {

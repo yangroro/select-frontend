@@ -4,7 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { ConnectedHelmetWithTitle } from 'app/components';
+import { HelmetWithTitle } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
@@ -132,10 +132,9 @@ export class Settings extends React.PureComponent<SettingProps> {
         className={classNames(
           'SceneWrapper',
           'PageSetting',
-          'SceneWrapper_WithGNB',
         )}
       >
-        <ConnectedHelmetWithTitle titleName={PageTitleText.SETTING} />
+        <HelmetWithTitle titleName={PageTitleText.SETTING} />
         <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
         {!!subscriptionState ?
           this.renderSubscriptionInfo() : (

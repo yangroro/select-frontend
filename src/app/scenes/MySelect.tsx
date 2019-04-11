@@ -6,7 +6,7 @@ import { Dispatch } from 'redux';
 
 import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
 
-import { ConnectedHelmetWithTitle, DTOBookThumbnail, Pagination, PCPageHeader } from 'app/components';
+import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
@@ -240,7 +240,7 @@ class MySelect extends React.Component<Props, State> {
           'SceneWrapper_WithLNB',
         )}
       >
-        <ConnectedHelmetWithTitle titleName={PageTitleText.MY_SELECT} />
+        <HelmetWithTitle titleName={PageTitleText.MY_SELECT} />
         <div className="PageMySelect">
           {!this.state.isInitialized || !this.isFetched(page) || isNaN(page) ? (
             <LandscapeBookListSkeleton hasCheckbox={true} />
