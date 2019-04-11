@@ -19,6 +19,9 @@ export const Actions = {
   updateFooterTheme: createAction<{
     theme: FooterTheme,
   }>('updateFooterTheme'),
+  updateCurrentTitle: createAction<{
+    title: string,
+  }>('updateCurrentTitle'),
 };
 
 export const GNB_DEFAULT_COLOR: RGB = {
@@ -60,6 +63,7 @@ export interface CommonUIState {
   gnbSearchActiveType: GNBSearchActiveType;
   gnbTransparentType: GNBTransparentType;
   footerTheme: FooterTheme;
+  currentTitle: string;
 }
 
 export const INITIAL_STATE: CommonUIState = {
@@ -68,9 +72,15 @@ export const INITIAL_STATE: CommonUIState = {
   gnbSearchActiveType: GNBSearchActiveType.cover,
   gnbTransparentType: GNBTransparentType.default,
   footerTheme: FooterTheme.default,
+  currentTitle: '',
 };
 
 export const commonUIReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
+
+commonUIReducer.on(Actions.updateCurrentTitle, (state, action) => ({
+  ...state,
+  currentTitle: action.title,
+}));
 
 commonUIReducer.on(Actions.updateSearchActiveType, (state, action) => ({
   ...state,

@@ -1,13 +1,18 @@
+import { keyBy } from 'lodash-es';
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
+
 import history from 'app/config/history';
 import { Book } from 'app/services/book';
 import { requestBooks } from 'app/services/book/requests';
 import { Actions as MySelectActions } from 'app/services/mySelect';
 import { Actions } from 'app/services/user';
 import {
+  AccountsMeResponse,
   MySelectHistoryResponse,
   PurchasesResponse,
   reqeustDeleteMySelectHistory,
   reqeustMySelectHistory,
+  requestAccountsMe,
   requestCancelPurchase,
   requestCancelUnsubscription,
   requestPurchases,
@@ -19,8 +24,24 @@ import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { keyBy } from 'lodash-es';
-import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
+
+export function* watchLoadAccountsMeRequest() {
+  while (true) {
+    const state: RidiSelectState = yield select((s) => s);
+    yield take(Actions.loadAccountsMeRequest.getType());
+    try {
+      const response: { data: AccountsMeResponse } = yield call(requestAccountsMe);
+      yield put(Actions.loadAccountsMeSuccess({
+        uId: response.data.result.id,
+        email: response.data.result.email,
+      }));
+    } catch (e) {
+      yield put(Actions.loadAccountsMeFailure());
+      const { STORE_URL, SELECT_URL } = state.environment;
+      location.href = `${STORE_URL}/account/logout?return_url=${SELECT_URL}/`;
+    }
+  }
+}
 
 export function* watchLoadSubscription() {
   while (true) {
@@ -156,6 +177,7 @@ export function* watchCancelUnsubscription() {
 
 export function* userRootSaga() {
   yield all([
+    watchLoadAccountsMeRequest(),
     watchLoadSubscription(),
     watchLoadPurchases(),
     watchLoadMySelectHistory(),
