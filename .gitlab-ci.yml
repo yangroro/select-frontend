@@ -16,6 +16,7 @@ build:prod: &build
   stage: build
   only:
     - master
+    - release/*
   script:
     - yarn build
   artifacts:
@@ -44,8 +45,6 @@ build:dev:
   stage: deploy
   cache: {}
   before_script: []
-  only:
-    - master
 
 .deploy-variables:
   variables: &deploy-variables
@@ -74,6 +73,8 @@ develop:
 
 staging:
   <<: *deploy
+  only:
+    - release/*
   variables:
     <<: *deploy-variables
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
@@ -81,13 +82,26 @@ staging:
   script:
     - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "index.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
     - aws s3 cp ${S3_STAGING_FILE} ${S3_STAGING_FILE} ${S3_RELEASE_PARAMS}
-    - aws s3 cp dist/index.html ${S3_RELEASE_CANDIDATE_FILE}
   environment:
     name: staging
     url: https://select.ridibooks.com
 
+release-candidate:
+  <<: *deploy
+  only:
+    - master
+  variables:
+    <<: *deploy-variables
+    AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
+  script:
+    - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "*.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
+    - aws s3 cp dist/index.html ${S3_RELEASE_CANDIDATE_FILE}
+
 production:
   <<: *deploy
+  only:
+    - master
   variables:
     <<: *deploy-variables
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
