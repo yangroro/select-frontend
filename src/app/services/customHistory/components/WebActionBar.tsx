@@ -1,5 +1,6 @@
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { ConnectedUpButton } from 'app/services/customHistory/components/UpButtons';
+import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -8,6 +9,7 @@ const WINDOW_HAS_WEB_ACTION_BAR = 'hasWebActionBar';
 
 export interface WebActionBarStateProps {
   backgroundColor: string;
+  isIosApp: boolean;
 }
 
 export class WebActionBar extends React.Component<WebActionBarStateProps> {
@@ -20,11 +22,12 @@ export class WebActionBar extends React.Component<WebActionBarStateProps> {
   }
 
   public render() {
-    const { backgroundColor, children } = this.props;
+    const { backgroundColor, isIosApp, children } = this.props;
+
     return (
       <div
         className="WebActionBar"
-        style={{ backgroundColor }}
+        style={isIosApp ? {} : { backgroundColor }}
       >
         <ConnectedUpButton />
         <h1 className="WebActionBar_Text">
@@ -37,6 +40,7 @@ export class WebActionBar extends React.Component<WebActionBarStateProps> {
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
   backgroundColor: getSolidBackgroundColorRGBString(rootState),
+  isIosApp: getIsIosInApp(rootState),
 });
 
 export const ConnectedWebActionBar = connect(mapStateToProps)(WebActionBar);

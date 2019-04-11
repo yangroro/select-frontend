@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
-import { ConnectedGridBookList, ConnectedHelmetWithTitle, PCPageHeader } from 'app/components';
+import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import history from 'app/config/history';
 import { PageTitleText } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
@@ -151,7 +151,7 @@ export class Category extends React.Component<Props, State> {
           'SceneWrapper_WithLNB',
         )}
       >
-        <ConnectedHelmetWithTitle titleName={PageTitleText.CATEGORY} />
+        <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>

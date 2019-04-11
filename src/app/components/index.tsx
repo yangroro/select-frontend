@@ -12,4 +12,3 @@ export * from './InlineHorizontalBookList';
 export * from './NewlineToBr';
 export * from './HelmetWithTitle';
 export * from './UnsubscribeWarningPopup';
-export * from './CompactGNB';

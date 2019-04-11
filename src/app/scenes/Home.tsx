@@ -4,7 +4,7 @@ import * as React from 'react';
 import { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
 
-import { ConnectedHelmetWithTitle } from 'app/components';
+import { HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { BookState } from 'app/services/book';
 import { Actions as CollectionActions, CollectionId, CollectionsState } from 'app/services/collection';
@@ -68,7 +68,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
           'SceneWrapper_WithLNB',
         )}
       >
-        <ConnectedHelmetWithTitle titleName={PageTitleText.HOME} />
+        <HelmetWithTitle titleName={PageTitleText.HOME} />
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
         <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />

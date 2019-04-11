@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { ConnectedHelmetWithTitle, ConnectedPageHeader, UnsubscribeWarningPopup } from 'app/components';
+import { ConnectedPageHeader, HelmetWithTitle, UnsubscribeWarningPopup } from 'app/components';
 import history from 'app/config/history';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
@@ -75,10 +75,9 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
         className={classNames(
           'SceneWrapper',
           'PageManageSubscription',
-          'SceneWrapper_WithGNB',
         )}
       >
-        <ConnectedHelmetWithTitle titleName={PageTitleText.MANAGE_SUBSCRIPTION} />
+        <HelmetWithTitle titleName={PageTitleText.MANAGE_SUBSCRIPTION} />
         <ConnectedPageHeader pageTitle={PageTitleText.MANAGE_SUBSCRIPTION} />
         {!!subscriptionState
           ? (

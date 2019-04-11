@@ -5,7 +5,7 @@ import { Link, LinkProps } from 'react-router-dom';
 
 import { Button, CheckBox, Empty } from '@ridi/rsg';
 
-import { ConnectedHelmetWithTitle, ConnectedPageHeader, DTOBookThumbnail, Pagination } from 'app/components';
+import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
@@ -161,13 +161,8 @@ class MySelectHistory extends React.Component<Props, State> {
       itemListByPage[page].itemList.length === 0;
 
     return (
-      <main
-        className={classNames(
-          'SceneWrapper',
-          'SceneWrapper_WithGNB',
-        )}
-      >
-        <ConnectedHelmetWithTitle titleName={PageTitleText.MY_SELECT_HISTORY} />
+      <main className="SceneWrapper">
+        <HelmetWithTitle titleName={PageTitleText.MY_SELECT_HISTORY} />
         <ConnectedPageHeader pageTitle={PageTitleText.MY_SELECT_HISTORY} />
         {!this.isFetched() ? (
           <div className="PageMySelectHistory Skeleton_Wrapper">
