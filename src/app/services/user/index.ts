@@ -87,7 +87,7 @@ export const Actions = {
   cancelUnsubscriptionFailure: createAction('cancelUnsubscriptionFailure'),
 
   loadAccountsMeRequest: createAction('loadAccountsMeRequest'),
-  loadAccountsMeSueccess: createAction<{
+  loadAccountsMeSuccess: createAction<{
     uId: string,
     email: string,
   }>('loadAccountsMeSuccess'),
@@ -209,7 +209,7 @@ userReducer.on(Actions.loadAccountsMeRequest, (state = INITIAL_STATE, payload) =
   isFetching: true,
 }));
 
-userReducer.on(Actions.loadAccountsMeSueccess, (state = INITIAL_STATE, payload) => ({
+userReducer.on(Actions.loadAccountsMeSuccess, (state = INITIAL_STATE, payload) => ({
   ...state,
   isFetching: false,
   isAccountMeRetried: true,

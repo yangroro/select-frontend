@@ -31,7 +31,7 @@ export function* watchLoadAccountsMeRequest() {
     yield take(Actions.loadAccountsMeRequest.getType());
     try {
       const response: { data: AccountsMeResponse } = yield call(requestAccountsMe);
-      yield put(Actions.loadAccountsMeSueccess({
+      yield put(Actions.loadAccountsMeSuccess({
         uId: response.data.result.id,
         email: response.data.result.email,
       }));
