@@ -3,7 +3,7 @@
   margin: 0 auto;
 
   & .rui_empty_1 {
-    margin: 200px 0;
+    margin: 116px 0;
   }
 }
 
@@ -107,6 +107,10 @@
     align-items: center !important;
     min-height: 130px;
   }
+}
+
+.Empty_HasButton {
+  margin-bottom: 0px !important ;
 }
 
 .MySelectBookList_Link {
