@@ -77,6 +77,7 @@ export const Actions = {
   }>('deleteMySelectHistorySuccess'),
 
   deleteMySelectHistoryFailure: createAction('deleteMySelectHistoryFailure'),
+  resetMySelectHistoryFetchedStatus: createAction('resetMySelectHistoryFetchedStatus'),
 
   unsubscribeRequest: createAction('unsubscribeRequest'),
   unsubscribeSuccess: createAction('unsubscribeSuccess'),
@@ -327,6 +328,16 @@ userReducer.on(Actions.deleteMySelectHistoryFailure, (state = INITIAL_STATE) => 
     deletionFetchingStatus: FetchStatusFlag.FETCH_ERROR,
   },
 }));
+
+userReducer.on(Actions.resetMySelectHistoryFetchedStatus, (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    mySelectHistory: {
+      ...state.mySelectHistory,
+      itemListByPage: {},
+    },
+  };
+});
 
 userReducer.on(Actions.loadPurchasesRequest, (state = INITIAL_STATE, payload) => ({
   ...state,

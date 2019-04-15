@@ -104,6 +104,10 @@ class MySelectHistory extends React.Component<Props, State> {
       this.props.dispatchLoadMySelectHistoryRequest(this.props.page);
     }
   }
+  public componentWillUnmount() {
+    const { dispatchResetMySelectHistoryFetchedStatus } = this.props;
+    dispatchResetMySelectHistoryFetchedStatus();
+  }
   public renderBooks(books: MySelectBook[]) {
     return (
       <ul className="MySelectHistoryBookList">
@@ -232,6 +236,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(Actions.loadMySelectHistoryRequest({ page })),
   dispatchDeleteMySelectHistoryRequest: (mySelectBookIds: number[], page: number) =>
     dispatch(Actions.deleteMySelectHistoryRequest({ mySelectBookIds, page })),
+  dispatchResetMySelectHistoryFetchedStatus: () =>
+    dispatch(Actions.resetMySelectHistoryFetchedStatus()),
 });
 
 export const ConnectedMySelectHistory = connect(mapStateToProps, mapDispatchToProps)(MySelectHistory);
