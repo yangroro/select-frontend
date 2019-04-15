@@ -1,0 +1,50 @@
+.Notice {
+  border-radius: 4px;
+  background-color: #f3f4f5; 
+  padding: 12px;
+  margin-top: 15px;
+  margin-bottom: -5px;
+
+  @media (--pc-screen) {
+    margin: 0;
+  }
+}
+.Notice .RSGIcon-info {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  margin-top: 1px;
+  float: left;
+}
+
+.Notice_Main_Text {
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: -0.3px;
+  color: #525a61;
+  overflow: hidden;
+  display: block;
+}
+
+
+.Sub_Notice .RSGIcon-won {
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  margin-top: 3px;
+  float: left;
+  color: #0077d9;  
+}
+
+.Sub_Notice {
+  overflow: hidden;
+  display: block;
+  margin-top: 2px;
+}
+
+.Notice_Sub_Text {
+  font-size: 12px;
+  letter-spacing: -0.3px;
+  color: #0077d9;
+}
+
