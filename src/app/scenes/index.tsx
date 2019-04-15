@@ -15,3 +15,4 @@ export * from './AvailableBooks';
 export * from './Guide';
 export * from './Intro';
 export * from './InAppIntro';
+export * from './ExpiredBook';

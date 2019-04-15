@@ -24,6 +24,7 @@ export enum PageTitleText {
   NEW_RELEASE = '최신 업데이트',
   ORDER_HISTORY = '결제 내역',
   SETTING = '셀렉트 관리',
+  EXPIRED = '',
 }
 
 export enum RoutePaths {
@@ -42,4 +43,5 @@ export enum RoutePaths {
   GUIDE = '/guide',
   AVAILABLE_BOOKS = '/books',
   INTRO = '/',
+  EXPIRED = '/expired-book',
 }
