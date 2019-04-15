@@ -17,6 +17,7 @@ build:prod: &build
   only:
     - master
     - release/*
+    - hotfix/*
   script:
     - yarn build
   artifacts:
