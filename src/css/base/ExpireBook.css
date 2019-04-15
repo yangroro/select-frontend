@@ -1,0 +1,11 @@
+.PageExpireBook {
+  font-family: Helvetica Neue, Apple SD Gothic Neo, arial, '나눔고딕', Nanum Gothic, '돋움', Dotum, Tahoma, Geneva, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 116px 61px;
+  position: relative;
+}
+
+.PageExpireBook .empty_description {
+  font-size: 14px;
+}

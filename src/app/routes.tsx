@@ -27,6 +27,7 @@ import {
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
+  ExpiredBook,
   InAppIntro,
 } from 'app/scenes';
 
@@ -146,6 +147,11 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
             <PrivateRoute
               path={RoutePaths.SEARCH_RESULT}
               component={ConnectedSearchResult}
+              {...props}
+            />
+            <PrivateRoute
+              path={RoutePaths.EXPIRED}
+              component={ExpiredBook}
               {...props}
             />
             <ConnectedPublicRoute
