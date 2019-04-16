@@ -7,6 +7,7 @@ export interface LinkWrapperProps {
   className?: string;
   linkUrl?: string;
   linkType: ThumbnailLinkType;
+  expired: boolean;
   onClick: (event: React.SyntheticEvent<any>) => void;
 }
 
@@ -17,9 +18,10 @@ export const LinkWrapper: React.SFC<LinkWrapperProps> = (props) => {
     linkType,
     onClick,
     children,
+    expired,
   } = props;
 
-  if (!linkUrl) {
+  if (!linkUrl || expired) {
     return <>{children}</>;
   }
 
