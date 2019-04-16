@@ -105,7 +105,7 @@
 
 .MySelectHistoryBookList_Title {
   display: block;
-  margin: 6px 0;
+  margin: 6px 0 0;
   color: #000;
   font-size: 15px;
   font-weight: 700;
@@ -113,7 +113,26 @@
   word-wrap: break-word;
 
   @media (--pc-screen) {
-    margin: 8px 0;
+    margin: 8px 0 0;
   }
 }
 
+
+.MySelectHistoryBookList_BlockIcon {
+  margin-right: 4px;
+}
+
+
+.MySelectHistoryBookList_expired {
+  font-size: 12px;
+  letter-spacing: -0.3px;
+  color: #0077d9;
+}
+
+.MySelectHistoryBookList_Book.not_available::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0; top: 0;
+}

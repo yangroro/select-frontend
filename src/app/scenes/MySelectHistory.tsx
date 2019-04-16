@@ -30,6 +30,15 @@ interface State {
   };
 }
 
+const BlockIconComponent = (props: any) => (
+  <svg width={10} height={10} {...props}>
+    <g fill="none" fillRule="evenodd">
+      <circle cx={5} cy={5} r={4.444} stroke="#0077D9" strokeWidth={1.111} />
+      <path fill="#0077D9" d="M1.464 2.25l.786-.786L8.536 7.75l-.786.786z" />
+    </g>
+  </svg>
+);
+
 class MySelectHistory extends React.Component<Props, State> {
   public state: State = {
     inputs: {},
@@ -121,7 +130,7 @@ class MySelectHistory extends React.Component<Props, State> {
               checked={this.state.inputs[book.mySelectBookId] || false}
               onChange={this.handleIndividualCheckBoxClick(book)}
             />
-            <div className="MySelectHistoryBookList_Book">
+            <div className="MySelectHistoryBookList_Book not_available">
               <MediaQuery maxWidth={840}>
                 <DTOBookThumbnail
                   book={book}
@@ -130,6 +139,7 @@ class MySelectHistory extends React.Component<Props, State> {
                   linkType="Link"
                   imageClassName="MySelectHistoryBookList_Thumbnail"
                   linkWrapperClassName="MySelectHistoryBookList_Link"
+                  expired={true}
                 />
               </MediaQuery>
               <MediaQuery minWidth={841}>
@@ -140,6 +150,7 @@ class MySelectHistory extends React.Component<Props, State> {
                   linkType="Link"
                   imageClassName="MySelectHistoryBookList_Thumbnail"
                   linkWrapperClassName="MySelectHistoryBookList_Link"
+                  expired={true}
                 />
               </MediaQuery>
               <Link to={`/book/${book.id}`} className="MySelectHistoryBookList_Link">
@@ -148,6 +159,8 @@ class MySelectHistory extends React.Component<Props, State> {
                     {buildOnlyDateFormat(book.startDate)}
                   </span>
                   <h3 className="MySelectHistoryBookList_Title">{book.title.main}</h3>
+                  <BlockIconComponent className="MySelectHistoryBookList_BlockIcon" />
+                  <span className="MySelectHistoryBookList_expired">종료된 도서</span>
                 </div>
               </Link>
             </div>

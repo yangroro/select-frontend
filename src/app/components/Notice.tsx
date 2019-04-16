@@ -16,7 +16,7 @@ export const Notice: React.SFC<NoticeProps> = (props) => {
 
   return (
     <div className={'Notice'}>
-      <Icon name="info_2" />
+      <Icon name="exclamation_3" />
       <div className={'Notice_Main_Text'}>
       {mainText}
       { subText &&

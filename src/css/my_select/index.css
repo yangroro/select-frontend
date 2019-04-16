@@ -155,3 +155,9 @@
   word-wrap: break-word;
 
 }
+
+.MySelectBookList_expired {
+  font-size: 12px;
+  letter-spacing: -0.3px;
+  color: #0077d9;
+}
