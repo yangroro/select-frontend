@@ -16,8 +16,8 @@ build:prod: &build
   stage: build
   only:
     - master
-    - release/*
-    - hotfix/*
+    - /release\/.*/
+    - /hotfix\/.*/
   script:
     - yarn build
   artifacts:
@@ -77,8 +77,8 @@ develop:
 staging:
   <<: *deploy
   only:
-    - release/*
-    - hotfix/*
+    - /release\/.*/
+    - /hotfix\/.*/
   variables:
     <<: *deploy-variables
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
