@@ -4,12 +4,13 @@ import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { Button, CheckBox, Empty } from '@ridi/rsg';
+import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
 
 import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
+
 import { BookIdsPair } from 'app/services/mySelect/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
@@ -22,6 +23,7 @@ import * as classNames from 'classnames';
 interface StateProps {
   mySelectBooks: PaginatedMySelectBooks;
   deletionFetchStatus: FetchStatusFlag;
+  isReSubscribed?: boolean;
   page: number;
 }
 
@@ -223,8 +225,9 @@ class MySelect extends React.Component<Props, State> {
       </div>
     );
   }
+
   public render() {
-    const { mySelectBooks, page } = this.props;
+    const { mySelectBooks, page, isReSubscribed } = this.props;
 
     const itemCount: number = mySelectBooks.itemCount ? mySelectBooks.itemCount : 0;
     const itemCountPerPage: number = mySelectBooks.size;
@@ -244,7 +247,31 @@ class MySelect extends React.Component<Props, State> {
           ) : (
             <>
               { mySelectBooks.itemCount === 0 ? (
-                <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
+                !isReSubscribed ? (
+                  <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
+                ) : (
+                  /* 도서 이용 내역 확인하기 버튼 위치 */
+                  <>
+                    <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
+                    <Link to={`/my-select-history`} className="MySelectBookList_Link">
+                      <Button
+                        color="blue"
+                        outline={true}
+                        className="PageSearchResult_RidibooksResult"
+                        size="large"
+                        style={{
+                          marginTop: '10px',
+                        }}
+                      >
+                        도서 이용 내역 확인하기
+                        <Icon
+                          name="arrow_5_right"
+                          className="PageSearchResult_RidibooksResultIcon"
+                        />
+                      </Button>
+                    </Link>
+                  </>
+                )
               ) : (
                 <>
                   <PCPageHeader pageTitle="마이 셀렉트" />
@@ -306,6 +333,7 @@ const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
     mySelectBooks: state.mySelect.mySelectBooks,
     deletionFetchStatus: state.mySelect.deletionFetchStatus,
+    isReSubscribed: state.mySelect.isReSubscribed,
     page: getPageQuery(state),
   };
 };

@@ -1,0 +1,27 @@
+service:
+  name: select-metadata
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ap-northeast-2
+
+functions:
+  server:
+    handler: handler.server
+    events:
+      - http:
+          method: get
+          path: /
+      - http:
+          method: get
+          path: /{proxy+}
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  webpack:
+    includeModules: true
+    packager: yarn

@@ -22,6 +22,7 @@ export interface MySelectListResponse {
   userRidiSelectBooks: UserRidiSelectBookResponse[];
   totalCount: number;
   size: number;
+  reSubscribed: boolean;
 }
 
 export interface MySelectDeleteResponse {

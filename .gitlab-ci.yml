@@ -16,6 +16,8 @@ build:prod: &build
   stage: build
   only:
     - master
+    - /release\/.*/
+    - /hotfix\/.*/
   script:
     - yarn build
   artifacts:
@@ -74,6 +76,9 @@ develop:
 
 staging:
   <<: *deploy
+  only:
+    - /release\/.*/
+    - /hotfix\/.*/
   variables:
     <<: *deploy-variables
     AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
@@ -81,10 +86,19 @@ staging:
   script:
     - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "index.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
     - aws s3 cp ${S3_STAGING_FILE} ${S3_STAGING_FILE} ${S3_RELEASE_PARAMS}
-    - aws s3 cp dist/index.html ${S3_RELEASE_CANDIDATE_FILE}
   environment:
     name: staging
     url: https://select.ridibooks.com
+
+release-candidate:
+  <<: *deploy
+  variables:
+    <<: *deploy-variables
+    AWS_ACCESS_KEY_ID: ${PROD_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${PROD_AWS_SECRET_ACCESS_KEY}
+  script:
+    - aws s3 sync dist s3://${PROD_S3_BUCKET} --exclude "*.html" --exclude "*.map" ${S3_ASSETS_PARAMS}
+    - aws s3 cp dist/index.html ${S3_RELEASE_CANDIDATE_FILE}
 
 production:
   <<: *deploy
@@ -108,3 +122,18 @@ sourcemaps:
     - sentry-cli releases new ${CI_COMMIT_SHA}
     - sentry-cli releases files ${CI_COMMIT_SHA} upload-sourcemaps ${CI_PROJECT_DIR}/dist/*.map
     - sentry-cli releases finalize ${CI_COMMIT_SHA}
+
+serverless:
+  stage: deploy
+  when: manual
+  variables:
+    AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
+  cache: {}
+  before_script:
+    - cd serverless
+    - yarn install --frozen-lockfile
+  script:
+    - yarn serverless deploy --stage production -v
+  only:
+    - master

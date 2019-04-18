@@ -31,13 +31,18 @@
   }
 }
 
-.Pagination {
+.PaginationWrapper {
   height: var(--Paging-height);
   margin: 0;
-  padding: 20px 0 0;
+  padding: 20px 0 40px;
   line-height: var(--Paging-height);
   text-align: center;
   white-space: nowrap;
+  
+  @media (--pc-screen) {
+    padding-bottom: 0;
+  }
+
 }
 
 .Pagination_Button {

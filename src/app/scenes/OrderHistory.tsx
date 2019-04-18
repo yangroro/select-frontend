@@ -157,28 +157,31 @@ export class OrderHistory extends React.PureComponent<Props> {
         ) : (
           <>
           {this.renderItems(this.props.page)}
-          {itemCount > 0 && <MediaQuery maxWidth={840}>
-            {
-              (isMobile) => <Pagination
-                currentPage={page}
-                totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                isMobile={isMobile}
-                item={{
-                  el: Link,
-                  getProps: (p): LinkProps => ({
-                    to: `/order-history?page=${p}`,
-                  }),
-                }}
-              />
-            }
-          </MediaQuery>}
+          {itemCount > 0 &&
+            <>
+              <MediaQuery maxWidth={840}>
+                {
+                  (isMobile) => <Pagination
+                    currentPage={page}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    isMobile={isMobile}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: `/order-history?page=${p}`,
+                      }),
+                    }}
+                  />
+                }
+              </MediaQuery>
+              <ul className="NoticeList">
+                <li className="NoticeItem">결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는 경우에만 가능합니다.</li>
+                <li className="NoticeItem">결제 취소 시 리디셀렉트 구독이 자동으로 해지됩니다.</li>
+              </ul>
+            </>
+          }
           </>
         )}
-
-        <ul className="NoticeList">
-          <li className="NoticeItem">결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는 경우에만 가능합니다.</li>
-          <li className="NoticeItem">결제 취소 시 리디셀렉트 구독이 자동으로 해지됩니다.</li>
-        </ul>
       </main>
     );
   }

@@ -55,6 +55,7 @@ export interface MySelectState {
   additionFetchStatus: FetchStatusFlag;
   replacementFetchStatus: FetchStatusFlag;
   mySelectBooks: PaginatedMySelectBooks;
+  isReSubscribed: boolean;
 }
 
 export const INITIAL_MYSELECT_STATE: MySelectState = {
@@ -65,6 +66,7 @@ export const INITIAL_MYSELECT_STATE: MySelectState = {
     itemListByPage: {},
     size: 0,
   },
+  isReSubscribed: false,
 };
 
 export const userRidiSelectBookToMySelectBook = (userRidiSelectbook: UserRidiSelectBookResponse): MySelectBook => {
@@ -87,6 +89,7 @@ mySelectReducer.on(Actions.loadMySelectRequest, (state, { page }) => produce(sta
 }));
 
 mySelectReducer.on(Actions.loadMySelectSuccess, (state, { response, page }) => produce(state, (draftState) => {
+  draftState.isReSubscribed = response.reSubscribed;
   draftState.mySelectBooks.itemCount = response.totalCount;
   draftState.mySelectBooks.size = response.size;
   draftState.mySelectBooks.itemListByPage[page].fetchStatus = FetchStatusFlag.IDLE;
