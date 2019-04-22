@@ -12,7 +12,7 @@ const Vibrant = require('node-vibrant');
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
-import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { BookNotice, ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { Actions as BookActions } from 'app/services/book';
@@ -602,10 +602,18 @@ export class BookDetail extends React.Component<Props, State> {
                 </section>
             )}
             {!isMobile && introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
+            {/* TODO: 확인 */}
+            {/* {!isMobile &&
+              <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
+                <BookNotice mainText={"본 도서는 출판사와의 계약 만료로 <strong>2019년 3월 13일(목)</strong>까지 마이 셀렉트에 추가할 수 있습니다."} />
+              </section>
+            } */}
             {isMobile &&
               <section className="PageBookDetail_Panel">
                 {this.renderMeta()}
                 {this.renderNoticeList(noticeList)}
+                {/* TODO: 확인 */}
+                {/* <BookNotice mainText={"본 도서는 출판사와의 계약 만료로 <strong>2019년 3월 13일(목)</strong>까지 마이 셀렉트에 추가할 수 있습니다."} />             */}
                 {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
               </section>
             }

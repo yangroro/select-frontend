@@ -130,6 +130,37 @@ class MySelectHistory extends React.Component<Props, State> {
               checked={this.state.inputs[book.mySelectBookId] || false}
               onChange={this.handleIndividualCheckBoxClick(book)}
             />
+            <div className="MySelectHistoryBookList_Book">
+              <MediaQuery maxWidth={840}>
+                <DTOBookThumbnail
+                  book={book}
+                  width={50}
+                  linkUrl={`/book/${book.id}`}
+                  linkType="Link"
+                  imageClassName="MySelectHistoryBookList_Thumbnail"
+                  linkWrapperClassName="MySelectHistoryBookList_Link"
+                />
+              </MediaQuery>
+              <MediaQuery minWidth={841}>
+                <DTOBookThumbnail
+                  book={book}
+                  width={80}
+                  linkUrl={`/book/${book.id}`}
+                  linkType="Link"
+                  imageClassName="MySelectHistoryBookList_Thumbnail"
+                  linkWrapperClassName="MySelectHistoryBookList_Link"
+                />
+              </MediaQuery>
+              <Link to={`/book/${book.id}`} className="MySelectHistoryBookList_Link">
+                <div className="MySelectHistoryBookList_Meta">
+                  <span className="MySelectHistoryBookList_RegisteredDate">
+                    {buildOnlyDateFormat(book.startDate)}
+                  </span>
+                  <h3 className="MySelectHistoryBookList_Title">{book.title.main}</h3>
+                </div>
+              </Link>
+            </div>
+            {/* TODO: 확인 */}
             <div className="MySelectHistoryBookList_Book not_available">
               <MediaQuery maxWidth={840}>
                 <DTOBookThumbnail
