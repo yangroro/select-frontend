@@ -134,7 +134,6 @@ export class Category extends React.Component<Props, State> {
     const {
       books,
       category,
-      isIosInApp,
       categoryId,
       isCategoryListFetched,
       page,
@@ -156,8 +155,7 @@ export class Category extends React.Component<Props, State> {
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>
         <MediaQuery maxWidth={840}>
-          {(isMobile) => (isMobile || isIosInApp)
-            && (
+          {(isMobile) => isMobile && (
             <div className="Category_Header GridBookList">
               {selectBoxTemplate}
             </div>
