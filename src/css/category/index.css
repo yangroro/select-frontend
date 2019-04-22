@@ -13,11 +13,5 @@
     top: 50%;
     left: 91px;
     margin-top: -17px;
-    @nest .iosApp & {
-      position: relative;
-      top: auto;
-      left: auto;
-      margin-top: 0;
-    }
   }
 }
