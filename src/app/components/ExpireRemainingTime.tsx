@@ -1,0 +1,18 @@
+import { getExpiredDate } from 'app/utils/expiredDate';
+import * as React from 'react';
+
+interface ExpireRemaningTimeProps {
+  expireDate: string;
+}
+
+export const ExpireRemaningTime: React.SFC<ExpireRemaningTimeProps> = (props: ExpireRemaningTimeProps) => (
+  <div className="ExpireRemaningTime">
+    <svg className="MySelectBookList_BlockIcon" width={10} height={10}>
+      <g fill="none" fillRule="evenodd">
+        <circle cx={5} cy={5} r={4.444} stroke="#0077D9" strokeWidth={1.111} />
+        <path fill="#0077D9" d="M1.464 2.25l.786-.786L8.536 7.75l-.786.786z" />
+      </g>
+    </svg>
+    <span className="MySelectBookList_expired">{getExpiredDate(props.expireDate)}</span>
+  </div>
+);

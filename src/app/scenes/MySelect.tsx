@@ -208,9 +208,6 @@ class MySelect extends React.Component<Props, State> {
                     <div className="MySelectBookList_Meta">
                       <h2 className="MySelectBookList_Title">{book.title.main}</h2>
                       <span className="MySelectBookList_Authors">{stringifyAuthors(book.authors, 2)}</span>
-                      {/* TODO: 확인 */}
-                      {/* <BlockIconComponent className="MySelectBookList_BlockIcon" />
-                      <span className="MySelectBookList_expired">9일 23시간 남음</span> */}
                     </div>
                   </Link>
                   <Button
