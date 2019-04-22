@@ -9,6 +9,7 @@ import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } fr
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
+import { ExpireRemaningTime } from 'app/components/ExpireRemainingTime';
 import { MySelectBook } from 'app/services/mySelect';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, MySelectHistroyState } from 'app/services/user';
@@ -29,15 +30,6 @@ interface State {
     [mySelectBookId: number]: boolean;
   };
 }
-
-const BlockIconComponent = (props: any) => (
-  <svg width={10} height={10} {...props}>
-    <g fill="none" fillRule="evenodd">
-      <circle cx={5} cy={5} r={4.444} stroke="#0077D9" strokeWidth={1.111} />
-      <path fill="#0077D9" d="M1.464 2.25l.786-.786L8.536 7.75l-.786.786z" />
-    </g>
-  </svg>
-);
 
 class MySelectHistory extends React.Component<Props, State> {
   public state: State = {
@@ -130,26 +122,25 @@ class MySelectHistory extends React.Component<Props, State> {
               checked={this.state.inputs[book.mySelectBookId] || false}
               onChange={this.handleIndividualCheckBoxClick(book)}
             />
-            <div className="MySelectHistoryBookList_Book">
+            <div
+              className={classNames(
+                'MySelectHistoryBookList_Book',
+                // TODO: expired 여부에 따라 노출
+                'not_available',
+              )}
+            >
               <MediaQuery maxWidth={840}>
-                <DTOBookThumbnail
-                  book={book}
-                  width={50}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectHistoryBookList_Thumbnail"
-                  linkWrapperClassName="MySelectHistoryBookList_Link"
-                />
-              </MediaQuery>
-              <MediaQuery minWidth={841}>
-                <DTOBookThumbnail
-                  book={book}
-                  width={80}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectHistoryBookList_Thumbnail"
-                  linkWrapperClassName="MySelectHistoryBookList_Link"
-                />
+                {(isMobile) => (
+                  <DTOBookThumbnail
+                    book={book}
+                    width={isMobile ? 50 : 80}
+                    linkUrl={`/book/${book.id}`}
+                    linkType="Link"
+                    imageClassName="MySelectHistoryBookList_Thumbnail"
+                    linkWrapperClassName="MySelectHistoryBookList_Link"
+                    expired={false}
+                  />
+                )}
               </MediaQuery>
               <Link to={`/book/${book.id}`} className="MySelectHistoryBookList_Link">
                 <div className="MySelectHistoryBookList_Meta">
@@ -157,41 +148,10 @@ class MySelectHistory extends React.Component<Props, State> {
                     {buildOnlyDateFormat(book.startDate)}
                   </span>
                   <h3 className="MySelectHistoryBookList_Title">{book.title.main}</h3>
-                </div>
-              </Link>
-            </div>
-            {/* TODO: 확인 */}
-            <div className="MySelectHistoryBookList_Book not_available">
-              <MediaQuery maxWidth={840}>
-                <DTOBookThumbnail
-                  book={book}
-                  width={50}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectHistoryBookList_Thumbnail"
-                  linkWrapperClassName="MySelectHistoryBookList_Link"
-                  expired={true}
-                />
-              </MediaQuery>
-              <MediaQuery minWidth={841}>
-                <DTOBookThumbnail
-                  book={book}
-                  width={80}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectHistoryBookList_Thumbnail"
-                  linkWrapperClassName="MySelectHistoryBookList_Link"
-                  expired={true}
-                />
-              </MediaQuery>
-              <Link to={`/book/${book.id}`} className="MySelectHistoryBookList_Link">
-                <div className="MySelectHistoryBookList_Meta">
-                  <span className="MySelectHistoryBookList_RegisteredDate">
-                    {buildOnlyDateFormat(book.startDate)}
-                  </span>
-                  <h3 className="MySelectHistoryBookList_Title">{book.title.main}</h3>
-                  <BlockIconComponent className="MySelectHistoryBookList_BlockIcon" />
-                  <span className="MySelectHistoryBookList_expired">종료된 도서</span>
+                  // TODO: expired 여부에 따라 노출
+                  <ExpireRemaningTime
+                    expireDate=""
+                  />
                 </div>
               </Link>
             </div>
