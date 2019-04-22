@@ -31,6 +31,14 @@ interface SettingStateProps {
 
 type SettingProps = SettingStateProps & ReturnType<typeof mapDispatchToProps>;
 
+const CardIconComponent = (props: {className: string; }) => (
+  <svg width={48} height={34} {...props}>
+    <title>{'icon_card'}</title>
+    {/* tslint:disable-next-line:max-line-length */}
+    <path d="M4 15h4v-3H4v3zM2 8V6c0-.565.403-1 1-1h18c.597 0 1 .435 1 1v2H2zm20 9.898c0 .588-.519 1.102-1.111 1.102H3.11C2.52 19 2 18.486 2 17.898V10h20v7.898zM3 3C1.376 3 0 4.35 0 6v12c0 1.65 1.376 3 3 3h18c1.624 0 3-1.35 3-3V6c0-1.65-1.376-3-3-3H3z" fillRule="evenodd" />
+  </svg>
+);
+
 export class Settings extends React.PureComponent<SettingProps> {
 
   private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
@@ -155,6 +163,13 @@ export class Settings extends React.PureComponent<SettingProps> {
                 <path d={svgPath}/>
               </svg>
               <h2 className="reset-heading">결제 내역</h2>
+            </Link>
+          </li>
+          <li className="SettingMenu_Item">
+            <Link className="SettingMenu_Link" to="/order-history">
+              {/* TODO: RIDI UI의 Coin_Bold Icon: 버젼 올리고 대응 필요. - svg 이슈로 업데이트 됨 */}
+              <CardIconComponent className="SettingMenu_Icon SettingMenu_Card_Icon" />
+              <h2 className="reset-heading">셀렉트 카드 관리</h2>
             </Link>
           </li>
         </ul>
