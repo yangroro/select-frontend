@@ -121,7 +121,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                           )}
                           {subscriptionState.isUsingRidipay && !isIosInApp ? (
                             <a className="SubscriptionInfo_Link" href={`${BASE_URL_RIDI_PAY_API}/settings`}>
-                              카드 관리
+                              결제 수단 변경
                               <Icon
                                 name="arrow_5_right"
                                 className="SubscriptionInfo_Link_Icon"

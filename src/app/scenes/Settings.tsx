@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { HelmetWithTitle } from 'app/components';
+import env from 'app/config/env';
 import { PageTitleText } from 'app/constants';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
@@ -166,11 +167,11 @@ export class Settings extends React.PureComponent<SettingProps> {
             </Link>
           </li>
           <li className="SettingMenu_Item">
-            <Link className="SettingMenu_Link" to="/order-history">
+            <a className="SettingMenu_Link" href={`${env.PAY_URL}`}>
               {/* TODO: RIDI UI의 Coin_Bold Icon: 버젼 올리고 대응 필요. - svg 이슈로 업데이트 됨 */}
               <CardIconComponent className="SettingMenu_Icon SettingMenu_Card_Icon" />
               <h2 className="reset-heading">셀렉트 카드 관리</h2>
-            </Link>
+            </a>
           </li>
         </ul>
         {isIosInApp ? (
