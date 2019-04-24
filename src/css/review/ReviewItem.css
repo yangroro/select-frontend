@@ -160,6 +160,10 @@
   padding-left: 5px;
   height: 11px;
 
+  @media (--pc-screen) {
+    height: auto;
+  }
+
   &::before {
     display: block;
     position: absolute;
