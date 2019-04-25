@@ -1,7 +1,7 @@
 import { mapValues } from 'lodash-es';
 
 import history from 'app/config/history';
-import { FetchErrorFlag } from 'app/constants';
+import { FetchErrorFlag, RoutePaths } from 'app/constants';
 import { Actions } from 'app/services/book';
 import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
@@ -83,7 +83,9 @@ export function* watchLoadBookDetail() {
         history.replace(`/book/${response.id}`);
       }
     } catch (e) {
-      if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
+      if (e.response.status === 403 && e.response.code === 'BOOK_NOT_AVAILABLE') {
+        history.replace(RoutePaths.NOT_AVAILABLE_BOOK);
+      } else if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
         toast.failureMessage('도서가 존재하지 않습니다.');
         history.replace('/home');
       } else {
