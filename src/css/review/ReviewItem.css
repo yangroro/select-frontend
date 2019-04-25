@@ -158,10 +158,9 @@
   position: relative;
   margin-left: 6px;
   padding-left: 5px;
-  height: 11px;
 
-  @media (--pc-screen) {
-    height: auto;
+  @media (--mobile-screen) {
+    height: 11px;
   }
 
   &::before {
