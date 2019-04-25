@@ -83,7 +83,7 @@ export function* watchLoadBookDetail() {
         history.replace(`/book/${response.id}`);
       }
     } catch (e) {
-      if (e.response.status === 403 && e.response.code === 'BOOK_NOT_AVAILABLE') {
+      if (e.response.status === 403 && e.response.data.code === 'BOOK_NOT_AVAILABLE') {
         history.replace(RoutePaths.NOT_AVAILABLE_BOOK);
       } else if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
         toast.failureMessage('도서가 존재하지 않습니다.');
