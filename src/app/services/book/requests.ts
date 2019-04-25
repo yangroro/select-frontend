@@ -63,6 +63,8 @@ export interface BookDetailResponseV2 {
   previewAvailable: boolean;
   hasPreview: boolean;
   previewBId: BookId;
+  beginDatetime: DateDTO;
+  endDatetime: DateDTO;
 }
 
 export interface BookDetailResponseV1 extends Omit<BookDetailResponseV2, 'introduction'> {
