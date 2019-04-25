@@ -1,4 +1,4 @@
-import { getExpiredDate } from 'app/utils/expiredDate';
+import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
 import * as React from 'react';
 
 interface ExpireRemaningTimeProps {
@@ -18,6 +18,6 @@ export const ExpireRemaningTime: React.SFC<ExpireRemaningTimeProps> = (props: Ex
   <div className="ExpireRemaningTime">
     <ExpireIconComponent className="MySelectBookList_BlockIcon" />
     {/* TODO: 만료된 도서면 "종료된 도서" 표기하도록 수정. */}
-    <span className="MySelectBookList_expired">{getExpiredDate(props.expireDate)}</span>
+    <span className="MySelectBookList_expired">{getNotAvailableConvertDate(props.expireDate)}</span>
   </div>
 );

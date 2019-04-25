@@ -1,9 +1,9 @@
 import { differenceInDays, differenceInMinutes, parse } from 'date-fns';
 
-export function getExpiredDate(BookExpiredDate: string, NextBillDate?: string) {
+export function getNotAvailableConvertDate(BookEndDate: string, NextBillDate?: string) {
   const currentDate = new Date();
-  const bookEndDate = parse(BookExpiredDate);
-  let differenceMinutes: number = differenceInMinutes(BookExpiredDate, currentDate);
+  const bookEndDate = parse(BookEndDate);
+  let differenceMinutes: number = differenceInMinutes(BookEndDate, currentDate);
 
   if (NextBillDate) {
     const endDate: Date = parse(NextBillDate);
@@ -23,4 +23,14 @@ export function getExpiredDate(BookExpiredDate: string, NextBillDate?: string) {
   const expiredDate = `${expiredDays}일 ${expiredHours}시간 ${expiredMinutes}분 남음`;
 
   return expiredDate;
+}
+
+export function isInNotAvailableConvertList(BookEndDate: string) {
+  const currentDateObj = new Date();
+  const currentMonth = currentDateObj.getMonth() + 1;
+
+  const BookEndDateObj = new Date(BookEndDate);
+  const BookEndMonth = BookEndDateObj.getMonth() + 1;
+
+  return (BookEndMonth - currentMonth >= 0) && (BookEndMonth - currentMonth <= 1);
 }
