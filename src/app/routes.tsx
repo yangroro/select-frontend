@@ -27,8 +27,8 @@ import {
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
-  ExpiredBook,
   InAppIntro,
+  NotAvailableBook,
 } from 'app/scenes';
 
 import { RoutePaths } from 'app/constants';
@@ -150,8 +150,8 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
               {...props}
             />
             <PrivateRoute
-              path={RoutePaths.EXPIRED}
-              component={ExpiredBook}
+              path={RoutePaths.NOT_AVAILABLE_BOOK}
+              component={NotAvailableBook}
               {...props}
             />
             <ConnectedPublicRoute
