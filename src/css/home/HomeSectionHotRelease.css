@@ -109,12 +109,14 @@
 .HomeSection_HotRelease_Title {
   padding-top: 45px;
   font-size: 24px;
-  letter-spacing: -0.3px;
+  line-height: 21px;
+  letter-spacing: -.3px;
   color: #fff;
   @media (--hotRelease-inline-view) {
     padding-top: 30px;
     font-size: 16px;
     font-weight: 700;
+    line-height: 17px;
     text-align: left;
   }
 }
@@ -123,6 +125,7 @@
   height: 22px;
   margin-left: 10px;
   vertical-align: top;
+  fill: #7580FF;
   @media (--hotRelease-inline-view) {
     width: 33px;
     height: 18px;
