@@ -38,7 +38,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
     lazyload = true,
     hasOverflowWrapper = false,
     placeholder,
-    expired = true,
+    expired = false,
   } = props;
 
   return (
