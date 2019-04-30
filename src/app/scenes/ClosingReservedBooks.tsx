@@ -6,30 +6,74 @@ import { Tab, Tabs } from '@ridi/rsg';
 
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { PageTitleText } from 'app/constants';
-import { ClosingReservedBooksTermState } from 'app/services/closingReservedBooks';
+import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
+import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
 
 interface State {
   isInitialized: boolean;
+  currentRenderedTerm: closingReservedTermType;
 }
 
 interface ClosingReservedBooksStateProps {
-  closingReservedBooks: ClosingReservedBooksTermState;
+  closingReservedBooks: ClosingReservedBooksState;
+  page: number;
+}
+interface ClosingReservedBookDispatchProps {
+  dispatchLoadClosingReservedBooks: (termType: closingReservedTermType, page: number) => ReturnType<typeof Actions.loadClosingReservedBooksRequest>;
 }
 
 type OwnProps = RouteComponentProps<{}>;
-type Props = ClosingReservedBooksStateProps & OwnProps;
+type Props = ClosingReservedBooksStateProps & ClosingReservedBookDispatchProps & OwnProps;
 
 export class ClosingReservedBooks extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
   public state: State = {
     isInitialized: false,
+    currentRenderedTerm: 'thisMonth',
   };
 
-  private isFetched = (page: number) => {
+  private isFetched = (renderedTerm: closingReservedTermType, page: number) => {
     const { closingReservedBooks } = this.props;
+
+    const currentTermsBooks = closingReservedBooks[renderedTerm];
+    return (currentTermsBooks && currentTermsBooks.itemListByPage[page] && currentTermsBooks.itemListByPage[page].isFetched);
+  }
+
+  public componentDidMount() {
+    this.initialDispatchTimeout = window.setTimeout(() => {
+      const { dispatchLoadClosingReservedBooks, page } = this.props;
+      const { currentRenderedTerm } = this.state;
+      if (!this.isFetched(currentRenderedTerm, page)) {
+        dispatchLoadClosingReservedBooks(currentRenderedTerm, page);
+      }
+
+      this.initialDispatchTimeout = null;
+      this.setState({ isInitialized: true });
+    });
+  }
+
+  public shouldComponentUpdate(nextProps: Props, nextState: State) {
+    if (nextProps.page !== this.props.page || nextState.currentRenderedTerm !== this.state.currentRenderedTerm) {
+      const { dispatchLoadClosingReservedBooks, page } = nextProps;
+      const { currentRenderedTerm } = nextState;
+
+      if (!this.isFetched(currentRenderedTerm, page)) {
+        dispatchLoadClosingReservedBooks(currentRenderedTerm, page);
+      }
+    }
+
+    return true;
+  }
+
+  public componentWillUnmount() {
+    if (this.initialDispatchTimeout) {
+      window.clearTimeout(this.initialDispatchTimeout);
+      this.initialDispatchTimeout = null;
+      this.setState({ isInitialized: true });
+    }
   }
 
   public renderTermText(term: closingReservedTermType) {
@@ -47,8 +91,18 @@ export class ClosingReservedBooks extends React.Component<Props> {
         <HelmetWithTitle titleName={PageTitleText.CLOSING_RESERVED_BOOKS} />
         <ConnectedPageHeader pageTitle={PageTitleText.CLOSING_RESERVED_BOOKS} />
         <Tabs className="ClosingReservedBooks_Tabs">
-          <Tab className="ClosingReservedBooks_Tab">{this.renderTermText('thisMonth')}</Tab>
-          <Tab className="ClosingReservedBooks_Tab">{this.renderTermText('nextMonth')}</Tab>
+          <Tab
+            className="ClosingReservedBooks_Tab"
+            onClick={() => this.setState({ currentRenderedTerm: 'thisMonth' })}
+          >
+            {this.renderTermText('thisMonth')}
+          </Tab>
+          <Tab
+            className="ClosingReservedBooks_Tab"
+            onClick={() => this.setState({ currentRenderedTerm: 'nextMonth' })}
+          >
+            {this.renderTermText('nextMonth')}
+          </Tab>
         </Tabs>
       </main>
     );
@@ -57,12 +111,15 @@ export class ClosingReservedBooks extends React.Component<Props> {
 
 const mapStateToProps = (rootState: RidiSelectState): ClosingReservedBooksStateProps => {
   return {
-    closingReservedBooks: rootState.closingReservedBooks.thisMonth,
+    closingReservedBooks: rootState.closingReservedBooks,
+    page: getPageQuery(rootState),
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
-
+  return {
+    dispatchLoadClosingReservedBooks: (termType: closingReservedTermType, page: number) => dispatch(Actions.loadClosingReservedBooksRequest({ termType, page })),
+  };
 };
 
 export const ConnectedClosingReservedBooks = withRouter(
