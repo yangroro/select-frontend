@@ -15,6 +15,7 @@ import {
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
+  ConnectedClosingReservedBooks,
   ConnectedCollection,
   ConnectedErrorPage,
   ConnectedGuide,
@@ -162,6 +163,11 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
             <ConnectedPublicRoute
               path={RoutePaths.AVAILABLE_BOOKS}
               component={ConnectedAvailableBooks}
+              {...props}
+            />
+            <PrivateRoute
+              path={RoutePaths.CLOSING_RESERVED_BOOKS}
+              component={ConnectedClosingReservedBooks}
               {...props}
             />
             <NonSubscriberOnlyRoute
