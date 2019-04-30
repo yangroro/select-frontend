@@ -1,9 +1,10 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
 import { RGB } from 'app/services/commonUI';
 import { BookId } from 'app/types';
+import { AxiosError } from 'axios';
 
 export * from './utils';
 

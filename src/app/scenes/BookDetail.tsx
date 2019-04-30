@@ -12,7 +12,8 @@ const Vibrant = require('node-vibrant');
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
-import { BookNotice, ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { Notice } from 'app/components/Notice';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import {
@@ -492,7 +493,7 @@ export class BookDetail extends React.Component<Props, State> {
   private renderBookWillBeNotAvailableNotice() {
     const { bookEndDateTime } = this.props;
     return isInNotAvailableConvertList(bookEndDateTime) && (
-      <BookNotice mainText={`본 도서는 출판사와의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`} />
+      <Notice mainText={`본 도서는 출판사와의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`} />
     );
   }
 

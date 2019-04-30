@@ -25,6 +25,7 @@ export enum PageTitleText {
   ORDER_HISTORY = '결제 내역',
   SETTING = '셀렉트 관리',
   NOT_AVAILABLE_BOOK = '',
+  CLOSING_RESERVED_BOOKS = '종료 예정 도서',
 }
 
 export enum RoutePaths {
@@ -44,4 +45,5 @@ export enum RoutePaths {
   AVAILABLE_BOOKS = '/books',
   INTRO = '/',
   NOT_AVAILABLE_BOOK = '/not-available-book',
+  CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
 }
