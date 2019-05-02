@@ -45,5 +45,5 @@ export enum RoutePaths {
   AVAILABLE_BOOKS = '/books',
   INTRO = '/',
   NOT_AVAILABLE_BOOK = '/not-available-book',
-  CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
+  CLOSING_RESERVED_BOOKS = '/closing-reserved-book/:termType',
 }
