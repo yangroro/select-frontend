@@ -4,14 +4,15 @@ import { Dispatch } from 'redux';
 
 import { Button, Empty, Tab, Tabs } from '@ridi/rsg';
 
-import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
+import { ConnectedGridBookList, ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
 import { PageTitleText, RoutePaths } from 'app/constants';
-import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import { GridBookListSkeleton, LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Book } from 'app/services/book';
 import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
-import { getPageQuery } from 'app/services/routing/selectors';
+import { getClosingReservedBooksTermQuery, getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
+import { closingReservedBooksToPath } from 'app/utils/toPath';
 import { stringifyAuthors } from 'app/utils/utils';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
@@ -19,11 +20,11 @@ import { Link, LinkProps } from 'react-router-dom';
 
 interface State {
   isInitialized: boolean;
-  currentRenderedTerm: closingReservedTermType;
 }
 
 interface ClosingReservedBooksStateProps {
   closingReservedBooks: ClosingReservedBooksState;
+  currentTerm: closingReservedTermType;
   page: number;
 }
 interface ClosingReservedBookDispatchProps {
@@ -37,7 +38,6 @@ export class ClosingReservedBooks extends React.Component<Props> {
   private initialDispatchTimeout?: number | null;
   public state: State = {
     isInitialized: false,
-    currentRenderedTerm: 'thisMonth',
   };
 
   private isFetched = (renderedTerm: closingReservedTermType, page: number) => {
@@ -49,10 +49,9 @@ export class ClosingReservedBooks extends React.Component<Props> {
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      const { dispatchLoadClosingReservedBooks, page } = this.props;
-      const { currentRenderedTerm } = this.state;
-      if (!this.isFetched(currentRenderedTerm, page)) {
-        dispatchLoadClosingReservedBooks(currentRenderedTerm, page);
+      const { dispatchLoadClosingReservedBooks, page, currentTerm } = this.props;
+      if (!this.isFetched(currentTerm, page)) {
+        dispatchLoadClosingReservedBooks(currentTerm, page);
       }
 
       this.initialDispatchTimeout = null;
@@ -60,13 +59,12 @@ export class ClosingReservedBooks extends React.Component<Props> {
     });
   }
 
-  public shouldComponentUpdate(nextProps: Props, nextState: State) {
-    if (nextProps.page !== this.props.page || nextState.currentRenderedTerm !== this.state.currentRenderedTerm) {
-      const { dispatchLoadClosingReservedBooks, page } = nextProps;
-      const { currentRenderedTerm } = nextState;
+  public shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.page !== this.props.page || nextProps.currentTerm !== this.props.currentTerm) {
+      const { dispatchLoadClosingReservedBooks, page, currentTerm } = nextProps;
 
-      if (!this.isFetched(currentRenderedTerm, page)) {
-        dispatchLoadClosingReservedBooks(currentRenderedTerm, page);
+      if (!this.isFetched(currentTerm, page)) {
+        dispatchLoadClosingReservedBooks(currentTerm, page);
       }
     }
 
@@ -90,62 +88,35 @@ export class ClosingReservedBooks extends React.Component<Props> {
     }월`;
   }
 
-  public renderBooks(books: Book[]) {
-    return (
-      <div>
-        <ul className="MySelectBookList">
-          {books.map((book) => (
-            <li className="MySelectBookList_Item" key={book.id}>
-              <div className="MySelectBookList_Book">
-                <DTOBookThumbnail
-                  book={book}
-                  width={100}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectBookList_Thumbnail"
-                  linkWrapperClassName="MySelectBookList_Link"
-                />
-                <div className="MySelectBookList_Right">
-                  <Link to={`/book/${book.id}`} className="MySelectBookList_Link">
-                    <div className="MySelectBookList_Meta">
-                      <h2 className="MySelectBookList_Title">{book.title.main}</h2>
-                      <span className="MySelectBookList_Authors">{stringifyAuthors(book.authors, 2)}</span>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
   public render() {
-    const { page, closingReservedBooks } = this.props;
-    const { currentRenderedTerm, isInitialized } = this.state;
-    const { itemCount, itemListByPage } = closingReservedBooks[currentRenderedTerm];
+    const { page, closingReservedBooks, currentTerm } = this.props;
+    const { isInitialized } = this.state;
+    const { itemCount, itemListByPage } = closingReservedBooks[currentTerm];
     const itemCountPerPage: number = 24;
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CLOSING_RESERVED_BOOKS} />
         <ConnectedPageHeader pageTitle={PageTitleText.CLOSING_RESERVED_BOOKS} />
-        <Tabs className="ClosingReservedBooks_Tabs">
-          <Tab
-            className="ClosingReservedBooks_Tab"
-            onClick={() => this.setState({ currentRenderedTerm: 'thisMonth' })}
-          >
-            {this.renderTermText('thisMonth')}
-          </Tab>
-          <Tab
-            className="ClosingReservedBooks_Tab"
-            onClick={() => this.setState({ currentRenderedTerm: 'nextMonth' })}
-          >
+        <Tabs flex={true} className="ClosingReservedBooks_Tabs">
+          <li className="RUITab ClosingReservedBooks_Tab">
+            <Link
+              className="RUITab_Button"
+              to={`${closingReservedBooksToPath({ termType: 'thisMonth' })}`}
+            >
+              {this.renderTermText('thisMonth')}
+            </Link>
+          </li>
+          <li className="RUITab ClosingReservedBooks_Tab">
+            <Link
+              className="RUITab_Button"
+              to={`${closingReservedBooksToPath({ termType: 'nextMonth' })}`}
+            >
             {this.renderTermText('nextMonth')}
-          </Tab>
+            </Link>
+          </li>
         </Tabs>
-        {!isInitialized || !this.isFetched(currentRenderedTerm, page) || isNaN(page) ? (
-          <LandscapeBookListSkeleton hasCheckbox={false} />
+        {!isInitialized || !this.isFetched(currentTerm, page) || isNaN(page) ? (
+          <GridBookListSkeleton />
         ) : (
           <>
             {
@@ -153,7 +124,9 @@ export class ClosingReservedBooks extends React.Component<Props> {
                 <Empty description="종교 예정 도서가 없습니다." iconName="book_1" />
               ) : (
                 <>
-                  {this.renderBooks(itemListByPage[page].itemList)}
+                  <ConnectedGridBookList
+                    books={itemListByPage[page].itemList}
+                  />
                   <MediaQuery maxWidth={840}>
                     {
                       (isMobile) => <Pagination
@@ -163,7 +136,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
                         item={{
                           el: Link,
                           getProps: (p): LinkProps => ({
-                            to: `${RoutePaths.CLOSING_RESERVED_BOOKS}?page=${p}`,
+                            to: `${closingReservedBooksToPath({ termType: currentTerm })}?page=${p}`,
                           }),
                         }}
                       />
@@ -182,6 +155,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
 const mapStateToProps = (rootState: RidiSelectState): ClosingReservedBooksStateProps => {
   return {
     closingReservedBooks: rootState.closingReservedBooks,
+    currentTerm: getClosingReservedBooksTermQuery(rootState),
     page: getPageQuery(rootState),
   };
 };
