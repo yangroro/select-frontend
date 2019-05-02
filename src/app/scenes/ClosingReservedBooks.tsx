@@ -2,15 +2,20 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Tab, Tabs } from '@ridi/rsg';
+import { Button, Empty, Tab, Tabs } from '@ridi/rsg';
 
-import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
-import { PageTitleText } from 'app/constants';
+import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
+import { PageTitleText, RoutePaths } from 'app/constants';
+import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import { Book } from 'app/services/book';
 import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
+import { stringifyAuthors } from 'app/utils/utils';
+import MediaQuery from 'react-responsive';
 import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
+import { Link, LinkProps } from 'react-router-dom';
 
 interface State {
   isInitialized: boolean;
@@ -85,7 +90,42 @@ export class ClosingReservedBooks extends React.Component<Props> {
     }월`;
   }
 
+  public renderBooks(books: Book[]) {
+    return (
+      <div>
+        <ul className="MySelectBookList">
+          {books.map((book) => (
+            <li className="MySelectBookList_Item" key={book.id}>
+              <div className="MySelectBookList_Book">
+                <DTOBookThumbnail
+                  book={book}
+                  width={100}
+                  linkUrl={`/book/${book.id}`}
+                  linkType="Link"
+                  imageClassName="MySelectBookList_Thumbnail"
+                  linkWrapperClassName="MySelectBookList_Link"
+                />
+                <div className="MySelectBookList_Right">
+                  <Link to={`/book/${book.id}`} className="MySelectBookList_Link">
+                    <div className="MySelectBookList_Meta">
+                      <h2 className="MySelectBookList_Title">{book.title.main}</h2>
+                      <span className="MySelectBookList_Authors">{stringifyAuthors(book.authors, 2)}</span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
   public render() {
+    const { page, closingReservedBooks } = this.props;
+    const { currentRenderedTerm, isInitialized } = this.state;
+    const { itemCount, itemListByPage } = closingReservedBooks[currentRenderedTerm];
+    const itemCountPerPage: number = 24;
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CLOSING_RESERVED_BOOKS} />
@@ -104,6 +144,36 @@ export class ClosingReservedBooks extends React.Component<Props> {
             {this.renderTermText('nextMonth')}
           </Tab>
         </Tabs>
+        {!isInitialized || !this.isFetched(currentRenderedTerm, page) || isNaN(page) ? (
+          <LandscapeBookListSkeleton hasCheckbox={false} />
+        ) : (
+          <>
+            {
+              !itemCount || itemCount === 0 ? (
+                <Empty description="종교 예정 도서가 없습니다." iconName="book_1" />
+              ) : (
+                <>
+                  {this.renderBooks(itemListByPage[page].itemList)}
+                  <MediaQuery maxWidth={840}>
+                    {
+                      (isMobile) => <Pagination
+                        currentPage={page}
+                        totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                        isMobile={isMobile}
+                        item={{
+                          el: Link,
+                          getProps: (p): LinkProps => ({
+                            to: `${RoutePaths.CLOSING_RESERVED_BOOKS}?page=${p}`,
+                          }),
+                        }}
+                      />
+                    }
+                  </MediaQuery>
+                </>
+              )
+            }
+          </>
+        )}
       </main>
     );
   }
