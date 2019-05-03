@@ -491,9 +491,12 @@ export class BookDetail extends React.Component<Props, State> {
   }
 
   private renderBookWillBeNotAvailableNotice() {
-    const { bookEndDateTime } = this.props;
+    const { bookEndDateTime, isIosInApp } = this.props;
     return isInNotAvailableConvertList(bookEndDateTime) && (
-      <Notice mainText={`본 도서는 출판사와의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`} />
+      <Notice
+        mainText={`이 책은 출판사 또는 저작권자의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`}
+        detailLink={!isIosInApp ? 'select.ridi.io' : undefined}
+      />
     );
   }
 
