@@ -67,9 +67,6 @@ develop:
   script:
     - aws s3 sync dist s3://${DEV_S3_BUCKET} --exclude "staging.html" ${S3_ASSETS_PARAMS}
     - aws s3 cp s3://${DEV_S3_BUCKET}/index.html s3://${DEV_S3_BUCKET}/index.html ${S3_RELEASE_PARAMS}
-  after_script:
-    - export INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths '/*' | jq .Invalidation.Id`
-    - aws cloudfront wait invalidation-completed --distribution-id ${DEV_DISTRIBUTION_ID} --id ${INVALIDATION_ID}
   environment:
     name: develop
     url: https://select.ridi.io
