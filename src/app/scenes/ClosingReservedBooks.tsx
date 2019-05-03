@@ -2,20 +2,19 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Button, Empty, Tab, Tabs } from '@ridi/rsg';
+import { Empty } from '@ridi/rsg';
 
-import { ConnectedGridBookList, ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
-import { PageTitleText, RoutePaths } from 'app/constants';
-import { GridBookListSkeleton, LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { Book } from 'app/services/book';
+import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
+import { Tab, Tabs } from 'app/components/Tabs';
+import { PageTitleText } from 'app/constants';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
 import { getClosingReservedBooksTermQuery, getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { closingReservedBooksToPath } from 'app/utils/toPath';
-import { stringifyAuthors } from 'app/utils/utils';
 import MediaQuery from 'react-responsive';
-import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 
 interface State {
@@ -98,22 +97,22 @@ export class ClosingReservedBooks extends React.Component<Props> {
         <HelmetWithTitle titleName={PageTitleText.CLOSING_RESERVED_BOOKS} />
         <ConnectedPageHeader pageTitle={PageTitleText.CLOSING_RESERVED_BOOKS} />
         <Tabs flex={true} className="ClosingReservedBooks_Tabs">
-          <li className="RUITab ClosingReservedBooks_Tab">
-            <Link
-              className="RUITab_Button"
-              to={`${closingReservedBooksToPath({ termType: 'thisMonth' })}`}
-            >
-              {this.renderTermText('thisMonth')}
-            </Link>
-          </li>
-          <li className="RUITab ClosingReservedBooks_Tab">
-            <Link
-              className="RUITab_Button"
-              to={`${closingReservedBooksToPath({ termType: 'nextMonth' })}`}
-            >
+          <Tab
+            className="ClosingReservedBooks_Tab"
+            to={`${closingReservedBooksToPath({ termType: 'thisMonth' })}`}
+            active={currentTerm === 'thisMonth'}
+            component={Link}
+          >
+            {this.renderTermText('thisMonth')}
+          </Tab>
+          <Tab
+            className="ClosingReservedBooks_Tab"
+            to={`${closingReservedBooksToPath({ termType: 'nextMonth' })}`}
+            active={currentTerm === 'nextMonth'}
+            component={Link}
+          >
             {this.renderTermText('nextMonth')}
-            </Link>
-          </li>
+          </Tab>
         </Tabs>
         {!isInitialized || !this.isFetched(currentTerm, page) || isNaN(page) ? (
           <GridBookListSkeleton />
