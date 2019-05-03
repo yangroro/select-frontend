@@ -16,6 +16,7 @@ import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 
+import { Notice } from 'app/components/Notice';
 import history from 'app/config/history';
 
 interface State {
@@ -115,6 +116,9 @@ export class ClosingReservedBooks extends React.Component<Props> {
             {this.renderTermText('nextMonth')}
           </Tab>
         </Tabs>
+        <div className="ClosingReservedBooks_NoticeWrapper">
+          <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
+        </div>
         {!isInitialized || !this.isFetched(currentTerm, page) || isNaN(page) ? (
           <GridBookListSkeleton />
         ) : (
