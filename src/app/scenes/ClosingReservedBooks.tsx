@@ -6,16 +6,17 @@ import { Empty } from '@ridi/rsg';
 
 import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { Tab, Tabs } from 'app/components/Tabs';
-import { PageTitleText } from 'app/constants';
+import { PageTitleText, RoutePaths } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
 import { getClosingReservedBooksTermQuery, getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import { closingReservedBooksToPath } from 'app/utils/toPath';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
+
+import history from 'app/config/history';
 
 interface State {
   isInitialized: boolean;
@@ -99,7 +100,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
         <Tabs flex={true} className="ClosingReservedBooks_Tabs">
           <Tab
             className="ClosingReservedBooks_Tab"
-            to={`${closingReservedBooksToPath({ termType: 'thisMonth' })}`}
+            to={`${RoutePaths.CLOSING_RESERVED_BOOKS}?termType=thisMonth`}
             active={currentTerm === 'thisMonth'}
             component={Link}
           >
@@ -107,7 +108,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
           </Tab>
           <Tab
             className="ClosingReservedBooks_Tab"
-            to={`${closingReservedBooksToPath({ termType: 'nextMonth' })}`}
+            to={`${RoutePaths.CLOSING_RESERVED_BOOKS}?termType=nextMonth`}
             active={currentTerm === 'nextMonth'}
             component={Link}
           >
@@ -135,7 +136,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
                         item={{
                           el: Link,
                           getProps: (p): LinkProps => ({
-                            to: `${closingReservedBooksToPath({ termType: currentTerm })}?page=${p}`,
+                            to: `${RoutePaths.CLOSING_RESERVED_BOOKS}?termType=${currentTerm}&page=${p}`,
                           }),
                         }}
                       />
