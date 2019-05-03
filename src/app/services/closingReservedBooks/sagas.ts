@@ -5,10 +5,8 @@ import { Actions } from 'app/services/closingReservedBooks';
 import { ClosingReservedBooksResponse, requestClosingReservedBooks } from 'app/services/closingReservedBooks/requests';
 import toast from 'app/utils/toast';
 
-export function* watchLoadClosingReservedBooksRequest() {
-  const { payload }: ReturnType<typeof Actions.loadClosingReservedBooksRequest> = yield take(Actions.loadClosingReservedBooksRequest.getType());
+export function* loadClosingReservedBooks({ payload }: ReturnType<typeof Actions.loadClosingReservedBooksRequest>) {
   const { page, termType } = payload;
-
   try {
     if (Number.isNaN(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
@@ -18,6 +16,10 @@ export function* watchLoadClosingReservedBooksRequest() {
   } catch (error) {
     yield put(Actions.loadClosingReservedBooksFailure({ termType, page, error }));
   }
+}
+
+export function* watchLoadClosingReservedBooksRequest() {
+  yield takeEvery(Actions.loadClosingReservedBooksRequest.getType(), loadClosingReservedBooks);
 }
 
 export function* watchLoadClosingReservedBooksFailure() {
