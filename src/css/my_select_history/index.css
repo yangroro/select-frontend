@@ -78,6 +78,7 @@
 
 .MySelectHistoryBookList_Book {
   display: flex;
+  position: relative;
   flex: 1;
 }
 
