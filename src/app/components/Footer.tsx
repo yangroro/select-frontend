@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
+import { RoutePaths } from 'app/constants';
 import { FooterTheme } from 'app/services/commonUI';
 import { RidiSelectState } from 'app/store';
 import { ANDROID_APPSTORE_URL, getPlatformDetail, IOS_APPSTORE_URL } from 'app/utils/downloadUserBook';
@@ -74,9 +75,17 @@ export const Footer: React.SFC<Props> = (props) => {
         <li className="Footer_Terms_Item">
           <Link
             className="Footer_Term_Link"
-            to="/books"
+            to={RoutePaths.AVAILABLE_BOOKS}
           >
             서비스 도서 목록
+          </Link>
+        </li>
+        <li className="Footer_Terms_Item">
+          <Link
+            className="Footer_Term_Link"
+            to={RoutePaths.CLOSING_RESERVED_BOOKS}
+          >
+            종료 예정 도서
           </Link>
         </li>
         <li className="Footer_Terms_Item">
