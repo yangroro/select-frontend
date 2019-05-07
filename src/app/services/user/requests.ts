@@ -18,6 +18,8 @@ export interface Ticket {
   paymentMethod: string;
   price: number;
   title: string;
+  currency: string;
+  formattedPrice: string;
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {

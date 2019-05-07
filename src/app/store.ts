@@ -84,7 +84,8 @@ const logger = createLogger({
 });
 
 export const hasRefreshedForAppDownload = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).to_app_store;
-export const hasCompletedSubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_subscription;
+export const hasCompletedRidiPaySubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_subscription;
+export const hasCompletedPayletterSubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_payletter_subscription;
 
 const reducers = combineReducers({
   router: routerReducer,

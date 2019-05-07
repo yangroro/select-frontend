@@ -137,6 +137,11 @@ export interface SubscriptionState {
   optoutReasonKor: string | null;
   paymentMethod: string;
   isUsingRidipay: boolean;
+  currency: string;
+  monthlyPayPrice: number;
+  cardBrand: string;
+  formattedMonthlyPayPrice: string;
+  maskedCardNo: string;
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {

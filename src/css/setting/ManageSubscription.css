@@ -25,9 +25,23 @@
   font-weight: 700;
 }
 
-.SubscriptionInfo_Link {
+.SubscriptionInfo_CardInfoWrapper {
   display: block;
   padding-top: 10px;
+}
+
+.SubscriptionInfo_CardInfo {
+  @apply --reset-layout;
+
+  display: inline-block;
+  padding-right: 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--slategray_50);
+}
+
+.SubscriptionInfo_Link {
+  display: inline-block;
   color: var(--dodgerblue_50);
   font-size: 13px;
   font-weight: 700;
@@ -88,21 +102,27 @@
     display: table-cell;
     height: 60px;
     padding: 0;
+    box-sizing: border-box;
     vertical-align: middle;
   }
   .SubscriptionInfo_Title {
-    width: 138px;
+    width: 158px;
     padding-left: 20px;
   }
   .SubscriptionInfo_Data {
     display: table-cell;
   }
+  .SubscriptionInfo_CardInfoColumn {
+    min-height: 60px;
+    padding-top: 20px;
+    vertical-align: top;
+  }
+  .SubscriptionInfo_CardInfo {
+    padding-bottom: 15px;
+  }
   .SubscriptionInfo_Link {
-    display: inline-block;
-    height: 60px;
-    padding: 0 0 0 10px;
-    line-height: 60px;
-    text-align: right;
+    line-height: 19px;
+    padding-bottom: 15px;
   }
 }
 
