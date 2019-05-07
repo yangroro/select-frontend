@@ -14,6 +14,7 @@ import { MySelectBook } from 'app/services/mySelect';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, MySelectHistroyState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
+import { getNotAvailableConvertDateDiff } from 'app/utils/expiredDate';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 import * as classNames from 'classnames';
@@ -125,8 +126,7 @@ class MySelectHistory extends React.Component<Props, State> {
             <div
               className={classNames(
                 'MySelectHistoryBookList_Book',
-                // TODO: expired 여부에 따라 노출
-                'not_available',
+                getNotAvailableConvertDateDiff(book.endDate) <= 0 ? 'not_available' : null,
               )}
             >
               <MediaQuery maxWidth={840}>
@@ -138,7 +138,7 @@ class MySelectHistory extends React.Component<Props, State> {
                     linkType="Link"
                     imageClassName="MySelectHistoryBookList_Thumbnail"
                     linkWrapperClassName="MySelectHistoryBookList_Link"
-                    expired={false}
+                    expired={getNotAvailableConvertDateDiff(book.endDate) <= 0}
                   />
                 )}
               </MediaQuery>
@@ -148,9 +148,8 @@ class MySelectHistory extends React.Component<Props, State> {
                     {buildOnlyDateFormat(book.startDate)}
                   </span>
                   <h3 className="MySelectHistoryBookList_Title">{book.title.main}</h3>
-                  // TODO: expired 여부에 따라 노출
                   <ExpireRemaningTime
-                    expireDate=""
+                    expireDate={book.endDate}
                   />
                 </div>
               </Link>
