@@ -1,18 +1,24 @@
 import { differenceInDays, differenceInMinutes, differenceInMonths, parse } from 'date-fns';
 
-export function getNotAvailableConvertDate(BookEndDate: string, NextBillDate?: string) {
+export function getNotAvailableConvertDateDiff(BookEndDate: string, NextBillDate?: string) {
   const currentDate = new Date();
   const bookEndDate = parse(BookEndDate);
+
+  return differenceInDays(bookEndDate, currentDate);
+}
+
+export function getNotAvailableConvertDate(BookEndDate: string, NextBillDate?: string) {
+  const currentDate = new Date();
   let differenceMinutes: number = differenceInMinutes(BookEndDate, currentDate);
 
   if (NextBillDate) {
     const endDate: Date = parse(NextBillDate);
     differenceMinutes = differenceInMinutes(endDate, currentDate);
+    // TODO: 다음 결제일 인자를 받은 경우 처리 추가 필요.
+  }
 
-    // 만료일이 25일 이상일 때는 표시 안해줘도 됨
-    if (differenceInDays(bookEndDate, currentDate) > 25) {
-      return '';
-    }
+  if (getNotAvailableConvertDateDiff(BookEndDate) <= 0) {
+    return '이용 불가 도서';
   }
 
   // 1일: 1440분, 1시간: 60분
