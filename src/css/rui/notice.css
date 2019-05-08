@@ -58,7 +58,8 @@
 .Notice_Sub_Text {
   font-size: 12px;
   letter-spacing: -0.3px;
-  color: #0077d9;
+  line-height: 20px;
+  color: var(--slategray_70);
 }
 
 .Notice_DetailLink {
