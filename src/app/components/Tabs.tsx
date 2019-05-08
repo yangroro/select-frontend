@@ -41,7 +41,6 @@ export const Tab: React.SFC<TabProps> = (props) => {
 export interface TabsProps {
   className?: string;
   children?: Array<React.ReactElement<TabProps>> | React.ReactElement<TabProps>;
-  flex?: boolean;
 }
 
 export const Tabs: React.SFC<TabsProps> = (props) => {
