@@ -98,7 +98,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CLOSING_RESERVED_BOOKS} />
         <ConnectedPageHeader pageTitle={PageTitleText.CLOSING_RESERVED_BOOKS} />
-        <Tabs flex={true} className="ClosingReservedBooks_Tabs">
+        <Tabs className="ClosingReservedBooks_Tabs">
           <Tab
             className="ClosingReservedBooks_Tab"
             to={`${RoutePaths.CLOSING_RESERVED_BOOKS}?termType=thisMonth`}
