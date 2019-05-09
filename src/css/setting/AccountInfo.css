@@ -105,7 +105,7 @@
 
 .SubscriptionInfoWrapper.Skeleton_Wrapper {
   box-sizing: border-box;
-  height: 231px;
+  height: 143px;
   min-height: 0;
   padding: 0;
   &::before,
@@ -114,7 +114,7 @@
   }
   & .Skeleton {
     width: 100%;
-    height: 231px;
+    height: 143px;
   }
 }
 
@@ -219,10 +219,10 @@
   }
 
   .SubscriptionInfoWrapper.Skeleton_Wrapper {
-    height: 252px;
+    height: 165px;
     & .Skeleton {
       width: 100%;
-      height: 252px;
+      height: 165px;
     }
   }
 }
