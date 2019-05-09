@@ -15,6 +15,7 @@ import {
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
+  ConnectedClosingReservedBooks,
   ConnectedCollection,
   ConnectedErrorPage,
   ConnectedGuide,
@@ -28,6 +29,7 @@ import {
   ConnectedSearchResult,
   ConnectedSetting,
   InAppIntro,
+  NotAvailableBook,
 } from 'app/scenes';
 
 import { RoutePaths } from 'app/constants';
@@ -148,6 +150,11 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
               component={ConnectedSearchResult}
               {...props}
             />
+            <PrivateRoute
+              path={RoutePaths.NOT_AVAILABLE_BOOK}
+              component={NotAvailableBook}
+              {...props}
+            />
             <ConnectedPublicRoute
               path={RoutePaths.GUIDE}
               component={ConnectedGuide}
@@ -156,6 +163,11 @@ export const Routes: React.SFC<Props> = (props) => props.errorResponseState ? (
             <ConnectedPublicRoute
               path={RoutePaths.AVAILABLE_BOOKS}
               component={ConnectedAvailableBooks}
+              {...props}
+            />
+            <PrivateRoute
+              path={RoutePaths.CLOSING_RESERVED_BOOKS}
+              component={ConnectedClosingReservedBooks}
               {...props}
             />
             <NonSubscriberOnlyRoute

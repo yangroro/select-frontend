@@ -16,6 +16,7 @@ export interface UserRidiSelectBookResponse {
   startDate: DateDTO;
   endDate: DateDTO;
   book: Book;
+  expire?: string;
 }
 
 export interface MySelectListResponse {

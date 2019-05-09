@@ -20,6 +20,7 @@ export interface BookThumbnailProps {
   lazyload?: boolean;
   hasOverflowWrapper?: boolean;
   placeholder?: JSX.Element;
+  expired?: boolean;
 }
 
 export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
@@ -37,6 +38,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
     lazyload = true,
     hasOverflowWrapper = false,
     placeholder,
+    expired = false,
   } = props;
 
   return (
@@ -49,6 +51,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
         linkUrl={linkUrl}
         linkType={linkType}
         onClick={onLinkClick}
+        expired={expired}
       >
         <LazyloadWrapper
           width={width}
@@ -62,6 +65,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
             alt={bookTitle}
             width={width}
             shadow={shadow}
+            expired={expired}
           />
         </LazyloadWrapper>
       </LinkWrapper>

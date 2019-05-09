@@ -44,6 +44,7 @@ export interface MySelectBook extends Book {
   mySelectBookId: number;
   startDate: string;
   endDate: string;
+  expire?: string;
 }
 
 export interface PaginatedMySelectBooks extends Paginated<MySelectBook> {
@@ -75,6 +76,7 @@ export const userRidiSelectBookToMySelectBook = (userRidiSelectbook: UserRidiSel
     startDate: userRidiSelectbook.startDate,
     endDate: userRidiSelectbook.endDate,
     mySelectBookId: userRidiSelectbook.id,
+    expire: userRidiSelectbook.expire,
   };
 };
 

@@ -1,0 +1,78 @@
+.Notice {
+  position: relative;
+  border-radius: 4px;
+  background-color: #f3f4f5;
+  padding: 12px;
+  margin-top: 15px;
+  margin-bottom: -5px;
+
+  @media (--pc-screen) {
+    margin: 0;
+  }
+}
+.Notice .RSGIcon-info {
+  display: block;
+  position: absolute;
+  top: 11px;
+  left: 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  margin-top: 3px;
+  float: left;
+  fill: var(--slategray_40);
+}
+
+.Notice_ContentWrapper {
+  padding-left: 28px;
+  box-sizing: border-box;
+}
+
+.Notice_Main_Text {
+  display: block;
+  margin: 0;
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: -0.3px;
+  line-height: 20px;
+  color: var(--slategray_70);
+  overflow: hidden;
+}
+
+
+.Sub_Notice .RSGIcon-won {
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  margin-top: 3px;
+  float: left;
+  color: var(--dodgerblue_60);
+}
+
+.Sub_Notice {
+  overflow: hidden;
+  display: block;
+  margin-top: 2px;
+}
+
+.Notice_Sub_Text {
+  font-size: 12px;
+  letter-spacing: -0.3px;
+  line-height: 20px;
+  color: var(--slategray_70);
+}
+
+.Notice_DetailLink {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--slategray_70);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.Notice_DetailLink_Icon {
+  width: 4.7px;
+  height: 8px;
+  margin-left: 4px;
+  fill: var(--slategray_30);
+}

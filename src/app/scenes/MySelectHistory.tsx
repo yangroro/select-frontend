@@ -9,10 +9,12 @@ import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } fr
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
+import { ExpireRemaningTime } from 'app/components/ExpireRemainingTime';
 import { MySelectBook } from 'app/services/mySelect';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, MySelectHistroyState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
+import { getNotAvailableConvertDateDiff } from 'app/utils/expiredDate';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 import * as classNames from 'classnames';
@@ -121,26 +123,24 @@ class MySelectHistory extends React.Component<Props, State> {
               checked={this.state.inputs[book.mySelectBookId] || false}
               onChange={this.handleIndividualCheckBoxClick(book)}
             />
-            <div className="MySelectHistoryBookList_Book">
+            <div
+              className={classNames(
+                'MySelectHistoryBookList_Book',
+                getNotAvailableConvertDateDiff(book.endDate) <= 0 ? 'not_available' : null,
+              )}
+            >
               <MediaQuery maxWidth={840}>
-                <DTOBookThumbnail
-                  book={book}
-                  width={50}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectHistoryBookList_Thumbnail"
-                  linkWrapperClassName="MySelectHistoryBookList_Link"
-                />
-              </MediaQuery>
-              <MediaQuery minWidth={841}>
-                <DTOBookThumbnail
-                  book={book}
-                  width={80}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectHistoryBookList_Thumbnail"
-                  linkWrapperClassName="MySelectHistoryBookList_Link"
-                />
+                {(isMobile) => (
+                  <DTOBookThumbnail
+                    book={book}
+                    width={isMobile ? 50 : 80}
+                    linkUrl={`/book/${book.id}`}
+                    linkType="Link"
+                    imageClassName="MySelectHistoryBookList_Thumbnail"
+                    linkWrapperClassName="MySelectHistoryBookList_Link"
+                    expired={getNotAvailableConvertDateDiff(book.endDate) <= 0}
+                  />
+                )}
               </MediaQuery>
               <Link to={`/book/${book.id}`} className="MySelectHistoryBookList_Link">
                 <div className="MySelectHistoryBookList_Meta">
@@ -148,6 +148,9 @@ class MySelectHistory extends React.Component<Props, State> {
                     {buildOnlyDateFormat(book.startDate)}
                   </span>
                   <h3 className="MySelectHistoryBookList_Title">{book.title.main}</h3>
+                  {getNotAvailableConvertDateDiff(book.endDate) < 0 && (
+                    <ExpireRemaningTime expireDate={book.endDate} />
+                  )}
                 </div>
               </Link>
             </div>
