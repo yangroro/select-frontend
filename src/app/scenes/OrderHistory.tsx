@@ -54,19 +54,20 @@ export class OrderHistory extends React.PureComponent<Props> {
   }
 
   private renderAmountInfo = (payment: Ticket, shouldDisplayCancel: boolean) => {
+    const { formattedPrice, price, isCancellable, id } = payment;
     return (
       <>
         <p className="Ordered_Amount">
-          {payment.price === 0 ? '무료' : `${thousandsSeperator(payment.price)}원`}
+          {price === 0 ? '무료' : formattedPrice}
         </p>
         {shouldDisplayCancel && (
           <div className="CancelOrderButton_Wrapper">
-            {payment.isCancellable && (
+            {isCancellable && (
               <Button
                 className="CancelOrderButton"
                 color="gray"
                 outline={true}
-                onClick={this.handleCancelPurchaseButtonClick(payment.id)}
+                onClick={this.handleCancelPurchaseButtonClick(id)}
                 size="medium"
               >
                 결제 취소

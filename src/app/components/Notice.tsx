@@ -1,8 +1,6 @@
 import { Icon } from '@ridi/rsg';
 import * as React from 'react';
 
-const { Fragment } = React;
-
 export interface NoticeProps {
   type?: string;
   icon?: string;
@@ -27,7 +25,6 @@ export const Notice: React.SFC<NoticeProps> = (props) => {
         />
         {subText &&
           <span className="Sub_Notice">
-            <Icon className="RSGIcon-won" name="won" />
             <span
               className="Notice_Sub_Text"
               dangerouslySetInnerHTML={{ __html: subText }}

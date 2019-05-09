@@ -1,6 +1,6 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
 import { Actions } from 'app/services/tracking';
-import { hasCompletedSubscription, RidiSelectState } from 'app/store';
+import { hasCompletedPayletterSubscription, hasCompletedRidiPaySubscription, RidiSelectState } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 import { LOCATION_CHANGE, replace } from 'react-router-redux';
 import { all, put, select, take } from 'redux-saga/effects';
@@ -49,14 +49,16 @@ export function* watchLocationChange() {
     }
     referrer = href;
 
-    if (hasCompletedSubscription()) {
+    const isCompletedThroughRidiPay = hasCompletedRidiPaySubscription();
+    const isCompletedThroughPayletter = hasCompletedPayletterSubscription();
+    if (isCompletedThroughRidiPay || isCompletedThroughPayletter) {
       tracker.sendEvent('New Subscription', {
-        monthlyFee: 6500, // FIXME: get monthlyFee from backend
+        method: isCompletedThroughPayletter ? 'payletter' : 'ridipay',
       });
       // Remove new subscription search string for tracking and move to entry page if there is one
       yield put(replace({
         ...state.router.location,
-        search: state.router.location!.search.replace(/[&?]new_subscription=[^&=]+/, ''),
+        search: state.router.location!.search.replace(/[&?](new_subscription|new_payletter_subscription)=[^&=]+/, ''),
       }));
     }
   }

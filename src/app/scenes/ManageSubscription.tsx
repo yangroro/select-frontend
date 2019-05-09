@@ -107,21 +107,28 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                     </li>
                     <li className="SubscriptionInfo">
                       <p className="SubscriptionInfo_Title">결제 예정 금액</p>
-                      <p className="SubscriptionInfo_Data">6,500원</p>
+                      <p className="SubscriptionInfo_Data">{subscriptionState.formattedMonthlyPayPrice}</p>
                     </li>
                     <li className="SubscriptionInfo">
-                      <p className="SubscriptionInfo_Title">결제 수단</p>
-                      <div className="SubscriptionInfo_Data">
+                      <p className="SubscriptionInfo_Title SubscriptionInfo_CardInfoColumn">결제 수단</p>
+                      <div className="SubscriptionInfo_Data SubscriptionInfo_CardInfoColumn">
                         {subscriptionState.paymentMethod}
-                        {subscriptionState.isUsingRidipay && !isIosInApp ? (
-                          <a className="SubscriptionInfo_Link" href={`${BASE_URL_RIDI_PAY_API}/settings`}>
-                            카드 관리
-                            <Icon
-                              name="arrow_5_right"
-                              className="SubscriptionInfo_Link_Icon"
-                            />
-                          </a>
-                        ) : null}
+                        <div className="SubscriptionInfo_CardInfoWrapper">
+                          {subscriptionState.cardBrand && subscriptionState.maskedCardNo && (
+                            <p className="SubscriptionInfo_CardInfo">
+                              {`${subscriptionState.cardBrand} ${subscriptionState.maskedCardNo}`}
+                            </p>
+                          )}
+                          {subscriptionState.isUsingRidipay && !isIosInApp ? (
+                            <a className="SubscriptionInfo_Link" href={`${BASE_URL_RIDI_PAY_API}/settings`}>
+                              카드 관리
+                              <Icon
+                                name="arrow_5_right"
+                                className="SubscriptionInfo_Link_Icon"
+                              />
+                            </a>
+                          ) : null}
+                        </div>
                       </div>
                     </li>
                   </>

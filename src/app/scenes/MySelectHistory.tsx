@@ -148,9 +148,9 @@ class MySelectHistory extends React.Component<Props, State> {
                     {buildOnlyDateFormat(book.startDate)}
                   </span>
                   <h3 className="MySelectHistoryBookList_Title">{book.title.main}</h3>
-                  <ExpireRemaningTime
-                    expireDate={book.endDate}
-                  />
+                  {getNotAvailableConvertDateDiff(book.endDate) < 0 && (
+                    <ExpireRemaningTime expireDate={book.endDate} />
+                  )}
                 </div>
               </Link>
             </div>
