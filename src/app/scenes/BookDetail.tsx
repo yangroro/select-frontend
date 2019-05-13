@@ -615,20 +615,21 @@ export class BookDetail extends React.Component<Props, State> {
                   {this.renderNoticeList(noticeList)}
                 </section>
             )}
-            {!isMobile && introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
-            {!isMobile && (
-              <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
-                {this.renderBookWillBeNotAvailableNotice()}
-              </section>
-            )}
-            {isMobile &&
+            {isMobile ? (
               <section className="PageBookDetail_Panel">
                 {this.renderMeta()}
                 {this.renderNoticeList(noticeList)}
                 {isInNotAvailableConvertList(bookEndDateTime) && this.renderBookWillBeNotAvailableNotice()}
                 {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
               </section>
-            }
+            ) : (
+              <>
+                <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
+                  {this.renderBookWillBeNotAvailableNotice()}
+                </section>
+                {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
+              </>
+            )}
             {introduction ? (
               <section className="PageBookDetail_Panel">
                 <h2 className="PageBookDetail_PanelTitle">책 소개</h2>
