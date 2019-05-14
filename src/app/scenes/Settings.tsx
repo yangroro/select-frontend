@@ -163,14 +163,13 @@ export class Settings extends React.PureComponent<SettingProps> {
               <svg x="0px" y="0px" width="48px" height="34px" viewBox="0 0 48 34" className="SettingMenu_Icon SettingMenu_Payment_Icon" >
                 <path d={svgPath}/>
               </svg>
-              <h2 className="reset-heading">결제 내역</h2>
+              결제 내역
             </Link>
           </li>
           <li className="SettingMenu_Item">
             <a className="SettingMenu_Link" href={`${env.PAY_URL}`}>
-              {/* TODO: RIDI UI의 Coin_Bold Icon: 버젼 올리고 대응 필요. - svg 이슈로 업데이트 됨 */}
               <CardIconComponent className="SettingMenu_Icon SettingMenu_Card_Icon" />
-              <h2 className="reset-heading">셀렉트 카드 관리</h2>
+              셀렉트 카드 관리
             </a>
           </li>
         </ul>
@@ -179,7 +178,7 @@ export class Settings extends React.PureComponent<SettingProps> {
             <li className="SettingMenu_Item">
               <Link to="/my-select-history" className="SettingMenu_Link">
                 <Icon name="history_1" className="SettingMenu_Icon SettingMenu_History_Icon" />
-                <h2 className="reset-heading">도서 이용 내역</h2>
+                도서 이용 내역
               </Link>
             </li>
           </ul>
@@ -189,7 +188,7 @@ export class Settings extends React.PureComponent<SettingProps> {
               <li className="SettingMenu_Item">
                 <Link to="/my-select-history" className="SettingMenu_Link">
                   <Icon name="history_1" className="SettingMenu_Icon SettingMenu_History_Icon" />
-                  <h2 className="reset-heading">도서 이용 내역</h2>
+                  도서 이용 내역
                 </Link>
               </li>
               <li className="SettingMenu_Item">
@@ -199,7 +198,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                   target="_self"
                 >
                   <Icon name="pencil_2" className="SettingMenu_Icon SettingMenu_Review_Icon" />
-                  <h2 className="reset-heading">내 리뷰 관리</h2>
+                  내 리뷰 관리
                 </a>
               </li>
             </ul>
@@ -211,7 +210,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                   target="_blank"
                 >
                   <Icon name="speechbubble_5" className="SettingMenu_Icon SettingMenu_FAQ_Icon" />
-                  <h2 className="reset-heading">1:1 문의하기</h2>
+                  1:1 문의하기
                 </a>
               </li>
               <li className="SettingMenu_Item">
@@ -221,7 +220,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                   target="_self"
                 >
                   <Icon name="identity_1" className="SettingMenu_Icon SettingMenu_ModifyInfo_Icon" />
-                  <h2 className="reset-heading">정보 변경</h2>
+                  정보 변경
                 </a>
               </li>
               {!isAndroidInApp && (
@@ -232,7 +231,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                     target="_self"
                   >
                     <Icon name="exit_1" className="SettingMenu_Icon SettingMenu_Logout_Icon" />
-                    <h2 className="reset-heading">로그아웃</h2>
+                    로그아웃
                   </a>
                 </li>
               )}
