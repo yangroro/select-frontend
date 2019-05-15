@@ -126,7 +126,7 @@ class MySelectHistory extends React.Component<Props, State> {
             <div
               className={classNames(
                 'MySelectHistoryBookList_Book',
-                getNotAvailableConvertDateDiff(book.endDatetime) <= 0 ? 'not_available' : null,
+                getNotAvailableConvertDateDiff(book.endDatetime) < 0 ? 'not_available' : null,
               )}
             >
               <MediaQuery maxWidth={840}>
@@ -138,7 +138,7 @@ class MySelectHistory extends React.Component<Props, State> {
                     linkType="Link"
                     imageClassName="MySelectHistoryBookList_Thumbnail"
                     linkWrapperClassName="MySelectHistoryBookList_Link"
-                    expired={getNotAvailableConvertDateDiff(book.endDatetime) <= 0}
+                    expired={getNotAvailableConvertDateDiff(book.endDatetime) < 0}
                   />
                 )}
               </MediaQuery>
