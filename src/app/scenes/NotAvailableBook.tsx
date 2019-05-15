@@ -13,12 +13,7 @@ export class NotAvailableBook extends React.Component {
         <section className="PageExpireBook">
           <Empty
             className="Empty_HasButton"
-            description={(
-              <>
-                이 책은 출판사 또는 저작권자의 요청으로 <br />
-                서비스가 중지되어 책 정보를 볼 수 없습니다.
-              </>
-            )}
+            description="이 책은 서비스가 종료되어 정보를 볼 수 없습니다."
             iconName="book_1"
           />
           <Link to={RoutePaths.HOME} className="MySelectBookList_Link">

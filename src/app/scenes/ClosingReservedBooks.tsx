@@ -116,18 +116,22 @@ export class ClosingReservedBooks extends React.Component<Props> {
             {this.renderTermText('nextMonth')}
           </Tab>
         </Tabs>
-        <div className="ClosingReservedBooks_NoticeWrapper">
-          <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
-        </div>
         {!isInitialized || !this.isFetched(currentTerm, page) || isNaN(page) ? (
           <GridBookListSkeleton />
         ) : (
           <>
             {
               !itemCount || itemCount === 0 ? (
-                <Empty description="종교 예정 도서가 없습니다." iconName="book_1" />
+                <Empty
+                  className="ClosingReservedBooks_Empty"
+                  description="종료 예정 도서가 없습니다."
+                  iconName="book_1"
+                />
               ) : (
                 <>
+                <div className="ClosingReservedBooks_NoticeWrapper">
+                  <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
+                </div>
                   <ConnectedGridBookList
                     books={itemListByPage[page].itemList}
                   />

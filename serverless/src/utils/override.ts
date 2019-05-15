@@ -12,7 +12,7 @@ export interface OpenGraph {
 }
 
 export const override = async (og?: Partial<OpenGraph>): Promise<string> => {
-  const origin = 'http://select.ridibooks.com.s3-website.ap-northeast-2.amazonaws.com';
+  const origin = 'http://ridi-select-prod.s3-website.ap-northeast-2.amazonaws.com';
   const root = await (await fetch(origin)).text();
 
   if (!og) {

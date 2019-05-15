@@ -51,9 +51,9 @@
     color: var(--slategray_80);
   }
   & .Ridibooks_Logo_Icon {
-    width: 15px;
-    height: 15px;
-    margin: 2px 6px 0 0;
+    width: 18px;
+    height: 18px;
+    margin: 0 6px 0 0;
     vertical-align: top;
     fill: var(--dodgerblue_50);
   }
