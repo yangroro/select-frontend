@@ -10,10 +10,10 @@
 .MySelectControls {
   display: flex;
   padding: 10px;
-  border-bottom: 1px solid #d1d5d9;
+  border-bottom: 1px solid var(--slategray_20);
   @media (--pc-screen) {
     margin-top: 20px;
-    border-top: 2px solid #d1d5d9;
+    border-top: 2px solid var(--slategray_20);
   }
 }
 
@@ -49,7 +49,7 @@
 .MySelectBookList {
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid #e6e8eb;
+  border-bottom: 1px solid var(--slategray_10);
 }
 
 .MySelectBookList_Right {
@@ -92,7 +92,7 @@
   }
 
   & + .MySelectBookList_Item {
-    border-top: 1px solid #e6e8eb;
+    border-top: 1px solid var(--slategray_10);
   }
 }
 
@@ -139,7 +139,7 @@
 .MySelectBookList_Authors {
   display: block;
   margin-top: 8px;
-  color: #636c73;
+  color: var(--slategray_60);
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4em;
@@ -149,9 +149,20 @@
 .MySelectBookList_Publisher {
   display: block;
   margin-top: 6px;
-  color: #636c73;
+  color: var(--slategray_60);
   font-size: 13px;
   font-weight: 400;
   word-wrap: break-word;
+}
 
+.MySelectBookList_BlockIcon {
+  vertical-align: top;
+  margin-top: 5px;
+}
+
+.MySelectBookList_expired {
+  padding-left: 4px;
+  font-size: 12px;
+  letter-spacing: -0.3px;
+  color: var(--dodgerblue_60);
 }

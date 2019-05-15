@@ -1,0 +1,13 @@
+.ClosingReservedBooks_NoticeWrapper {
+  box-sizing: border-box;
+  padding: 1px 15px 5px;
+  @media (--pc-screen) {
+    width: 800px;
+    margin: 0 auto;
+    padding: 24px 0 0;
+  }
+}
+
+.ClosingReservedBooks_Empty {
+  padding: 136px 0;
+}

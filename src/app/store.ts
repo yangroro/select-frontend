@@ -8,6 +8,7 @@ import { loggers } from 'redux-act';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
+import { closingReservedBooksReducer } from './services/closingReservedBooks/index';
 
 import browserHistory from 'app/config/history';
 import { bookReducer, BookState } from 'app/services/book';
@@ -19,6 +20,8 @@ import { userRootSaga } from 'app/services/user/sagas';
 
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
+import { closingReservedBooksState } from 'app/services/closingReservedBooks/index';
+import { closingReservedBooksRootSaga } from 'app/services/closingReservedBooks/sagas';
 import { collectionReducer, CollectionsState } from 'app/services/collection';
 import { collectionsRootSaga } from 'app/services/collection/sagas';
 import { environmentReducer, EnvironmentState } from 'app/services/environment';
@@ -27,8 +30,8 @@ import { mySelectReducer } from 'app/services/mySelect';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
-import { searchResultReducer } from 'app/services/searchResult';
 import { SearchResultState } from 'app/services/searchResult';
+import { searchResultReducer } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { trackingSaga } from 'app/services/tracking/sagas';
@@ -58,6 +61,7 @@ function* rootSaga(dispatch: Dispatch) {
     trackingSaga(),
     downloadSaga(),
     customHistorySaga(),
+    closingReservedBooksRootSaga(),
   ]);
 }
 
@@ -76,6 +80,7 @@ export interface RidiSelectState {
   serviceStatus: ServiceStatusState;
   environment: EnvironmentState;
   customHistory: CustomHistoryState;
+  closingReservedBooks: closingReservedBooksState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -102,6 +107,7 @@ const reducers = combineReducers({
   serviceStatus: serviceStatusReducer,
   environment: environmentReducer,
   customHistory: customHistoryReducer,
+  closingReservedBooks: closingReservedBooksReducer,
 });
 
 const middleware = [

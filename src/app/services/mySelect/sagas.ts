@@ -18,6 +18,7 @@ import { reqeustMySelectHistory } from 'app/services/user/requests';
 import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
+import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
 import { updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
@@ -37,6 +38,7 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
       const booksMap = keyBy(books, 'id');
       response.userRidiSelectBooks.forEach((book, index) => {
         response.userRidiSelectBooks[index].book = booksMap[book.bId];
+        response.userRidiSelectBooks[index].expire = getNotAvailableConvertDate(book.endDate);
       });
       yield put(BookActions.updateBooks({ books }));
     } else if (response.totalCount < page) {

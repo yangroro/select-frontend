@@ -1,8 +1,5 @@
-import { Actions } from 'app/services/commonUI';
-import { RidiSelectState } from 'app/store';
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import { connect } from 'react-redux';
 
 export enum TitleType {
   PREFIXED,

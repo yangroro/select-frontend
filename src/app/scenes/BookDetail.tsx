@@ -13,9 +13,9 @@ import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { Notice } from 'app/components/Notice';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
-import { Actions as BookActions } from 'app/services/book';
 import {
   Book,
   BookAuthor,
@@ -26,6 +26,7 @@ import {
   BookTitle,
   formatFileSize,
 } from 'app/services/book';
+import { Actions as BookActions } from 'app/services/book';
 import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
 import { Expander } from 'app/services/book/components/Expander';
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
@@ -46,7 +47,8 @@ import { StarRating } from 'app/services/review/components';
 import { RidiSelectState } from 'app/store';
 import { BookId, TextWithLF } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { buildOnlyDateFormat } from 'app/utils/formatDate';
+import { isInNotAvailableConvertList } from 'app/utils/expiredDate';
+import { buildKoreanDayDateFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import { stringifyAuthors } from 'app/utils/utils';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
@@ -69,6 +71,7 @@ interface BookDetailStateProps {
   previewAvailable: boolean;
   hasPreview: boolean;
   previewBId: BookId;
+  bookEndDateTime: string;
 
   categories?: Category[][];
   file?: BookFile;
@@ -487,6 +490,16 @@ export class BookDetail extends React.Component<Props, State> {
     );
   }
 
+  private renderBookWillBeNotAvailableNotice() {
+    const { bookEndDateTime, isIosInApp } = this.props;
+    return isInNotAvailableConvertList(bookEndDateTime) && (
+      <Notice
+        mainText={`이 책은 출판사 또는 저작권자와의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`}
+        detailLink={!isIosInApp ? 'https://help.ridibooks.com/hc/ko/articles/360022565173' : undefined}
+      />
+    );
+  }
+
   public componentDidMount() {
     this.fetchBookDetailAndOwnership(this.props);
     this.updateDominantColor(this.props);
@@ -531,6 +544,7 @@ export class BookDetail extends React.Component<Props, State> {
       title,
       publisherReview,
       seriesBookList,
+      bookEndDateTime,
       isFetched,
       env,
       gnbColorLevel,
@@ -601,14 +615,21 @@ export class BookDetail extends React.Component<Props, State> {
                   {this.renderNoticeList(noticeList)}
                 </section>
             )}
-            {!isMobile && introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
-            {isMobile &&
+            {isMobile ? (
               <section className="PageBookDetail_Panel">
                 {this.renderMeta()}
                 {this.renderNoticeList(noticeList)}
+                {isInNotAvailableConvertList(bookEndDateTime) && this.renderBookWillBeNotAvailableNotice()}
                 {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
               </section>
-            }
+            ) : (
+              <>
+                <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
+                  {this.renderBookWillBeNotAvailableNotice()}
+                </section>
+                {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
+              </>
+            )}
             {introduction ? (
               <section className="PageBookDetail_Panel">
                 <h2 className="PageBookDetail_PanelTitle">책 소개</h2>
@@ -718,19 +739,19 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     dominantColor: stateExists ? bookState.dominantColor : undefined,
-
     // Data that can be pre-fetched in home
     title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
     authors: !!bookDetail ? bookDetail.authors : !!book ? book.authors : undefined,
     thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
     reviewSummary: !!bookDetail
-      ? bookDetail.reviewSummary
-      : !!book
-        ? book.reviewSummary
-        : undefined,
+    ? bookDetail.reviewSummary
+    : !!book
+    ? book.reviewSummary
+    : undefined,
     previewAvailable: !!bookDetail ? bookDetail.previewAvailable : false,
     hasPreview: !!bookDetail ? bookDetail.hasPreview : false,
     previewBId: !!bookDetail ? bookDetail.previewBId : bookId,
+    bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
 
     introduction: !!bookDetail ? bookDetail.introduction : undefined,
     introImageUrl: !!bookDetail ? bookDetail.introImageUrl : undefined,
