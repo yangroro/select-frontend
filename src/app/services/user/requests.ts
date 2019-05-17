@@ -112,3 +112,15 @@ export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> 
     timeout: 3000,
     withCredentials: true,
   });
+
+export const requestChangePayment = (): Promise<AxiosResponse<any>> =>
+  axios({
+    url: ``, // URL 입력 API확정되면 넣을 것
+    method: 'GET',
+  });
+
+export const requestPayInfo = (): Promise<AxiosResponse<any>> =>
+  axios({
+    url: `${env.PAY_API}/me`,
+    method: 'GET',
+  });

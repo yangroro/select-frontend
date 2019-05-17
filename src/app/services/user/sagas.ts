@@ -1,4 +1,5 @@
 import { keyBy } from 'lodash-es';
+import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
@@ -15,6 +16,8 @@ import {
   requestAccountsMe,
   requestCancelPurchase,
   requestCancelUnsubscription,
+  requestChangePayment,
+  requestPayInfo,
   requestPurchases,
   requestSubscription,
   requestUnsubscribe,
@@ -48,7 +51,13 @@ export function* watchLoadSubscription() {
     yield take(Actions.loadSubscriptionRequest.getType());
     try {
       const response: SubscriptionResponse = yield call(requestSubscription);
-      yield put(Actions.loadSubscriptionSuccess({ response }));
+      try {
+        const payInfoResponse = yield call(requestPayInfo);
+      } catch (e) {
+        continue;
+      } finally {
+        yield put(Actions.loadSubscriptionSuccess({ response }));
+      }
     } catch (e) {
       yield put(Actions.loadSubscriptionFailure());
       showMessageForRequestError(e);
@@ -170,6 +179,30 @@ export function* watchCancelUnsubscription() {
         toast.failureMessage(e.response.data.message);
       } else {
         showMessageForRequestError(e);
+      }
+    }
+  }
+}
+
+export function* watchLoadChangePayment() {
+  while (true) {
+    yield take(Actions.loadChangePaymentRequest.getType());
+    const state: RidiSelectState = yield select((s) => s);
+    try {
+      yield call(requestChangePayment);
+      // 200으로 떨어지면 결제 수단 변경이 가능한 상태
+      const { PAY_URL } = state.environment;
+      const { return_url: returnUrl } = qs.parse(window.location.search, { ignoreQueryPrefix: true });
+      window.location.href = `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}&type=change`;
+    } catch (e) {
+      if (e.response) {
+        if (e.response.data.code === '') {
+          alert(`리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전 됩니다.`);
+        } else if (e.response.data.code === '') {
+          alert(`결제 시도 중에는 결제 수단을 변경할 수 없습니다.`);
+        } else {
+          alert(`오류`);
+        }
       }
     }
   }
