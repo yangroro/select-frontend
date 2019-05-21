@@ -13,6 +13,7 @@ import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import * as classNames from 'classnames';
+import * as qs from 'qs';
 
 interface ManageSubscriptionStateProps {
   userState: UserState;
@@ -20,6 +21,7 @@ interface ManageSubscriptionStateProps {
   subscriptionState?: SubscriptionState;
   subscriptionFetchStatus: FetchStatusFlag;
   isIosInApp: boolean;
+  callback: string;
 }
 
 interface ManageSubscriptionState {
@@ -54,6 +56,11 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     this.props.dispatchCancelUnsubscriptionRequest();
   }
 
+  private handleChangePaymentButtonClick = () => {
+    const { PAY_URL: BASE_URL_RIDI_PAY_API } = this.props.environment;
+    window.location.href = `${BASE_URL_RIDI_PAY_API}/settings/cards/change?returnUrl=${location.href}`;
+  }
+
   public toggleUnsubscribeWarningPopup = (activeState: boolean) => {
     this.setState({
       isUnsubscribeWarningPopupActive: activeState,
@@ -61,6 +68,10 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   }
 
   public componentDidMount() {
+    if (this.props.callback === 'change') {
+      alert('결제 수단이 변경되었습니다.');
+    }
+
     if (!this.props.subscriptionState) {
       this.props.dispatchLoadSubscriptionRequest();
     }
@@ -136,7 +147,17 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
               </ul>
               <div className="ToggleSubscriptionButton_Wrapper">
                 {subscriptionState.isOptout
-                  ? (
+                  ?
+                  (subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' || subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE' ?
+                  (
+                    <Button
+                      className="ToggleSubscriptionButton"
+                      onClick={this.handleChangePaymentButtonClick}
+                      outline={true}
+                    >
+                      결제 수단 변경
+                    </Button>
+                  ) : (
                     <Button
                       className="ToggleSubscriptionButton"
                       onClick={this.handleCancelUnsubscriptionButtonClick}
@@ -146,7 +167,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                     >
                       구독 해지 예약 취소
                     </Button>
-                  )
+                  ))
                   : (
                     <Button
                       className="ToggleSubscriptionButton"
@@ -170,7 +191,13 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                       name="exclamation_3"
                     />
                     <strong>{subscriptionState.optoutReasonKor}</strong><br/>
-                    이용 기간 만료 후 다시 구독해주세요.
+                    {
+                      subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' || subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE' ? (
+                        '계속 구독하기 원하시면 결제 수단을 변경해주세요.'
+                      ) : (
+                        '이용 기간 만료 후 다시 구독해주세요.'
+                      )
+                    }
                   </p>
                 )
               }
@@ -198,6 +225,7 @@ const mapStateToProps = (state: RidiSelectState): ManageSubscriptionStateProps =
     subscriptionState: state.user.subscription,
     subscriptionFetchStatus: state.user.subscriptionFetchStatus,
     isIosInApp: getIsIosInApp(state),
+    callback: qs.parse(state.router.location!.search, { ignoreQueryPrefix: true }).payment,
   };
 };
 

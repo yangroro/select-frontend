@@ -16,7 +16,6 @@ import {
   requestAccountsMe,
   requestCancelPurchase,
   requestCancelUnsubscription,
-  requestChangePayment,
   requestPayInfo,
   requestPurchases,
   requestSubscription,
@@ -51,12 +50,20 @@ export function* watchLoadSubscription() {
     yield take(Actions.loadSubscriptionRequest.getType());
     try {
       const response: SubscriptionResponse = yield call(requestSubscription);
-      try {
-        const payInfoResponse = yield call(requestPayInfo);
-      } catch (e) {
-        continue;
-      } finally {
-        yield put(Actions.loadSubscriptionSuccess({ response }));
+      // Response의 결제 타입이 신용카드일 경우 사용자의 PayInfo를 가져옴
+      if (response.paymentMethod === '신용카드') {
+        try {
+          const payInfoResponse = yield call(requestPayInfo);
+          if (payInfoResponse.data.payment_methods.cards) {
+            const { issuer_name , iin } = payInfoResponse.data.payment_methods.cards[0];
+            response.cardBrand = issuer_name;
+            response.maskedCardNo = `${iin.substr(0, 4)} ${iin.substr(4, 2)}`;
+          }
+        } catch (e) {
+          continue;
+        } finally {
+          yield put(Actions.loadSubscriptionSuccess({ response }));
+        }
       }
     } catch (e) {
       yield put(Actions.loadSubscriptionFailure());
@@ -189,7 +196,6 @@ export function* watchLoadChangePayment() {
     yield take(Actions.loadChangePaymentRequest.getType());
     const state: RidiSelectState = yield select((s) => s);
     try {
-      yield call(requestChangePayment);
       // 200으로 떨어지면 결제 수단 변경이 가능한 상태
       const { PAY_URL } = state.environment;
       const { return_url: returnUrl } = qs.parse(window.location.search, { ignoreQueryPrefix: true });

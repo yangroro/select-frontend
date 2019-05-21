@@ -55,6 +55,23 @@ export interface AccountsMeResponse {
   };
 }
 
+export interface PayMeResponse {
+  has_pin: boolean;
+  payment_methods: {
+    cards: Card[];
+  };
+  user_id: string;
+}
+
+export interface Card {
+  color: string;
+  iin: string;
+  issuer_name: string;
+  logo_image_url: string;
+  payment_method_id: string;
+  subscriptions: string[];
+}
+
 export const requestSubscription = (): Promise<AxiosResponse<SubscriptionResponse>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/subscription`,
@@ -113,14 +130,9 @@ export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> 
     withCredentials: true,
   });
 
-export const requestChangePayment = (): Promise<AxiosResponse<any>> =>
-  axios({
-    url: ``, // URL 입력 API확정되면 넣을 것
-    method: 'GET',
-  });
-
-export const requestPayInfo = (): Promise<AxiosResponse<any>> =>
+export const requestPayInfo = (): Promise<AxiosResponse<PayMeResponse>> =>
   axios({
     url: `${env.PAY_API}/me`,
     method: 'GET',
+    withCredentials: true,
   });
