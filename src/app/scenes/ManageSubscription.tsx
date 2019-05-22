@@ -13,7 +13,7 @@ import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import * as classNames from 'classnames';
-import * as qs from 'qs';
+import * as dateFns from 'date-fns';
 
 interface ManageSubscriptionStateProps {
   userState: UserState;
@@ -21,7 +21,6 @@ interface ManageSubscriptionStateProps {
   subscriptionState?: SubscriptionState;
   subscriptionFetchStatus: FetchStatusFlag;
   isIosInApp: boolean;
-  callback: string;
 }
 
 interface ManageSubscriptionState {
@@ -58,7 +57,27 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
 
   private handleChangePaymentButtonClick = () => {
     const { PAY_URL: BASE_URL_RIDI_PAY_API } = this.props.environment;
-    window.location.href = `${BASE_URL_RIDI_PAY_API}/settings/cards/change?returnUrl=${location.href}`;
+    if (this.props.subscriptionState) {
+      const { nextBillDate } = this.props.subscriptionState;
+      const today = dateFns.format(new Date(), 'YYYYMMDD');
+      const billDate = dateFns.format(new Date(nextBillDate), 'YYYYMMDD');
+      const currentHour = new Date().getHours();
+      // 결제일이랑 오늘날짜가 같고, 현재 시간이 23시~23시59분 사이라면 결제 불가 알림메시지
+      if (today === billDate && currentHour === 23) {
+        alert('결제일 23:00~23:59 시간에는 결제\n수단을 변경할 수 없습니다.');
+        return;
+      }
+      // 리디캐시 자동충전 중인 상태의 카드일때 컨펌메시지
+      const { cardSubscription } = this.props.subscriptionState;
+      cardSubscription.forEach((text) => {
+        if (text === '리디캐시 자동충전') {
+          if (!confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전 됩니다.')) {
+            return;
+          }
+        }
+      });
+      window.location.href = `${BASE_URL_RIDI_PAY_API}/settings/cards/change?returnUrl=${location.href}`;
+    }
   }
 
   public toggleUnsubscribeWarningPopup = (activeState: boolean) => {
@@ -68,10 +87,6 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   }
 
   public componentDidMount() {
-    if (this.props.callback === 'change') {
-      alert('결제 수단이 변경되었습니다.');
-    }
-
     if (!this.props.subscriptionState) {
       this.props.dispatchLoadSubscriptionRequest();
     }
@@ -225,7 +240,6 @@ const mapStateToProps = (state: RidiSelectState): ManageSubscriptionStateProps =
     subscriptionState: state.user.subscription,
     subscriptionFetchStatus: state.user.subscriptionFetchStatus,
     isIosInApp: getIsIosInApp(state),
-    callback: qs.parse(state.router.location!.search, { ignoreQueryPrefix: true }).payment,
   };
 };
 

@@ -93,8 +93,6 @@ export const Actions = {
     email: string,
   }>('loadAccountsMeSuccess'),
   loadAccountsMeFailure: createAction('loadAccountsMeFailure'),
-
-  loadChangePaymentRequest: createAction('loadChangePaymentRequest'),
 };
 
 // TODO: 서버에서 내려주는 방식이 string 으로 내려주고 있어서 확인 후 수정 필요.
@@ -144,6 +142,7 @@ export interface SubscriptionState {
   cardBrand: string;
   formattedMonthlyPayPrice: string;
   maskedCardNo: string;
+  cardSubscription: string[];
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {
