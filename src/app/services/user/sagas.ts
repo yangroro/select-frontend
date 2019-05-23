@@ -184,7 +184,14 @@ export function* watchCancelUnsubscription() {
     } catch (e) {
       yield put(Actions.cancelUnsubscriptionFailure());
       if (e.response && e.response.data.code === 'DELETED_PAYMENT_METHOD') {
-        toast.failureMessage(e.response.data.message);
+        // toast.failureMessage(e.response.data.message);
+        if (confirm(e.response.data.message)) {
+          const { PAY_URL, STORE_URL } = state.environment;
+          const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
+          const returnUrl = `${paymentUrl}?return_url=${location.href}`;
+
+          window.location.href = `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
+        }
       } else {
         showMessageForRequestError(e);
       }

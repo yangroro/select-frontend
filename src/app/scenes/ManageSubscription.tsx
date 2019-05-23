@@ -56,7 +56,10 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   }
 
   private handleChangePaymentButtonClick = () => {
-    const { PAY_URL: BASE_URL_RIDI_PAY_API } = this.props.environment;
+    const { PAY_URL, STORE_URL } = this.props.environment;
+    const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
+    const returnUrl = `${paymentUrl}?return_url=${location.href}`;
+
     if (this.props.subscriptionState) {
       const { nextBillDate } = this.props.subscriptionState;
       const today = dateFns.format(new Date(), 'YYYYMMDD');
@@ -76,7 +79,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
           }
         }
       });
-      window.location.href = `${BASE_URL_RIDI_PAY_API}/settings/cards/change?returnUrl=${location.href}`;
+      window.location.href = `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}`;
     }
   }
 
