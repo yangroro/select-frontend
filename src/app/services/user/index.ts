@@ -142,6 +142,7 @@ export interface SubscriptionState {
   cardBrand: string;
   formattedMonthlyPayPrice: string;
   maskedCardNo: string;
+  cardSubscription: string[];
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {

@@ -1,4 +1,5 @@
 import { keyBy } from 'lodash-es';
+import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
@@ -15,6 +16,7 @@ import {
   requestAccountsMe,
   requestCancelPurchase,
   requestCancelUnsubscription,
+  requestPayInfo,
   requestPurchases,
   requestSubscription,
   requestUnsubscribe,
@@ -48,7 +50,22 @@ export function* watchLoadSubscription() {
     yield take(Actions.loadSubscriptionRequest.getType());
     try {
       const response: SubscriptionResponse = yield call(requestSubscription);
-      yield put(Actions.loadSubscriptionSuccess({ response }));
+      // Response의 결제 타입이 신용카드일 경우 사용자의 PayInfo를 가져옴
+      if (response.paymentMethod === '신용카드') {
+        try {
+          const payInfoResponse = yield call(requestPayInfo);
+          if (payInfoResponse.data.payment_methods.cards) {
+            const { issuer_name , iin , subscriptions } = payInfoResponse.data.payment_methods.cards[0];
+            response.cardBrand = issuer_name;
+            response.maskedCardNo = `${iin.substr(0, 4)} ${iin.substr(4, 2)}`;
+            response.cardSubscription = subscriptions;
+          }
+        } catch (e) {
+          continue;
+        } finally {
+          yield put(Actions.loadSubscriptionSuccess({ response }));
+        }
+      }
     } catch (e) {
       yield put(Actions.loadSubscriptionFailure());
       showMessageForRequestError(e);
@@ -167,7 +184,18 @@ export function* watchCancelUnsubscription() {
     } catch (e) {
       yield put(Actions.cancelUnsubscriptionFailure());
       if (e.response && e.response.data.code === 'DELETED_PAYMENT_METHOD') {
-        toast.failureMessage(e.response.data.message);
+        // toast.failureMessage(e.response.data.message);
+        if (confirm('구독했던 카드가 삭제되어 구독 해지 예약을 취소할 수 없습니다. 카드를 등록하시겠습니까?')) {
+          const { PAY_URL, STORE_URL } = state.environment;
+          // 이미 카드가 등록 되어 있는 경우
+          if (state.user.subscription!.cardBrand) {
+            window.location.href = `${STORE_URL}/select/payments/ridi-pay`;
+            return;
+          }
+          const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
+          const returnUrl = `${paymentUrl}?return_url=${location.href}`;
+          window.location.href = `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
+        }
       } else {
         showMessageForRequestError(e);
       }
