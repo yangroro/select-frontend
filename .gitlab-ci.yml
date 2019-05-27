@@ -38,6 +38,7 @@ build:dev:
     STORE_URL: https://master.test.ridi.io
     STORE_API: https://master.test.ridi.io
     PAY_URL: https://pay.ridi.io
+    PAY_API_URL: https://api.pay.ridi.io
     ACCOUNT_API: https://account.dev.ridi.io
     OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
 
