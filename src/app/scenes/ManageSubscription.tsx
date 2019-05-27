@@ -55,11 +55,12 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     this.props.dispatchCancelUnsubscriptionRequest();
   }
 
-  private handleChangePaymentButtonClick = () => {
+  private handleChangePaymentButtonClick = (type: string) => {
     const { subscriptionState } = this.props;
     const { PAY_URL, STORE_URL } = this.props.environment;
     const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
-    const returnUrl = `${paymentUrl}?return_url=${location.href}`;
+    const returnUrl = type === 'subscription' ? location.href : `${paymentUrl}?return_url=${location.href}`;
+    let locationUrl = `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}`;
 
     if (subscriptionState) {
       const { nextBillDate } = subscriptionState;
@@ -71,14 +72,25 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
         alert('결제일 23:00~23:59 시간에는 결제\n수단을 변경할 수 없습니다.');
         return;
       }
+
+      // 해지 예약 상태일 때, 결제 수단 변경 시 카드가 있다면
+      const { cardBrand } = subscriptionState;
+      if (type === 'unsubscription' && cardBrand) {
+        locationUrl = `${STORE_URL}/select/payments/ridi-pay?return_url=${location.href}`;
+      }
+
       // 리디캐시 자동충전 중인 상태의 카드일때 컨펌메시지
       const { cardSubscription } = subscriptionState;
-      cardSubscription.forEach((text) => {
-        if (text === '리디캐시 자동충전' && !confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전 됩니다.')) {
-          return;
-        }
-      });
-      window.location.href = `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}`;
+      if (cardSubscription) {
+        const cardSubscriptionString = cardSubscription.join(',');
+        if (
+            cardSubscriptionString.indexOf('리디캐시 자동충전') > 0 &&
+            !confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전 됩니다.')
+           ) {
+            return;
+          }
+      }
+      window.location.href = locationUrl;
     }
   }
 
@@ -148,7 +160,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                             </p>
                           )}
                           {subscriptionState.isUsingRidipay && !isIosInApp ? (
-                            <a className="SubscriptionInfo_Link" href={`${BASE_URL_RIDI_PAY_API}/settings/cards/change?returnUrl=${location.href}`}>
+                            <a className="SubscriptionInfo_Link" onClick={() => { this.handleChangePaymentButtonClick('subscription'); }}>
                               결제 수단 변경
                               <Icon
                                 name="arrow_5_right"
@@ -169,7 +181,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                   (
                     <Button
                       className="ToggleSubscriptionButton"
-                      onClick={this.handleChangePaymentButtonClick}
+                      onClick={() => { this.handleChangePaymentButtonClick('unsubscription'); }}
                       outline={true}
                     >
                       결제 수단 변경
