@@ -56,12 +56,13 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   }
 
   private handleChangePaymentButtonClick = () => {
+    const { subscriptionState } = this.props;
     const { PAY_URL, STORE_URL } = this.props.environment;
     const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
     const returnUrl = `${paymentUrl}?return_url=${location.href}`;
 
-    if (this.props.subscriptionState) {
-      const { nextBillDate } = this.props.subscriptionState;
+    if (subscriptionState) {
+      const { nextBillDate } = subscriptionState;
       const today = dateFns.format(new Date(), 'YYYYMMDD');
       const billDate = dateFns.format(new Date(nextBillDate), 'YYYYMMDD');
       const currentHour = new Date().getHours();
@@ -71,12 +72,10 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
         return;
       }
       // 리디캐시 자동충전 중인 상태의 카드일때 컨펌메시지
-      const { cardSubscription } = this.props.subscriptionState;
+      const { cardSubscription } = subscriptionState;
       cardSubscription.forEach((text) => {
-        if (text === '리디캐시 자동충전') {
-          if (!confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전 됩니다.')) {
-            return;
-          }
+        if (text === '리디캐시 자동충전' && !confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전 됩니다.')) {
+          return;
         }
       });
       window.location.href = `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}`;
