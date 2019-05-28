@@ -34,6 +34,7 @@
 }
 .MaintenanceDescription_ServiceList {
   margin-top: 10px;
+  padding: 0;
   list-style: none;
 }
 .MaintenanceDescription_ServiceItem {

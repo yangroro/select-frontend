@@ -9,7 +9,7 @@ export const MaintenacePage: React.SFC = () => (
       <h2 className="MaintenanceTitle">점검 안내</h2>
       <div className="MaintenanceDescription MaintenanceDescription_Box">
         <h3 className="MaintenanceSubTitle">점검기간</h3>
-        <p className="MaintenanceDescription_Text">2019년 2월 26일(화) 새벽 3시 ~ 5시 (한국시간 기준, 2시간)</p>
+        <p className="MaintenanceDescription_Text">2019년 5월 29일(수) 새벽 4시 ~ 6시 (한국시간 기준, 2시간)</p>
         <h3 className="MaintenanceSubTitle">점검 중 이용이 제한되는 서비스</h3>
         <ul className="MaintenanceDescription_ServiceList">
           <li className="MaintenanceDescription_ServiceItem">
