@@ -41,6 +41,7 @@
 }
 
 .SubscriptionInfo_Link {
+  cursor: pointer;
   display: inline-block;
   color: var(--dodgerblue_50);
   font-size: 13px;
