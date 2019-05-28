@@ -58,9 +58,11 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   private handleChangePaymentButtonClick = (type: string) => {
     const { subscriptionState } = this.props;
     const { PAY_URL, STORE_URL } = this.props.environment;
+    const currentLocation = encodeURIComponent(location.href);
+
     const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
-    const returnUrl = type === 'subscription' ? location.href : `${paymentUrl}?return_url=${location.href}`;
-    let locationUrl = `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}`;
+    const returnUrl = type === 'subscription' ? currentLocation : `${paymentUrl}?return_url=${currentLocation}`;
+    let locationUrl = type === 'subscription' ? `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}` : `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
 
     if (subscriptionState) {
       const { nextBillDate } = subscriptionState;
@@ -76,7 +78,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
       // 해지 예약 상태일 때, 결제 수단 변경 시 카드가 있다면
       const { cardBrand } = subscriptionState;
       if (type === 'unsubscription' && cardBrand) {
-        locationUrl = `${STORE_URL}/select/payments/ridi-pay?return_url=${location.href}`;
+        locationUrl = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
       }
 
       // 리디캐시 자동충전 중인 상태의 카드일때 컨펌메시지
@@ -84,8 +86,8 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
       if (cardSubscription) {
         const cardSubscriptionString = cardSubscription.join(',');
         if (
-            cardSubscriptionString.indexOf('리디캐시 자동충전') > 0 &&
-            !confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전 됩니다.')
+            cardSubscriptionString.indexOf('리디캐시 자동충전') >= 0 &&
+            !confirm('리디캐시 자동충전이 설정된 카드입니다.\n결제 수단 변경 시 변경된 카드로 자동 충전됩니다.')
            ) {
             return;
           }
@@ -109,7 +111,6 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   public render() {
     const { subscriptionState, environment, isIosInApp } = this.props;
     const { isUnsubscribeWarningPopupActive } = this.state;
-    const { PAY_URL: BASE_URL_RIDI_PAY_API } = environment;
     return (
       <main
         className={classNames(

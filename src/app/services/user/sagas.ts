@@ -187,13 +187,14 @@ export function* watchCancelUnsubscription() {
         // toast.failureMessage(e.response.data.message);
         if (confirm('구독했던 카드가 삭제되어 구독 해지 예약을 취소할 수 없습니다. 카드를 등록하시겠습니까?')) {
           const { PAY_URL, STORE_URL } = state.environment;
+          const currentLocation = encodeURIComponent(location.href);
           // 이미 카드가 등록 되어 있는 경우
           if (state.user.subscription!.cardBrand) {
-            window.location.href = `${STORE_URL}/select/payments/ridi-pay`;
+            window.location.href = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
             return;
           }
           const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
-          const returnUrl = `${paymentUrl}?return_url=${location.href}`;
+          const returnUrl = `${paymentUrl}?return_url=${currentLocation}`;
           window.location.href = `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
         }
       } else {
