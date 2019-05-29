@@ -39,17 +39,10 @@ $ docker-compose up --build [--force-recreate]
 
 ## Merge Request
 
-**Git-flow 정책을 따릅니다.**
+**Release-flow 정책을 따릅니다.**
 
-```sh
-$ brew install git-flow-avh
-$ git flow [feature/hotfix/...] start {branch_name}
-```
-
-**Merge는 Gitlab MR 기능을 사용합니다.**
-> [Merge commit with semi-linear history](https://docs.gitlab.com/ee/user/project/merge_requests/#semi-linear-history-merge-requests) 기능을 사용해 커밋 히스토리를 관리합니다.
->
-> _기본 타깃 브랜치는 `develop`이므로, Hotfix 브랜치를 머지할때는 master 브랜치로 변경해서 MR을 생성합니다._
+**Merge는 Github PR 기능을 사용합니다.**
+> _기본 타깃 브랜치는 `master`입니다._
 
 ## Deployment
 

@@ -225,6 +225,9 @@ workflows:
           prod: true
       - wait-serverless-approval:
           type: approval
+          filters:
+            branches:
+              only: release
       - serverless:
           requires:
             - wait-serverless-approval
