@@ -61,9 +61,9 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     const currentLocation = encodeURIComponent(location.href);
 
     const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
-    const returnUrl = type === 'subscription' ? currentLocation : `${paymentUrl}?return_url=${currentLocation}`;
+    const returnUrl = type === 'subscription' ? currentLocation : encodeURIComponent(`${paymentUrl}?return_url=${currentLocation}`);
     let locationUrl = type === 'subscription' ?
-    `${PAY_URL}/settings/cards/change?returnUrl=${encodeURIComponent(returnUrl)}` :
+    `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}` :
     `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
 
     if (subscriptionState) {

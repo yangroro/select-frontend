@@ -185,7 +185,7 @@ export function* watchCancelUnsubscription() {
       yield put(Actions.cancelUnsubscriptionFailure());
       if (e.response && e.response.data.code === 'DELETED_PAYMENT_METHOD') {
         // toast.failureMessage(e.response.data.message);
-        if (confirm('구독했던 카드가 삭제되어 구독 해지 예약을 취소할 수 없습니다. 카드를 등록하시겠습니까?')) {
+        if (confirm('구독했던 카드가 삭제되어 카드 등록 후 구독 해지 예약을 취소할 수 있습니다. 카드를 등록하시겠습니까?')) {
           const { PAY_URL, STORE_URL } = state.environment;
           const currentLocation = encodeURIComponent(location.href);
           // 이미 카드가 등록 되어 있는 경우
