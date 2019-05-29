@@ -60,10 +60,10 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     const { PAY_URL, STORE_URL } = this.props.environment;
     const currentLocation = encodeURIComponent(location.href);
 
-    const paymentUrl = `${STORE_URL}/select/payments/ridi-pay/request`;
-    const returnUrl = type === 'subscription' ? currentLocation : `${paymentUrl}?return_url=${currentLocation}`;
+    const paymentUrl = encodeURIComponent(`${STORE_URL}/select/payments/ridi-pay/request?return_url=`);
+    const returnUrl = type === 'subscription' ? currentLocation : `${paymentUrl}${currentLocation}`;
     let locationUrl = type === 'subscription' ?
-    `${PAY_URL}/settings/cards/change?returnUrl=${encodeURIComponent(returnUrl)}` :
+    `${PAY_URL}/settings/cards/change?returnUrl=${returnUrl}` :
     `${PAY_URL}/settings/cards/register?returnUrl=${returnUrl}`;
 
     if (subscriptionState) {
@@ -181,7 +181,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                 {subscriptionState.isOptout
                   ?
                   (subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' || subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE' ?
-                  (
+                  ( !isIosInApp &&
                     <Button
                       className="ToggleSubscriptionButton"
                       onClick={() => { this.handleChangePaymentButtonClick('unsubscription'); }}

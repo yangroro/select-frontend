@@ -46,13 +46,10 @@ $ docker-compose up --build [--force-recreate]
 
 ## Deployment
 
-* `develop` 브랜치로 머지되면 개발용 호스트(https://select.ridi.io) 에 자동으로 배포됩니다.
+* `master` 브랜치로 머지되면 개발용 호스트(https://select.ridi.io), 그리고 PRE-RELEASE환경에 자동으로 배포됩니다.
+> _reviewer 모두가 approve를 하게 되면 자동으로 머지 후 배포가 진행됩니다._
 
+* `release` 브랜치로 머지되면 프로덕션 환경(https://select.ridibooks.com)에 배포됩니다.
 
-* `master` 브랜치는 프로덕션 환경(https://select.ridibooks.com) 에 PRE-RELEASE 상태로 배포됩니다.
-  > Hotfix 브랜치를 `master` 브랜치에 머지했다면 해당 브랜치를 `develop` 브랜치에도 머지해주세요.
-  >
-  > semi-linear history 규칙에 의해 Gitlab MR을 이용하기 어렵습니다.
+* 프로덕션 배포 이후에 serverless 배포는, Circle-ci 에서 `Manual Job`으로 실행할 수 있습니다.
 
-* PRE-RELEASE를 완료하고 프로덕션에 배포하려면, Gitlab environments 에서 `Manual Job`으로 실행할 수 있습니다.
-  > 롤백시, production environment에서 롤백 버튼을 이용합니다.
