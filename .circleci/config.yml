@@ -1,0 +1,230 @@
+version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@1.0.9
+  slack: circleci/slack@2.5.1
+develop_aws_key: &develop_aws_key
+  aws-access-key-id: DEV_AWS_ACCESS_KEY_ID
+  aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY
+production_aws_key: &production_aws_key
+  aws-access-key-id: PROD_AWS_ACCESS_KEY_ID
+  aws-secret-access-key: PROD_AWS_SECRET_ACCESS_KEY
+commands:
+  install:
+    parameters:
+      key:
+        type: string
+        default: 'select-frontend'
+    steps:
+      - restore_cache:
+          keys:
+            - <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - <<parameters.key>>-{{ .Branch }}-
+            - <<parameters.key>>-
+      - run:
+          name: Install yarn packages
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths: ~/.cache/yarn
+  sentry_upload:
+    steps:
+      - run:
+          command: curl -sL https://sentry.io/get-cli/ | bash
+      - run:
+          command: |
+            sentry-cli releases new ${CIRCLE_SHA1}
+            sentry-cli releases files ${CIRCLE_SHA1} upload-sourcemaps dist/
+            sentry-cli releases finalize ${CIRCLE_SHA1}
+          environment:
+            SENTRY_LOG_LEVEL: debug
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/select-frontend
+    parameters:
+      dev:
+        type: boolean
+        default: false
+    steps:
+      - checkout
+      - install
+      - when:
+          condition: << parameters.dev >>
+          steps:
+            - run:
+                command: |
+                  unset ASSET_PATH
+                  unset SENTRY_DSN
+                  yarn webpack
+                environment:
+                  SELECT_URL: https://select.ridi.io
+                  SELECT_API: https://select-api.dev.ridi.io
+                  STORE_URL: https://master.test.ridi.io
+                  STORE_API: https://master.test.ridi.io
+                  PAY_URL: https://pay.ridi.io
+                  ACCOUNT_API: https://account.dev.ridi.io
+                  OAUTH2_CLIENT_ID: $DEV_OAUTH2_CLIENT_ID
+      - unless:
+          condition: << parameters.dev >>
+          steps:
+            - run:
+                command: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist/
+  deploy:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/select-frontend
+    parameters:
+      dev:
+        type: boolean
+        default: false
+      stage:
+        type: boolean
+        default: false
+      prod:
+        type: boolean
+        default: false
+    environment:
+      S3_RELEASE_PARAMS: '--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate'
+      S3_ASSETS_PARAMS: '--cache-control public,max-age=31536000'
+    steps:
+      - checkout
+      - run:
+          name: Set environment variables
+          command: |
+            export SUBJECT="`git show -s --format=%s -n1 $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
+            export MESSAGE="`git show -s --format=%b $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
+            echo "export GIT_COMMIT_SUBJECT=$'$(echo "$SUBJECT")'" >> $BASH_ENV
+            echo "export GIT_COMMIT_MESSAGE=$'$(echo "$MESSAGE")'" >> $BASH_ENV
+            echo "export GITHUB_COMMIT_URL=\"https://github.com/ridi/select-frontend/commit/$CIRCLE_SHA1\"" >> $BASH_ENV
+      - attach_workspace:
+          at: .
+      - when:
+          condition: << parameters.dev >>
+          steps:
+            - aws-s3/sync:
+                from: dist
+                to: s3://${DEV_S3_BUCKET}
+                <<: *develop_aws_key
+                arguments: |
+                  --exclude "staging.html" \
+                  ${S3_ASSETS_PARAMS}
+            - aws-s3/copy:
+                from: s3://${DEV_S3_BUCKET}/index.html
+                to: s3://${DEV_S3_BUCKET}/index.html
+                <<: *develop_aws_key
+                arguments: ${S3_RELEASE_PARAMS}
+            - slack/notify:
+                color: good
+                message: $GIT_COMMIT_MESSAGE
+                title: $GIT_COMMIT_SUBJECT
+                title_link: $GITHUB_COMMIT_URL
+                include_project_field: false
+                include_job_number_field: false
+                webhook: $SLACK_WEBHOOK_DEV
+      - when:
+          condition: << parameters.stage >>
+          steps:
+            - aws-s3/sync:
+                from: dist
+                to: s3://${PROD_S3_BUCKET}
+                <<: *production_aws_key
+                arguments: |
+                  --exclude "index.html" \
+                  --exclude "*.map" \
+                  ${S3_ASSETS_PARAMS}
+            - aws-s3/copy:
+                from: s3://${PROD_S3_BUCKET}/staging.html
+                to: s3://${PROD_S3_BUCKET}/staging.html
+                <<: *production_aws_key
+                arguments: ${S3_RELEASE_PARAMS}
+      - when:
+          condition: << parameters.prod >>
+          steps:
+            - aws-s3/sync:
+                from: dist
+                to: s3://${PROD_S3_BUCKET}
+                <<: *production_aws_key
+                arguments: |
+                  --exclude "staging.html" \
+                  --exclude "*.map" \
+                  ${S3_ASSETS_PARAMS}
+            - aws-s3/copy:
+                from: s3://${PROD_S3_BUCKET}/index.html
+                to: s3://${PROD_S3_BUCKET}/index.html
+                <<: *production_aws_key
+                arguments: ${S3_RELEASE_PARAMS}
+            - sentry_upload
+            - slack/notify:
+                color: good
+                message: $GIT_COMMIT_MESSAGE
+                title: $GIT_COMMIT_SUBJECT
+                title_link: $GITHUB_COMMIT_URL
+                include_project_field: false
+                include_job_number_field: false
+  serverless:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/select-frontend
+    environment:
+      AWS_ACCESS_KEY_ID: ${SLS_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${SLS_AWS_SECRET_ACCESS_KEY}
+    steps:
+      - checkout
+      - run:
+          command: cd serverless
+      - install:
+          key: select-serverless
+      - deploy:
+          command: yarn serverless deploy --stage production -v
+workflows:
+  version: 2
+  deploy-dev:
+    jobs:
+      - build:
+          name: build-dev
+          filters: &master_only
+            branches:
+              only:
+                - master
+                - feature/circle-ci
+          dev: true
+      - deploy:
+          name: deploy-dev
+          requires:
+            - build-dev
+          filters: *master_only
+          dev: true
+  deploy-stage:
+    jobs:
+      - build:
+          name: build-stage
+          filters: *master_only
+      - deploy:
+          name: deploy-stage
+          requires:
+            - build-stage
+          filters: *master_only
+          stage: true
+  deploy-prod:
+    jobs:
+      - build:
+          name: build-prod
+          filters: &release_only
+            branches:
+              only: release
+      - deploy:
+          name: deploy-prod
+          requires:
+            - build-prod
+          filters: *release_only
+          prod: true
+      - wait-serverless-approval:
+          type: approval
+      - serverless:
+          requires:
+            - wait-serverless-approval
