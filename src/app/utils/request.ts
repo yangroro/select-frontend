@@ -7,12 +7,12 @@ import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 // const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
 
-export function fixWrongPaginationScope(response: AxiosResponse) {
+export function fixWrongPaginationScope(response: AxiosResponse, paramKeyName: string = 'page') {
   const { config = {} } = response;
-  if (!config.params || !config.params.page) {
+  if (!config.params || !config.params[paramKeyName]) {
     return;
   }
-  const pageParam = config.params.page;
+  const pageParam = config.params[paramKeyName];
   if (
     (response.status === 404 && Number(pageParam) > 1) ||
     Number(pageParam) < 1
