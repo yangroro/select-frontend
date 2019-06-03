@@ -7,20 +7,19 @@ import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 // const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
 
-// function fixWrongPaginationScope(response: AxiosResponse) {
-//   if (!response.config || !response.config.params) {
-//     return;
-//   }
-//   const pageParam = response.config.params.page;
-//   if (
-//     pageParam && (
-//       (response.status === 404 && Number(pageParam) > 1) ||
-//       Number(pageParam) < 1
-//     )
-//   ) {
-//     history.replace(`?${updateQueryStringParam('page', 1)}`);
-//   }
-// }
+export function fixWrongPaginationScope(response: AxiosResponse) {
+  const { config = {} } = response;
+  if (!config.params || !config.params.page) {
+    return;
+  }
+  const pageParam = config.params.page;
+  if (
+    (response.status === 404 && Number(pageParam) > 1) ||
+    Number(pageParam) < 1
+  ) {
+    history.replace(`?${updateQueryStringParam('page', 1)}`);
+  }
+}
 
 export function updateQueryStringParam(key: string, value: string | number) {
   return qs.stringify(
