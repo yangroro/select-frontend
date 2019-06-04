@@ -10,6 +10,7 @@ export default {
   STORE_URL: getEnv('STORE_URL', process.env.STORE_URL) || 'https://ridibooks.com',
   STORE_API: getEnv('STORE_API', process.env.STORE_API) || 'https://ridibooks.com',
   PAY_URL: getEnv('PAY_URL', process.env.PAY_URL) || 'https://pay.ridibooks.com',
+  PAY_API: getEnv('PAY_API', process.env.PAY_API) || 'https://api.pay.ridibooks.com',
   ACCOUNT_API: getEnv('ACCOUNT_API', process.env.ACCOUNT_API) || 'https://account.ridibooks.com',
   OAUTH2_CLIENT_ID: process.env.OAUTH2_CLIENT_ID || '',
   FREE_PROMOTION_MONTHS: Number(process.env.FREE_PROMOTION_MONTHS) || 1,

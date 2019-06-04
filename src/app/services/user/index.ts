@@ -142,6 +142,7 @@ export interface SubscriptionState {
   cardBrand: string;
   formattedMonthlyPayPrice: string;
   maskedCardNo: string;
+  cardSubscription: string[];
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {
@@ -238,8 +239,7 @@ userReducer.on(Actions.loadMySelectHistoryRequest, (state = INITIAL_STATE, paylo
     itemListByPage: {
       ...state.mySelectHistory.itemListByPage,
       [payload.page]: {
-        isFetched: false,
-        itemList: [],
+        ...state.mySelectHistory.itemListByPage[payload.page],
         fetchStatus: FetchStatusFlag.FETCHING,
       },
     },

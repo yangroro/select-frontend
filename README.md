@@ -39,27 +39,17 @@ $ docker-compose up --build [--force-recreate]
 
 ## Merge Request
 
-**Git-flow 정책을 따릅니다.**
+**Release-flow 정책을 따릅니다.**
 
-```sh
-$ brew install git-flow-avh
-$ git flow [feature/hotfix/...] start {branch_name}
-```
-
-**Merge는 Gitlab MR 기능을 사용합니다.**
-> [Merge commit with semi-linear history](https://docs.gitlab.com/ee/user/project/merge_requests/#semi-linear-history-merge-requests) 기능을 사용해 커밋 히스토리를 관리합니다.
->
-> _기본 타깃 브랜치는 `develop`이므로, Hotfix 브랜치를 머지할때는 master 브랜치로 변경해서 MR을 생성합니다._
+**Merge는 Github PR 기능을 사용합니다.**
+> _기본 타깃 브랜치는 `master`입니다._
 
 ## Deployment
 
-* `develop` 브랜치로 머지되면 개발용 호스트(https://select.ridi.io) 에 자동으로 배포됩니다.
+* `master` 브랜치로 머지되면 개발용 호스트(https://select.ridi.io), 그리고 PRE-RELEASE환경에 자동으로 배포됩니다.
+> _reviewer 모두가 approve를 하게 되면 자동으로 머지 후 배포가 진행됩니다._
 
+* `release` 브랜치로 머지되면 프로덕션 환경(https://select.ridibooks.com)에 배포됩니다.
 
-* `master` 브랜치는 프로덕션 환경(https://select.ridibooks.com) 에 PRE-RELEASE 상태로 배포됩니다.
-  > Hotfix 브랜치를 `master` 브랜치에 머지했다면 해당 브랜치를 `develop` 브랜치에도 머지해주세요.
-  >
-  > semi-linear history 규칙에 의해 Gitlab MR을 이용하기 어렵습니다.
+* 프로덕션 배포 이후에 serverless 배포는, Circle-ci 에서 `Manual Job`으로 실행할 수 있습니다.
 
-* PRE-RELEASE를 완료하고 프로덕션에 배포하려면, Gitlab environments 에서 `Manual Job`으로 실행할 수 있습니다.
-  > 롤백시, production environment에서 롤백 버튼을 이용합니다.

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { HelmetWithTitle } from 'app/components';
+import env from 'app/config/env';
 import { PageTitleText } from 'app/constants';
 import { SettingPlaceholder } from 'app/placeholder/SettingPlaceholder';
 import { EnvironmentState } from 'app/services/environment';
@@ -30,6 +31,14 @@ interface SettingStateProps {
 }
 
 type SettingProps = SettingStateProps & ReturnType<typeof mapDispatchToProps>;
+
+const CardIconComponent = (props: {className: string; }) => (
+  <svg width={48} height={34} {...props}>
+    <title>{'icon_card'}</title>
+    {/* tslint:disable-next-line:max-line-length */}
+    <path d="M4 15h4v-3H4v3zM2 8V6c0-.565.403-1 1-1h18c.597 0 1 .435 1 1v2H2zm20 9.898c0 .588-.519 1.102-1.111 1.102H3.11C2.52 19 2 18.486 2 17.898V10h20v7.898zM3 3C1.376 3 0 4.35 0 6v12c0 1.65 1.376 3 3 3h18c1.624 0 3-1.35 3-3V6c0-1.65-1.376-3-3-3H3z" fillRule="evenodd" />
+  </svg>
+);
 
 export class Settings extends React.PureComponent<SettingProps> {
 
@@ -154,16 +163,24 @@ export class Settings extends React.PureComponent<SettingProps> {
               <svg x="0px" y="0px" width="48px" height="34px" viewBox="0 0 48 34" className="SettingMenu_Icon SettingMenu_Payment_Icon" >
                 <path d={svgPath}/>
               </svg>
-              <h2 className="reset-heading">결제 내역</h2>
+              결제 내역
             </Link>
           </li>
+        {!isIosInApp &&
+          <li className="SettingMenu_Item">
+            <a className="SettingMenu_Link" href={`${env.PAY_URL}`}>
+              <CardIconComponent className="SettingMenu_Icon SettingMenu_Card_Icon" />
+              셀렉트 카드 관리
+            </a>
+          </li>
+        }
         </ul>
         {isIosInApp ? (
           <ul className="SettingMenu">
             <li className="SettingMenu_Item">
               <Link to="/my-select-history" className="SettingMenu_Link">
                 <Icon name="history_1" className="SettingMenu_Icon SettingMenu_History_Icon" />
-                <h2 className="reset-heading">도서 이용 내역</h2>
+                도서 이용 내역
               </Link>
             </li>
           </ul>
@@ -173,7 +190,7 @@ export class Settings extends React.PureComponent<SettingProps> {
               <li className="SettingMenu_Item">
                 <Link to="/my-select-history" className="SettingMenu_Link">
                   <Icon name="history_1" className="SettingMenu_Icon SettingMenu_History_Icon" />
-                  <h2 className="reset-heading">도서 이용 내역</h2>
+                  도서 이용 내역
                 </Link>
               </li>
               <li className="SettingMenu_Item">
@@ -183,7 +200,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                   target="_self"
                 >
                   <Icon name="pencil_2" className="SettingMenu_Icon SettingMenu_Review_Icon" />
-                  <h2 className="reset-heading">내 리뷰 관리</h2>
+                  내 리뷰 관리
                 </a>
               </li>
             </ul>
@@ -195,7 +212,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                   target="_blank"
                 >
                   <Icon name="speechbubble_5" className="SettingMenu_Icon SettingMenu_FAQ_Icon" />
-                  <h2 className="reset-heading">1:1 문의하기</h2>
+                  1:1 문의하기
                 </a>
               </li>
               <li className="SettingMenu_Item">
@@ -205,7 +222,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                   target="_self"
                 >
                   <Icon name="identity_1" className="SettingMenu_Icon SettingMenu_ModifyInfo_Icon" />
-                  <h2 className="reset-heading">정보 변경</h2>
+                  정보 변경
                 </a>
               </li>
               {!isAndroidInApp && (
@@ -216,7 +233,7 @@ export class Settings extends React.PureComponent<SettingProps> {
                     target="_self"
                   >
                     <Icon name="exit_1" className="SettingMenu_Icon SettingMenu_Logout_Icon" />
-                    <h2 className="reset-heading">로그아웃</h2>
+                    로그아웃
                   </a>
                 </li>
               )}

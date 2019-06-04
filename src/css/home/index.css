@@ -10,8 +10,6 @@
 }
 
 .PageHome {
-  padding-bottom: var(--panel-margin);
-  background-color: #e6e8eb;
   @media (--pc-screen) {
     padding-bottom: 0;
     background-color: initial;
@@ -21,19 +19,15 @@
   }
 }
 
-.PageHome_Content {
-  @media (--pc-screen) {
-    padding-bottom: 80px;
-  }
-}
-
 .PageHome_Panel {
   & + .PageHome_Panel {
-    margin-top: var(--panel-margin);
+    border-bottom: var(--panel-margin) solid var(--slategray_10);
   }
   @media (--pc-screen) {
     & + .PageHome_Panel {
       margin-top: 0;
+      border-bottom: 0;
+      padding-bottom: 80px;
     }
   }
 }
