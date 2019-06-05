@@ -11,7 +11,7 @@
 
 .PageHome {
   @media (--pc-screen) {
-    padding-bottom: 0;
+    padding-bottom: 80px;
     background-color: initial;
   }
   @nest .androidApp & {
@@ -27,7 +27,6 @@
     & + .PageHome_Panel {
       margin-top: 0;
       border-bottom: 0;
-      padding-bottom: 80px;
     }
   }
 }
