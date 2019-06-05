@@ -211,6 +211,9 @@ jobs:
           command: cd serverless && yarn serverless -v
 workflows:
   version: 2
+  serverless-test:
+    jobs:
+      - serverless_test
   deploy-dev:
     jobs:
       - build:
