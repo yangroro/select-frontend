@@ -3,17 +3,24 @@ import * as qs from 'qs';
 
 // import env from 'app/config/env';
 import history from 'app/config/history';
+import { FetchErrorFlag } from 'app/constants';
 import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 // const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
 
-export function fixWrongPaginationScope(response: AxiosResponse, paramKeyName: string = 'page') {
-  const { config = {} } = response;
-  if (!config.params || !config.params[paramKeyName]) {
-    return;
+export function fixWrongPaginationScope(response: AxiosResponse, errorFlag: FetchErrorFlag = FetchErrorFlag.OUT_OF_PAGINATION_SCOPE, paramKeyName: string = 'page') {
+  let pageParam;
+  if (errorFlag === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+    pageParam = NaN;
+  } else {
+    const { config = {} } = response;
+    if (!config.params || !config.params[paramKeyName]) {
+      return;
+    }
+    pageParam = config.params[paramKeyName];
   }
-  const pageParam = config.params[paramKeyName];
   if (
+    isNaN(pageParam) ||
     (response.status === 404 && Number(pageParam) > 1) ||
     Number(pageParam) < 1
   ) {

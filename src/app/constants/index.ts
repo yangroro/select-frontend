@@ -7,6 +7,7 @@ export enum FetchStatusFlag {
 export enum FetchErrorFlag {
   UNEXPECTED_BOOK_ID,
   UNEXPECTED_PAGE_PARAMS,
+  OUT_OF_PAGINATION_SCOPE,
 }
 
 export enum PageTitleText {
