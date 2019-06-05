@@ -197,23 +197,8 @@ jobs:
           serverless_build: true
       - deploy:
           command: cd serverless && yarn serverless deploy --stage production -v
-
-  serverless_test:
-    docker:
-      - image: circleci/node:lts
-    working_directory: ~/select-frontend
-    steps:
-      - checkout
-      - install:
-          key: select-serverless
-          serverless_build: true
-      - deploy:
-          command: cd serverless && yarn serverless -v
 workflows:
   version: 2
-  serverless-test:
-    jobs:
-      - serverless_test
   deploy-dev:
     jobs:
       - build:
