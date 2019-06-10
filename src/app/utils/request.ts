@@ -8,20 +8,15 @@ import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 // const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
 
-export function fixWrongPaginationScope(response: AxiosResponse, errorFlag: FetchErrorFlag = FetchErrorFlag.OUT_OF_PAGINATION_SCOPE, paramKeyName: string = 'page') {
-  let pageParam;
-  if (errorFlag === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
-    pageParam = NaN;
-  } else {
-    const { config = {} } = response;
-    if (!config.params || !config.params[paramKeyName]) {
-      return;
-    }
+export function fixWrongPaginationScope(response?: AxiosResponse, paramKeyName: string = 'page') {
+  let pageParam = NaN;
+  const { config = {}, status } = response!;
+  if (config.params && config.params[paramKeyName]) {
     pageParam = config.params[paramKeyName];
   }
   if (
     isNaN(pageParam) ||
-    (response.status === 404 && Number(pageParam) > 1) ||
+    (status === 404 && Number(pageParam) > 1) ||
     Number(pageParam) < 1
   ) {
     history.replace(`?${updateQueryStringParam('page', 1)}`);
