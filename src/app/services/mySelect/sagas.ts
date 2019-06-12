@@ -18,7 +18,7 @@ import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
-import { updateQueryStringParam } from 'app/utils/request';
+import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
@@ -28,7 +28,7 @@ import { getIsIosInApp, selectIsInApp } from '../environment/selectors';
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
   const { page } = payload;
   try {
-    if (Number.isNaN(page)) {
+    if (!isValidPaginationParameter(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
     const response: MySelectListResponse = yield call(requestMySelectList, page);
@@ -52,6 +52,10 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
       page,
     }));
   } catch (error) {
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+      history.replace(`?${updateQueryStringParam('page', 1)}`);
+      return;
+    }
     yield put(Actions.loadMySelectFailure({ page, error }));
   }
 }
@@ -143,11 +147,11 @@ export function* watchAddMySelect() {
 export function* watchLoadMySelectFailure() {
   while (true) {
     const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
-    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS || page === 1) {
+    if (page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       return;
     }
-    toast.failureMessage();
+    fixWrongPaginationScope(error.response);
   }
 }
 

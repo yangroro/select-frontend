@@ -17,7 +17,7 @@ export const Actions = {
   }>('loadMySelectSuccess'),
   loadMySelectFailure: createAction<{
     page: number,
-    error: AxiosError | FetchErrorFlag,
+    error: AxiosError,
   }>('loadMySelectFailure'),
   deleteMySelectRequest: createAction<{
     page: number,
