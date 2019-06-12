@@ -10,7 +10,7 @@ import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from
 import { localStorageManager } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
-import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
+import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
 export async function loadCategoryList() {
