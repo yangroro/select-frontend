@@ -11,7 +11,6 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
-import { Actions as MySelectHistoryActions } from 'app/services/user';
 
 import { reqeustMySelectHistory } from 'app/services/user/requests';
 
