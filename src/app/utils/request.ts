@@ -8,14 +8,17 @@ import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
 
 // const axiosRetry = require('axios-retry'); // https://github.com/softonic/axios-retry/issues/53
 
+export function isValidPaginationParameter(paramValue: any) {
+  return !isNaN(paramValue) && paramValue > 0;
+}
+
 export function fixWrongPaginationScope(response?: AxiosResponse, paramKeyName: string = 'page') {
-  let pageParam = NaN;
   const { config = {}, status } = response!;
-  if (config.params && config.params[paramKeyName]) {
-    pageParam = config.params[paramKeyName];
+  if (!config.params || !config.params[paramKeyName]) {
+    return;
   }
+  const pageParam = config.params[paramKeyName];
   if (
-    isNaN(pageParam) ||
     (status === 404 && Number(pageParam) > 1) ||
     Number(pageParam) < 1
   ) {
