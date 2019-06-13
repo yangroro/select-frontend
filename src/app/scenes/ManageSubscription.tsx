@@ -168,7 +168,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                             </a>
                           ) : null}
                           {subscriptionState.pgType === 'XPAY' && !subscriptionState.isUsingRidipay && !isIosInApp &&
-                            <a className="SubscriptionInfo_Link" href={`${STORE_URL}/select/payments/xpay/change-to-ridi-pay?return_url=${location.href}`} >
+                            <a className="SubscriptionInfo_Link" href={`${STORE_URL}/select/payments/xpay/change-to-ridi-pay?return_url=${encodeURIComponent(location.href)}`} >
                               결제 수단 변경
                               <Icon
                                 name="arrow_5_right"
