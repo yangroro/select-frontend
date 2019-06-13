@@ -3,6 +3,7 @@ import { take } from 'lodash';
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
+import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components';
 import { Book } from 'app/services/book';
 
@@ -39,7 +40,11 @@ export const CollapsableBookList: React.SFC<CollapsableBookListProps> = (props: 
                   className="CollapsableBookList_ExpandButton"
                   onClick={() => setIsCollapsed(!isCollapsed)}
                 >
-                  펼쳐 보기
+                  {isCollapsed ? '펼쳐 보기' : '접기'}
+                  <Icon
+                    name={isCollapsed ? 'arrow_5_down' : 'arrow_5_up'}
+                    className="CollapsableBookList_ExpandButton_Arrow"
+                  />
                 </button>
               )}
             </>
