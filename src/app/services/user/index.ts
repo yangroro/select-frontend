@@ -145,6 +145,7 @@ export interface SubscriptionState {
   formattedMonthlyPayPrice: string;
   maskedCardNo: string;
   cardSubscription: string[];
+  pgType: string;
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {
