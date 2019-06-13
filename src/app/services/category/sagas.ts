@@ -3,12 +3,14 @@ import * as qs from 'qs';
 import { replace } from 'react-router-redux';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
+import history from 'app/config/history';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions, Category } from 'app/services/category';
 import { CategoryBooksResponse, requestCategoryBooks, requestCategoryList } from 'app/services/category/requests';
 import { localStorageManager } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
-import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
+import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
+import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
 export async function loadCategoryList() {
@@ -82,13 +84,17 @@ export function* watchCacheCategoryId() {
 export function* loadCategoryBooks({ payload }: ReturnType<typeof Actions.loadCategoryBooksRequest>) {
   const { page, categoryId } = payload;
   try {
-    if (Number.isNaN(page)) {
+    if (!isValidPaginationParameter(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
     const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
     yield put(BookActions.updateBooks({ books: response.books }));
     yield put(Actions.loadCategoryBooksSuccess({ categoryId, page, response }));
   } catch (error) {
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+      history.replace(`?${updateQueryStringParam('page', 1)}`);
+      return;
+    }
     yield put(Actions.loadCategoryBooksFailure({ categoryId, page, error }));
   }
 }
@@ -100,11 +106,11 @@ export function* watchLoadCategoryBooks() {
 export function* watchCategoryBooksFailure() {
   while (true) {
     const { payload: { page, error } }: ReturnType<typeof Actions.loadCategoryBooksFailure> = yield take(Actions.loadCategoryBooksFailure.getType());
-    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS || page === 1) {
+    if (page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       return;
     }
-    toast.failureMessage();
+    fixWrongPaginationScope(error.response);
   }
 }
 

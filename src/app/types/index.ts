@@ -25,3 +25,18 @@ export interface Paginated<Item> {
   itemCount?: number;
   itemListByPage: ItemListByPage<Item>;
 }
+
+declare global {
+  interface Window {
+    inApp: {
+      mySelectBookInserted: (bookIds: string) => void
+      mySelectBookDeleted: (bookids: string) => void
+      openBrowser: (url: string) => void,
+    };
+    android: {
+      mySelectBookInserted: (bookIds: string) => void
+      mySelectBookDeleted: (bookids: string) => void
+      openBrowser: (url: string) => void,
+    };
+  }
+}

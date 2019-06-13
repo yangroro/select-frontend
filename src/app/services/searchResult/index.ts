@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
@@ -18,6 +19,7 @@ export const Actions = {
   queryKeywordFailure: createAction<{
     keyword: string,
     page: number,
+    error: AxiosError,
   }>('queryKeywordFailure'),
 };
 
