@@ -117,6 +117,7 @@ export function* watchCategoryBooksFailure() {
 export function* categoryRootSaga() {
   yield all([
     watchLoadCategoryListRequest(),
+    watchCategoryBooksFailure(),
     watchInitializeCategoryId(),
     watchInitializeWhole(),
     watchCacheCategoryId(),
