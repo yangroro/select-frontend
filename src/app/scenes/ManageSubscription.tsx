@@ -107,6 +107,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
 
   public render() {
     const { subscriptionState, environment, isIosInApp } = this.props;
+    const { STORE_URL } = environment;
     const { isUnsubscribeWarningPopupActive } = this.state;
     return (
       <main
@@ -166,6 +167,16 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                               />
                             </a>
                           ) : null}
+                          {/* TODO: 추후 XPAY 유저가 없을 시 삭제 예정 */}
+                          {subscriptionState.pgType === 'XPAY' && !subscriptionState.isUsingRidipay && !isIosInApp &&
+                            <a className="SubscriptionInfo_Link" href={`${STORE_URL}/select/payments/xpay/change-to-ridi-pay?return_url=${encodeURIComponent(location.href)}`} >
+                              결제 수단 변경
+                              <Icon
+                                name="arrow_5_right"
+                                className="SubscriptionInfo_Link_Icon"
+                              />
+                            </a>
+                          }
                         </div>
                       </div>
                     </li>
