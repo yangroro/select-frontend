@@ -49,5 +49,8 @@ export function* watchCollectionFailure() {
 }
 
 export function* collectionsRootSaga() {
-  yield all([watchLoadCollection()]);
+  yield all([
+    watchLoadCollection(),
+    watchCollectionFailure(),
+  ]);
 }
