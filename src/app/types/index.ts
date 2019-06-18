@@ -32,6 +32,7 @@ declare global {
       mySelectBookInserted: (bookIds: string) => void
       mySelectBookDeleted: (bookids: string) => void
       openBrowser: (url: string) => void,
+      initialRendered: () => void,
     };
     android: {
       mySelectBookInserted: (bookIds: string) => void

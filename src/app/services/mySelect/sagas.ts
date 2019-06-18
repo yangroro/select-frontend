@@ -130,8 +130,8 @@ export function* watchAddMySelect() {
           },
         });
       }
-      // TODO: bookId 를 string 으로 넘겨야 하는 것으로 약속 되어있는데 reducer 내부에서 모두 number로 처리하고 있어서 인앱 관련된 부분만 일단 수정.
       if (window.inApp && window.inApp.mySelectBookInserted) {
+        // bookId 를 string 으로 넘겨야 하는 것으로 약속 되어있는데 reducer 내부에서 모두 number로 처리하고 있어서 인앱 관련된 부분 string으로 캐스팅.
         window.inApp.mySelectBookInserted(`${bookId}`);
       } else if (window.android && window.android.mySelectBookInserted) {
         // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.

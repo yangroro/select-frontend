@@ -37,6 +37,9 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         dispatchLoadHomeRequest,
         dispatchLoadCollectionRequest,
       } = this.props;
+      if (window.inApp && window.inApp.initialRendered) {
+        window.inApp.initialRendered();
+      }
       if (
         !fetchedAt ||
         Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3
