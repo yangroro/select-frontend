@@ -1,7 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
-import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
+import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, BookToBookRecommendationResponse } from 'app/services/book/requests';
 import { RGB } from 'app/services/commonUI';
 import { BookId, DateDTO } from 'app/types';
 import { AxiosError } from 'axios';
@@ -38,6 +38,16 @@ export const Actions = {
   clearBookOwnership: createAction<{
     bookIds: BookId[],
   }>('clearBookOwnership'),
+  loadBookToBookRecommendationRequest: createAction<{
+    bookId: BookId,
+  }>('loadBookToBookRecommendationRequest'),
+  loadBookToBookRecommendationSuccess: createAction<{
+    bookId: BookId,
+    bookToBookRecommendation: BookToBookRecommendationResponse,
+  }>('loadBookToBookRecommendationSuccess'),
+  loadBookToBookRecommendationFailure: createAction<{
+    bookId: BookId,
+  }>('loadBookToBookRecommendationFailure'),
   updateDominantColor: createAction<{
     bookId: BookId,
     color: RGB,
@@ -133,7 +143,9 @@ export interface LocalStorageStaticBookState {
 export interface BookStateItem extends StaticBookState {
   isFetched: boolean; // Hmm
   isDetailFetched: boolean;
+  isBookToBookRecommendationFetched: boolean;
   detailFetchStatus: FetchStatusFlag;
+  bookToBookRecommendationFetchStatus: FetchStatusFlag;
   ownershipFetchStatus: FetchStatusFlag;
   ownershipStatus?: BookOwnershipStatus;
 }
@@ -278,6 +290,42 @@ bookReducer.on(Actions.updateDominantColor, (state, action) => {
     [bookId]: {
       ...state[bookId],
       dominantColor: color,
+    },
+  };
+});
+
+bookReducer.on(Actions.loadBookToBookRecommendationRequest, (state, action) => {
+  const { bookId } = action;
+  return {
+    ...state,
+    [bookId]: {
+      ...state[bookId],
+      bookToBookRecommendationFetchStatus: FetchStatusFlag.FETCHING,
+    },
+  };
+});
+
+bookReducer.on(Actions.loadBookToBookRecommendationSuccess, (state, action) => {
+  const { bookId, bookToBookRecommendation } = action;
+  return {
+    ...state,
+    [bookId]: {
+      ...state[bookId],
+      isBookToBookRecommendationFetched: true,
+      bookToBookRecommendationFetchStatus: FetchStatusFlag.IDLE,
+      bookToBookRecommendation,
+    },
+  };
+});
+
+bookReducer.on(Actions.loadBookToBookRecommendationFailure, (state, action) => {
+  const { bookId } = action;
+  return {
+    ...state,
+    [bookId]: {
+      ...state[bookId],
+      isBookToBookRecommendationFetched: false,
+      bookToBookRecommendationFetchStatus: FetchStatusFlag.FETCH_ERROR,
     },
   };
 });
