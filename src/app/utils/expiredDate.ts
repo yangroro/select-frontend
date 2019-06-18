@@ -36,5 +36,5 @@ export function isInNotAvailableConvertList(bookEndDate: string) {
   const bookEndDateObj = new Date(bookEndDate);
   const monthDirfference = differenceInMonths(currentDateObj, bookEndDateObj);
 
-  return monthDirfference >= 0 && monthDirfference <= 1;
+  return monthDirfference >= 0 && monthDirfference <= 2;
 }
