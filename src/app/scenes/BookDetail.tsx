@@ -13,6 +13,7 @@ import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { CollapsableBookList } from 'app/components/CollapsableBookList';
 import { Notice } from 'app/components/Notice';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
@@ -86,6 +87,10 @@ interface BookDetailStateProps {
   publisher?: Publisher;
   publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
+
+  isBookToBookRecommendationFetched: boolean;
+  bookToBookRecommendationFetchStatus: FetchStatusFlag;
+  recommendedBooks: Book[];
 
   mySelect: MySelectState;
   env: EnvironmentState;
@@ -194,12 +199,15 @@ export class BookDetail extends React.Component<Props, State> {
     this.props.ownershipFetchStatus === FetchStatusFlag.FETCHING ||
     this.props.mySelect.additionFetchStatus === FetchStatusFlag.FETCHING
 
-  private fetchBookDetailAndOwnership = (props: Props) => {
+  private fetchBookDetailPageData = (props: Props) => {
     if (!props.isFetched) {
       props.dispatchLoadBookRequest(props.bookId);
     }
     if (!props.ownershipStatus && props.isLoggedIn) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
+    }
+    if (!props.isBookToBookRecommendationFetched) {
+      props.dispatchLoadBookToBookRecommendation(props.bookId);
     }
   }
 
@@ -501,14 +509,14 @@ export class BookDetail extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    this.fetchBookDetailAndOwnership(this.props);
+    this.fetchBookDetailPageData(this.props);
     this.updateDominantColor(this.props);
     requestAnimationFrame(forceCheck);
   }
   public componentWillReceiveProps(nextProps: Props) {
     if (this.props.bookId !== nextProps.bookId) {
       this.updateDominantColor(nextProps);
-      this.fetchBookDetailAndOwnership(nextProps);
+      this.fetchBookDetailPageData(nextProps);
     }
     if (
       (!this.props.thumbnail && nextProps.thumbnail) ||
@@ -552,6 +560,7 @@ export class BookDetail extends React.Component<Props, State> {
       transparentBackgroundColorRGBString,
       backgroundColorGradientToLeft,
       backgroundColorGradientToRight,
+      recommendedBooks,
     } = this.props;
     const { seriesListExpanded } = this.state;
 
@@ -705,6 +714,12 @@ export class BookDetail extends React.Component<Props, State> {
                 </div>
               </section>
             )}
+            <CollapsableBookList
+              books={recommendedBooks}
+              className="PageBookDetail_Pannl"
+              listTitle="'마이 셀렉트'에 함께 추가된 책"
+              uiPartTitleForTracking="'마이 셀렉트'에 함께 추가된 책"
+            />
             <section className="PageBookDetail_Panel Reviews_Wrapper">
               <h2 className="a11y">리뷰</h2>
               <LazyLoad height={200} once={true} offset={400}>
@@ -777,12 +792,16 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     backgroundColorGradientToRight: getBackgroundColorGradientToRight(state),
     isIosInApp: getIsIosInApp(state),
     isInApp: selectIsInApp(state),
+    bookToBookRecommendationFetchStatus: bookState.bookToBookRecommendationFetchStatus,
+    isBookToBookRecommendationFetched: bookState.isBookToBookRecommendationFetched,
+    recommendedBooks: bookState.recommendedBooks ? bookState.recommendedBooks : [],
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadBookRequest: (bookId: number) => dispatch(BookActions.loadBookDetailRequest({ bookId })),
+    dispatchLoadBookToBookRecommendation: (bookId: number) => dispatch(BookActions.loadBookToBookRecommendationRequest({ bookId })),
     dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
       dispatch(BookActions.updateDominantColor({ bookId, color })),

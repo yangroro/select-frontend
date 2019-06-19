@@ -18,7 +18,7 @@ export const CollapsableBookList: React.SFC<CollapsableBookListProps> = (props: 
   const [isCollapsed, setIsCollapsed] = React.useState(true);
   const { className, listTitle, uiPartTitleForTracking, books } = props;
 
-  return (
+  return books.length > 0 ? (
     <section
       className={classNames(
         'CollapsableBookList',
@@ -52,5 +52,5 @@ export const CollapsableBookList: React.SFC<CollapsableBookListProps> = (props: 
         </MediaQuery>
 
     </section>
-  );
+  ) : null;
 };
