@@ -716,7 +716,7 @@ export class BookDetail extends React.Component<Props, State> {
             )}
             <CollapsableBookList
               books={recommendedBooks}
-              className="PageBookDetail_Pannl"
+              className="PageBookDetail_Panel"
               listTitle="'마이 셀렉트'에 함께 추가된 책"
               uiPartTitleForTracking="'마이 셀렉트'에 함께 추가된 책"
             />

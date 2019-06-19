@@ -6,6 +6,7 @@ import MediaQuery from 'react-responsive';
 import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components';
 import { Book } from 'app/services/book';
+import { Expander } from 'app/services/book/components/Expander';
 
 interface CollapsableBookListProps {
   className: string;
@@ -26,26 +27,25 @@ export const CollapsableBookList: React.SFC<CollapsableBookListProps> = (props: 
         className,
       )}
     >
-        <h2 className="ListTitle">{listTitle}</h2>
+        <h2 className="CollapsableBookList_Title">{listTitle}</h2>
         <MediaQuery maxWidth={432}>
           {(isMobile) => (
             <>
               <ConnectedInlineHorizontalBookList
-                books={isCollapsed && !isMobile ? take(books, 5) : books}
+                books={isCollapsed && !isMobile ? take(books, 6) : books}
                 uiPartTitleForTracking={uiPartTitleForTracking}
+                disableInlineOnPC={!isCollapsed}
                 renderAuthor={false}
+                lazyloadThumbnail={false}
               />
               {!isMobile && (
-                <button
-                  className="CollapsableBookList_ExpandButton"
-                  onClick={() => setIsCollapsed(!isCollapsed)}
-                >
-                  {isCollapsed ? '펼쳐 보기' : '접기'}
-                  <Icon
-                    name={isCollapsed ? 'arrow_5_down' : 'arrow_5_up'}
-                    className="CollapsableBookList_ExpandButton_Arrow"
+                <div className="CollapsableBookList_ExpandButton_Wrapper">
+                  <Expander
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    text="펼쳐 보기"
+                    isExpanded={!isCollapsed}
                   />
-                </button>
+                </div>
               )}
             </>
           )}
