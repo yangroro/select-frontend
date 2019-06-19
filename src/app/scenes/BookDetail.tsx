@@ -792,9 +792,9 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     backgroundColorGradientToRight: getBackgroundColorGradientToRight(state),
     isIosInApp: getIsIosInApp(state),
     isInApp: selectIsInApp(state),
-    bookToBookRecommendationFetchStatus: bookState.bookToBookRecommendationFetchStatus,
-    isBookToBookRecommendationFetched: bookState.isBookToBookRecommendationFetched,
-    recommendedBooks: bookState.recommendedBooks ? bookState.recommendedBooks : [],
+    bookToBookRecommendationFetchStatus: !!bookDetail ? bookState.bookToBookRecommendationFetchStatus : FetchStatusFlag.IDLE,
+    isBookToBookRecommendationFetched: !!bookDetail ? bookState.isBookToBookRecommendationFetched : false,
+    recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : [],
   };
 };
 

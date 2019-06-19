@@ -1,9 +1,9 @@
 import { mapValues } from 'lodash-es';
-import { BookToBookRecommendationResponse, requestBookToBookRecommendation } from './requests';
+import { BookToBookRecommendationResponse, RecommendedBook, requestBookToBookRecommendation } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
-import { Actions } from 'app/services/book';
+import { Actions, Book } from 'app/services/book';
 import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
 import { RidiSelectState } from 'app/store';
@@ -106,11 +106,11 @@ export function* watchLoadBookToBookRecommendation() {
       if (isNaN(bookId)) {
         throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
       }
-      const response: BookToBookRecommendationResponse = yield call(requestBookToBookRecommendation, bookId);
-      if (response.bookSummary && response.bookSummary.length >= 0) {
+      const response: RecommendedBook[] = yield call(requestBookToBookRecommendation, bookId);
+      if (response && response.length >= 0) {
         yield put(Actions.loadBookToBookRecommendationSuccess({
           bookId,
-          recommendedBooks: response.bookSummary,
+          recommendedBooks: response.map((bookData: RecommendedBook) => bookData.bookSummary),
         }));
       }
     } catch (e) {
