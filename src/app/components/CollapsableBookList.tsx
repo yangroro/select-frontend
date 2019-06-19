@@ -15,7 +15,7 @@ interface CollapsableBookListProps {
   books: Book[];
 }
 
-export const CollapsableBookList: React.SFC<CollapsableBookListProps> = (props: CollapsableBookListProps) =>  {
+export const CollapsableBookList: React.FunctionComponent<CollapsableBookListProps> = (props: CollapsableBookListProps) =>  {
   const [isCollapsed, setIsCollapsed] = React.useState(true);
   const { className, listTitle, uiPartTitleForTracking, books } = props;
 
