@@ -28,7 +28,7 @@ export const CollapsableBookList: React.SFC<CollapsableBookListProps> = (props: 
       )}
     >
         <h2 className="CollapsableBookList_Title">{listTitle}</h2>
-        <MediaQuery maxWidth={432}>
+        <MediaQuery maxWidth={840}>
           {(isMobile) => (
             <>
               <ConnectedInlineHorizontalBookList
