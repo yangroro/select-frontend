@@ -34,7 +34,6 @@ export function getNotAvailableConvertDate(BookEndDate: string, NextBillDate?: s
 export function isInNotAvailableConvertList(bookEndDate: string) {
   const currentDateObj = new Date();
   const bookEndDateObj = new Date(bookEndDate);
-  const monthDirfference = differenceInMonths(currentDateObj, bookEndDateObj);
-
-  return monthDirfference >= 0 && monthDirfference <= 2;
+  const monthDirfference = differenceInMonths(bookEndDateObj, currentDateObj);
+  return monthDirfference >= 0 && monthDirfference <= 1;
 }
