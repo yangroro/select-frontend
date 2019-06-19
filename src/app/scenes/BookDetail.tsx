@@ -115,7 +115,6 @@ type Props = ReturnType<typeof mapDispatchToProps> & BookDetailStateProps & OwnP
 interface State {
   thumbnailExapnded: boolean;
   isAuthorsExpanded: boolean;
-  seriesListExpanded: boolean;
 }
 
 export class BookDetail extends React.Component<Props, State> {
@@ -127,7 +126,6 @@ export class BookDetail extends React.Component<Props, State> {
   public state = {
     thumbnailExapnded: false,
     isAuthorsExpanded: false,
-    seriesListExpanded: false,
   };
 
   private updateDominantColor = (props: Props) => {
@@ -562,7 +560,6 @@ export class BookDetail extends React.Component<Props, State> {
       backgroundColorGradientToRight,
       recommendedBooks,
     } = this.props;
-    const { seriesListExpanded } = this.state;
 
     if (!title || !title.main) {
       return <BookDetailPlaceholder />;
@@ -647,33 +644,12 @@ export class BookDetail extends React.Component<Props, State> {
                 </div>
               </section>
             ) : <BookDetailSectionPlaceholder />}
-            {seriesBookList &&
-              seriesBookList.length > 0 && (
-                <section className="PageBookDetail_Panel">
-                  <h2 className="PageBookDetail_PanelTitle">이 책의 시리즈</h2>
-                  <div className="PageBookDetail_PanelContent">
-                    <ConnectedInlineHorizontalBookList
-                      pageTitleForTracking="book-detail"
-                      uiPartTitleForTracking="series-list"
-                      disableInlineOnPC={seriesListExpanded}
-                      books={seriesBookList!}
-                      lazyloadThumbnail={false}
-                    />
-                    {!seriesListExpanded && seriesBookList.length > 6 &&
-                      !isMobile && (
-                        <div className="BookDetail_ContentTruncWrapper">
-                          <Expander
-                            onClick={() => {
-                              this.setState({ seriesListExpanded: true });
-                            }}
-                            text="펼쳐 보기"
-                            isExpanded={seriesListExpanded}
-                          />
-                        </div>
-                      )}
-                  </div>
-                </section>
-              )}
+            <CollapsableBookList
+              books={seriesBookList!}
+              className="PageBookDetail_Panel"
+              listTitle="이 책의 시리즈"
+              uiPartTitleForTracking="series-list"
+            />
             {publisherReview && (
               <section className="PageBookDetail_Panel">
                 <h2 className="PageBookDetail_PanelTitle">출판사 서평</h2>
@@ -718,7 +694,7 @@ export class BookDetail extends React.Component<Props, State> {
               books={recommendedBooks}
               className="PageBookDetail_Panel"
               listTitle="'마이 셀렉트'에 함께 추가된 책"
-              uiPartTitleForTracking="'마이 셀렉트'에 함께 추가된 책"
+              uiPartTitleForTracking="book-to-book-recommendation"
             />
             <section className="PageBookDetail_Panel Reviews_Wrapper">
               <h2 className="a11y">리뷰</h2>

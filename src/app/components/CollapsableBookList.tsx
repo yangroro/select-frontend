@@ -19,7 +19,7 @@ export const CollapsableBookList: React.SFC<CollapsableBookListProps> = (props: 
   const [isCollapsed, setIsCollapsed] = React.useState(true);
   const { className, listTitle, uiPartTitleForTracking, books } = props;
 
-  return books.length > 0 ? (
+  return books && books.length > 0 ? (
     <section
       className={classNames(
         'CollapsableBookList',
