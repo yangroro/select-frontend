@@ -1,4 +1,5 @@
 import { mapValues } from 'lodash-es';
+import { BookToBookRecommendationResponse, requestBookToBookRecommendation } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
@@ -98,6 +99,29 @@ export function* watchLoadBookDetail() {
   }
 }
 
+export function* watchLoadBookToBookRecommendation() {
+  while (true) {
+    const { payload: { bookId } }: ReturnType<typeof Actions.loadBookToBookRecommendationRequest> = yield take(Actions.loadBookToBookRecommendationRequest.getType());
+    try {
+      if (isNaN(bookId)) {
+        throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
+      }
+      const response: BookToBookRecommendationResponse = yield call(requestBookToBookRecommendation, bookId);
+      if (response.bookSummary && response.bookSummary.length >= 0) {
+        yield put(Actions.loadBookToBookRecommendationSuccess({
+          bookId,
+          recommendedBooks: response.bookSummary,
+        }));
+      }
+    } catch (e) {
+      toast.failureMessage('추천 도서를 받아오는데 실패했습니다. 다시 시도해주세요.');
+      yield put(Actions.loadBookToBookRecommendationFailure({
+        bookId,
+      }));
+    }
+  }
+}
+
 export function* watchLoadBookOwnership() {
   while (true) {
     const { payload: { bookId } }: ReturnType<typeof Actions.loadBookOwnershipRequest> = yield take(Actions.loadBookOwnershipRequest.getType());
@@ -119,6 +143,7 @@ export function* bookRootSaga() {
   yield fork(initialSaga);
   yield all([
     watchLoadBookDetail(),
+    watchLoadBookToBookRecommendation(),
     watchActionsToCache(),
     watchLoadBookOwnership(),
   ]);

@@ -43,7 +43,7 @@ export const Actions = {
   }>('loadBookToBookRecommendationRequest'),
   loadBookToBookRecommendationSuccess: createAction<{
     bookId: BookId,
-    bookToBookRecommendation: BookToBookRecommendationResponse,
+    recommendedBooks: Book[],
   }>('loadBookToBookRecommendationSuccess'),
   loadBookToBookRecommendationFailure: createAction<{
     bookId: BookId,
@@ -127,6 +127,7 @@ export interface BookOwnershipStatus {
 export interface StaticBookState {
   book?: Book;
   bookDetail?: BookDetailResponse;
+  recommendedBooks?: Book[];
   dominantColor?: RGB;
 }
 
@@ -306,14 +307,14 @@ bookReducer.on(Actions.loadBookToBookRecommendationRequest, (state, action) => {
 });
 
 bookReducer.on(Actions.loadBookToBookRecommendationSuccess, (state, action) => {
-  const { bookId, bookToBookRecommendation } = action;
+  const { bookId, recommendedBooks } = action;
   return {
     ...state,
     [bookId]: {
       ...state[bookId],
       isBookToBookRecommendationFetched: true,
       bookToBookRecommendationFetchStatus: FetchStatusFlag.IDLE,
-      bookToBookRecommendation,
+      recommendedBooks,
     },
   };
 });
