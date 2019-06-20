@@ -3,6 +3,7 @@ import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
+import { FetchErrorFlag } from 'app/constants';
 import { Book } from 'app/services/book';
 import { requestBooks } from 'app/services/book/requests';
 import { getIsIosInApp } from 'app/services/environment/selectors';
@@ -25,6 +26,7 @@ import {
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
+import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
@@ -92,6 +94,9 @@ export function* watchLoadPurchases() {
 export function* loadMySelectHistory({ payload }: ReturnType<typeof Actions.loadMySelectHistoryRequest>) {
   const { page } = payload!;
   try {
+    if (!isValidPaginationParameter(page)) {
+      throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
+    }
     const response: MySelectHistoryResponse = yield call(reqeustMySelectHistory, page);
     if (response.userRidiSelectBooks.length > 0) {
       const books: Book[] = yield call(requestBooks, response.userRidiSelectBooks.map((book) => parseInt(book.bId, 10)));
@@ -102,14 +107,31 @@ export function* loadMySelectHistory({ payload }: ReturnType<typeof Actions.load
     }
 
     yield put(Actions.loadMySelectHistorySuccess({ page, response }));
-  } catch (e) {
-    yield put(Actions.loadMySelectHistoryFailure({ page }));
-    showMessageForRequestError(e);
+  } catch (error) {
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+      history.replace(`?${updateQueryStringParam('page', 1)}`);
+      return;
+    }
+    yield put(Actions.loadMySelectHistoryFailure({ page, error }));
   }
 }
 
 export function* watchLoadMySelectHistory() {
   yield takeEvery(Actions.loadMySelectHistoryRequest.getType(), loadMySelectHistory);
+}
+
+export function* watchLoadMySelectHistoryFailure() {
+  while (true) {
+    const { payload: { page, error } }: ReturnType<typeof Actions.loadMySelectHistoryFailure> = yield take(Actions.loadMySelectHistoryFailure.getType());
+    if (page === 1) {
+      const { data } = error.response!;
+      if (!data || data.status !== 'maintenance') {
+        toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
+      }
+      return;
+    }
+    fixWrongPaginationScope(error.response);
+  }
 }
 
 export function* watchDeleteMySelectHistory() {
@@ -210,6 +232,7 @@ export function* userRootSaga() {
     watchLoadSubscription(),
     watchLoadPurchases(),
     watchLoadMySelectHistory(),
+    watchLoadMySelectHistoryFailure(),
     watchDeleteMySelectHistory(),
     watchCancelPurchase(),
     watchUnsubscribe(),

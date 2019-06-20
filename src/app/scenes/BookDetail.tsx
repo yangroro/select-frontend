@@ -619,7 +619,7 @@ export class BookDetail extends React.Component<Props, State> {
               <section className="PageBookDetail_Panel">
                 {this.renderMeta()}
                 {this.renderNoticeList(noticeList)}
-                {isInNotAvailableConvertList(bookEndDateTime) && this.renderBookWillBeNotAvailableNotice()}
+                {this.renderBookWillBeNotAvailableNotice()}
                 {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
               </section>
             ) : (

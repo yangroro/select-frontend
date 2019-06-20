@@ -11,7 +11,6 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
-import { Actions as MySelectHistoryActions } from 'app/services/user';
 
 import { reqeustMySelectHistory } from 'app/services/user/requests';
 
@@ -19,7 +18,7 @@ import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
-import { updateQueryStringParam } from 'app/utils/request';
+import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
 import { keyBy } from 'lodash-es';
@@ -29,7 +28,7 @@ import { getIsIosInApp, selectIsInApp } from '../environment/selectors';
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {
   const { page } = payload;
   try {
-    if (Number.isNaN(page)) {
+    if (!isValidPaginationParameter(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
     const response: MySelectListResponse = yield call(requestMySelectList, page);
@@ -53,6 +52,10 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
       page,
     }));
   } catch (error) {
+    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS) {
+      history.replace(`?${updateQueryStringParam('page', 1)}`);
+      return;
+    }
     yield put(Actions.loadMySelectFailure({ page, error }));
   }
 }
@@ -127,8 +130,8 @@ export function* watchAddMySelect() {
           },
         });
       }
-      // TODO: bookId 를 string 으로 넘겨야 하는 것으로 약속 되어있는데 reducer 내부에서 모두 number로 처리하고 있어서 인앱 관련된 부분만 일단 수정.
       if (window.inApp && window.inApp.mySelectBookInserted) {
+        // bookId 를 string 으로 넘겨야 하는 것으로 약속 되어있는데 reducer 내부에서 모두 number로 처리하고 있어서 인앱 관련된 부분 string으로 캐스팅.
         window.inApp.mySelectBookInserted(`${bookId}`);
       } else if (window.android && window.android.mySelectBookInserted) {
         // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.
@@ -144,11 +147,11 @@ export function* watchAddMySelect() {
 export function* watchLoadMySelectFailure() {
   while (true) {
     const { payload: { error, page } }: ReturnType<typeof Actions.loadMySelectFailure> = yield take(Actions.loadMySelectFailure.getType());
-    if (error === FetchErrorFlag.UNEXPECTED_PAGE_PARAMS || page === 1) {
+    if (page === 1) {
       toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       return;
     }
-    toast.failureMessage();
+    fixWrongPaginationScope(error.response);
   }
 }
 

@@ -6,6 +6,7 @@ import { userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
 import { UserDTO } from 'app/services/user/helper';
 import { MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse, Ticket } from 'app/services/user/requests';
 import { DateDTO, ItemListByPage, Paginated } from 'app/types';
+import { AxiosError } from 'axios';
 
 export const Actions = {
   fetchUserInfo: createAction<{
@@ -62,6 +63,7 @@ export const Actions = {
 
   loadMySelectHistoryFailure: createAction<{
     page: number,
+    error: AxiosError,
   }>('loadMySelectHistoryFailure'),
 
   clearMySelectHistory: createAction('clearMySelectHistory'),

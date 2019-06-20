@@ -15,6 +15,9 @@ export class InAppIntro extends React.Component {
   }
   public componentDidMount() {
     setDisableScroll(true);
+    if (window.inApp && window.inApp.initialRendered) {
+      window.inApp.initialRendered();
+    }
   }
   public componentWillUnmount() {
     setDisableScroll(false);

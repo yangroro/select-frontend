@@ -28,7 +28,7 @@ export const Actions = {
   loadClosingReservedBooksFailure: createAction<{
     termType: closingReservedTermType,
     page: number,
-    error: AxiosError | FetchErrorFlag,
+    error: AxiosError,
   }>('loadClosingReservedBooksFailure'),
 };
 
