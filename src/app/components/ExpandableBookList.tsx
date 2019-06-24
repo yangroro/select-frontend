@@ -13,7 +13,7 @@ interface ExpandableBookListProps {
   books?: Book[];
 }
 
-export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps> = (props: ExpandableBookListProps) =>  {
+export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps> = (props) =>  {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const { className, listTitle, uiPartTitleForTracking, books } = props;
 
