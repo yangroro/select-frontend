@@ -13,7 +13,7 @@ import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
-import { CollapsableBookList } from 'app/components/CollapsableBookList';
+import { ExpandableBookList } from 'app/components/ExpandableBookList';
 import { Notice } from 'app/components/Notice';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
@@ -644,7 +644,7 @@ export class BookDetail extends React.Component<Props, State> {
                 </div>
               </section>
             ) : <BookDetailSectionPlaceholder />}
-            <CollapsableBookList
+            <ExpandableBookList
               books={seriesBookList}
               className="PageBookDetail_Panel"
               listTitle="이 책의 시리즈"
@@ -690,7 +690,7 @@ export class BookDetail extends React.Component<Props, State> {
                 </div>
               </section>
             )}
-            <CollapsableBookList
+            <ExpandableBookList
               books={recommendedBooks}
               className="PageBookDetail_Panel"
               listTitle="'마이 셀렉트'에 함께 추가된 책"
