@@ -645,7 +645,7 @@ export class BookDetail extends React.Component<Props, State> {
               </section>
             ) : <BookDetailSectionPlaceholder />}
             <CollapsableBookList
-              books={seriesBookList!}
+              books={seriesBookList}
               className="PageBookDetail_Panel"
               listTitle="이 책의 시리즈"
               uiPartTitleForTracking="series-list"

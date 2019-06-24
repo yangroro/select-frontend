@@ -12,7 +12,7 @@ interface CollapsableBookListProps {
   className: string;
   listTitle: string;
   uiPartTitleForTracking: string;
-  books: Book[];
+  books?: Book[];
 }
 
 export const CollapsableBookList: React.FunctionComponent<CollapsableBookListProps> = (props: CollapsableBookListProps) =>  {
