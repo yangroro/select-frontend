@@ -101,4 +101,4 @@ export const requestBookToBookRecommendation = (bookId: number): Promise<Recomme
   request({
     url: `/api/recommendations/books/${bookId}`,
     method: 'GET',
-  }).then((response) => camelize<AxiosResponse<RecommendedBook[]>>(response, { recursive: true }).data);
+  }).then((response) => camelize<RecommendedBook[]>(response.data, { recursive: true }));
