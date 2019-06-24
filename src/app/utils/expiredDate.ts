@@ -3,7 +3,6 @@ import { differenceInDays, differenceInMinutes, differenceInMonths, parse } from
 export function getNotAvailableConvertDateDiff(BookEndDate: string, NextBillDate?: string) {
   const currentDate = new Date();
   const bookEndDate = parse(BookEndDate);
-
   return differenceInDays(bookEndDate, currentDate);
 }
 
@@ -34,6 +33,6 @@ export function getNotAvailableConvertDate(BookEndDate: string, NextBillDate?: s
 export function isInNotAvailableConvertList(bookEndDate: string) {
   const currentDateObj = new Date();
   const bookEndDateObj = new Date(bookEndDate);
-  const monthDirfference = differenceInMonths(bookEndDateObj, currentDateObj);
-  return monthDirfference >= 0 && monthDirfference <= 1;
+  const monthDifference = differenceInMonths(bookEndDateObj, currentDateObj);
+  return monthDifference >= 0 && monthDifference < 1;
 }
