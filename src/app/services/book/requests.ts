@@ -75,7 +75,7 @@ export type BookDetailResponse = BookDetailResponseV2;
 
 export interface RecommendedBook {
   score: number;
-  rcmd_id: string;
+  rcmdId: string;
   bookSummary: Book;
 }
 
