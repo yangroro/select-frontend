@@ -311,7 +311,7 @@ bookReducer.on(Actions.loadBookToBookRecommendationSuccess, (state, action) => {
     ...state,
     [bookId]: {
       ...state[bookId],
-      bookToBookRecommendationFetchStatus: FetchStatusFlag.FETCHED,
+      bookToBookRecommendationFetchStatus: FetchStatusFlag.IDLE,
       recommendedBooks,
     },
   };

@@ -2,7 +2,6 @@ export enum FetchStatusFlag {
   IDLE,
   FETCHING,
   FETCH_ERROR,
-  FETCHED,
 }
 
 export enum FetchErrorFlag {
