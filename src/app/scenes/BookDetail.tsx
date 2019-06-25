@@ -88,7 +88,6 @@ interface BookDetailStateProps {
   publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
 
-  isBookToBookRecommendationFetched: boolean;
   bookToBookRecommendationFetchStatus: FetchStatusFlag;
   recommendedBooks: Book[];
 
@@ -204,7 +203,7 @@ export class BookDetail extends React.Component<Props, State> {
     if (!props.ownershipStatus && props.isLoggedIn) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
     }
-    if (!props.isBookToBookRecommendationFetched) {
+    if (props.bookToBookRecommendationFetchStatus !== FetchStatusFlag.FETCHED) {
       props.dispatchLoadBookToBookRecommendation(props.bookId);
     }
   }
@@ -769,7 +768,6 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     isIosInApp: getIsIosInApp(state),
     isInApp: selectIsInApp(state),
     bookToBookRecommendationFetchStatus: !!bookDetail ? bookState.bookToBookRecommendationFetchStatus : FetchStatusFlag.IDLE,
-    isBookToBookRecommendationFetched: !!bookDetail ? bookState.isBookToBookRecommendationFetched : false,
     recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : [],
   };
 };

@@ -144,7 +144,6 @@ export interface LocalStorageStaticBookState {
 export interface BookStateItem extends StaticBookState {
   isFetched: boolean; // Hmm
   isDetailFetched: boolean;
-  isBookToBookRecommendationFetched: boolean;
   detailFetchStatus: FetchStatusFlag;
   bookToBookRecommendationFetchStatus: FetchStatusFlag;
   ownershipFetchStatus: FetchStatusFlag;
@@ -312,8 +311,7 @@ bookReducer.on(Actions.loadBookToBookRecommendationSuccess, (state, action) => {
     ...state,
     [bookId]: {
       ...state[bookId],
-      isBookToBookRecommendationFetched: true,
-      bookToBookRecommendationFetchStatus: FetchStatusFlag.IDLE,
+      bookToBookRecommendationFetchStatus: FetchStatusFlag.FETCHED,
       recommendedBooks,
     },
   };
@@ -325,7 +323,6 @@ bookReducer.on(Actions.loadBookToBookRecommendationFailure, (state, action) => {
     ...state,
     [bookId]: {
       ...state[bookId],
-      isBookToBookRecommendationFetched: false,
       bookToBookRecommendationFetchStatus: FetchStatusFlag.FETCH_ERROR,
     },
   };
