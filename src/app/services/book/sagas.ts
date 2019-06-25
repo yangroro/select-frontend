@@ -1,13 +1,14 @@
 import { mapValues } from 'lodash-es';
+import { BookToBookRecommendationResponse, RecommendedBook, requestBookToBookRecommendation } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
-import { Actions } from 'app/services/book';
+import { Actions, Book } from 'app/services/book';
 import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import { all, call, fork, put, select, take, takeLatest } from 'redux-saga/effects';
 
 const KEY_LOCAL_STORAGE = 'rs.books';
 const booksLocalStorageManager = {
@@ -98,6 +99,31 @@ export function* watchLoadBookDetail() {
   }
 }
 
+export function* loadBookToBookRecommendation({ payload }: ReturnType<typeof Actions.loadBookToBookRecommendationRequest>) {
+  const { bookId } = payload;
+  try {
+    if (isNaN(bookId)) {
+      throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
+    }
+    const response: RecommendedBook[] = yield call(requestBookToBookRecommendation, bookId);
+    if (response && response.length >= 0) {
+      yield put(Actions.loadBookToBookRecommendationSuccess({
+        bookId,
+        recommendedBooks: response.map((bookData: RecommendedBook) => bookData.bookSummary),
+      }));
+    }
+  } catch (e) {
+    toast.failureMessage('추천 도서를 받아오는데 실패했습니다. 다시 시도해주세요.');
+    yield put(Actions.loadBookToBookRecommendationFailure({
+      bookId,
+    }));
+  }
+}
+
+export function* watchLoadBookToBookRecommendation() {
+  yield takeLatest(Actions.loadBookToBookRecommendationRequest.getType(), loadBookToBookRecommendation);
+}
+
 export function* watchLoadBookOwnership() {
   while (true) {
     const { payload: { bookId } }: ReturnType<typeof Actions.loadBookOwnershipRequest> = yield take(Actions.loadBookOwnershipRequest.getType());
@@ -119,6 +145,7 @@ export function* bookRootSaga() {
   yield fork(initialSaga);
   yield all([
     watchLoadBookDetail(),
+    watchLoadBookToBookRecommendation(),
     watchActionsToCache(),
     watchLoadBookOwnership(),
   ]);

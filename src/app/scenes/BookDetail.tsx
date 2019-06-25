@@ -13,6 +13,7 @@ import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { ExpandableBookList } from 'app/components/ExpandableBookList';
 import { Notice } from 'app/components/Notice';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
@@ -87,6 +88,9 @@ interface BookDetailStateProps {
   publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
 
+  bookToBookRecommendationFetchStatus: FetchStatusFlag;
+  recommendedBooks?: Book[];
+
   mySelect: MySelectState;
   env: EnvironmentState;
   gnbColorLevel: GNBColorLevel;
@@ -110,7 +114,6 @@ type Props = ReturnType<typeof mapDispatchToProps> & BookDetailStateProps & OwnP
 interface State {
   thumbnailExapnded: boolean;
   isAuthorsExpanded: boolean;
-  seriesListExpanded: boolean;
 }
 
 export class BookDetail extends React.Component<Props, State> {
@@ -122,7 +125,6 @@ export class BookDetail extends React.Component<Props, State> {
   public state = {
     thumbnailExapnded: false,
     isAuthorsExpanded: false,
-    seriesListExpanded: false,
   };
 
   private updateDominantColor = (props: Props) => {
@@ -194,12 +196,15 @@ export class BookDetail extends React.Component<Props, State> {
     this.props.ownershipFetchStatus === FetchStatusFlag.FETCHING ||
     this.props.mySelect.additionFetchStatus === FetchStatusFlag.FETCHING
 
-  private fetchBookDetailAndOwnership = (props: Props) => {
+  private fetchBookDetailPageData = (props: Props) => {
     if (!props.isFetched) {
       props.dispatchLoadBookRequest(props.bookId);
     }
     if (!props.ownershipStatus && props.isLoggedIn) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
+    }
+    if (props.bookToBookRecommendationFetchStatus === FetchStatusFlag.IDLE && !props.recommendedBooks) {
+      props.dispatchLoadBookToBookRecommendation(props.bookId);
     }
   }
 
@@ -501,14 +506,14 @@ export class BookDetail extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    this.fetchBookDetailAndOwnership(this.props);
+    this.fetchBookDetailPageData(this.props);
     this.updateDominantColor(this.props);
     requestAnimationFrame(forceCheck);
   }
   public componentWillReceiveProps(nextProps: Props) {
     if (this.props.bookId !== nextProps.bookId) {
       this.updateDominantColor(nextProps);
-      this.fetchBookDetailAndOwnership(nextProps);
+      this.fetchBookDetailPageData(nextProps);
     }
     if (
       (!this.props.thumbnail && nextProps.thumbnail) ||
@@ -552,8 +557,8 @@ export class BookDetail extends React.Component<Props, State> {
       transparentBackgroundColorRGBString,
       backgroundColorGradientToLeft,
       backgroundColorGradientToRight,
+      recommendedBooks,
     } = this.props;
-    const { seriesListExpanded } = this.state;
 
     if (!title || !title.main) {
       return <BookDetailPlaceholder />;
@@ -638,33 +643,12 @@ export class BookDetail extends React.Component<Props, State> {
                 </div>
               </section>
             ) : <BookDetailSectionPlaceholder />}
-            {seriesBookList &&
-              seriesBookList.length > 0 && (
-                <section className="PageBookDetail_Panel">
-                  <h2 className="PageBookDetail_PanelTitle">이 책의 시리즈</h2>
-                  <div className="PageBookDetail_PanelContent">
-                    <ConnectedInlineHorizontalBookList
-                      pageTitleForTracking="book-detail"
-                      uiPartTitleForTracking="series-list"
-                      disableInlineOnPC={seriesListExpanded}
-                      books={seriesBookList!}
-                      lazyloadThumbnail={false}
-                    />
-                    {!seriesListExpanded && seriesBookList.length > 6 &&
-                      !isMobile && (
-                        <div className="BookDetail_ContentTruncWrapper">
-                          <Expander
-                            onClick={() => {
-                              this.setState({ seriesListExpanded: true });
-                            }}
-                            text="펼쳐 보기"
-                            isExpanded={seriesListExpanded}
-                          />
-                        </div>
-                      )}
-                  </div>
-                </section>
-              )}
+            <ExpandableBookList
+              books={seriesBookList}
+              className="PageBookDetail_Panel"
+              listTitle="이 책의 시리즈"
+              uiPartTitleForTracking="series-list"
+            />
             {publisherReview && (
               <section className="PageBookDetail_Panel">
                 <h2 className="PageBookDetail_PanelTitle">출판사 서평</h2>
@@ -705,6 +689,12 @@ export class BookDetail extends React.Component<Props, State> {
                 </div>
               </section>
             )}
+            <ExpandableBookList
+              books={recommendedBooks}
+              className="PageBookDetail_Panel"
+              listTitle="'마이 셀렉트'에 함께 추가된 책"
+              uiPartTitleForTracking="book-to-book-recommendation"
+            />
             <section className="PageBookDetail_Panel Reviews_Wrapper">
               <h2 className="a11y">리뷰</h2>
               <LazyLoad height={200} once={true} offset={400}>
@@ -777,12 +767,15 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     backgroundColorGradientToRight: getBackgroundColorGradientToRight(state),
     isIosInApp: getIsIosInApp(state),
     isInApp: selectIsInApp(state),
+    bookToBookRecommendationFetchStatus: !!bookDetail ? bookState.bookToBookRecommendationFetchStatus : FetchStatusFlag.IDLE,
+    recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchLoadBookRequest: (bookId: number) => dispatch(BookActions.loadBookDetailRequest({ bookId })),
+    dispatchLoadBookToBookRecommendation: (bookId: number) => dispatch(BookActions.loadBookToBookRecommendationRequest({ bookId })),
     dispatchUpdateGNBColor: (color: RGB) => dispatch(CommonUIActions.updateGNBColor({ color })),
     dispatchUpdateDominantColor: (bookId: number, color: RGB) =>
       dispatch(BookActions.updateDominantColor({ bookId, color })),
