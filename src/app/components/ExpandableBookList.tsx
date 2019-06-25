@@ -36,7 +36,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
                 renderAuthor={false}
                 lazyloadThumbnail={false}
               />
-              {!isMobile && (
+              {(!isMobile && !isExpanded) && (
                 <div className="ExpandableBookList_ExpandButton_Wrapper">
                   <Expander
                     onClick={() => setIsExpanded(!isExpanded)}
