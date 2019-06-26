@@ -20,3 +20,8 @@ export const getIsInAppRoot = createSelector(
   [selectIsInApp, selectPathname],
   (isInApp: boolean, pathname: string): boolean => isInApp && (pathname === '/'),
 );
+
+export const getIsRoot = createSelector(
+  [selectIsInApp, selectPathname],
+  (isInApp: boolean, pathname: string): boolean => (pathname === '/'),
+);
