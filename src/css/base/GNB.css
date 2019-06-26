@@ -275,6 +275,7 @@
 .GNB_LinkButton {
   display: inline-block;
   height: 28px;
+  margin-top: 7px;
   padding: 0 11px;
   border: solid 1px rgb(89, 102, 122);
   border-radius: 3px;
@@ -295,6 +296,9 @@
   }
 
   @media (--pc-screen) {
+    height: 58px;
+    line-height: 58px;
+    margin-top: 0;
     border: 0!important;
     font-size: 18px;
   }

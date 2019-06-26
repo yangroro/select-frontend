@@ -15,6 +15,7 @@ import {
   getIsAndroidInApp,
   getIsInAppRoot,
   getIsIosInApp,
+  getIsRoot,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
@@ -31,6 +32,7 @@ interface Props {
   isLoggedIn: boolean;
   isInAppRoot: boolean;
   isSubscribing: boolean;
+  isRoot: boolean;
 }
 
 export class GNB extends React.Component<Props> {
@@ -107,6 +109,7 @@ export class GNB extends React.Component<Props> {
 
   public renderGNBRight() {
     const {
+      isRoot,
       isLoggedIn,
       isInAppRoot,
       isSubscribing,
@@ -114,61 +117,45 @@ export class GNB extends React.Component<Props> {
       BASE_URL_RIDISELECT,
       solidBackgroundColorRGBString,
     } = this.props;
-
     if (isInAppRoot) {
       return null;
     }
-
-    if (isSubscribing) {
-      return (
-        <>
+    return (
+      <>
+        {isRoot ? null : (
           <MediaQuery maxWidth={840}>
             {(matches) => <ConnectedSearch isMobile={matches} />}
           </MediaQuery>
-          <div className="GNBRightButtonWrapper">
-            {this.renderSettingButton()}
-          </div>
-        </>
-      );
-    }
-
-    if (isLoggedIn) {
-      return (
+        )}
         <div className="GNBRightButtonWrapper">
-          <a
-            href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
-            className="GNB_LinkButton"
-          >
-            <h2 className="reset-heading">로그아웃</h2>
-          </a>
-        </div>
-      );
-    }
-
-    return (
-      <div className="GNBRightButtonWrapper">
-        <a
-          href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${
-            window.location.href
-          }`}
-          className="GNB_LinkButton"
-        >
-          <h2 className="reset-heading">회원가입</h2>
-        </a>
-        <MediaQuery maxWidth={840}>
-          {(matches) => (
+          {isSubscribing ? this.renderSettingButton() : null}
+          {(!isSubscribing && isLoggedIn) ? (
             <a
-              href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-                window.location.href
-              }`}
-              className="GNB_LinkButton GNB_LinkButton-fill"
-              style={matches ? { color: solidBackgroundColorRGBString } : {}}
+              href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
+              className="GNB_LinkButton"
             >
-              로그인
+              <h2 className="reset-heading">로그아웃</h2>
             </a>
-          )}
-        </MediaQuery>
-      </div>
+          ) : null}
+          {!isSubscribing && !isLoggedIn ? (
+            <MediaQuery maxWidth={840}>
+              {(matches) => (
+                <a
+                  href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
+                    window.location.href
+                  }`}
+                  className={classNames(
+                    'GNB_LinkButton',
+                    !matches && 'GNB_LinkButton-fill',
+                  )}
+                >
+                  로그인
+                </a>
+              )}
+            </MediaQuery>
+          ) : null}
+        </div>
+      </>
     );
   }
 
@@ -206,6 +193,7 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
   isInAppRoot: getIsInAppRoot(rootState),
+  isRoot: getIsRoot(rootState),
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);
