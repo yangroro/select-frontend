@@ -1,4 +1,4 @@
-import { differenceInDays, differenceInMinutes, differenceInMonths, parse } from 'date-fns';
+import { addMonths, differenceInDays, differenceInMinutes, endOfMonth, isWithinRange, parse, startOfMonth } from 'date-fns';
 
 export function getNotAvailableConvertDateDiff(BookEndDate: string, NextBillDate?: string) {
   const currentDate = new Date();
@@ -33,6 +33,9 @@ export function getNotAvailableConvertDate(BookEndDate: string, NextBillDate?: s
 export function isInNotAvailableConvertList(bookEndDate: string) {
   const currentDateObj = new Date();
   const bookEndDateObj = new Date(bookEndDate);
-  const monthDifference = differenceInMonths(bookEndDateObj, currentDateObj);
-  return monthDifference >= 0 && monthDifference < 1;
+
+  const startOfCurrentMonth = startOfMonth(currentDateObj);
+  const endOfNextMonth = endOfMonth(addMonths(currentDateObj, 1));
+
+  return isWithinRange(bookEndDateObj, startOfCurrentMonth, endOfNextMonth);
 }
