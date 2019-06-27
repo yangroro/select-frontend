@@ -97,7 +97,7 @@
 @media (--pc-screen) {
   .SearchHistoryWrapper {
     top: 49px;
-    right: 52px;
+    right: 0;
     left: auto;
     width: 300px;
     border-radius: 3px;

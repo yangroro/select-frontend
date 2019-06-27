@@ -276,13 +276,10 @@
   .GNBSearchWrapper {
     &.active,
     &.GNBSearchWrapper-typeBlock {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: auto;
+      position: relative;
       width: auto;
       height: var(--gnb_pc_height);
-      padding: 14px 52px 14px 38px;
+      padding: 14px 0 14px 38px;
       background: transparent;
       text-align: right;
       z-index: 900;
