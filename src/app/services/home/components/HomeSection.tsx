@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@ridi/rsg';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
 import { DefaultCollectionState, SpotlightCollectionState } from 'app/services/collection';
