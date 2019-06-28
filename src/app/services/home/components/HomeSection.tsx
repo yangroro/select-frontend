@@ -103,11 +103,16 @@ export class HomeSection extends React.Component<Props> {
     return (
       <section className="HomeSection">
         <SectionHeader title={title!} link={collectionToPath({ collectionId: id })} />
-        <ConnectedInlineHorizontalBookList
-          books={collectionBooks}
-          pageTitleForTracking="home"
-          uiPartTitleForTracking={id.toString()}
-        />
+        <MediaQuery maxWidth={840}>
+          {(isMobile) => (
+            <ConnectedInlineHorizontalBookList
+              books={collectionBooks}
+              pageTitleForTracking="home"
+              uiPartTitleForTracking={id.toString()}
+              bookThumbnailSize={isMobile ? 110 : 120}
+            />
+          )}
+        </MediaQuery>
       </section>
     );
   }

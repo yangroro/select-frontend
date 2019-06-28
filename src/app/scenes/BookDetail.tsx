@@ -12,7 +12,7 @@ const Vibrant = require('node-vibrant');
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Button, Icon } from '@ridi/rsg';
-import { ConnectedInlineHorizontalBookList, ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { ExpandableBookList } from 'app/components/ExpandableBookList';
 import { Notice } from 'app/components/Notice';
 import { FetchStatusFlag } from 'app/constants';
