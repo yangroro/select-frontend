@@ -23,9 +23,9 @@ export const requestCollection = (
 ): Promise<CollectionResponse> => {
   const url = `/api/pages/collections/${collectionId}`;
   const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true });
-  if (collectionId === 'hotRelease') {
+  if (collectionId === 'spotlight') {
     return request({
-      url: '/api/pages/collections/hot-release',
+      url: '/api/pages/collections/spotlight',
       method: 'GET',
     }).then((response) => camelize<AxiosResponse<CollectionResponse>>(response, { recursive: true }).data);
   }

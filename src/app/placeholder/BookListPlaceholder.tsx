@@ -45,11 +45,11 @@ export const InlineHorizontalBookListSkeleton: React.SFC = () => (
   </ul>
 );
 
-export const HotReleaseBookListSkeleton: React.SFC = () => (
-  <ul className="HotReleaseBookList_Skeleton">
+export const SpotlightBookListSkeleton: React.SFC = () => (
+  <ul className="SpotlightBookList_Skeleton">
     {range(0, 5).map((value, index) => (
       <li
-        className="HotReleaseBookList_Item_Skeleton"
+        className="SpotlightBookList_Item_Skeleton"
         key={`skeltonBook_${index}`}
       >
         <BookSkeleton />

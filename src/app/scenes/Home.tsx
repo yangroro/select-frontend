@@ -45,7 +45,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3
       ) {
         dispatchLoadHomeRequest();
-        dispatchLoadCollectionRequest('hotRelease');
+        dispatchLoadCollectionRequest('spotlight');
       }
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });

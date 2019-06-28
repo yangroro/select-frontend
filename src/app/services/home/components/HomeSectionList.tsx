@@ -71,14 +71,14 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
   public render() {
     const { fetchedAt, collectionIdList, collections } = this.props;
     const { renderedLastGroupIdx } = this.state;
-    const { hotRelease } = collections;
+    const { spotlight } = collections;
 
     if (!fetchedAt) {
       return (
         <div className="PageHome_Content Skeleton_Wrapper">
           <div className="PageHome_Panel">
             <HomeSectionPlaceholder
-              type={CollectionType.HOT_RELEASE}
+              type={CollectionType.SPOTLIGHT}
             />
           </div>
           <div className="PageHome_Panel">
@@ -92,8 +92,8 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
       <div className="PageHome_Content">
         <div className="PageHome_Panel">
           <ConnectedHomeSection
-            key={hotRelease.id}
-            collection={hotRelease}
+            key={spotlight.id}
+            collection={spotlight}
             onScreen={true}
           />
         </div>

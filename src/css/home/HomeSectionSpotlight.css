@@ -1,26 +1,26 @@
 :root {
-  --pc-hotRelease-section-height: 420px;
-  --inline-120-hotRelease-section-height: 326px;
-  --inline-110-hotRelease-section-height: 326px;
+  --pc-spotlight-section-height: 420px;
+  --inline-120-spotlight-section-height: 326px;
+  --inline-110-spotlight-section-height: 326px;
 }
-@custom-media --hotRelease-slider-view (min-width: 901px);
-@custom-media --hotRelease-inline-view (max-width: 900px);
+@custom-media --spotlight-slider-view (min-width: 901px);
+@custom-media --spotlight-inline-view (max-width: 900px);
 
-.HomeSection_HotRelease {
+.HomeSection_Spotlight {
   box-sizing: border-box;
   background-color: rgba(242,244,245,.5);
   & .Skeleton {
     background-color: var(--slategray_10);
   }
   @media (--mobile-screen) {
-    height: var(--inline-110-hotRelease-section-height);
+    height: var(--inline-110-spotlight-section-height);
   }
-  @media (--hotRelease-inline-view) {
-    height: var(--inline-120-hotRelease-section-height);
+  @media (--spotlight-inline-view) {
+    height: var(--inline-120-spotlight-section-height);
   }
-  @media (--hotRelease-slider-view) {
+  @media (--spotlight-slider-view) {
     position: relative;
-    height: var(--pc-hotRelease-section-height);
+    height: var(--pc-spotlight-section-height);
     width: 100%;
   }
   & .InlineHorizontalBookList {
@@ -79,19 +79,19 @@
     color: var(--slategray_50);
   }
 }
-.HomeSection_HotRelease_Contents {
+.HomeSection_Spotlight_Contents {
   position: relative;
   box-sizing: border-box;
   @media (--mobile-screen) {
-    height: var(--inline-110-hotRelease-section-height);
+    height: var(--inline-110-spotlight-section-height);
   }
-  @media (--hotRelease-inline-view) {
-    height: var(--inline-120-hotRelease-section-height);
+  @media (--spotlight-inline-view) {
+    height: var(--inline-120-spotlight-section-height);
   }
-  @media (--hotRelease-slider-view) {
+  @media (--spotlight-slider-view) {
     box-sizing: border-box;
     width: 825px;
-    height: var(--pc-hotRelease-section-height);
+    height: var(--pc-spotlight-section-height);
     margin: 0 auto;
     & .Slider_ControlButton_Left {
       left: -178px;
@@ -110,17 +110,17 @@
       fill: var(--slategray_50);
     }
   }
-  @media (--hotRelease-inline-view) {
+  @media (--spotlight-inline-view) {
     padding: 0 20px;
   }
 }
-.HomeSection_HotRelease_Title {
+.HomeSection_Spotlight_Title {
   padding: 45px 0 0 10px;
   font-size: 24px;
   line-height: 21px;
   letter-spacing: -.3px;
   color: #000;
-  @media (--hotRelease-inline-view) {
+  @media (--spotlight-inline-view) {
     padding: 30px 0 0 0;
     font-size: 16px;
     font-weight: 700;
@@ -128,30 +128,30 @@
     text-align: left;
   }
 }
-.HomeSection_HotRelease_NewBadge {
+.HomeSection_Spotlight_NewBadge {
   width: 40px;
   height: 22px;
   margin-left: 10px;
   vertical-align: top;
   fill: #7580FF;
-  @media (--hotRelease-inline-view) {
+  @media (--spotlight-inline-view) {
     width: 33px;
     height: 18px;
     margin-left: 6px;
   }
 }
-.HomeSection_HotRelease_Slider {
+.HomeSection_Spotlight_Slider {
   padding-top: 40px;
 }
-.HomeSection_HotRelease_Book {
+.HomeSection_Spotlight_Book {
   padding: 0 12.5px;
 }
-.HomeSection_HotRelease_Book_Link {
+.HomeSection_Spotlight_Book_Link {
   text-decoration: none;
   text-align: left;
 }
-.HomeSection_HotRelease_Book_Title,
-.HomeSection_HotRelease_Book_Author {
+.HomeSection_Spotlight_Book_Title,
+.HomeSection_Spotlight_Book_Author {
   display: block;
   display: -webkit-box;
   width: 140px;
@@ -164,7 +164,7 @@
   -webkit-box-orient: vertical;
   word-wrap: break-word;
 }
-.HomeSection_HotRelease_Book_Title {
+.HomeSection_Spotlight_Book_Title {
   -webkit-line-clamp: 2;
   padding-top: 8px;
   font-size: 15px;
@@ -172,7 +172,7 @@
   color: #000;
   font-weight: 700;
 }
-.HomeSection_HotRelease_Book_Author {
+.HomeSection_Spotlight_Book_Author {
   -webkit-line-clamp: 1;
   padding-top: 2px;
   line-height: 20px;
@@ -180,7 +180,7 @@
   color: var(--slategray_50);
 }
 
-.HotRelease_Navigator {
+.Spotlight_Navigator {
   position: absolute;
   margin: 0;
   padding: 0;
