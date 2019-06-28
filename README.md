@@ -46,10 +46,10 @@ $ docker-compose up --build [--force-recreate]
 
 ## Deployment
 
-* `master` 브랜치로 머지되면 개발용 호스트(https://select.ridi.io), 그리고 PRE-RELEASE환경에 자동으로 배포됩니다.
+* `master` 브랜치로 머지되면 개발용 호스트([https://select.ridi.io](https://select.ridi.io)), 그리고 PRE-RELEASE환경에 자동으로 배포됩니다.
 > _reviewer 모두가 approve를 하게 되면 자동으로 머지 후 배포가 진행됩니다._
 
-* `release` 브랜치로 머지되면 프로덕션 환경(https://select.ridibooks.com)에 배포됩니다.
+* `release` 브랜치로 머지되면 프로덕션 환경([https://select.ridibooks.com](https://select.ridibooks.com))에 배포됩니다.
 
 * 프로덕션 배포 이후에 serverless 배포는, Circle-ci 에서 `Manual Job`으로 실행할 수 있습니다.
 
