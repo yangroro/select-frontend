@@ -84,6 +84,7 @@ export class HomeSection extends React.Component<Props> {
       return (
         <ConnectedHomeSpotlightSection
           books={collectionBooks}
+          title={title!}
           collectionId={collection.id}
         />
       );
