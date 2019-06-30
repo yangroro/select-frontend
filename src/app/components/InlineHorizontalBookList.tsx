@@ -23,7 +23,7 @@ interface Props {
   bookThumbnailSize?: ThumbnailSize;
 }
 
-export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
+export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
   const {
     pageTitleForTracking,
     uiPartTitleForTracking,
