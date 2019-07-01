@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ChartBookListSkeleton, HotReleaseBookListSkeleton, InlineHorizontalBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
+import { ChartBookListSkeleton, InlineHorizontalBookListSkeleton, SpotlightBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { CollectionType } from 'app/services/home';
 
 interface HomeSectionPlaceholderProps {
@@ -15,12 +15,12 @@ export const HomeSectionPlaceholder: React.SFC<HomeSectionPlaceholderProps> = (p
         <ChartBookListSkeleton />
       </div>
     );
-  } else if (props.type && props.type === CollectionType.HOT_RELEASE) {
+  } else if (props.type && props.type === CollectionType.SPOTLIGHT) {
     return (
-      <div className="HomeSection_HotRelease_Skeleton HomeSection_HotRelease">
-        <div className="HomeSection_HotRelease_Contents">
-          <div className="HomeSection_HotRelease_Title_Skeleton Skeleton" />
-          <HotReleaseBookListSkeleton />
+      <div className="HomeSection_Spotlight_Skeleton HomeSection_Spotlight">
+        <div className="HomeSection_Spotlight_Contents">
+          <div className="HomeSection_Spotlight_Title_Skeleton Skeleton" />
+          <SpotlightBookListSkeleton />
         </div>
       </div>
     );

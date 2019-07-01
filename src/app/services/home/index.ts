@@ -16,7 +16,7 @@ export const Actions = {
 export enum CollectionType {
   'SELECTION' = 'SELECTION',
   'CHART' = 'CHART',
-  'HOT_RELEASE' = 'HOT_RELEASE',
+  'SPOTLIGHT' = 'SPOTLIGHT',
 }
 
 export interface BigBanner {

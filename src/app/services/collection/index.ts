@@ -6,7 +6,7 @@ import { CollectionType } from 'app/services/home';
 import { BookId, Paginated } from 'app/types';
 import { AxiosError } from 'axios';
 
-export type ReservedCollectionIds = 'popular' | 'recent' | 'hotRelease';
+export type ReservedCollectionIds = 'popular' | 'recent' | 'spotlight';
 export type CollectionId = number | ReservedCollectionIds;
 
 export enum ChartSortingCrietria {
@@ -31,7 +31,7 @@ export interface ChartCollectionState extends ReservedCollectionState {
   sortBy?: ChartSortingCrietria;
 }
 
-export interface HotReleaseCollectionState extends Paginated<BookId>, CollectionState {
+export interface SpotlightCollectionState extends Paginated<BookId>, CollectionState {
   id: ReservedCollectionIds;
 }
 
@@ -39,7 +39,7 @@ export interface CollectionsState {
   [collectionId: number]: DefaultCollectionState;
   recent: ReservedCollectionState;
   popular: ChartCollectionState;
-  hotRelease: HotReleaseCollectionState;
+  spotlight: SpotlightCollectionState;
 }
 
 export const Actions = {
@@ -47,9 +47,9 @@ export const Actions = {
     collections: CollectionResponse[],
   }>('updateCollections'),
 
-  updateHotRelease: createAction<{
-    hotRelease: CollectionResponse,
-  }>('updateHotRelease'),
+  updateSpotlight: createAction<{
+    spotlight: CollectionResponse,
+  }>('updateSpotlight'),
 
   loadCollectionRequest: createAction<{
     collectionId: CollectionId,
@@ -78,8 +78,8 @@ export const INITIAL_STATE: CollectionsState = {
     id: 'recent',
     itemListByPage: {},
   },
-  hotRelease: {
-    id: 'hotRelease',
+  spotlight: {
+    id: 'spotlight',
     itemListByPage: {},
   },
 };
@@ -113,20 +113,20 @@ collectionReducer.on(Actions.updateCollections, (state = INITIAL_STATE, { collec
   }, state);
 });
 
-collectionReducer.on(Actions.updateHotRelease, (state = INITIAL_STATE, { hotRelease }) => ({
+collectionReducer.on(Actions.updateSpotlight, (state = INITIAL_STATE, { spotlight }) => ({
   ...state,
-  hotRelease: {
-    ...state.hotRelease,
+  spotlight: {
+    ...state.spotlight,
     itemListByPage: {
       1: {
         fetchStatus: FetchStatusFlag.IDLE,
-        itemList: hotRelease.books.map((book) => book.id),
+        itemList: spotlight.books.map((book) => book.id),
         isFetched: false,
       },
     },
     pageCount: 0,
-    title: hotRelease.title,
-    type: hotRelease.type,
+    title: spotlight.title,
+    type: spotlight.type,
   },
 }));
 

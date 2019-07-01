@@ -6,18 +6,18 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@ridi/rsg';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
-import { DefaultCollectionState, HotReleaseCollectionState } from 'app/services/collection';
+import { DefaultCollectionState, SpotlightCollectionState } from 'app/services/collection';
 import { CollectionType } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
-import { ConnectedHomeHotReleaseSection } from './HomeHotReleaseSection';
+import { ConnectedHomeSpotlightSection } from './HomeSpotlightSection';
 
 interface HomeSectionProps {
-  collection: DefaultCollectionState | HotReleaseCollectionState;
+  collection: DefaultCollectionState | SpotlightCollectionState;
   onScreen: boolean;
 }
 
@@ -80,10 +80,11 @@ export class HomeSection extends React.Component<Props> {
       );
     }
 
-    if (type === CollectionType.HOT_RELEASE) {
+    if (type === CollectionType.SPOTLIGHT) {
       return (
-        <ConnectedHomeHotReleaseSection
+        <ConnectedHomeSpotlightSection
           books={collectionBooks}
+          title={title!}
           collectionId={collection.id}
         />
       );

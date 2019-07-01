@@ -16,8 +16,8 @@ export function* loadCollection({ payload }: ReturnType<typeof Actions.loadColle
     }
     const response: CollectionResponse = yield call(requestCollection, collectionId, page);
     yield put(BookActions.updateBooks({ books: response.books }));
-    if (collectionId === 'hotRelease') {
-      yield put(Actions.updateHotRelease({ hotRelease: response }));
+    if (collectionId === 'spotlight') {
+      yield put(Actions.updateSpotlight({ spotlight: response }));
     } else {
       yield put(Actions.loadCollectionSuccess({ collectionId, page, response }));
     }
@@ -37,7 +37,7 @@ export function* watchLoadCollection() {
 export function* watchCollectionFailure() {
   while (true) {
     const { payload: { collectionId, page, error } }: ReturnType<typeof Actions.loadCollectionFailure> = yield take(Actions.loadCollectionFailure.getType());
-    if (collectionId === 'hotRelease') { // hotRelease의 경우 홈 화면에서만 섹션이 노출되고 아직 전체보기 페이지가 없어서 페이지네이션의 개념이 없음
+    if (collectionId === 'spotlight') { // spotlight의 경우 홈 화면에서만 섹션이 노출되고 아직 전체보기 페이지가 없어서 페이지네이션의 개념이 없음
       return;
     }
     if (page === 1) {
