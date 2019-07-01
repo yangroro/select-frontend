@@ -68,7 +68,7 @@ export class HomeSpotlightSection extends React.Component<Props> {
                   pageTitleForTracking="home"
                   uiPartTitleForTracking={collectionId.toString()}
                   renderAuthor={true}
-                  bookThumbnailSize={140}
+                  bookThumbnailSize={110}
                 />
               ) : (
                 <div className="HomeSection_Spotlight_Slider">
