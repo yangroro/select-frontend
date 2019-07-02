@@ -35,6 +35,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
                 disableInlineOnPC={isExpanded}
                 renderAuthor={false}
                 lazyloadThumbnail={false}
+                bookThumbnailSize={isMobile ? 110 : 120}
               />
               {(!isMobile && !isExpanded) && (
                 <div className="ExpandableBookList_ExpandButton_Wrapper">

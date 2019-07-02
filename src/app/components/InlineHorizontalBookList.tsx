@@ -10,6 +10,7 @@ import { Book } from 'app/services/book';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { stringifyAuthors } from 'app/utils/utils';
+import { ThumbnailSize } from './BookThumbnail';
 
 interface Props {
   pageTitleForTracking?: string;
@@ -19,9 +20,10 @@ interface Props {
   disableInlineOnPC?: boolean;
   lazyloadThumbnail?: boolean;
   renderAuthor?: boolean;
+  bookThumbnailSize?: ThumbnailSize;
 }
 
-export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
+export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
   const {
     pageTitleForTracking,
     uiPartTitleForTracking,
@@ -31,6 +33,7 @@ export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDi
     lazyloadThumbnail,
     trackClick,
     renderAuthor,
+    bookThumbnailSize = 120,
   } = props;
 
   const section = !!pageTitleForTracking ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
@@ -48,53 +51,49 @@ export const InlineHorizontalBookList: React.SFC<Props & ReturnType<typeof mapDi
             index={idx}
             id={book.id}
           >
-            <MediaQuery maxWidth={840}>
-              {(isSmallerThumbnail) => (
-                <>
-                  <DTOBookThumbnail
-                    book={book}
-                    width={isSmallerThumbnail ? 110 : 120}
-                    linkUrl={`/book/${book.id}`}
-                    linkType="Link"
-                    onLinkClick={() => section && trackClick({
-                      section,
-                      index: idx,
-                      id: book.id,
-                    })}
-                    imageClassName="InlineHorizontalBookList_Thumbnail"
-                    lazyload={lazyloadThumbnail}
-                  />
-                  <Link
-                    to={`/book/${book.id}`}
-                    className="InlineHorizontalBookList_Link"
-                    onClick={() => section && trackClick({
-                      section,
-                      index: idx,
-                      id: book.id,
-                    })}
-                  >
+            <>
+              <DTOBookThumbnail
+                book={book}
+                width={bookThumbnailSize}
+                linkUrl={`/book/${book.id}`}
+                linkType="Link"
+                onLinkClick={() => section && trackClick({
+                  section,
+                  index: idx,
+                  id: book.id,
+                })}
+                imageClassName="InlineHorizontalBookList_Thumbnail"
+                lazyload={lazyloadThumbnail}
+              />
+              <Link
+                to={`/book/${book.id}`}
+                className="InlineHorizontalBookList_Link"
+                onClick={() => section && trackClick({
+                  section,
+                  index: idx,
+                  id: book.id,
+                })}
+              >
+                <span
+                  className="InlineHorizontalBookList_Title"
+                  style={{
+                    width: `${bookThumbnailSize}px`,
+                  }}
+                >
+                  {book.title.main}
+                </span>
+                {renderAuthor && (
                     <span
-                      className="InlineHorizontalBookList_Title"
+                      className="InlineHorizontalBookList_Author"
                       style={{
-                        width: `${isSmallerThumbnail ? 110 : 120}px`,
+                        width: `${bookThumbnailSize}px`,
                       }}
                     >
-                      {book.title.main}
+                      {stringifyAuthors(book.authors, 2)}
                     </span>
-                    {renderAuthor && (
-                        <span
-                          className="InlineHorizontalBookList_Author"
-                          style={{
-                            width: `${isSmallerThumbnail ? 110 : 120}px`,
-                          }}
-                        >
-                          {stringifyAuthors(book.authors, 2)}
-                        </span>
-                    )}
-                  </Link>
-                </>
-              )}
-            </MediaQuery>
+                )}
+              </Link>
+            </>
           </ConnectedTrackImpression>
         </li>
       ))}
